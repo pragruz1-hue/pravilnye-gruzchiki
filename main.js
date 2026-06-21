@@ -1383,4 +1383,46 @@ document.addEventListener("DOMContentLoaded", () => {
     const liveBar = document.getElementById("live-activity-bar");
     if (liveBar) liveBar.classList.add("visible");
   }, 800);
+  // ==========================================
+  // 14. HERO LIVE ACTIVITY COUNTERS
+  // ==========================================
+  function getMinutesWord(num) {
+    const lastDigit = num % 10;
+    const lastTwoDigits = num % 100;
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) return "минут";
+    if (lastDigit === 1) return "минуту";
+    if (lastDigit >= 2 && lastDigit <= 4) return "минуты";
+    return "минут";
+  }
+
+  function updateHeroCounters() {
+    const minutesAgo = Math.floor(Math.random() * 60) + 1;
+    const brigades = Math.floor(Math.random() * 11) + 5;
+    const orders = Math.floor(Math.random() * 30) + 35;
+    const minutesText = `${minutesAgo} ${getMinutesWord(minutesAgo)} назад`;
+
+    const lastOrder = document.getElementById("last-order-time");
+    const freeBrigades = document.getElementById("free-brigades-count");
+    const todayOrders = document.getElementById("today-orders-count");
+
+    if (lastOrder) {
+      lastOrder.textContent = minutesText;
+      lastOrder.classList.add("updating");
+      setTimeout(() => lastOrder.classList.remove("updating"), 600);
+    }
+    if (freeBrigades) {
+      freeBrigades.textContent = brigades;
+      freeBrigades.classList.add("updating");
+      setTimeout(() => freeBrigades.classList.remove("updating"), 600);
+    }
+    if (todayOrders) {
+      todayOrders.textContent = orders;
+      todayOrders.classList.add("updating");
+      setTimeout(() => todayOrders.classList.remove("updating"), 600);
+    }
+  }
+
+  // Запуск счетчиков
+  updateHeroCounters();
+  setInterval(updateHeroCounters, 60000); // Каждую минуту
 });

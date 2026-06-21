@@ -2485,3 +2485,104 @@ body {
     margin: 15px auto 20px;
   }
 }
+/* ==========================================
+   HERO LIVE STATS (динамические счетчики)
+========================================== */
+.hero-live-stats {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 32px;
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-sm);
+  max-width: 520px;
+}
+
+.hero-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.hero-stat-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: hero-pulse 2s infinite;
+  box-shadow: 0 0 8px var(--success-glow);
+}
+
+@keyframes hero-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+.hero-stat-icon {
+  font-size: 1rem;
+}
+
+.hero-stat-label {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.hero-stat-value {
+  color: var(--primary);
+  font-weight: 700;
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.hero-stat-value.updating {
+  animation: stat-flash 0.6s ease;
+}
+
+@keyframes stat-flash {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+    color: #fff;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.hero-stat-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .hero-live-stats {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 16px;
+    justify-content: center;
+  }
+  .hero-stat-divider {
+    display: none;
+  }
+  .hero-stat-item {
+    font-size: 0.75rem;
+  }
+  .hero-stat-label {
+    font-size: 0.7rem;
+  }
+}
