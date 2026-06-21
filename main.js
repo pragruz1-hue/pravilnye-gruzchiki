@@ -840,21 +840,110 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function sendLeadByUserChoice(leadData) {
-    const channel = selectContactChannel();
-    if (!channel) return false;
-    if (channel === "whatsapp") {
-      sendLeadToWhatsApp(leadData);
-      return true;
+    openPreviewModal(leadData);
+    return true;
+  }
+
+  // ---------------------------
+  // Preview modal logic
+  // ---------------------------
+  const previewOverlay = document.getElementById('preview-overlay');
+  const previewText = document.getElementById('preview-text');
+  const previewClose = document.getElementById('preview-close');
+  const btnCopy = document.getElementById('btn-copy');
+  const btnWhats = document.getElementById('btn-whatsapp');
+  const btnTg = document.getElementById('btn-telegram');
+  const btnEmail = document.getElementById('btn-email');
+  const copyTip = document.getElementById('copy-tip');
+
+  function openPreviewModal(leadData) {
+    const textEncoded = buildLeadText(leadData);
+    const text = decodeURIComponent(textEncoded);
+    if (previewText) previewText.value = text;
+    if (previewOverlay) previewOverlay.classList.add('active');
+
+    // attach handlers
+    if (btnCopy) {
+      btnCopy.onclick = () => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(previewText.value).then(() => {
+            showCopyTip();
+          }).catch(() => {
+            window.prompt('Скопируйте сообщение (Ctrl+C):', previewText.value);
+            showCopyTip();
+          });
+        } else {
+          window.prompt('Скопируйте сообщение (Ctrl+C):', previewText.value);
+          showCopyTip();
+        }
+      };
     }
-    if (channel === "telegram") {
-      sendLeadToTelegram(leadData);
-      return true;
+
+    if (btnWhats) {
+        btnWhats.onclick = () => {
+          const u = encodeURIComponent(previewText.value);
+          const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${u}`;
+          openUrlInNewTab(url);
+          showSendConfirmation();
+        };
     }
-    if (channel === "email") {
-      sendLeadToEmail(leadData);
-      return true;
+
+    if (btnTg) {
+      btnTg.onclick = () => {
+        const u = encodeURIComponent(previewText.value);
+        const url = `https://t.me/share/url?url=&text=${u}`;
+        openUrlInNewTab(url);
+        showSendConfirmation();
+      };
     }
-    return false;
+
+    if (btnEmail) {
+      btnEmail.onclick = () => {
+        const subject = encodeURIComponent(`[Pragruz] ${leadData.source || 'Заявка'}`);
+        const body = encodeURIComponent(previewText.value);
+        const url = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+        openUrlInNewTab(url);
+        showSendConfirmation();
+      };
+    }
+
+    if (previewClose) previewClose.onclick = closePreviewModal;
+    if (previewOverlay) previewOverlay.onclick = (e) => { if (e.target === previewOverlay) closePreviewModal(); };
+    // focus and select text for convenience
+    if (previewText) {
+      setTimeout(() => {
+        previewText.focus();
+        previewText.select();
+      }, 60);
+    }
+  }
+
+  function closePreviewModal() {
+    if (previewOverlay) previewOverlay.classList.remove('active');
+  }
+
+  function showCopyTip() {
+    if (!copyTip) return;
+    copyTip.classList.add('active');
+    setTimeout(() => copyTip.classList.remove('active'), 1800);
+  }
+
+  // show send confirmation (checkmark) and close modal after animation
+  function showSendConfirmation() {
+    const sendConfirm = document.getElementById('send-confirm');
+    if (!sendConfirm) {
+      // fallback: close modal after short delay
+      setTimeout(closePreviewModal, 700);
+      return;
+    }
+    sendConfirm.classList.add('active');
+    // hide copy tip if shown
+    if (copyTip) copyTip.classList.remove('active');
+    // after animation, close modal and hide confirmation
+    setTimeout(() => {
+      sendConfirm.classList.remove('active');
+      closePreviewModal();
+    }, 900);
   }
 
   function sendLeadToWhatsApp(leadData) {
@@ -864,9 +953,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function sendLeadToTelegram(leadData) {
-    const text = buildLeadText(leadData);
-    const url = `https://t.me/${TELEGRAM_USERNAME}?text=${text}`;
-    openUrlInNewTab(url);
+    // Эта функция больше не используется - отправка идёт через сервер
+    console.log("sendLeadToTelegram called (deprecated - use server instead)");
   }
 
   function sendLeadToEmail(leadData) {

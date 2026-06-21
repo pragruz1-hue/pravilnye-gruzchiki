@@ -1023,6 +1023,33 @@
         </div>
       </section>
 
+      <!-- Preview & Share Modal -->
+      <div id="preview-overlay" class="preview-overlay" aria-hidden="true">
+        <div class="preview-modal" role="dialog" aria-modal="true" aria-labelledby="preview-title">
+          <div class="modal-header">
+            <h3 id="preview-title">Предпросмотр сообщения</h3>
+            <button id="preview-close" class="modal-close" aria-label="Закрыть">×</button>
+          </div>
+          <div id="copy-tip" class="copy-tip" aria-hidden="true">Скопировано</div>
+          <div id="send-confirm" class="send-confirm" aria-hidden="true">
+            <svg class="checkmark" viewBox="0 0 52 52">
+              <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="checkmark__check" fill="none" d="M14 27l7 7 17-17"/>
+            </svg>
+          </div>
+          <div class="modal-body">
+            <label for="preview-text" class="sr-only">Текст сообщения</label>
+            <textarea id="preview-text" rows="8"></textarea>
+            <div class="preview-actions">
+              <button id="btn-copy" class="btn btn-secondary">Копировать</button>
+              <button id="btn-whatsapp" class="btn btn-primary">Открыть WhatsApp</button>
+              <button id="btn-telegram" class="btn btn-primary">Открыть Telegram</button>
+              <button id="btn-email" class="btn btn-primary">Открыть Email</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <section class="fleet-section" id="fleet">
         <div class="container">
           <div class="section-header text-center">
