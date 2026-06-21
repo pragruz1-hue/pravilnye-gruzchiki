@@ -13,7 +13,8 @@ Allow: /index.html
 Allow: /loaders.html
 Allow: /workers.html
 Allow: /furniture.html
-
+Allow: /moving.html
+Allow: /rigging.html
 # Карта сайта
 Sitemap: https://pragruz.ru/sitemap.xml
 
