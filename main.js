@@ -800,6 +800,27 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 11. FORM SUBMISSIONS
   // ==========================================
+  const CONTACT_EMAIL = "info@pragruz.ru";
+
+  function sendLeadByEmail(leadData) {
+    const subject = encodeURIComponent(
+      `[Pragruz] ${leadData.source || "Заявка"}${leadData.service ? ` — ${leadData.service}` : ""}`
+    );
+    const bodyLines = [
+      leadData.name ? `Имя: ${leadData.name}` : null,
+      leadData.phone ? `Телефон: ${leadData.phone}` : null,
+      leadData.service ? `Услуга: ${leadData.service}` : null,
+      leadData.comment ? `Комментарий: ${leadData.comment}` : null,
+      leadData.details ? `Детали: ${leadData.details}` : null,
+      leadData.promo ? `Промокод: ${leadData.promo}` : null,
+      `Источник: ${leadData.source || "Не указано"}`,
+      `Время: ${new Date(leadData.timestamp || Date.now()).toLocaleString("ru-RU")}`
+    ].filter(Boolean);
+
+    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+    window.location.href = mailtoUrl;
+  }
+
   const heroForm = document.getElementById("hero-quick-form");
   if (heroForm) {
     heroForm.addEventListener("submit", (e) => {
@@ -862,6 +883,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       console.log("Sending lead to backend (Stub):", leadData);
+      sendLeadByEmail(leadData);
 
       mainForm.style.display = "none";
       successConfirm.classList.add("active");
@@ -899,6 +921,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       console.log("Sending lead to backend (Stub):", leadData);
+      sendLeadByEmail(leadData);
 
       modalBookingForm.style.display = "none";
       modalSuccessConfirm.classList.add("active");
@@ -1170,6 +1193,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         console.log("Sending exit lead to backend (Stub):", leadData);
+        sendLeadByEmail(leadData);
 
         exitForm.style.display = "none";
         exitSuccessConfirm.classList.add("active");
