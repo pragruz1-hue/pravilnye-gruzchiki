@@ -1,0 +1,25 @@
+# robots.txt для Правильные Грузчики
+# Блокировка служебных путей
+User-agent: *
+Disallow: /cgi-bin/
+Disallow: /*?*
+Disallow: /*&*
+Disallow: /*.json$
+Disallow: /*.xml$
+
+# Разрешаем индексацию основных страниц
+Allow: /
+Allow: /index.html
+Allow: /loaders.html
+Allow: /workers.html
+Allow: /furniture.html
+
+# Карта сайта
+Sitemap: https://pravilnye-gruzchiki.ru/sitemap.xml
+
+# Хост
+Host: https://pravilnye-gruzchiki.ru
+
+# Crawl-delay для Яндекса
+User-agent: Yandex
+Crawl-delay: 1
