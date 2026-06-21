@@ -1,6 +1,7 @@
 # Настройка отправки писем на info@pragruz.ru
 
 ## Текущее состояние
+
 - ✅ Форма отправляет данные на backend сервер
 - ✅ Сервер логирует все заявки в файл `leads_emails.log`
 - ✅ Заявки отправляются в Telegram
@@ -11,23 +12,25 @@
 ### Вариант 1: Использовать Nodemailer + Gmail (Рекомендуется для локального тестирования)
 
 1. Установите `nodemailer`:
+
 ```bash
 npm install nodemailer
 ```
 
 2. Обновите `server.js`, добавив в начало файла после импортов:
+
 ```javascript
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 // Создайте транспортер для отправки писем через Gmail
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
+  host: "smtp.gmail.com",
   port: 587,
   secure: false,
   auth: {
-    user: 'your-email@gmail.com',      // Ваш Gmail адрес
-    pass: 'your-app-password'           // Пароль приложения (см. ниже)
-  }
+    user: "your-email@gmail.com", // Ваш Gmail адрес
+    pass: "your-app-password", // Пароль приложения (см. ниже)
+  },
 });
 ```
 
@@ -38,30 +41,33 @@ const transporter = nodemailer.createTransport({
    - Вставьте его в `your-app-password` выше
 
 4. Найдите функцию `logLeadToEmail` в `server.js` и замените её на:
+
 ```javascript
 async function logLeadToEmail(leadData) {
   try {
-    const logPath = path.join(__dirname, 'leads_emails.log');
+    const logPath = path.join(__dirname, "leads_emails.log");
     const entry = {
       timestamp: new Date().toISOString(),
-      ...leadData
+      ...leadData,
     };
-    fs.appendFileSync(logPath, JSON.stringify(entry) + '\n', { encoding: 'utf8' });
-    
+    fs.appendFileSync(logPath, JSON.stringify(entry) + "\n", {
+      encoding: "utf8",
+    });
+
     // Send email
     const emailBody = formatEmailBody(leadData);
     const mailOptions = {
-      from: 'your-email@gmail.com',
-      to: 'info@pragruz.ru',
+      from: "your-email@gmail.com",
+      to: "info@pragruz.ru",
       subject: `Новая заявка - ${leadData.source}`,
-      text: emailBody
+      text: emailBody,
     };
-    
+
     await transporter.sendMail(mailOptions);
-    console.log('✓ Email sent to info@pragruz.ru');
+    console.log("✓ Email sent to info@pragruz.ru");
     return true;
   } catch (err) {
-    console.error('Failed to send email:', err);
+    console.error("Failed to send email:", err);
     return true; // Still return true so form works even if email fails
   }
 }
@@ -72,6 +78,7 @@ async function logLeadToEmail(leadData) {
 1. Зарегистрируйтесь на https://sendgrid.com
 2. Получите API ключ
 3. Установите sendgrid:
+
 ```bash
 npm install @sendgrid/mail
 ```
@@ -85,6 +92,7 @@ npm install @sendgrid/mail
 ## Проверка работы
 
 1. Запустите сервер:
+
 ```bash
 node server.js
 ```
@@ -98,13 +106,22 @@ node server.js
 ## Файл логов
 
 Все заявки записываются в `leads_emails.log` в JSON формате:
+
 ```json
-{"timestamp":"2026-06-21T10:30:00.000Z","name":"Иван Иванов","phone":"+7(999)123-45-67","service":"Грузчики на склад / разгрузку","comment":"Нужно 2 грузчика","source":"Main Form"}
+{
+  "timestamp": "2026-06-21T10:30:00.000Z",
+  "name": "Иван Иванов",
+  "phone": "+7(999)123-45-67",
+  "service": "Грузчики на склад / разгрузку",
+  "comment": "Нужно 2 грузчика",
+  "source": "Main Form"
+}
 ```
 
 ## Контакты для помощи
 
 Если возникли вопросы по настройке SMTP, обратитесь к документации:
+
 - Gmail: https://support.google.com/accounts/answer/185833
 - Nodemailer: https://nodemailer.com
 - SendGrid: https://sendgrid.com/docs

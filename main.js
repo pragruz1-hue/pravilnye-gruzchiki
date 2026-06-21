@@ -840,15 +840,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return null;
   }
 
-  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-
-document.addEventListener("DOMContentLoaded", () => {
-  // 2. Инициализируем формы один раз при загрузке страницы
-  formspree('initForm', { formElement: '#hero-quick-form', formId: 'xeebjwkn' });
-  formspree('initForm', { formElement: '#main-booking-form', formId: 'xeebjwkn' });
-  formspree('initForm', { formElement: '#modal-booking-form', formId: 'xeebjwkn' });
-  formspree('initForm', { formElement: '#exit-booking-form', formId: 'xeebjwkn' });
-
   function sendLeadToWhatsApp(leadData) {
     const text = buildLeadText(leadData);
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
@@ -873,6 +864,34 @@ document.addEventListener("DOMContentLoaded", () => {
     sendLeadToWhatsApp(leadData);
     sendLeadToTelegram(leadData);
     sendLeadToEmail(leadData);
+  }
+
+  /**
+   * sendLeadByUserChoice - отправляет лид на Formspree и перенаправляет на страницу "спасибо"
+   */
+  async function sendLeadByUserChoice(leadData) {
+    try {
+      const response = await fetch('https://formspree.io/f/xeebjwkn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadData)
+      });
+      if (response.ok) {
+        // Редирект на страницу благодарности
+        setTimeout(() => {
+          window.location.href = 'thank-you.html';
+        }, 100);
+        return true;
+      } else {
+        console.error('Formspree error:', response.status, response.statusText);
+        alert('Произошла ошибка при отправке. Пожалуйста, попробуйте ещё раз или позвоните нам.');
+        return false;
+      }
+    } catch (e) {
+      console.error('Send lead error:', e);
+      alert('Произошла ошибка при отправке. Пожалуйста, попробуйте ещё раз или позвоните нам.');
+      return false;
+    }
   }
 
   const heroForm = document.getElementById("hero-quick-form");
