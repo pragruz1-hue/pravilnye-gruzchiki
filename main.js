@@ -840,15 +840,14 @@ document.addEventListener("DOMContentLoaded", () => {
     return null;
   }
 
-  function sendLeadByUserChoice(leadData) {
-    // Send to backend API
-    fetch('/api/submit-lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(leadData)
-    }).catch(err => console.error('Failed to send lead:', err));
-    return true;
-  }
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+
+document.addEventListener("DOMContentLoaded", () => {
+  // 2. Инициализируем формы один раз при загрузке страницы
+  formspree('initForm', { formElement: '#hero-quick-form', formId: 'xeebjwkn' });
+  formspree('initForm', { formElement: '#main-booking-form', formId: 'xeebjwkn' });
+  formspree('initForm', { formElement: '#modal-booking-form', formId: 'xeebjwkn' });
+  formspree('initForm', { formElement: '#exit-booking-form', formId: 'xeebjwkn' });
 
   function sendLeadToWhatsApp(leadData) {
     const text = buildLeadText(leadData);
