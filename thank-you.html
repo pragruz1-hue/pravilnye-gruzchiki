@@ -4,29 +4,304 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Спасибо за заявку | Правильные Грузчики</title>
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
-        body { display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; background-color: #f8f9fa; font-family: sans-serif; }
-        .success-container { padding: 40px; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; }
-        .success-icon { color: #28a745; margin-bottom: 20px; }
-        h1 { margin-bottom: 15px; }
-        p { margin-bottom: 25px; color: #666; }
-        .btn-home { padding: 12px 30px; background: #007bff; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            background-color: var(--bg-primary);
+            font-family: var(--font-body);
+            color: var(--text-main);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .glow-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.18;
+        }
+
+        .orb-1 {
+            top: -10%;
+            right: 5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--primary), transparent);
+        }
+
+        .orb-2 {
+            top: 40%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #ff0077, transparent);
+        }
+
+        .success-container {
+            padding: 50px 40px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            max-width: 520px;
+            width: 90%;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .success-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--primary), transparent, var(--primary));
+            border-radius: var(--radius-lg);
+            z-index: -1;
+            opacity: 0.3;
+            animation: borderGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.5; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .success-icon-box {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulseCheck 2s ease-in-out infinite;
+        }
+
+        .success-icon-box svg {
+            width: 40px;
+            height: 40px;
+            color: var(--success);
+        }
+
+        @keyframes pulseCheck {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+        }
+
+        h1 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ff9f00, #ff5100);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .promo-badge {
+            display: inline-block;
+            margin: 16px 0 24px;
+            padding: 8px 20px;
+            background: rgba(255, 115, 0, 0.1);
+            border: 1px solid rgba(255, 115, 0, 0.25);
+            border-radius: 50px;
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #ff9f00;
+        }
+
+        .promo-badge strong {
+            color: #fff;
+        }
+
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 14px 36px;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            background: linear-gradient(135deg, #ff8f00, #ff5100);
+            color: #fff;
+            box-shadow: 0 4px 20px var(--primary-glow);
+            text-decoration: none;
+            margin-top: 8px;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 115, 0, 0.55);
+        }
+
+        .btn-home:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-home svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
+
+        .contact-info {
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .contact-info a {
+            color: var(--primary);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #ff9f00;
+        }
+
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="success-container">
-    <div class="success-icon">
-        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
+    <div class="glow-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
     </div>
-    <h1>Заявка принята!</h1>
-    <p>Наш менеджер перезвонит вам в течение 5 - 10 минут для уточнения деталей заказа. Спасибо, что выбрали «Правильные Грузчики».</p>
-    <a href="index.html" class="btn-home">Вернуться на главную</a>
-</div>
+
+    <div class="confetti-container" id="confetti"></div>
+
+    <div class="success-container">
+        <div class="success-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <h1>Заявка принята!</h1>
+        <p class="subtitle">Наш менеджер перезвонит вам в течение 5–10 минут для уточнения деталей заказа.</p>
+
+        <div class="promo-badge">
+            Промокод: <strong>OFFER10</strong> — скидка 10%
+        </div>
+
+        <a href="index.html" class="btn-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Вернуться на главную
+        </a>
+
+        <div class="contact-info">
+            Не дождались звонка? Позвоните нам: <a href="tel:+79283333281">+7 (928) 333-32-81</a>
+        </div>
+    </div>
+
+    <script>
+        // Confetti animation
+        (function() {
+            const container = document.getElementById('confetti');
+            const colors = ['#ff7300', '#ff9f00', '#ff5100', '#10b981', '#ff0077', '#f8fafc', '#ffb700'];
+            const pieces = 60;
+
+            for (let i = 0; i < pieces; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.width = (Math.random() * 6 + 4) + 'px';
+                piece.style.height = (Math.random() * 6 + 4) + 'px';
+                piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                piece.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                piece.style.animationDelay = (Math.random() * 2) + 's';
+                container.appendChild(piece);
+            }
+        })();
+    </script>
 
 </body>
 </html>
