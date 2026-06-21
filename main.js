@@ -826,6 +826,37 @@ document.addEventListener("DOMContentLoaded", () => {
     return newWindow;
   }
 
+  function selectContactChannel() {
+    const choice = window.prompt(
+      "Куда отправить заявку?\n1 — WhatsApp\n2 — Telegram\n3 — Email\n\nВведите 1, 2 или 3"
+    );
+    if (!choice) return null;
+    const normalized = choice.trim();
+    if (normalized === "1") return "whatsapp";
+    if (normalized === "2") return "telegram";
+    if (normalized === "3") return "email";
+    alert("Выбран неверный вариант. Попробуйте снова.");
+    return null;
+  }
+
+  function sendLeadByUserChoice(leadData) {
+    const channel = selectContactChannel();
+    if (!channel) return false;
+    if (channel === "whatsapp") {
+      sendLeadToWhatsApp(leadData);
+      return true;
+    }
+    if (channel === "telegram") {
+      sendLeadToTelegram(leadData);
+      return true;
+    }
+    if (channel === "email") {
+      sendLeadToEmail(leadData);
+      return true;
+    }
+    return false;
+  }
+
   function sendLeadToWhatsApp(leadData) {
     const text = buildLeadText(leadData);
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
@@ -915,7 +946,8 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       console.log("Sending lead to backend (Stub):", leadData);
-      sendLeadToAllChannels(leadData);
+      const sent = sendLeadByUserChoice(leadData);
+      if (!sent) return;
 
       mainForm.style.display = "none";
       successConfirm.classList.add("active");
@@ -953,7 +985,8 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       console.log("Sending lead to backend (Stub):", leadData);
-      sendLeadToAllChannels(leadData);
+      const sent = sendLeadByUserChoice(leadData);
+      if (!sent) return;
 
       modalBookingForm.style.display = "none";
       modalSuccessConfirm.classList.add("active");
@@ -1225,7 +1258,8 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         console.log("Sending exit lead to backend (Stub):", leadData);
-        sendLeadToAllChannels(leadData);
+        const sent = sendLeadByUserChoice(leadData);
+        if (!sent) return;
 
         exitForm.style.display = "none";
         exitSuccessConfirm.classList.add("active");
