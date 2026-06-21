@@ -1,7 +1,7 @@
 /**
  * Правильные Грузчики - Interactive Engine
  * Dynamic Geotargeting, Cost Calculator, Phone Masking, Modal System, FAQ Accordion, and Animations
- * Author: Antigravity AI
+ * Author: Виталий С
  * Date: 2026-06-20
  */
 
