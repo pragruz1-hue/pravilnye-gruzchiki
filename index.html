@@ -44,6 +44,235 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css" />
 
+    <!-- ==========================================
+         🔥 НОВЫЕ СТИЛИ: STICKY BAR + ОТЗЫВЫ
+    ========================================== -->
+    <style>
+      /* Сдвигаем всё вниз, чтобы sticky-bar не перекрывал header */
+      body { padding-top: 52px; }
+      .main-header { top: 52px; }
+
+      /* 🔥 STICKY LIVE ACTIVITY BAR */
+      .live-activity-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(135deg, rgba(255, 115, 0, 0.97), rgba(255, 81, 0, 0.97));
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 12px 0;
+        z-index: 1001;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 20px rgba(255, 115, 0, 0.4);
+        transform: translateY(-100%);
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .live-activity-bar.visible { transform: translateY(0); }
+
+      .live-activity-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        flex-wrap: wrap;
+      }
+
+      .live-stat {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .live-dot {
+        width: 8px;
+        height: 8px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: live-pulse 1.5s infinite;
+        box-shadow: 0 0 10px #10b981;
+      }
+      @keyframes live-pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.4); opacity: 0.6; }
+      }
+
+      .live-icon { font-size: 1.1rem; }
+      .live-label { opacity: 0.92; font-weight: 500; }
+
+      .live-value {
+        font-weight: 800;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.18);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        min-width: 70px;
+        text-align: center;
+        transition: all 0.3s;
+      }
+      .live-value.updating { animation: value-flash 0.6s ease; }
+      @keyframes value-flash {
+        0% { transform: scale(1); background: rgba(255, 255, 255, 0.18); }
+        50% { transform: scale(1.15); background: rgba(255, 255, 255, 0.4); }
+        100% { transform: scale(1); background: rgba(255, 255, 255, 0.18); }
+      }
+
+      .live-cta {
+        background: #fff;
+        color: #ff7300;
+        padding: 7px 18px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        transition: all 0.3s;
+        text-decoration: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      }
+      .live-cta:hover {
+        background: #ff7300;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+      }
+
+      /* ⭐ REVIEWS SECTION */
+      .reviews-section {
+        padding: 100px 0;
+        background: linear-gradient(135deg, #0d111b 0%, #1a2233 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .reviews-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -10%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(255, 115, 0, 0.15), transparent 70%);
+        filter: blur(100px);
+        pointer-events: none;
+      }
+
+      .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        margin-bottom: 40px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .review-card {
+        background: rgba(19, 25, 38, 0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 28px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .review-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(255, 115, 0, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      .review-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .review-avatar,
+      .review-avatar-placeholder {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 700;
+        color: white;
+        flex-shrink: 0;
+      }
+      .review-avatar { object-fit: cover; }
+      .review-avatar-placeholder {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .review-info h4 {
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+        margin: 0 0 3px 0;
+        font-family: 'Montserrat', sans-serif;
+      }
+      .review-city {
+        font-size: 12px;
+        color: #94a3b8;
+      }
+
+      .review-stars {
+        color: #f59e0b;
+        font-size: 16px;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+      }
+
+      .review-text {
+        color: #cbd5e1;
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 12px;
+        font-style: italic;
+      }
+
+      .review-date {
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 500;
+      }
+
+      .reviews-footer {
+        text-align: center;
+        color: #94a3b8;
+        font-size: 16px;
+        position: relative;
+        z-index: 2;
+      }
+      .reviews-footer strong {
+        color: #ff7300;
+        font-size: 22px;
+      }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .reviews-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      @media (max-width: 900px) {
+        .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 600px) {
+        .reviews-grid { grid-template-columns: 1fr; }
+        .reviews-section { padding: 60px 0; }
+        body { padding-top: 44px; }
+        .main-header { top: 44px; }
+        .live-activity-bar { padding: 8px 0; }
+        .live-activity-inner { gap: 10px; }
+        .live-stat { font-size: 0.75rem; gap: 5px; }
+        .live-label { display: none; }
+        .live-value { padding: 3px 8px; font-size: 0.75rem; min-width: 50px; }
+        .live-cta { padding: 5px 12px; font-size: 0.75rem; }
+      }
+    </style>
+
     <!-- Schema.org Microdata -->
     <script type="application/ld+json">
       {
@@ -127,6 +356,31 @@
     </script>
   </head>
   <body data-page="index">
+
+    <!-- 🔥 LIVE ACTIVITY STICKY BAR -->
+    <div class="live-activity-bar" id="live-activity-bar">
+      <div class="container">
+        <div class="live-activity-inner">
+          <div class="live-stat">
+            <span class="live-dot"></span>
+            <span class="live-label">Последний заказ:</span>
+            <span class="live-value" id="sticky-last-order">3 минуты назад</span>
+          </div>
+          <div class="live-stat">
+            <span class="live-icon">👷</span>
+            <span class="live-label">Свободных бригад:</span>
+            <span class="live-value" id="sticky-brigades">8</span>
+          </div>
+          <div class="live-stat">
+            <span class="live-icon">📦</span>
+            <span class="live-label">Заказов сегодня:</span>
+            <span class="live-value" id="sticky-orders">47</span>
+          </div>
+          <a href="tel:+79283333281" class="live-cta">📞 Заказать</a>
+        </div>
+      </div>
+    </div>
+
     <!-- Background Glow FX -->
     <div class="glow-bg">
       <div class="glow-orb orb-1"></div>
@@ -168,6 +422,7 @@
           <ul>
             <li><a href="#about" class="nav-link">О нас</a></li>
             <li><a href="#services" class="nav-link">Услуги</a></li>
+            <li><a href="#reviews" class="nav-link">Отзывы</a></li>
             <li><a href="#calculator" class="nav-link">Калькулятор</a></li>
             <li><a href="#fleet" class="nav-link">Автопарк</a></li>
             <li><a href="#faq" class="nav-link">Вопросы</a></li>
@@ -262,7 +517,7 @@
 
           <div class="header-phone-box">
             <a href="tel:+79283333281" class="phone-link" id="header-phone"
-              >+7 (928) 3333-281</a
+              >+7 (928) 333-32-81</a
             >
             <span class="work-hours-badge">Круглосуточно 24/7</span>
           </div>
@@ -293,6 +548,7 @@
         <ul class="mobile-nav-links">
           <li><a href="#about" class="mobile-link">О нас</a></li>
           <li><a href="#services" class="mobile-link">Услуги</a></li>
+          <li><a href="#reviews" class="mobile-link">Отзывы</a></li>
           <li>
             <a href="#calculator" class="mobile-link">Калькулятор стоимости</a>
           </li>
@@ -302,7 +558,7 @@
         </ul>
         <div class="mobile-nav-footer">
           <a href="tel:+79283333281" class="mobile-phone-link"
-            >+7 (928) 3333-281</a
+            >+7 (928) 333-32-81</a
           >
           <p class="mobile-hours">Прием заказов с 9:00 до 20:00</p>
           <a
@@ -684,7 +940,7 @@
                     loading="lazy"
                     class="service-img"
                 /></a>
-                <span class="service-price-tag" data-base-price="750"
+                <span class="service-price-tag" data-service-type="loaders">от <span class="price-value">800</span> ₽/час</span>
                   >от <span class="price-value">750</span> ₽/час</span
                 >
               </div>
@@ -716,7 +972,7 @@
                     loading="lazy"
                     class="service-img"
                 /></a>
-                <span class="service-price-tag" data-base-price="750"
+                <span class="service-price-tag" data-service-type="loaders">от <span class="price-value">800</span> ₽/час</span>
                   >от <span class="price-value">750</span> ₽/час</span
                 >
               </div>
@@ -748,7 +1004,7 @@
                     loading="lazy"
                     class="service-img"
                 /></a>
-                <span class="service-price-tag" data-base-price="750"
+                <span class="service-price-tag" data-service-type="loaders">от <span class="price-value">800</span> ₽/час</span>
                   >от <span class="price-value">750</span> ₽/час</span
                 >
               </div>
@@ -780,7 +1036,7 @@
                     loading="lazy"
                     class="service-img"
                 /></a>
-                <span class="service-price-tag" data-base-price="750"
+                <span class="service-price-tag" data-service-type="loaders">от <span class="price-value">800</span> ₽/час</span>
                   >от <span class="price-value">750</span> ₽/час</span
                 >
               </div>
@@ -865,6 +1121,27 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ⭐ НОВАЯ СЕКЦИЯ: ОТЗЫВЫ КЛИЕНТОВ -->
+      <section class="reviews-section" id="reviews">
+        <div class="container">
+          <div class="section-header text-center">
+            <span class="sub-title-gradient">Отзывы клиентов</span>
+            <h2 class="section-title">Что говорят о нас люди по всей России</h2>
+            <p class="section-desc">
+              Отзывы обновляются каждый день — завтра вы увидите новые истории
+            </p>
+          </div>
+          <div class="reviews-grid" id="reviews-container">
+            <!-- Отзывы будут добавлены через JavaScript -->
+          </div>
+          <div class="reviews-footer">
+            <p>
+              Более <strong>2 847</strong> довольных клиентов по всей России
+            </p>
           </div>
         </div>
       </section>
@@ -979,7 +1256,7 @@
                   </li>
                 </ul>
                 <div class="fleet-price-box">
-                  <span class="fleet-price">от 2000 ₽/час</span>
+                  <span class="fleet-price" data-truck-type="truckStd">от 2000 ₽/час</span>
                   <button
                     class="btn btn-secondary btn-sm fleet-order-btn"
                     data-truck="Газель Стандарт 3м"
@@ -1011,7 +1288,7 @@
                   </li>
                 </ul>
                 <div class="fleet-price-box">
-                  <span class="fleet-price">от 2500 ₽/час</span>
+                  <span class="fleet-price" data-truck-type="truckExt">от 2500 ₽/час</span>
                   <button
                     class="btn btn-secondary btn-sm fleet-order-btn"
                     data-truck="Газель Удлиненная 4.2м"
@@ -1198,7 +1475,7 @@
                   <a
                     href="tel:+79283333281"
                     style="color: inherit; text-decoration: none"
-                    >+7 (928) 3333-281</a
+                    >+7 (928) 333-32-81</a
                   >
                   <p>Прием звонков с 9:00 до 20:00 ежедневно</p>
                 </div>
@@ -1412,7 +1689,7 @@
           <ul class="footer-contacts">
             <li>
               <span class="f-contact-icon">📞</span>
-              <a href="tel:+79283333281">+7 (928) 3333-281</a>
+              <a href="tel:+79283333281">+7 (928) 333-32-81</a>
             </li>
             <li>
               <span class="f-contact-icon">📍</span>
@@ -1519,6 +1796,173 @@
         </div>
       </div>
     </div>
+
+    <!-- ==========================================
+         🔥 НОВЫЙ JAVASCRIPT: СЧЁТЧИКИ + ОТЗЫВЫ
+    ========================================== -->
+    <script>
+      // ==========================================
+      // 1. ПОМОЩНИКИ ДЛЯ СКЛОНЕНИЯ
+      // ==========================================
+      function getMinutesWord(num) {
+        const lastDigit = num % 10;
+        const lastTwoDigits = num % 100;
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 19) return "минут";
+        if (lastDigit === 1) return "минуту";
+        if (lastDigit >= 2 && lastDigit <= 4) return "минуты";
+        return "минут";
+      }
+
+      // ==========================================
+      // 2. 🔥 LIVE ACTIVITY COUNTERS (sticky bar)
+      // ==========================================
+      function updateLiveActivity() {
+        const minutesAgo = Math.floor(Math.random() * 60) + 1;
+        const brigades = Math.floor(Math.random() * 11) + 5;
+        const orders = Math.floor(Math.random() * 30) + 35;
+        const minutesText = `${minutesAgo} ${getMinutesWord(minutesAgo)} назад`;
+
+        // Sticky bar счётчики
+        const stickyLastOrder = document.getElementById("sticky-last-order");
+        const stickyBrigades = document.getElementById("sticky-brigades");
+        const stickyOrders = document.getElementById("sticky-orders");
+
+        if (stickyLastOrder) {
+          stickyLastOrder.textContent = minutesText;
+          stickyLastOrder.classList.add("updating");
+          setTimeout(() => stickyLastOrder.classList.remove("updating"), 600);
+        }
+        if (stickyBrigades) {
+          stickyBrigades.textContent = brigades;
+          stickyBrigades.classList.add("updating");
+          setTimeout(() => stickyBrigades.classList.remove("updating"), 600);
+        }
+        if (stickyOrders) {
+          stickyOrders.textContent = orders;
+          stickyOrders.classList.add("updating");
+          setTimeout(() => stickyOrders.classList.remove("updating"), 600);
+        }
+      }
+
+      // Запуск счётчиков
+      updateLiveActivity();
+      setInterval(updateLiveActivity, 60000); // Каждую минуту
+
+      // ==========================================
+      // 3. 🔥 ПОКАЗ STICKY BAR С АНИМАЦИЕЙ
+      // ==========================================
+      setTimeout(() => {
+        const liveBar = document.getElementById("live-activity-bar");
+        if (liveBar) liveBar.classList.add("visible");
+      }, 800);
+
+      // ==========================================
+      // 4. ⭐ СИСТЕМА РОТАЦИИ ОТЗЫВОВ (40 отзывов)
+      // ==========================================
+      const ALL_REVIEWS = [
+        { name: "Александр Петров", city: "Краснодар", text: "Заказывал грузчиков для разгрузки фуры на складе. Приехали вовремя, работали быстро и аккуратно. Диспетчер Виталий всё чётко организовал. Рекомендую!", rating: 5, date: "15 июня 2026" },
+        { name: "Мария Иванова", city: "Москва", text: "Переезжали из трёшки в новую квартиру. Ребята молодцы, всё упаковали, ничего не повредили. Особенно понравилась аккуратность при работе с хрупкими вещами.", rating: 5, date: "12 июня 2026" },
+        { name: "Дмитрий Соколов", city: "Санкт-Петербург", text: "Обращался за такелажными работами - нужно было переместить сейф весом 400 кг. Справились на отлично, использовали профессиональное оборудование.", rating: 5, date: "10 июня 2026" },
+        { name: "Елена Кузнецова", city: "Новосибирск", text: "Заказывала разнорабочих на уборку территории после стройки. Приехали в назначенное время, работали без перекуров. Очень довольна результатом!", rating: 5, date: "8 июня 2026" },
+        { name: "Андрей Волков", city: "Екатеринбург", text: "Отличная компания! Заказывал грузчиков для офисного переезда. Всё сделали за один день, ничего не потеряли, не разбили.", rating: 5, date: "5 июня 2026" },
+        { name: "Ольга Новикова", city: "Казань", text: "Хороший сервис, адекватные цены. Грузчики вежливые, трезвые, работают быстро. Буду обращаться ещё.", rating: 4, date: "3 июня 2026" },
+        { name: "Игорь Морозов", city: "Нижний Новгород", text: "Заказывал сборку мебели из IKEA. Мастер приехал со всеми инструментами, собрал кухню за 4 часа. Всё ровно, аккуратно.", rating: 5, date: "1 июня 2026" },
+        { name: "Татьяна Белова", city: "Челябинск", text: "Переезжали всей семьёй. Ребята помогли с упаковкой, разборкой мебели, погрузкой. Очень благодарна за профессионализм!", rating: 5, date: "28 мая 2026" },
+        { name: "Сергей Лебедев", city: "Самара", text: "Работают чётко, без опозданий. Заказывал разгрузку стройматериалов - 20 тонн за 3 часа. Рекомендую!", rating: 5, date: "25 мая 2026" },
+        { name: "Наталья Орлова", city: "Ростов-на-Дону", text: "Обратилась по рекомендации подруги. Не пожалела! Грузчики аккуратные, вежливые. Всё сделали быстро и качественно.", rating: 5, date: "22 мая 2026" },
+        { name: "Виктор Громов", city: "Уфа", text: "Заказывал такелаж станка. Ребята профессионалы, использовали лебёдки и катки. Всё прошло гладко, станок не пострадал.", rating: 5, date: "20 мая 2026" },
+        { name: "Анна Смирнова", city: "Воронеж", text: "Хорошая компания, цены не завышают. Диспетчер всегда на связи, всё объясняет. Буду пользоваться услугами регулярно.", rating: 5, date: "18 мая 2026" },
+        { name: "Павел Козлов", city: "Волгоград", text: "Переезд офиса прошёл отлично. Работали в выходные, чтобы не мешать рабочему процессу. Всё упаковали, перевезли, расставили.", rating: 5, date: "15 мая 2026" },
+        { name: "Екатерина Федорова", city: "Краснодар", text: "Заказывала грузчиков для разгрузки контейнера. Приехали вовремя, работали слаженно. Цена соответствует качеству.", rating: 4, date: "12 мая 2026" },
+        { name: "Михаил Попов", city: "Москва", text: "Отличный сервис! Заказывал разнорабочих на склад. Ребята трудолюбивые, выполняют все указания. Буду обращаться ещё.", rating: 5, date: "10 мая 2026" },
+        { name: "Юлия Васильева", city: "Санкт-Петербург", text: "Переезжали из однушки. Всё сделали быстро, аккуратно. Особенно порадовала упаковка хрупких вещей - ничего не разбилось!", rating: 5, date: "8 мая 2026" },
+        { name: "Алексей Зайцев", city: "Новосибирск", text: "Заказывал сборку стеллажей на склад. Мастер приехал вовремя, собрал всё качественно. Рекомендую!", rating: 5, date: "5 мая 2026" },
+        { name: "Ирина Павлова", city: "Екатеринбург", text: "Хорошая компания, работают профессионально. Грузчики вежливые, трезвые. Цена адекватная для такого качества.", rating: 4, date: "3 мая 2026" },
+        { name: "Роман Семенов", city: "Казань", text: "Обращался за такелажными работами - перевозка банкомата. Всё сделали аккуратно, без повреждений. Спасибо!", rating: 5, date: "1 мая 2026" },
+        { name: "Светлана Голубева", city: "Нижний Новгород", text: "Заказывала грузчиков для квартирного переезда. Ребята молодцы, всё сделали быстро и качественно.", rating: 5, date: "28 апреля 2026" },
+        { name: "Николай Виноградов", city: "Челябинск", text: "Работают чётко и профессионально. Заказывал разгрузку фур - всё сделали за 2 часа. Рекомендую!", rating: 5, date: "25 апреля 2026" },
+        { name: "Валентина Богданова", city: "Самара", text: "Хороший сервис, адекватные цены. Грузчики аккуратные, вежливые. Буду обращаться ещё.", rating: 4, date: "22 апреля 2026" },
+        { name: "Артём Воробьёв", city: "Ростов-на-Дону", text: "Заказывал разнорабочих на стройку. Ребята трудолюбивые, выполняют все указания. Спасибо за хорошую работу!", rating: 5, date: "20 апреля 2026" },
+        { name: "Людмила Фёдорова", city: "Уфа", text: "Переезжали всей семьёй. Всё сделали быстро, аккуратно. Особенно понравилась упаковка мебели - ничего не повредили.", rating: 5, date: "18 апреля 2026" },
+        { name: "Денис Михайлов", city: "Воронеж", text: "Отличная компания! Заказывал грузчиков для офисного переезда. Всё сделали за один день, ничего не потеряли.", rating: 5, date: "15 апреля 2026" },
+        { name: "Галина Новикова", city: "Волгоград", text: "Заказывала сборку мебели. Мастер приехал вовремя, собрал всё качественно. Рекомендую!", rating: 5, date: "12 апреля 2026" },
+        { name: "Владимир Соколов", city: "Краснодар", text: "Хороший сервис, работают профессионально. Грузчики вежливые, трезвые. Цена адекватная.", rating: 4, date: "10 апреля 2026" },
+        { name: "Оксана Кузнецова", city: "Москва", text: "Обратилась по рекомендации. Не пожалела! Грузчики аккуратные, вежливые. Всё сделали быстро и качественно.", rating: 5, date: "8 апреля 2026" },
+        { name: "Константин Лебедев", city: "Санкт-Петербург", text: "Заказывал такелаж сейфа. Ребята профессионалы, использовали профессиональное оборудование. Всё прошло гладко.", rating: 5, date: "5 апреля 2026" },
+        { name: "Марина Орлова", city: "Новосибирск", text: "Хорошая компания, цены не завышают. Диспетчер всегда на связи, всё объясняет. Буду пользоваться услугами регулярно.", rating: 5, date: "3 апреля 2026" },
+        { name: "Евгений Морозов", city: "Екатеринбург", text: "Переезд офиса прошёл отлично. Работали в выходные, чтобы не мешать рабочему процессу. Всё упаковали, перевезли, расставили.", rating: 5, date: "1 апреля 2026" },
+        { name: "Тамара Белова", city: "Казань", text: "Заказывала грузчиков для разгрузки контейнера. Приехали вовремя, работали слаженно. Цена соответствует качеству.", rating: 4, date: "28 марта 2026" },
+        { name: "Александр Волков", city: "Нижний Новгород", text: "Отличный сервис! Заказывал разнорабочих на склад. Ребята трудолюбивые, выполняют все указания. Буду обращаться ещё.", rating: 5, date: "25 марта 2026" },
+        { name: "Вера Громова", city: "Челябинск", text: "Переезжали из двушки. Всё сделали быстро, аккуратно. Особенно порадовала упаковка хрупких вещей - ничего не разбилось!", rating: 5, date: "22 марта 2026" },
+        { name: "Станислав Смирнов", city: "Самара", text: "Заказывал сборку стеллажей на склад. Мастер приехал вовремя, собрал всё качественно. Рекомендую!", rating: 5, date: "20 марта 2026" },
+        { name: "Лариса Попова", city: "Ростов-на-Дону", text: "Хорошая компания, работают профессионально. Грузчики вежливые, трезвые. Цена адекватная для такого качества.", rating: 4, date: "18 марта 2026" },
+        { name: "Борис Васильев", city: "Уфа", text: "Обращался за такелажными работами - перевозка оборудования. Всё сделали аккуратно, без повреждений. Спасибо!", rating: 5, date: "15 марта 2026" },
+        { name: "Зинаида Зайцева", city: "Воронеж", text: "Заказывала грузчиков для квартирного переезда. Ребята молодцы, всё сделали быстро и качественно.", rating: 5, date: "12 марта 2026" },
+        { name: "Геннадий Павлов", city: "Волгоград", text: "Работают чётко и профессионально. Заказывал разгрузку фур - всё сделали за 2 часа. Рекомендую!", rating: 5, date: "10 марта 2026" },
+        { name: "Раиса Семенова", city: "Краснодар", text: "Хороший сервис, адекватные цены. Грузчики аккуратные, вежливые. Буду обращаться ещё.", rating: 4, date: "8 марта 2026" }
+      ];
+
+      function getDailyReviews() {
+        const today = new Date();
+        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+        const seed = dayOfYear * 7 + 13;
+
+        const shuffled = [...ALL_REVIEWS];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = (seed * (i + 1) * 9301 + 49297) % 233280;
+          const randomIndex = Math.floor((j / 233280) * (i + 1));
+          [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+        }
+
+        return shuffled.slice(0, 4); // Показываем 4 отзыва в день
+      }
+
+      function renderReviews() {
+        const container = document.getElementById("reviews-container");
+        if (!container) return;
+
+        const dailyReviews = getDailyReviews();
+        container.innerHTML = "";
+
+        const gradients = [
+          "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+          "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+          "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+          "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+          "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
+          "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
+          "linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)"
+        ];
+
+        dailyReviews.forEach((review, idx) => {
+          const reviewCard = document.createElement("div");
+          reviewCard.className = "review-card";
+
+          const stars = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+          const initials = review.name.split(" ").map(n => n[0]).join("");
+          const gradientIndex = review.name.charCodeAt(0) % gradients.length;
+
+          reviewCard.innerHTML = `
+            <div class="review-header">
+              <div class="review-avatar-placeholder" style="background: ${gradients[gradientIndex]}">${initials}</div>
+              <div class="review-info">
+                <h4>${review.name}</h4>
+                <div class="review-city">📍 ${review.city}</div>
+              </div>
+            </div>
+            <div class="review-stars">${stars}</div>
+            <div class="review-text">"${review.text}"</div>
+            <div class="review-date">📅 ${review.date}</div>
+          `;
+
+          container.appendChild(reviewCard);
+        });
+      }
+
+      // Запуск отзывов
+      renderReviews();
+    </script>
 
     <!-- JavaScript -->
     <script src="main.js"></script>

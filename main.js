@@ -48,25 +48,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const CITIES_DATA = {
     krasnodar: {
       name: "Краснодар",
-      cases: {
-        nom: "Краснодар",
-        prep: "в Краснодаре",
-        gen: "Краснодара",
-      },
+      cases: { nom: "Краснодар", prep: "в Краснодаре", gen: "Краснодара" },
       address: "350004, г. Краснодар, ул. Кропоткина д.50, офис 339",
       region: "Краснодарского края",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 800, // Грузчики
+        workers: 800, // Разнорабочие
+        moving: 800, // Переезд
+        truckStd: 2000, // Газель стандарт
+        truckExt: 2500, // Газель удлиненная
+      },
     },
     moscow: {
       name: "Москва",
-      cases: {
-        nom: "Москва",
-        prep: "в Москве",
-        gen: "Москвы",
-      },
+      cases: { nom: "Москва", prep: "в Москве", gen: "Москвы" },
       address: "101000, г. Москва, ул. Мясницкая д.24, оф. 102",
       region: "Московской области",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 1000,
+        workers: 950,
+        moving: 1000,
+        truckStd: 2500,
+        truckExt: 3000,
+      },
     },
     spb: {
       name: "Санкт-Петербург",
@@ -78,6 +84,13 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "190000, г. Санкт-Петербург, Невский проспект д.42, оф. 15",
       region: "Ленинградской области",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 950,
+        workers: 900,
+        moving: 950,
+        truckStd: 2400,
+        truckExt: 2800,
+      },
     },
     novosibirsk: {
       name: "Новосибирск",
@@ -89,6 +102,13 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "630000, г. Новосибирск, Красный проспект д.28, оф. 412",
       region: "Новосибирской области",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 850,
+        workers: 850,
+        moving: 850,
+        truckStd: 2200,
+        truckExt: 2600,
+      },
     },
     ekaterinburg: {
       name: "Екатеринбург",
@@ -100,17 +120,27 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "620000, г. Екатеринбург, ул. Малышева д.51, оф. 805",
       region: "Свердловской области",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 850,
+        workers: 850,
+        moving: 850,
+        truckStd: 2200,
+        truckExt: 2600,
+      },
     },
     kazan: {
       name: "Казань",
-      cases: {
-        nom: "Казань",
-        prep: "в Казани",
-        gen: "Казани",
-      },
+      cases: { nom: "Казань", prep: "в Казани", gen: "Казани" },
       address: "420000, г. Казань, ул. Баумана д.12, оф. 301",
       region: "Республики Татарстан",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 800,
+        workers: 800,
+        moving: 800,
+        truckStd: 2100,
+        truckExt: 2500,
+      },
     },
     nn: {
       name: "Нижний Новгород",
@@ -123,28 +153,41 @@ document.addEventListener("DOMContentLoaded", () => {
         "603000, г. Нижний Новгород, ул. Большая Покровская д.15, оф. 204",
       region: "Нижегородской области",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 800,
+        workers: 800,
+        moving: 800,
+        truckStd: 2100,
+        truckExt: 2500,
+      },
     },
     chelyabinsk: {
       name: "Челябинск",
-      cases: {
-        nom: "Челябинск",
-        prep: "в Челябинске",
-        gen: "Челябинска",
-      },
+      cases: { nom: "Челябинск", prep: "в Челябинске", gen: "Челябинска" },
       address: "454000, г. Челябинск, проспект Ленина д.64, оф. 512",
       region: "Челябинской области",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 750,
+        workers: 750,
+        moving: 750,
+        truckStd: 2000,
+        truckExt: 2400,
+      },
     },
     samara: {
       name: "Самара",
-      cases: {
-        nom: "Самара",
-        prep: "в Самаре",
-        gen: "Самары",
-      },
+      cases: { nom: "Самара", prep: "в Самаре", gen: "Самары" },
       address: "443000, г. Самара, ул. Ленинградская д.45, оф. 311",
       region: "Самарской области",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 800,
+        workers: 800,
+        moving: 800,
+        truckStd: 2100,
+        truckExt: 2500,
+      },
     },
     rostov: {
       name: "Ростов-на-Дону",
@@ -156,39 +199,55 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "344000, г. Ростов-на-Дону, Большая Садовая ул. д.82, оф. 219",
       region: "Ростовской области",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 800,
+        workers: 800,
+        moving: 800,
+        truckStd: 2100,
+        truckExt: 2500,
+      },
     },
     ufa: {
       name: "Уфа",
-      cases: {
-        nom: "Уфа",
-        prep: "в Уфе",
-        gen: "Уфы",
-      },
+      cases: { nom: "Уфа", prep: "в Уфе", gen: "Уфы" },
       address: "450000, г. Уфа, ул. Ленина д.32, оф. 104",
       region: "Республики Башкортостан",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 750,
+        workers: 750,
+        moving: 750,
+        truckStd: 2000,
+        truckExt: 2400,
+      },
     },
     voronezh: {
       name: "Воронеж",
-      cases: {
-        nom: "Воронеж",
-        prep: "в Воронеже",
-        gen: "Воронежа",
-      },
+      cases: { nom: "Воронеж", prep: "в Воронеже", gen: "Воронежа" },
       address: "394000, г. Воронеж, проспект Революции д.18, оф. 302",
       region: "Воронежской области",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 800,
+        workers: 800,
+        moving: 800,
+        truckStd: 2100,
+        truckExt: 2500,
+      },
     },
     volgograd: {
       name: "Волгоград",
-      cases: {
-        nom: "Волгоград",
-        prep: "в Волгограде",
-        gen: "Волгограда",
-      },
+      cases: { nom: "Волгоград", prep: "в Волгограде", gen: "Волгограда" },
       address: "400000, г. Волгоград, проспект Ленина д.12, оф. 410",
       region: "Волгоградской области",
       phone: "+7 (928) 333-32-81",
+      prices: {
+        loaders: 750,
+        workers: 750,
+        moving: 750,
+        truckStd: 2000,
+        truckExt: 2400,
+      },
     },
   };
 
@@ -289,6 +348,76 @@ document.addEventListener("DOMContentLoaded", () => {
         item.classList.remove("active");
       }
     });
+    // 8. Обновление цен на странице для выбранного города
+    if (data.prices) {
+      // Обновляем карточки услуг (по data-base-price)
+      document
+        .querySelectorAll(".service-price-tag[data-service-type]")
+        .forEach((el) => {
+          const type = el.getAttribute("data-service-type");
+          if (data.prices[type] !== undefined) {
+            const priceValue = el.querySelector(".price-value");
+            if (priceValue) {
+              priceValue.textContent = data.prices[type];
+            } else if (data.prices[type] > 0) {
+              el.innerHTML = `от <span class="price-value">${data.prices[type]}</span> ₽/час`;
+            }
+          }
+        });
+
+      // Обновляем цены в автопарке
+      document
+        .querySelectorAll(".fleet-price[data-truck-type]")
+        .forEach((el) => {
+          const type = el.getAttribute("data-truck-type");
+          if (data.prices[type] !== undefined) {
+            el.textContent = `от ${data.prices[type]} ₽/час`;
+          }
+        });
+
+      // Обновляем тариф в калькуляторе
+      const calcTabs = document.querySelectorAll(".calc-tab");
+      calcTabs.forEach((tab) => {
+        const tabName = tab.getAttribute("data-name");
+        let priceKey = null;
+        if (tabName === "Грузчики") priceKey = "loaders";
+        else if (tabName === "Разнорабочие") priceKey = "workers";
+        else if (tabName === "Переезд") priceKey = "moving";
+
+        if (priceKey && data.prices[priceKey] !== undefined) {
+          tab.setAttribute("data-rate", data.prices[priceKey]);
+          if (tab.classList.contains("active")) {
+            currentRate = data.prices[priceKey];
+            updateCalculator();
+          }
+        }
+      });
+
+      // Показываем метку "Цены для г. ..."
+      let cityPriceLabel = document.getElementById("city-price-label");
+      if (!cityPriceLabel) {
+        cityPriceLabel = document.createElement("div");
+        cityPriceLabel.id = "city-price-label";
+        cityPriceLabel.style.cssText = `
+            text-align: center;
+            padding: 8px 16px;
+            margin: 0 auto 20px;
+            background: rgba(255, 115, 0, 0.08);
+            border: 1px solid rgba(255, 115, 0, 0.2);
+            border-radius: 50px;
+            color: #ff9f00;
+            font-size: 0.85rem;
+            font-weight: 600;
+            max-width: fit-content;
+            display: inline-block;
+        `;
+        const servicesSection = document.querySelector(
+          ".services-section .section-header",
+        );
+        if (servicesSection) servicesSection.appendChild(cityPriceLabel);
+      }
+      cityPriceLabel.textContent = `💰 Актуальные цены для г. ${data.name}`;
+    }
   }
 
   // Geotargeting IP Auto-Detect Logic
