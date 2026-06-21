@@ -1796,252 +1796,268 @@
          🔥 НОВЫЙ JAVASCRIPT: СЧЁТЧИКИ + ОТЗЫВЫ
     ========================================== -->
     <script>
-// ==========================================
-// PERSISTENT COUNTERS & REVIEWS SYSTEM
-// ==========================================
+(function() {
+  'use strict';
+  
+  // ==========================================
+  // PERSISTENT COUNTERS & REVIEWS SYSTEM
+  // ==========================================
+  
+  function getMinutesWordLocal(num) {
+    const lastDigit = num % 10;
+    const lastTwoDigits = num % 100;
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) return "минут";
+    if (lastDigit === 1) return "минуту";
+    if (lastDigit >= 2 && lastDigit <= 4) return "минуты";
+    return "минут";
+  }
 
-function getMinutesWord(num) {
-  const lastDigit = num % 10;
-  const lastTwoDigits = num % 100;
-  if (lastTwoDigits >= 11 && lastTwoDigits <= 19) return "минут";
-  if (lastDigit === 1) return "минуту";
-  if (lastDigit >= 2 && lastDigit <= 4) return "минуты";
-  return "минут";
-}
+  // ==========================================
+  // 1. PERSISTENT LIVE COUNTERS
+  // ==========================================
+  const COUNTER_STORAGE_KEY = 'pg_counters_state';
+  const COUNTER_UPDATE_INTERVAL = 60000;
 
-// ==========================================
-// 1. PERSISTENT LIVE COUNTERS
-// ==========================================
-const COUNTER_STORAGE_KEY = 'pg_counters_state';
-const COUNTER_UPDATE_INTERVAL = 60000; // Update every 60 seconds
-
-function getCounterState() {
-  const saved = localStorage.getItem(COUNTER_STORAGE_KEY);
-  if (saved) {
+  function getCounterState() {
     try {
-      return JSON.parse(saved);
+      const saved = localStorage.getItem(COUNTER_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : null;
     } catch (e) {
       return null;
     }
   }
-  return null;
-}
 
-function saveCounterState(state) {
-  localStorage.setItem(COUNTER_STORAGE_KEY, JSON.stringify(state));
-}
-
-function generateInitialCounters() {
-  return {
-    lastOrderMinutes: Math.floor(Math.random() * 60) + 1,
-    freeBrigades: Math.floor(Math.random() * 11) + 5,
-    todayOrders: Math.floor(Math.random() * 30) + 35,
-    lastUpdate: Date.now(),
-    lastReset: Date.now()
-  };
-}
-
-function updatePersistentCounters() {
-  let state = getCounterState();
-  
-  if (!state) {
-    state = generateInitialCounters();
-    saveCounterState(state);
-  }
-  
-  const now = Date.now();
-  const elapsedMinutes = Math.floor((now - state.lastUpdate) / 60000);
-  
-  state.lastOrderMinutes += elapsedMinutes;
-  
-  if (Math.random() < 0.15 * elapsedMinutes) {
-    state.lastOrderMinutes = Math.floor(Math.random() * 10) + 1;
-    state.lastReset = now;
-  }
-  
-  const brigadeChange = Math.floor(Math.random() * 5) - 2;
-  state.freeBrigades = Math.max(5, Math.min(15, state.freeBrigades + brigadeChange));
-  
-  const lastUpdateDate = new Date(state.lastUpdate);
-  const nowDate = new Date(now);
-  
-  if (lastUpdateDate.toDateString() !== nowDate.toDateString()) {
-    state.todayOrders = Math.floor(Math.random() * 20) + 20;
-  } else {
-    const newOrders = Math.floor(Math.random() * 3) * elapsedMinutes;
-    state.todayOrders += newOrders;
-  }
-  
-  state.lastUpdate = now;
-  saveCounterState(state);
-  
-  const minutesText = `${state.lastOrderMinutes} ${getMinutesWord(state.lastOrderMinutes)} назад`;
-  
-  const lastOrder = document.getElementById("last-order-time");
-  const freeBrigades = document.getElementById("free-brigades-count");
-  const todayOrders = document.getElementById("today-orders-count");
-  
-  if (lastOrder) {
-    lastOrder.textContent = minutesText;
-    lastOrder.classList.add("updating");
-    setTimeout(() => lastOrder.classList.remove("updating"), 600);
-  }
-  if (freeBrigades) {
-    freeBrigades.textContent = state.freeBrigades;
-    freeBrigades.classList.add("updating");
-    setTimeout(() => freeBrigades.classList.remove("updating"), 600);
-  }
-  if (todayOrders) {
-    todayOrders.textContent = state.todayOrders;
-    todayOrders.classList.add("updating");
-    setTimeout(() => todayOrders.classList.remove("updating"), 600);
-  }
-}
-
-updatePersistentCounters();
-setInterval(updatePersistentCounters, COUNTER_UPDATE_INTERVAL);
-
-// ==========================================
-// 2. PERSISTENT REVIEWS (24-hour rotation)
-// ==========================================
-const REVIEWS_STORAGE_KEY = 'pg_reviews_state';
-const REVIEWS_ROTATION_HOURS = 24;
-
-const ALL_REVIEWS = [
-  { name: "Алексей К.", city: "Краснодар", text: "Заказывал на разгрузку фуры со стройматериалами — 4 парня приехали за 25 минут, отработали 6 часов без перекуров. Виталий (диспетчер) реально держит слово, перезвонил через 3 минуты после заявки. Цена вышла даже дешевле, чем считал в калькуляторе. Буду брать ещё на следующий объект.", rating: 5, date: "18 июня 2026" },
-  { name: "Марина", city: "Москва", text: "Переезжали с мужем из трешки на Северном в Бутово. Боялась за антикварный комод бабушки — ребята завернули его в 3 слоя пленки, поставили в угол кузова и зафиксировали ремнями. Комод доехал целым! Единственное — опоздали на 15 минут, но предупредили заранее.", rating: 4, date: "16 июня 2026" },
-  { name: "Дмитрий Соколов-Волков", city: "Санкт-Петербург", text: "Перевозили банкомат из одного ТЦ в другой. Думал, придётся искать спецтехнику, но ребята приехали с талью, катками и профессиональными ремнями. 400 кг переместили за час. Цена — 18 тысяч, для Питера нормально.", rating: 5, date: "14 июня 2026" },
-  { name: "Леночка", city: "Новосибирск", text: "Брала 3 разнорабочих на уборку после ремонта. Приехали трезвые (что редкость!), работали 5 часов. Убрали весь мусор, помыли окна, вынесли старую мебель. За 12 000 рублей — вообще подарок. Сохранила номер, буду рекомендовать соседям.", rating: 5, date: "12 июня 2026" },
-  { name: "Андрей В.", city: "Екатеринбург", text: "Офисный переезд на 25 рабочих мест. Сделали всё в субботу, в понедельник уже работали на новом месте. Отдельное спасибо за маркировку коробок — каждая подписана, ничего не потерялось. Из минусов — один грузчик был грубоват, но в целом всё ок.", rating: 4, date: "10 июня 2026" },
-  { name: "Ольга Новикова-Ким", city: "Казань", text: "Заказывала сборку кухни из Леруа Мерлен. Мастер Сергей приехал со своим шуруповертом, собрал за 5 часов. Даже врезал мойку и подключил смеситель! Правда, пришлось доплатить 2000 за врезку — это не было озвучено сразу. Но результат отличный.", rating: 4, date: "8 июня 2026" },
-  { name: "Игорь М.", city: "Нижний Новгород", text: "Собирали стеллажи на склад — 12 штук паллетных. Два мастера управлись за день. Работают быстро, без разговоров. Единственное — не убрали за собой упаковку от стеллажей, пришлось самим выносить. А так — рекомендую.", rating: 4, date: "6 июня 2026" },
-  { name: "Татьяна Белова", city: "Челябинск", text: "Переезжали всей семьёй с ребёнком 3 лет. Ребята были очень аккуратны с детскими вещами — игрушки упаковали отдельно, коляску разобрали и собрали на месте. Жена довольна, я доволен. Цена — 28 000 за всё, включая Газель.", rating: 5, date: "4 июня 2026" },
-  { name: "Серёга", city: "Самара", text: "Разгружал 20 тонн плитки со стройки. 4 человека за 3 часа — нереально быстро! Правда, один парень накосячил — разбил 2 коробки плитки. Но компания заменила бесплатно, без скандалов. Респект за честность.", rating: 4, date: "2 июня 2026" },
-  { name: "Наталья Орлова", city: "Ростов-на-Дону", text: "Подруга посоветовала — не пожалела! Переезд из однушки на 5 этаж без лифта. 3 грузчика, 2 часа работы. Всё донесли, ничего не поцарапали. Цена — 9600, как в калькуляторе. Буду обращаться ещё, когда мама будет переезжать.", rating: 5, date: "31 мая 2026" },
-  { name: "Виктор Громов", city: "Уфа", text: "Такелаж промышленного станка 800 кг. Ребята профессионалы — использовали лебёдки, катки, специальные ремни. Станок переместили на 50 метров без единой царапины. Цена договорная, вышло 35 тысяч. Для Уфы нормально.", rating: 5, date: "29 мая 2026" },
-  { name: "Анна С.", city: "Воронеж", text: "Заказывала грузчиков на склад — фасовка товара. 5 человек работали неделю. Все вежливые, трезвые, без опозданий. Виталий (диспетчер) всегда на связи, решает вопросы мгновенно. Для бизнеса — идеальный вариант.", rating: 5, date: "27 мая 2026" },
-  { name: "Павел Козлов", city: "Волгоград", text: "Переезд офиса в выходные — чтобы не останавливать работу. 15 человек, 2 Газели, 8 часов работы. Всё упаковали, перевезли, расставили по местам. В понедельник пришли — всё на своих местах. Цена — 120 000, но оно того стоило.", rating: 5, date: "25 мая 2026" },
-  { name: "Катя Ф.", city: "Краснодар", text: "Разгружали контейнер со стройматериалами. Приехали вовремя, работали слаженно. Единственное — один грузчик курил прямо на складе, пришлось сделать замечание. В остальном — всё отлично, цена адекватная.", rating: 4, date: "23 мая 2026" },
-  { name: "Михаил Попов", city: "Москва", text: "Брал разнорабочих на склад Wildberries — 10 человек на месяц. Ребята трудолюбивые, выполняют все указания. Текучка минимальная — за месяц только 2 человека заменили. Для аутсорсинга — топ вариант.", rating: 5, date: "21 мая 2026" },
-  { name: "Юлия Васильева", city: "Санкт-Петербург", text: "Переезжала из однушки в студию. Думала, справлюсь сама, но поняла, что без грузчиков никуда. 2 парня за 2 часа всё перевезли. Особенно порадовало, что сами предложили упаковать хрупкие вещи — я даже не просила.", rating: 5, date: "19 мая 2026" },
-  { name: "Лёха Зайцев", city: "Новосибирск", text: "Собирал стеллажи на склад — 8 штук. Мастер приехал вовремя, собрал за 4 часа. Работает аккуратно, без лишней суеты. Цена — 16 000, для Новосиба нормально. Рекомендую!", rating: 5, date: "17 мая 2026" },
-  { name: "Ирина Павлова", city: "Екатеринбург", text: "Заказывала грузчиков для переезда. Приехали вовремя, работали быстро. Единственное — один парень был немного грубоват, но в целом всё ок. Цена — 11 200 за 2 часа работы двоих грузчиков.", rating: 4, date: "15 мая 2026" },
-  { name: "Роман С.", city: "Казань", text: "Такелаж банкомата из банка в новый офис. 300 кг, 2 этажа, лифт маленький. Ребята справились на ура — использовали специальные катки и ремни. Цена — 22 тысячи. Для Казани — нормально.", rating: 5, date: "13 мая 2026" },
-  { name: "Светлана Голубева", city: "Нижний Новгород", text: "Переезд из двушки в трешку. 3 грузчика, 3 часа работы. Всё сделали быстро, аккуратно. Особенно понравилась упаковка посуды — каждая тарелка в пленке, ничего не разбилось. Цена — 14 400.", rating: 5, date: "11 мая 2026" },
-  { name: "Колян", city: "Челябинск", text: "Разгружал фуру со стройматериалами — 25 тонн. 5 человек за 4 часа. Работают как машина — без перекуров, без разговоров. Цена — 20 000. Для Челябинска — отлично. Буду брать ещё.", rating: 5, date: "9 мая 2026" },
-  { name: "Валентина Богданова", city: "Самара", text: "Заказывала разнорабочих на уборку после ремонта. 3 человека, 6 часов работы. Убрали всё — мусор, пыль, помыли окна. Цена — 14 400. Немного дороговато, но качество отличное.", rating: 4, date: "7 мая 2026" },
-  { name: "Артём Воробьёв", city: "Ростов-на-Дону", text: "Брал разнорабочих на стройку — 4 человека на неделю. Ребята трудолюбивые, выполняют все указания. Один раз опоздали на 20 минут, но предупредили заранее. В целом — доволен, буду обращаться ещё.", rating: 4, date: "5 мая 2026" },
-  { name: "Людмила Ф.", city: "Уфа", text: "Переезжали всей семьёй — 2 взрослых, 2 ребёнка, собака. Ребята были очень аккуратны с вещами, помогли с упаковкой. Собаку вообще не беспокоили — работали тихо. Цена — 32 000 за всё.", rating: 5, date: "3 мая 2026" },
-  { name: "Денис Михайлов", city: "Воронеж", text: "Офисный переезд на 40 рабочих мест. Сделали всё за выходные — в понедельник уже работали. Отдельное спасибо за маркировку — каждая коробка подписана, ничего не потерялось. Цена — 180 000.", rating: 5, date: "1 мая 2026" },
-  { name: "Галя Новикова", city: "Волгоград", text: "Заказывала сборку мебели из IKEA — шкаф-купе и комод. Мастер приехал вовремя, собрал за 3 часа. Работает аккуратно, без лишней суеты. Цена — 8 000. Для Волгограда — нормально.", rating: 5, date: "29 апреля 2026" },
-  { name: "Владимир Соколов", city: "Краснодар", text: "Заказывал грузчиков на склад — разгрузка фуры. Приехали вовремя, работали быстро. Единственное — один парень курил на территории, пришлось сделать замечание. В остальном — всё отлично.", rating: 4, date: "27 апреля 2026" },
-  { name: "Оксана К.", city: "Москва", text: "Переезд из трешки в частный дом. 4 грузчика, 5 часов работы. Всё сделали быстро, аккуратно. Особенно понравилась упаковка хрупких вещей — ничего не разбилось. Цена — 40 000.", rating: 5, date: "25 апреля 2026" },
-  { name: "Костя Лебедев", city: "Санкт-Петербург", text: "Такелаж сейфа 500 кг из офиса на 3 этаже. Ребята профессионалы — использовали таль, катки, специальные ремни. Сейф переместили без единой царапины. Цена — 28 тысяч. Для Питера — нормально.", rating: 5, date: "23 апреля 2026" },
-  { name: "Марина Орлова", city: "Новосибирск", text: "Заказывала разнорабочих на склад — фасовка товара. 6 человек работали 2 недели. Все вежливые, трезвые, без опозданий. Для бизнеса — идеальный вариант. Цена — 96 000 за 2 недели.", rating: 5, date: "21 апреля 2026" },
-  { name: "Женя Морозов", city: "Екатеринбург", text: "Офисный переезд на 20 рабочих мест. Сделали всё в субботу — в понедельник уже работали. Единственное — один грузчик поцарапал стол, но компания компенсировала ущерб. В целом — доволен.", rating: 4, date: "19 апреля 2026" },
-  { name: "Тамара Белова", city: "Казань", text: "Разгружали контейнер со стройматериалами. 4 человека за 3 часа. Работают быстро, без перекуров. Цена — 14 400. Для Казани — отлично. Буду обращаться ещё.", rating: 5, date: "17 апреля 2026" },
-  { name: "Саша Волков", city: "Нижний Новгород", text: "Брал разнорабочих на склад Ozon — 8 человек на месяц. Ребята трудолюбивые, выполняют все указания. Текучка минимальная — за месяц только 1 человек заменили. Для аутсорсинга — топ.", rating: 5, date: "15 апреля 2026" },
-  { name: "Вера Громова", city: "Челябинск", text: "Переезжала из двушки в однушку. 2 грузчика, 2 часа работы. Всё сделали быстро, аккуратно. Особенно порадовала упаковка хрупких вещей — ничего не разбилось. Цена — 9 600.", rating: 5, date: "13 апреля 2026" },
-  { name: "Стас Смирнов", city: "Самара", text: "Собирал стеллажи на склад — 10 штук. 2 мастера управлись за день. Работают быстро, без разговоров. Единственное — не убрали за собой упаковку. А так — рекомендую. Цена — 20 000.", rating: 4, date: "11 апреля 2026" },
-  { name: "Лариса Попова", city: "Ростов-на-Дону", text: "Заказывала грузчиков для переезда. Приехали вовремя, работали быстро. Цена — 12 800 за 2 часа работы двоих грузчиков. Немного дороговато, но качество отличное. Буду обращаться ещё.", rating: 4, date: "9 апреля 2026" },
-  { name: "Борис Васильев", city: "Уфа", text: "Такелаж оборудования из цеха в новый офис. 600 кг, 2 этажа. Ребята справились на ура — использовали лебёдки и катки. Цена — 32 тысячи. Для Уфы — нормально. Рекомендую!", rating: 5, date: "7 апреля 2026" },
-  { name: "Зина Зайцева", city: "Воронеж", text: "Переезд из трешки в частный дом. 4 грузчика, 4 часа работы. Всё сделали быстро, аккуратно. Особенно понравилась упаковка посуды — ничего не разбилось. Цена — 32 000.", rating: 5, date: "5 апреля 2026" },
-  { name: "Гена Павлов", city: "Волгоград", text: "Разгружал фуру со стройматериалами — 30 тонн. 6 человек за 5 часов. Работают как машина — без перекуров, без разговоров. Цена — 24 000. Для Волгограда — отлично.", rating: 5, date: "3 апреля 2026" },
-  { name: "Раиса С.", city: "Краснодар", text: "Заказывала разнорабочих на уборку после ремонта. 2 человека, 4 часа работы. Убрали всё — мусор, пыль, помыли окна. Цена — 6 400. Немного дороговато, но качество отличное.", rating: 4, date: "1 апреля 2026" }
-];
-
-function getReviewState() {
-  const saved = localStorage.getItem(REVIEWS_STORAGE_KEY);
-  if (saved) {
+  function saveCounterState(state) {
     try {
-      return JSON.parse(saved);
+      localStorage.setItem(COUNTER_STORAGE_KEY, JSON.stringify(state));
     } catch (e) {
-      return null;
+      console.warn('Cannot save counter state:', e);
     }
   }
-  return null;
-}
 
-function saveReviewState(state) {
-  localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(state));
-}
-
-function shuffleArray(array, seed) {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = (seed * (i + 1) * 9301 + 49297) % 233280;
-    const randomIndex = Math.floor((j / 233280) * (i + 1));
-    [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
-  }
-  return shuffled;
-}
-
-function getPersistentDailyReviews() {
-  let state = getReviewState();
-  const now = Date.now();
-  const rotationMs = REVIEWS_ROTATION_HOURS * 60 * 60 * 1000;
-  
-  if (!state || (now - state.lastRotation) > rotationMs) {
-    const today = new Date();
-    const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-    const seed = dayOfYear * 7 + 13;
-    
-    const shuffled = shuffleArray(ALL_REVIEWS, seed);
-    const selectedReviews = shuffled.slice(0, 4);
-    
-    state = {
-      reviews: selectedReviews,
-      lastRotation: now
+  function generateInitialCounters() {
+    return {
+      lastOrderMinutes: Math.floor(Math.random() * 60) + 1,
+      freeBrigades: Math.floor(Math.random() * 11) + 5,
+      todayOrders: Math.floor(Math.random() * 30) + 35,
+      lastUpdate: Date.now(),
+      lastReset: Date.now()
     };
-    saveReviewState(state);
   }
-  
-  return state.reviews;
-}
 
-function renderPersistentReviews() {
-  const container = document.getElementById("reviews-container");
-  if (!container) return;
-  
-  const dailyReviews = getPersistentDailyReviews();
-  container.innerHTML = "";
-  
-  const gradients = [
-    "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-    "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-    "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-    "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
-    "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
-    "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
-    "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
-    "linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)"
+  function updatePersistentCounters() {
+    try {
+      let state = getCounterState();
+      
+      if (!state) {
+        state = generateInitialCounters();
+        saveCounterState(state);
+      }
+      
+      const now = Date.now();
+      const elapsedMinutes = Math.min(Math.floor((now - state.lastUpdate) / 60000), 1440); // Max 24 hours
+      
+      state.lastOrderMinutes += elapsedMinutes;
+      
+      // Limit "last order" to max 120 minutes
+      if (state.lastOrderMinutes > 120) {
+        state.lastOrderMinutes = Math.floor(Math.random() * 10) + 1;
+      }
+      
+      const brigadeChange = Math.floor(Math.random() * 3) - 1; // -1, 0, or +1
+      state.freeBrigades = Math.max(5, Math.min(15, state.freeBrigades + brigadeChange));
+      
+      const lastUpdateDate = new Date(state.lastUpdate);
+      const nowDate = new Date(now);
+      
+      if (lastUpdateDate.toDateString() !== nowDate.toDateString()) {
+        state.todayOrders = Math.floor(Math.random() * 20) + 20;
+      } else if (elapsedMinutes > 0) {
+        const newOrders = Math.floor(Math.random() * 2) * elapsedMinutes;
+        state.todayOrders = Math.min(state.todayOrders + newOrders, 999);
+      }
+      
+      state.lastUpdate = now;
+      saveCounterState(state);
+      
+      const minutesText = `${state.lastOrderMinutes} ${getMinutesWordLocal(state.lastOrderMinutes)} назад`;
+      
+      const lastOrder = document.getElementById("last-order-time");
+      const freeBrigades = document.getElementById("free-brigades-count");
+      const todayOrders = document.getElementById("today-orders-count");
+      
+      if (lastOrder) {
+        lastOrder.textContent = minutesText;
+        lastOrder.classList.add("updating");
+        setTimeout(() => lastOrder.classList.remove("updating"), 600);
+      }
+      if (freeBrigades) {
+        freeBrigades.textContent = state.freeBrigades;
+        freeBrigades.classList.add("updating");
+        setTimeout(() => freeBrigades.classList.remove("updating"), 600);
+      }
+      if (todayOrders) {
+        todayOrders.textContent = state.todayOrders;
+        todayOrders.classList.add("updating");
+        setTimeout(() => todayOrders.classList.remove("updating"), 600);
+      }
+    } catch (e) {
+      console.error('Counter update error:', e);
+    }
+  }
+
+  // Initial update
+  updatePersistentCounters();
+  setInterval(updatePersistentCounters, COUNTER_UPDATE_INTERVAL);
+
+  // ==========================================
+  // 2. PERSISTENT REVIEWS (24-hour rotation)
+  // ==========================================
+  const REVIEWS_STORAGE_KEY = 'pg_reviews_state';
+  const REVIEWS_ROTATION_HOURS = 24;
+
+  const ALL_REVIEWS = [
+    { name: "Алексей К.", city: "Краснодар", text: "Заказывал на разгрузку фуры со стройматериалами — 4 парня приехали за 25 минут, отработали 6 часов без перекуров. Виталий (диспетчер) реально держит слово, перезвонил через 3 минуты после заявки. Цена вышла даже дешевле, чем считал в калькуляторе. Буду брать ещё на следующий объект.", rating: 5, date: "18 июня 2026" },
+    { name: "Марина", city: "Москва", text: "Переезжали с мужем из трешки на Северном в Бутово. Боялась за антикварный комод бабушки — ребята завернули его в 3 слоя пленки, поставили в угол кузова и зафиксировали ремнями. Комод доехал целым! Единственное — опоздали на 15 минут, но предупредили заранее.", rating: 4, date: "16 июня 2026" },
+    { name: "Дмитрий Соколов-Волков", city: "Санкт-Петербург", text: "Перевозили банкомат из одного ТЦ в другой. Думал, придётся искать спецтехнику, но ребята приехали с талью, катками и профессиональными ремнями. 400 кг переместили за час. Цена — 18 тысяч, для Питера нормально.", rating: 5, date: "14 июня 2026" },
+    { name: "Леночка", city: "Новосибирск", text: "Брала 3 разнорабочих на уборку после ремонта. Приехали трезвые (что редкость!), работали 5 часов. Убрали весь мусор, помыли окна, вынесли старую мебель. За 12 000 рублей — вообще подарок. Сохранила номер, буду рекомендовать соседям.", rating: 5, date: "12 июня 2026" },
+    { name: "Андрей В.", city: "Екатеринбург", text: "Офисный переезд на 25 рабочих мест. Сделали всё в субботу, в понедельник уже работали на новом месте. Отдельное спасибо за маркировку коробок — каждая подписана, ничего не потерялось. Из минусов — один грузчик был грубоват, но в целом всё ок.", rating: 4, date: "10 июня 2026" },
+    { name: "Ольга Новикова-Ким", city: "Казань", text: "Заказывала сборку кухни из Леруа Мерлен. Мастер Сергей приехал со своим шуруповертом, собрал за 5 часов. Даже врезал мойку и подключил смеситель! Правда, пришлось доплатить 2000 за врезку — это не было озвучено сразу. Но результат отличный.", rating: 4, date: "8 июня 2026" },
+    { name: "Игорь М.", city: "Нижний Новгород", text: "Собирали стеллажи на склад — 12 штук паллетных. Два мастера управлись за день. Работают быстро, без разговоров. Единственное — не убрали за собой упаковку от стеллажей, пришлось самим выносить. А так — рекомендую.", rating: 4, date: "6 июня 2026" },
+    { name: "Татьяна Белова", city: "Челябинск", text: "Переезжали всей семьёй с ребёнком 3 лет. Ребята были очень аккуратны с детскими вещами — игрушки упаковали отдельно, коляску разобрали и собрали на месте. Жена довольна, я доволен. Цена — 28 000 за всё, включая Газель.", rating: 5, date: "4 июня 2026" },
+    { name: "Серёга", city: "Самара", text: "Разгружал 20 тонн плитки со стройки. 4 человека за 3 часа — нереально быстро! Правда, один парень накосячил — разбил 2 коробки плитки. Но компания заменила бесплатно, без скандалов. Респект за честность.", rating: 4, date: "2 июня 2026" },
+    { name: "Наталья Орлова", city: "Ростов-на-Дону", text: "Подруга посоветовала — не пожалела! Переезд из однушки на 5 этаж без лифта. 3 грузчика, 2 часа работы. Всё донесли, ничего не поцарапали. Цена — 9600, как в калькуляторе. Буду обращаться ещё, когда мама будет переезжать.", rating: 5, date: "31 мая 2026" },
+    { name: "Виктор Громов", city: "Уфа", text: "Такелаж промышленного станка 800 кг. Ребята профессионалы — использовали лебёдки, катки, специальные ремни. Станок переместили на 50 метров без единой царапины. Цена договорная, вышло 35 тысяч. Для Уфы нормально.", rating: 5, date: "29 мая 2026" },
+    { name: "Анна С.", city: "Воронеж", text: "Заказывала грузчиков на склад — фасовка товара. 5 человек работали неделю. Все вежливые, трезвые, без опозданий. Виталий (диспетчер) всегда на связи, решает вопросы мгновенно. Для бизнеса — идеальный вариант.", rating: 5, date: "27 мая 2026" },
+    { name: "Павел Козлов", city: "Волгоград", text: "Переезд офиса в выходные — чтобы не останавливать работу. 15 человек, 2 Газели, 8 часов работы. Всё упаковали, перевезли, расставили по местам. В понедельник пришли — всё на своих местах. Цена — 120 000, но оно того стоило.", rating: 5, date: "25 мая 2026" },
+    { name: "Катя Ф.", city: "Краснодар", text: "Разгружали контейнер со стройматериалами. Приехали вовремя, работали слаженно. Единственное — один грузчик курил прямо на складе, пришлось сделать замечание. В остальном — всё отлично, цена адекватная.", rating: 4, date: "23 мая 2026" },
+    { name: "Михаил Попов", city: "Москва", text: "Брал разнорабочих на склад Wildberries — 10 человек на месяц. Ребята трудолюбивые, выполняют все указания. Текучка минимальная — за месяц только 2 человека заменили. Для аутсорсинга — топ вариант.", rating: 5, date: "21 мая 2026" },
+    { name: "Юлия Васильева", city: "Санкт-Петербург", text: "Переезжала из однушки в студию. Думала, справлюсь сама, но поняла, что без грузчиков никуда. 2 парня за 2 часа всё перевезли. Особенно порадовало, что сами предложили упаковать хрупкие вещи — я даже не просила.", rating: 5, date: "19 мая 2026" },
+    { name: "Лёха Зайцев", city: "Новосибирск", text: "Собирал стеллажи на склад — 8 штук. Мастер приехал вовремя, собрал за 4 часа. Работает аккуратно, без лишней суеты. Цена — 16 000, для Новосиба нормально. Рекомендую!", rating: 5, date: "17 мая 2026" },
+    { name: "Ирина Павлова", city: "Екатеринбург", text: "Заказывала грузчиков для переезда. Приехали вовремя, работали быстро. Единственное — один парень был немного грубоват, но в целом всё ок. Цена — 11 200 за 2 часа работы двоих грузчиков.", rating: 4, date: "15 мая 2026" },
+    { name: "Роман С.", city: "Казань", text: "Такелаж банкомата из банка в новый офис. 300 кг, 2 этажа, лифт маленький. Ребята справились на ура — использовали специальные катки и ремни. Цена — 22 тысячи. Для Казани — нормально.", rating: 5, date: "13 мая 2026" },
+    { name: "Светлана Голубева", city: "Нижний Новгород", text: "Переезд из двушки в трешку. 3 грузчика, 3 часа работы. Всё сделали быстро, аккуратно. Особенно понравилась упаковка посуды — каждая тарелка в пленке, ничего не разбилось. Цена — 14 400.", rating: 5, date: "11 мая 2026" },
+    { name: "Колян", city: "Челябинск", text: "Разгружал фуру со стройматериалами — 25 тонн. 5 человек за 4 часа. Работают как машина — без перекуров, без разговоров. Цена — 20 000. Для Челябинска — отлично. Буду брать ещё.", rating: 5, date: "9 мая 2026" },
+    { name: "Валентина Богданова", city: "Самара", text: "Заказывала разнорабочих на уборку после ремонта. 3 человека, 6 часов работы. Убрали всё — мусор, пыль, помыли окна. Цена — 14 400. Немного дороговато, но качество отличное.", rating: 4, date: "7 мая 2026" },
+    { name: "Артём Воробьёв", city: "Ростов-на-Дону", text: "Брал разнорабочих на стройку — 4 человека на неделю. Ребята трудолюбивые, выполняют все указания. Один раз опоздали на 20 минут, но предупредили заранее. В целом — доволен, буду обращаться ещё.", rating: 4, date: "5 мая 2026" },
+    { name: "Людмила Ф.", city: "Уфа", text: "Переезжали всей семьёй — 2 взрослых, 2 ребёнка, собака. Ребята были очень аккуратны с вещами, помогли с упаковкой. Собаку вообще не беспокоили — работали тихо. Цена — 32 000 за всё.", rating: 5, date: "3 мая 2026" },
+    { name: "Денис Михайлов", city: "Воронеж", text: "Офисный переезд на 40 рабочих мест. Сделали всё за выходные — в понедельник уже работали. Отдельное спасибо за маркировку — каждая коробка подписана, ничего не потерялось. Цена — 180 000.", rating: 5, date: "1 мая 2026" },
+    { name: "Галя Новикова", city: "Волгоград", text: "Заказывала сборку мебели из IKEA — шкаф-купе и комод. Мастер приехал вовремя, собрал за 3 часа. Работает аккуратно, без лишней суеты. Цена — 8 000. Для Волгограда — нормально.", rating: 5, date: "29 апреля 2026" },
+    { name: "Владимир Соколов", city: "Краснодар", text: "Заказывал грузчиков на склад — разгрузка фуры. Приехали вовремя, работали быстро. Единственное — один парень курил на территории, пришлось сделать замечание. В остальном — всё отлично.", rating: 4, date: "27 апреля 2026" },
+    { name: "Оксана К.", city: "Москва", text: "Переезд из трешки в частный дом. 4 грузчика, 5 часов работы. Всё сделали быстро, аккуратно. Особенно понравилась упаковка хрупких вещей — ничего не разбилось. Цена — 40 000.", rating: 5, date: "25 апреля 2026" },
+    { name: "Костя Лебедев", city: "Санкт-Петербург", text: "Такелаж сейфа 500 кг из офиса на 3 этаже. Ребята профессионалы — использовали таль, катки, специальные ремни. Сейф переместили без единой царапины. Цена — 28 тысяч. Для Питера — нормально.", rating: 5, date: "23 апреля 2026" },
+    { name: "Марина Орлова", city: "Новосибирск", text: "Заказывала разнорабочих на склад — фасовка товара. 6 человек работали 2 недели. Все вежливые, трезвые, без опозданий. Для бизнеса — идеальный вариант. Цена — 96 000 за 2 недели.", rating: 5, date: "21 апреля 2026" },
+    { name: "Женя Морозов", city: "Екатеринбург", text: "Офисный переезд на 20 рабочих мест. Сделали всё в субботу — в понедельник уже работали. Единственное — один грузчик поцарапал стол, но компания компенсировала ущерб. В целом — доволен.", rating: 4, date: "19 апреля 2026" },
+    { name: "Тамара Белова", city: "Казань", text: "Разгружали контейнер со стройматериалами. 4 человека за 3 часа. Работают быстро, без перекуров. Цена — 14 400. Для Казани — отлично. Буду обращаться ещё.", rating: 5, date: "17 апреля 2026" },
+    { name: "Саша Волков", city: "Нижний Новгород", text: "Брал разнорабочих на склад Ozon — 8 человек на месяц. Ребята трудолюбивые, выполняют все указания. Текучка минимальная — за месяц только 1 человек заменили. Для аутсорсинга — топ.", rating: 5, date: "15 апреля 2026" },
+    { name: "Вера Громова", city: "Челябинск", text: "Переезжала из двушки в однушку. 2 грузчика, 2 часа работы. Всё сделали быстро, аккуратно. Особенно порадовала упаковка хрупких вещей — ничего не разбилось. Цена — 9 600.", rating: 5, date: "13 апреля 2026" },
+    { name: "Стас Смирнов", city: "Самара", text: "Собирал стеллажи на склад — 10 штук. 2 мастера управлись за день. Работают быстро, без разговоров. Единственное — не убрали за собой упаковку. А так — рекомендую. Цена — 20 000.", rating: 4, date: "11 апреля 2026" },
+    { name: "Лариса Попова", city: "Ростов-на-Дону", text: "Заказывала грузчиков для переезда. Приехали вовремя, работали быстро. Цена — 12 800 за 2 часа работы двоих грузчиков. Немного дороговато, но качество отличное. Буду обращаться ещё.", rating: 4, date: "9 апреля 2026" },
+    { name: "Борис Васильев", city: "Уфа", text: "Такелаж оборудования из цеха в новый офис. 600 кг, 2 этажа. Ребята справились на ура — использовали лебёдки и катки. Цена — 32 тысячи. Для Уфы — нормально. Рекомендую!", rating: 5, date: "7 апреля 2026" },
+    { name: "Зина Зайцева", city: "Воронеж", text: "Переезд из трешки в частный дом. 4 грузчика, 4 часа работы. Всё сделали быстро, аккуратно. Особенно понравилась упаковка посуды — ничего не разбилось. Цена — 32 000.", rating: 5, date: "5 апреля 2026" },
+    { name: "Гена Павлов", city: "Волгоград", text: "Разгружал фуру со стройматериалами — 30 тонн. 6 человек за 5 часов. Работают как машина — без перекуров, без разговоров. Цена — 24 000. Для Волгограда — отлично.", rating: 5, date: "3 апреля 2026" },
+    { name: "Раиса С.", city: "Краснодар", text: "Заказывала разнорабочих на уборку после ремонта. 2 человека, 4 часа работы. Убрали всё — мусор, пыль, помыли окна. Цена — 6 400. Немного дороговато, но качество отличное.", rating: 4, date: "1 апреля 2026" }
   ];
-  
-  dailyReviews.forEach((review, idx) => {
-    const reviewCard = document.createElement("div");
-    reviewCard.className = "review-card";
-    
-    const stars = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
-    const initials = review.name.split(" ").map(n => n[0]).join("");
-    const gradientIndex = review.name.charCodeAt(0) % gradients.length;
-    
-    reviewCard.innerHTML = `
-      <div class="review-header">
-        <div class="review-avatar-placeholder" style="background: ${gradients[gradientIndex]}">${initials}</div>
-        <div class="review-info">
-          <h4>${review.name}</h4>
-          <div class="review-city">📍 ${review.city}</div>
-        </div>
-      </div>
-      <div class="review-stars">${stars}</div>
-      <div class="review-text">"${review.text}"</div>
-      <div class="review-date">📅 ${review.date}</div>
-    `;
-    
-    container.appendChild(reviewCard);
-  });
-}
 
-renderPersistentReviews();
+  function getReviewState() {
+    try {
+      const saved = localStorage.getItem(REVIEWS_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveReviewState(state) {
+    try {
+      localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      console.warn('Cannot save review state:', e);
+    }
+  }
+
+  function shuffleArray(array, seed) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = (seed * (i + 1) * 9301 + 49297) % 233280;
+      const randomIndex = Math.floor((j / 233280) * (i + 1));
+      [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  function getPersistentDailyReviews() {
+    let state = getReviewState();
+    const now = Date.now();
+    const rotationMs = REVIEWS_ROTATION_HOURS * 60 * 60 * 1000;
+    
+    if (!state || (now - state.lastRotation) > rotationMs) {
+      const today = new Date();
+      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+      const seed = dayOfYear * 7 + 13;
+      
+      const shuffled = shuffleArray(ALL_REVIEWS, seed);
+      const selectedReviews = shuffled.slice(0, 4);
+      
+      state = {
+        reviews: selectedReviews,
+        lastRotation: now
+      };
+      saveReviewState(state);
+    }
+    
+    return state.reviews;
+  }
+
+  function renderPersistentReviews() {
+    const container = document.getElementById("reviews-container");
+    if (!container) return;
+    
+    const dailyReviews = getPersistentDailyReviews();
+    container.innerHTML = "";
+    
+    const gradients = [
+      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+      "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+      "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
+      "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
+      "linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)"
+    ];
+    
+    dailyReviews.forEach((review, idx) => {
+      const reviewCard = document.createElement("div");
+      reviewCard.className = "review-card";
+      
+      const stars = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+      const initials = review.name.split(" ").map(n => n[0]).join("");
+      const gradientIndex = review.name.charCodeAt(0) % gradients.length;
+      
+      reviewCard.innerHTML = `
+        <div class="review-header">
+          <div class="review-avatar-placeholder" style="background: ${gradients[gradientIndex]}">${initials}</div>
+          <div class="review-info">
+            <h4>${review.name}</h4>
+            <div class="review-city">📍 ${review.city}</div>
+          </div>
+        </div>
+        <div class="review-stars">${stars}</div>
+        <div class="review-text">"${review.text}"</div>
+        <div class="review-date">📅 ${review.date}</div>
+      `;
+      
+      container.appendChild(reviewCard);
+    });
+  }
+
+  // Initialize reviews
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderPersistentReviews);
+  } else {
+    renderPersistentReviews();
+  }
+})();
 </script>
 </html>
