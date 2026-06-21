@@ -1202,4 +1202,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Delay trigger initialization slightly for better feel
   setTimeout(initExitIntentPopup, 2000);
+  // ==========================================
+  // 14. LIVE ACTIVITY COUNTERS (sticky bar)
+  // ==========================================
+  function updateLiveActivity() {
+    const minutesAgo = Math.floor(Math.random() * 60) + 1;
+    const brigades = Math.floor(Math.random() * 11) + 5;
+    const orders = Math.floor(Math.random() * 30) + 35;
+
+    const minutesText = `${minutesAgo} ${getMinutesWord(minutesAgo)} назад`;
+
+    // Hero счётчики (если есть)
+    const lastOrderTime = document.getElementById("last-order-time");
+    const freeBrigades = document.getElementById("free-brigades-count");
+    const todayOrders = document.getElementById("today-orders-count");
+
+    if (lastOrderTime) lastOrderTime.textContent = minutesText;
+    if (freeBrigades) freeBrigades.textContent = brigades;
+    if (todayOrders) todayOrders.textContent = orders;
+
+    // 🔥 Sticky bar счётчики
+    const stickyLastOrder = document.getElementById("sticky-last-order");
+    const stickyBrigades = document.getElementById("sticky-brigades");
+    const stickyOrders = document.getElementById("sticky-orders");
+
+    if (stickyLastOrder) {
+      stickyLastOrder.textContent = minutesText;
+      stickyLastOrder.classList.add("updating");
+      setTimeout(() => stickyLastOrder.classList.remove("updating"), 600);
+    }
+    if (stickyBrigades) {
+      stickyBrigades.textContent = brigades;
+      stickyBrigades.classList.add("updating");
+      setTimeout(() => stickyBrigades.classList.remove("updating"), 600);
+    }
+    if (stickyOrders) {
+      stickyOrders.textContent = orders;
+      stickyOrders.classList.add("updating");
+      setTimeout(() => stickyOrders.classList.remove("updating"), 600);
+    }
+  }
+
+  // Запуск функции
+  updateLiveActivity();
+  setInterval(updateLiveActivity, 60000); // Обновление каждую минуту
+
+  // ==========================================
+  // 15. SHOW STICKY BAR ON LOAD
+  // ==========================================
+  setTimeout(() => {
+    const liveBar = document.getElementById("live-activity-bar");
+    if (liveBar) liveBar.classList.add("visible");
+  }, 800);
 });
