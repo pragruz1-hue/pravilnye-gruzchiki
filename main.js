@@ -982,16 +982,20 @@ document.addEventListener("DOMContentLoaded", () => {
   if ("IntersectionObserver" in window && statNumbers.length > 0) {
     const statsObserver = new IntersectionObserver(
       (entries, observer) => {
-        if (entries[0].isIntersecting) {
-          statNumbers.forEach((stat) => countUp(stat));
-          observer.disconnect();
-        }
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const stat = entry.target;
+            countUp(stat);
+            observer.unobserve(stat);
+          }
+        });
       },
       { threshold: 0.1 },
     );
 
-    const statsGrid = document.querySelector(".stats-grid");
-    if (statsGrid) statsObserver.observe(statsGrid);
+    statNumbers.forEach((stat) => {
+      statsObserver.observe(stat);
+    });
   } else {
     statNumbers.forEach((stat) => {
       stat.textContent = stat.getAttribute("data-target");
