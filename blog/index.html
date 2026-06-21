@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Блог | Правильные Грузчики — полезные статьи о переездах и грузчиках</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Полезные статьи о грузчиках, переездах, такелажных работах и сборке мебели в Краснодаре. Советы экспертов, реальные кейсы, ответы на частые вопросы.">
+  <meta name="keywords" content="блог грузчики, полезные статьи переезд, советы грузчики краснодар, как выбрать грузчиков">
+  <meta name="author" content="Правильные Грузчики">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.png">
+  <link rel="canonical" href="https://pragruz.ru/blog/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pragruz.ru/blog/">
+  <meta property="og:title" content="Блог | Правильные Грузчики">
+  <meta property="og:description" content="Полезные статьи о грузчиках, переездах, такелажных работах и сборке мебели в Краснодаре.">
+  <meta property="og:image" content="../assets/loaders_promo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../style.css">
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://pragruz.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Блог", "item": "https://pragruz.ru/blog/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org Blog -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Блог Правильные Грузчики",
+    "description": "Полезные статьи о грузчиках, переездах, такелажных работах и сборке мебели",
+    "url": "https://pragruz.ru/blog/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Правильные Грузчики"
+    }
+  }
+  </script>
+
+  <style>
+    .blog-hero {
+      padding: 100px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+    .blog-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+    .blog-hero p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 24px;
+      padding-bottom: 80px;
+    }
+    .blog-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+    }
+    .blog-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .blog-card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background: var(--secondary);
+    }
+    .blog-card-body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .blog-card-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(255, 115, 0, 0.1);
+      border: 1px solid rgba(255, 115, 0, 0.2);
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #ff9f00;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+    .blog-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .blog-card h3 a {
+      color: var(--text-main);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .blog-card h3 a:hover {
+      color: var(--primary);
+    }
+    .blog-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      flex: 1;
+    }
+    .blog-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .blog-card-date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .blog-card-read {
+      font-size: 0.85rem;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .blog-card-read:hover {
+      color: #ff9f00;
+    }
+    .blog-card-read svg {
+      width: 14px;
+      height: 14px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+    .blog-empty {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+    }
+    .blog-empty svg {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 20px;
+      opacity: 0.3;
+    }
+    .blog-empty h3 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+    @media (max-width: 768px) {
+      .blog-hero h1 { font-size: 1.8rem; }
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Glow FX -->
+  <div class="glow-bg">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="main-header" id="site-header">
+    <div class="container header-container">
+      <a href="../index.html" class="logo-area" id="header-logo-link">
+        <div class="logo-icon-box">
+          <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 13H5V11H19V13ZM12 2L2 9L12 16L22 9L12 2Z" fill="currentColor"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">ПРАВИЛЬНЫЕ</span>
+          <span class="logo-subtitle">ГРУЗЧИКИ</span>
+        </div>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Основная навигация">
+        <ul>
+          <li><a href="../index.html" class="nav-link">Главная</a></li>
+          <li><a href="../krasnodar/loaders.html" class="nav-link">Услуги</a></li>
+          <li><a href="index.html" class="nav-link active">Блог</a></li>
+          <li><a href="../index.html#contacts" class="nav-link">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-right">
+        <div class="header-phone-box">
+          <a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 3333-281</a>
+          <span class="work-hours-badge">Круглосуточно 24/7</span>
+        </div>
+        <a href="../index.html#order-form-section" class="btn btn-primary btn-sm header-cta">Заказать звонок</a>
+        <button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню">
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Overlay -->
+  <div class="mobile-nav-overlay" id="mobile-menu-overlay">
+    <div class="mobile-nav-content">
+      <ul class="mobile-nav-links">
+        <li><a href="../index.html" class="mobile-link">Главная</a></li>
+        <li><a href="../krasnodar/loaders.html" class="mobile-link">Услуги</a></li>
+        <li><a href="index.html" class="mobile-link">Блог</a></li>
+        <li><a href="../index.html#contacts" class="mobile-link">Контакты</a></li>
+      </ul>
+      <div class="mobile-nav-footer">
+        <a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 3333-281</a>
+        <p class="mobile-hours">Прием заказов с 9:00 до 20:00</p>
+        <a href="../index.html#order-form-section" class="btn btn-primary" id="mobile-menu-cta">Быстрый заказ</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- BLOG HERO -->
+    <section class="blog-hero">
+      <div class="container">
+        <span class="sub-title-gradient">Блог</span>
+        <h1>Полезные статьи о грузчиках и переездах</h1>
+        <p>Советы экспертов, реальные кейсы, ответы на частые вопросы. Всё, что нужно знать о грузчиках, переездах, такелаже и сборке мебели в Краснодаре.</p>
+      </div>
+    </section>
+
+    <!-- BLOG GRID -->
+    <section>
+      <div class="container">
+        <div class="blog-grid">
+          
+          <!-- Статья 1 -->
+          <article class="blog-card">
+            <div class="blog-card-image" style="background: linear-gradient(135deg, #ff7300, #ff5100); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📋</div>
+            <div class="blog-card-body">
+              <span class="blog-card-tag">Советы</span>
+              <h3><a href="kak-vybrat-gruzchikov-v-krasnodare.html">Как выбрать грузчиков в Краснодаре: 5 критериев</a></h3>
+              <p>Разбираем ключевые критерии выбора грузчиков: цена, опыт, отзывы, договор, страховка. Как не ошибиться и сэкономить.</p>
+              <div class="blog-card-footer">
+                <span class="blog-card-date">22 июня 2026</span>
+                <a href="kak-vybrat-gruzchikov-v-krasnodare.html" class="blog-card-read">
+                  Читать
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Статья 2 (заглушка — будет позже) -->
+          <article class="blog-card" style="opacity: 0.5;">
+            <div class="blog-card-image" style="background: var(--secondary); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--text-muted);">🚚</div>
+            <div class="blog-card-body">
+              <span class="blog-card-tag">Скоро</span>
+              <h3>Сколько стоит переезд квартиры в Краснодаре</h3>
+              <p>Подробный разбор цен на грузчиков, аренду Газели, упаковку. Реальные примеры стоимости для разных типов квартир.</p>
+              <div class="blog-card-footer">
+                <span class="blog-card-date">Скоро</span>
+                <span class="blog-card-read" style="color: var(--text-muted);">В разработке</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Статья 3 (заглушка) -->
+          <article class="blog-card" style="opacity: 0.5;">
+            <div class="blog-card-image" style="background: var(--secondary); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--text-muted);">🔧</div>
+            <div class="blog-card-body">
+              <span class="blog-card-tag">Скоро</span>
+              <h3>Такелажные работы: что нужно знать</h3>
+              <p>Всё о такелаже: перевозка сейфов, медицинского оборудования, станков. Какие нужны документы и как рассчитывается цена.</p>
+              <div class="blog-card-footer">
+                <span class="blog-card-date">Скоро</span>
+                <span class="blog-card-read" style="color: var(--text-muted);">В разработке</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <a href="../index.html" class="logo-area">
+          <div class="logo-icon-box">
+            <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+              <path d="M19 13H5V11H19V13ZM12 2L2 9L12 16L22 9L12 2Z" fill="currentColor"/>
+              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title">ПРАВИЛЬНЫЕ</span>
+            <span class="logo-subtitle">ГРУЗЧИКИ</span>
+          </div>
+        </a>
+        <p class="footer-pitch">Лидеры подбора рабочего и складского персонала в Краснодаре. Работаем с 2014 года.</p>
+        <span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики». <br>Все права защищены.</span>
+      </div>
+
+      <div class="footer-col">
+        <h4>Услуги в Краснодаре</h4>
+        <ul class="footer-links">
+          <li><a href="../krasnodar/loaders.html">Грузчики Краснодар</a></li>
+          <li><a href="../krasnodar/workers.html">Разнорабочие Краснодар</a></li>
+          <li><a href="../krasnodar/moving.html">Переезды Краснодар</a></li>
+          <li><a href="../krasnodar/rigging.html">Такелаж Краснодар</a></li>
+          <li><a href="../krasnodar/furniture.html">Сборка мебели Краснодар</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Информация</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Блог</a></li>
+          <li><a href="../index.html#about">О компании</a></li>
+          <li><a href="../index.html#contacts">Контакты</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col contact-col">
+        <h4>Контакты</h4>
+        <ul class="footer-contacts">
+          <li><span class="f-contact-icon">📞</span> <a href="tel:+79283333281">+7 (928) 3333-281</a></li>
+          <li><span class="f-contact-icon">📍</span> г. Краснодар, ул. Кропоткина д.50, оф. 339</li>
+          <li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="../main.js"></script>
+</body>
+</html>
