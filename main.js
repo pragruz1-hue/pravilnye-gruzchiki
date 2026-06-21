@@ -818,6 +818,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return encodeURIComponent(lines.join("\n"));
   }
 
+
   function openUrlInNewTab(url) {
     const newWindow = window.open(url, "_blank", "noopener");
     if (!newWindow) {
@@ -840,110 +841,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function sendLeadByUserChoice(leadData) {
-    openPreviewModal(leadData);
+    // Send to backend API
+    fetch('/api/submit-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(leadData)
+    }).catch(err => console.error('Failed to send lead:', err));
     return true;
-  }
-
-  // ---------------------------
-  // Preview modal logic
-  // ---------------------------
-  const previewOverlay = document.getElementById('preview-overlay');
-  const previewText = document.getElementById('preview-text');
-  const previewClose = document.getElementById('preview-close');
-  const btnCopy = document.getElementById('btn-copy');
-  const btnWhats = document.getElementById('btn-whatsapp');
-  const btnTg = document.getElementById('btn-telegram');
-  const btnEmail = document.getElementById('btn-email');
-  const copyTip = document.getElementById('copy-tip');
-
-  function openPreviewModal(leadData) {
-    const textEncoded = buildLeadText(leadData);
-    const text = decodeURIComponent(textEncoded);
-    if (previewText) previewText.value = text;
-    if (previewOverlay) previewOverlay.classList.add('active');
-
-    // attach handlers
-    if (btnCopy) {
-      btnCopy.onclick = () => {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(previewText.value).then(() => {
-            showCopyTip();
-          }).catch(() => {
-            window.prompt('Скопируйте сообщение (Ctrl+C):', previewText.value);
-            showCopyTip();
-          });
-        } else {
-          window.prompt('Скопируйте сообщение (Ctrl+C):', previewText.value);
-          showCopyTip();
-        }
-      };
-    }
-
-    if (btnWhats) {
-        btnWhats.onclick = () => {
-          const u = encodeURIComponent(previewText.value);
-          const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${u}`;
-          openUrlInNewTab(url);
-          showSendConfirmation();
-        };
-    }
-
-    if (btnTg) {
-      btnTg.onclick = () => {
-        const u = encodeURIComponent(previewText.value);
-        const url = `https://t.me/share/url?url=&text=${u}`;
-        openUrlInNewTab(url);
-        showSendConfirmation();
-      };
-    }
-
-    if (btnEmail) {
-      btnEmail.onclick = () => {
-        const subject = encodeURIComponent(`[Pragruz] ${leadData.source || 'Заявка'}`);
-        const body = encodeURIComponent(previewText.value);
-        const url = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-        openUrlInNewTab(url);
-        showSendConfirmation();
-      };
-    }
-
-    if (previewClose) previewClose.onclick = closePreviewModal;
-    if (previewOverlay) previewOverlay.onclick = (e) => { if (e.target === previewOverlay) closePreviewModal(); };
-    // focus and select text for convenience
-    if (previewText) {
-      setTimeout(() => {
-        previewText.focus();
-        previewText.select();
-      }, 60);
-    }
-  }
-
-  function closePreviewModal() {
-    if (previewOverlay) previewOverlay.classList.remove('active');
-  }
-
-  function showCopyTip() {
-    if (!copyTip) return;
-    copyTip.classList.add('active');
-    setTimeout(() => copyTip.classList.remove('active'), 1800);
-  }
-
-  // show send confirmation (checkmark) and close modal after animation
-  function showSendConfirmation() {
-    const sendConfirm = document.getElementById('send-confirm');
-    if (!sendConfirm) {
-      // fallback: close modal after short delay
-      setTimeout(closePreviewModal, 700);
-      return;
-    }
-    sendConfirm.classList.add('active');
-    // hide copy tip if shown
-    if (copyTip) copyTip.classList.remove('active');
-    // after animation, close modal and hide confirmation
-    setTimeout(() => {
-      sendConfirm.classList.remove('active');
-      closePreviewModal();
-    }, 900);
   }
 
   function sendLeadToWhatsApp(leadData) {

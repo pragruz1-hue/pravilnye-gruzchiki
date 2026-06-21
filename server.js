@@ -2,6 +2,8 @@ const http = require('http');
 const url = require('url');
 const querystring = require('querystring');
 const https = require('https');
+const fs = require('fs');
+const path = require('path');
 
 // Конфигурация бота
 const TELEGRAM_BOT_TOKEN = '8133133212:AAHa3rr88Oa3QlUDIHkE7xXLLgCRRi2pT1Q';
@@ -82,6 +84,39 @@ function escapeHtml(text) {
   return text.replace(/[&<>"']/g, (m) => map[m]);
 }
 
+// Log leads to file (for email notification)
+function logLeadToEmail(leadData) {
+  try {
+    const logPath = path.join(__dirname, 'leads_emails.log');
+    const entry = {
+      timestamp: new Date().toISOString(),
+      ...leadData
+    };
+    fs.appendFileSync(logPath, JSON.stringify(entry) + '\n', { encoding: 'utf8' });
+    console.log('✓ Lead logged to email log');
+    return true;
+  } catch (err) {
+    console.error('Failed to log lead:', err);
+    return false;
+  }
+}
+
+// Format lead for email body
+function formatEmailBody(leadData) {
+  const lines = [
+    `Имя: ${leadData.name || '-'}`,
+    `Телефон: ${leadData.phone || '-'}`,
+    `Услуга: ${leadData.service || '-'}`,
+    leadData.comment ? `Детали: ${leadData.comment}` : null,
+    leadData.details ? `Информация: ${leadData.details}` : null,
+    leadData.promo ? `Промокод: ${leadData.promo}` : null,
+    `Источник: ${leadData.source || 'Не указано'}`,
+    `Дата: ${new Date(leadData.timestamp || Date.now()).toLocaleString('ru-RU')}`
+  ].filter(Boolean);
+  
+  return lines.join('\n');
+}
+
 // Создание HTTP сервера
 const server = http.createServer((req, res) => {
   // CORS заголовки
@@ -106,27 +141,16 @@ const server = http.createServer((req, res) => {
     req.on('end', async () => {
       try {
         const leadData = JSON.parse(body);
-        const channel = leadData.channel || 'telegram';
 
-        // Форматируем сообщение
+        // Log lead for email notification
+        logLeadToEmail(leadData);
+
+        // Format and send to Telegram
         const message = formatMessage(leadData);
+        await sendToTelegram(message);
 
-        // Отправляем в выбранный канал
-        if (channel === 'telegram') {
-          await sendToTelegram(message);
-          res.writeHead(200);
-          res.end(JSON.stringify({ success: true, message: 'Lead sent to Telegram' }));
-        } else if (channel === 'whatsapp') {
-          // WhatsApp отправляется с клиента через wa.me
-          res.writeHead(200);
-          res.end(JSON.stringify({ success: true, message: 'WhatsApp link generated on client' }));
-        } else if (channel === 'email') {
-          // Email отправляется с клиента через mailto
-          res.writeHead(200);
-          res.end(JSON.stringify({ success: true, message: 'Email link generated on client' }));
-        } else {
-          throw new Error('Unknown channel: ' + channel);
-        }
+        res.writeHead(200);
+        res.end(JSON.stringify({ success: true, message: 'Lead received and logged' }));
       } catch (error) {
         console.error('Error:', error);
         res.writeHead(400);

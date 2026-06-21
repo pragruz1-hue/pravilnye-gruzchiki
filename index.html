@@ -398,10 +398,10 @@
                 </span>
                 <h3>Заказ грузчиков онлайн</h3>
               </div>
-              <form class="hero-quick-form" id="hero-quick-form">
+              <form action="https://formspree.io/f/xeebjwkn" method="POST" class="hero-quick-form" id="hero-quick-form">
                 <div class="form-group-custom">
                   <label for="quick-service">Что требуется сделать?</label>
-                  <select id="quick-service" class="form-select-custom">
+                  <select name="service" id="quick-service" class="form-select-custom">
                     <option value="loaders">Грузчики (от 800 руб/час)</option>
                     <option value="workers">
                       Разнорабочие (от 800 руб/час)
@@ -414,6 +414,7 @@
                   <label for="quick-phone">Ваш номер телефона</label>
                   <input
                     type="tel"
+                    name="phone"
                     id="quick-phone"
                     placeholder="+7 (999) 000-00-00"
                     required
@@ -1023,33 +1024,6 @@
         </div>
       </section>
 
-      <!-- Preview & Share Modal -->
-      <div id="preview-overlay" class="preview-overlay" aria-hidden="true">
-        <div class="preview-modal" role="dialog" aria-modal="true" aria-labelledby="preview-title">
-          <div class="modal-header">
-            <h3 id="preview-title">Предпросмотр сообщения</h3>
-            <button id="preview-close" class="modal-close" aria-label="Закрыть">×</button>
-          </div>
-          <div id="copy-tip" class="copy-tip" aria-hidden="true">Скопировано</div>
-          <div id="send-confirm" class="send-confirm" aria-hidden="true">
-            <svg class="checkmark" viewBox="0 0 52 52">
-              <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-              <path class="checkmark__check" fill="none" d="M14 27l7 7 17-17"/>
-            </svg>
-          </div>
-          <div class="modal-body">
-            <label for="preview-text" class="sr-only">Текст сообщения</label>
-            <textarea id="preview-text" rows="8"></textarea>
-            <div class="preview-actions">
-              <button id="btn-copy" class="btn btn-secondary">Копировать</button>
-              <button id="btn-whatsapp" class="btn btn-primary">Открыть WhatsApp</button>
-              <button id="btn-telegram" class="btn btn-primary">Открыть Telegram</button>
-              <button id="btn-email" class="btn btn-primary">Открыть Email</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <section class="fleet-section" id="fleet">
         <div class="container">
           <div class="section-header text-center">
@@ -1170,12 +1144,13 @@
                 </p>
               </div>
 
-              <form id="main-booking-form" class="main-form">
+              <form action="https://formspree.io/f/xeebjwkn" method="POST" id="main-booking-form" class="main-form">
                 <div class="form-row">
                   <div class="form-group-custom">
                     <label for="form-name">Ваше имя</label>
                     <input
                       type="text"
+                      name="name"
                       id="form-name"
                       placeholder="Иван Иванов"
                       required
@@ -1186,6 +1161,7 @@
                     <label for="form-phone">Номер телефона</label>
                     <input
                       type="tel"
+                      name="phone"
                       id="form-phone"
                       placeholder="+7 (999) 000-00-00"
                       required
@@ -1196,7 +1172,7 @@
 
                 <div class="form-group-custom">
                   <label for="form-service">Тип необходимых услуг</label>
-                  <select id="form-service" class="form-select-custom">
+                  <select name="service" id="form-service" class="form-select-custom">
                     <option value="loaders_general">
                       Грузчики на склад / разгрузку
                     </option>
@@ -1224,6 +1200,7 @@
                     >Детали заказа (объем работ, адрес, дата, время)</label
                   >
                   <textarea
+                    name="message"
                     id="form-comment"
                     rows="3"
                     placeholder="Например: Нужно 4 грузчика на разгрузку фуры со стройматериалами 25 июня в 10:00 по адресу ул. Северная 120"
@@ -1538,13 +1515,14 @@
             Вы заказываете: <strong id="modal-service-name">Грузчики</strong>
           </p>
         </div>
-        <form id="modal-booking-form">
-          <input type="hidden" id="modal-service-input" />
-          <input type="hidden" id="modal-details-input" />
+        <form action="https://formspree.io/f/xeebjwkn" method="POST" id="modal-booking-form">
+          <input type="hidden" name="service" id="modal-service-input" />
+          <input type="hidden" name="details" id="modal-details-input" />
           <div class="form-group-custom">
             <label for="modal-name">Ваше имя</label>
             <input
               type="text"
+              name="name"
               id="modal-name"
               placeholder="Дмитрий"
               required
@@ -1555,6 +1533,7 @@
             <label for="modal-phone">Номер телефона</label>
             <input
               type="tel"
+              name="phone"
               id="modal-phone"
               placeholder="+7 (999) 000-00-00"
               required
