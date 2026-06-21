@@ -953,8 +953,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 10. ANIMATED STATISTICS COUNTER (OBSERVER)
   // ==========================================
+  // ==========================================
+  // 10. ANIMATED STATISTICS COUNTER (OBSERVER)
+  // ==========================================
   const statNumbers = document.querySelectorAll(".stat-num");
-
   const countUp = (element) => {
     const target = parseInt(element.getAttribute("data-target"), 10) || 0;
     const duration = 1500;
@@ -963,7 +965,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const animate = (currentTime) => {
       const elapsedTime = currentTime - startTime;
       const progress = Math.min(elapsedTime / duration, 1);
-
       const easeProgress = progress * (2 - progress);
       const currentValue = Math.floor(easeProgress * target);
 
@@ -993,10 +994,12 @@ document.addEventListener("DOMContentLoaded", () => {
       { threshold: 0.1 },
     );
 
+    // Наблюдаем за КАЖДЫМ элементом отдельно
     statNumbers.forEach((stat) => {
       statsObserver.observe(stat);
     });
   } else {
+    // Fallback для старых браузеров
     statNumbers.forEach((stat) => {
       stat.textContent = stat.getAttribute("data-target");
     });
