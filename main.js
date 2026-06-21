@@ -1,49 +1,42 @@
 /**
- * Правильные Грузчики - Interactive Engine
- * Dynamic Geotargeting, Cost Calculator, Phone Masking, Modal System, FAQ Accordion, and Animations
- * Author: Виталий С
- * Date: 2026-06-20
- */
-
+Правильные Грузчики - Interactive Engine
+Dynamic Geotargeting, Cost Calculator, Phone Masking, Modal System, FAQ Accordion, and Animations
+Author: Виталий С
+Date: 2026-06-22
+*/
 document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 1. GLOBAL HELPERS & PLURALIZATION
   // ==========================================
-
-  // Pluralization for "workers" in Russian (человек / человека)
   function getWorkersWord(num) {
     const lastDigit = num % 10;
     const lastTwoDigits = num % 100;
-    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
-      return "человек";
-    }
-    if (lastDigit === 1) {
-      return "человек";
-    }
-    if (lastDigit >= 2 && lastDigit <= 4) {
-      return "человека";
-    }
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) return "человек";
+    if (lastDigit === 1) return "человек";
+    if (lastDigit >= 2 && lastDigit <= 4) return "человека";
     return "человек";
   }
 
-  // Pluralization for "hours" in Russian (час / часа / часов)
   function getHoursWord(num) {
     const lastDigit = num % 10;
     const lastTwoDigits = num % 100;
-    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
-      return "часов";
-    }
-    if (lastDigit === 1) {
-      return "час";
-    }
-    if (lastDigit >= 2 && lastDigit <= 4) {
-      return "часа";
-    }
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) return "часов";
+    if (lastDigit === 1) return "час";
+    if (lastDigit >= 2 && lastDigit <= 4) return "часа";
     return "часов";
   }
 
+  function getMinutesWord(num) {
+    const lastDigit = num % 10;
+    const lastTwoDigits = num % 100;
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) return "минут";
+    if (lastDigit === 1) return "минуту";
+    if (lastDigit >= 2 && lastDigit <= 4) return "минуты";
+    return "минут";
+  }
+
   // ==========================================
-  // 2. DYNAMIC GEOTARGETING SYSTEM (MULTI-CITY)
+  // 2. DYNAMIC GEOTARGETING SYSTEM
   // ==========================================
   const CITIES_DATA = {
     krasnodar: {
@@ -52,13 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "350004, г. Краснодар, ул. Кропоткина д.50, офис 339",
       region: "Краснодарского края",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 800, // Грузчики
-        workers: 800, // Разнорабочие
-        moving: 800, // Переезд
-        truckStd: 2000, // Газель стандарт
-        truckExt: 2500, // Газель удлиненная
-      },
+      prices: { loaders: 800, workers: 800, moving: 800, truckStd: 2000, truckExt: 2500 }
     },
     moscow: {
       name: "Москва",
@@ -66,67 +53,31 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "101000, г. Москва, ул. Мясницкая д.24, оф. 102",
       region: "Московской области",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 1000,
-        workers: 950,
-        moving: 1000,
-        truckStd: 2500,
-        truckExt: 3000,
-      },
+      prices: { loaders: 1000, workers: 950, moving: 1000, truckStd: 2500, truckExt: 3000 }
     },
     spb: {
       name: "Санкт-Петербург",
-      cases: {
-        nom: "Санкт-Петербург",
-        prep: "в Санкт-Петербурге",
-        gen: "Санкт-Петербурга",
-      },
+      cases: { nom: "Санкт-Петербург", prep: "в Санкт-Петербурге", gen: "Санкт-Петербурга" },
       address: "190000, г. Санкт-Петербург, Невский проспект д.42, оф. 15",
       region: "Ленинградской области",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 950,
-        workers: 900,
-        moving: 950,
-        truckStd: 2400,
-        truckExt: 2800,
-      },
+      prices: { loaders: 950, workers: 900, moving: 950, truckStd: 2400, truckExt: 2800 }
     },
     novosibirsk: {
       name: "Новосибирск",
-      cases: {
-        nom: "Новосибирск",
-        prep: "в Новосибирске",
-        gen: "Новосибирска",
-      },
+      cases: { nom: "Новосибирск", prep: "в Новосибирске", gen: "Новосибирска" },
       address: "630000, г. Новосибирск, Красный проспект д.28, оф. 412",
       region: "Новосибирской области",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 850,
-        workers: 850,
-        moving: 850,
-        truckStd: 2200,
-        truckExt: 2600,
-      },
+      prices: { loaders: 850, workers: 850, moving: 850, truckStd: 2200, truckExt: 2600 }
     },
     ekaterinburg: {
       name: "Екатеринбург",
-      cases: {
-        nom: "Екатеринбург",
-        prep: "в Екатеринбурге",
-        gen: "Екатеринбурга",
-      },
+      cases: { nom: "Екатеринбург", prep: "в Екатеринбурге", gen: "Екатеринбурга" },
       address: "620000, г. Екатеринбург, ул. Малышева д.51, оф. 805",
       region: "Свердловской области",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 850,
-        workers: 850,
-        moving: 850,
-        truckStd: 2200,
-        truckExt: 2600,
-      },
+      prices: { loaders: 850, workers: 850, moving: 850, truckStd: 2200, truckExt: 2600 }
     },
     kazan: {
       name: "Казань",
@@ -134,32 +85,15 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "420000, г. Казань, ул. Баумана д.12, оф. 301",
       region: "Республики Татарстан",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 800,
-        workers: 800,
-        moving: 800,
-        truckStd: 2100,
-        truckExt: 2500,
-      },
+      prices: { loaders: 800, workers: 800, moving: 800, truckStd: 2100, truckExt: 2500 }
     },
     nn: {
       name: "Нижний Новгород",
-      cases: {
-        nom: "Нижний Новгород",
-        prep: "в Нижнем Новгороде",
-        gen: "Нижнего Новгорода",
-      },
-      address:
-        "603000, г. Нижний Новгород, ул. Большая Покровская д.15, оф. 204",
+      cases: { nom: "Нижний Новгород", prep: "в Нижнем Новгороде", gen: "Нижнего Новгорода" },
+      address: "603000, г. Нижний Новгород, ул. Большая Покровская д.15, оф. 204",
       region: "Нижегородской области",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 800,
-        workers: 800,
-        moving: 800,
-        truckStd: 2100,
-        truckExt: 2500,
-      },
+      prices: { loaders: 800, workers: 800, moving: 800, truckStd: 2100, truckExt: 2500 }
     },
     chelyabinsk: {
       name: "Челябинск",
@@ -167,13 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "454000, г. Челябинск, проспект Ленина д.64, оф. 512",
       region: "Челябинской области",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 750,
-        workers: 750,
-        moving: 750,
-        truckStd: 2000,
-        truckExt: 2400,
-      },
+      prices: { loaders: 750, workers: 750, moving: 750, truckStd: 2000, truckExt: 2400 }
     },
     samara: {
       name: "Самара",
@@ -181,31 +109,15 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "443000, г. Самара, ул. Ленинградская д.45, оф. 311",
       region: "Самарской области",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 800,
-        workers: 800,
-        moving: 800,
-        truckStd: 2100,
-        truckExt: 2500,
-      },
+      prices: { loaders: 800, workers: 800, moving: 800, truckStd: 2100, truckExt: 2500 }
     },
     rostov: {
       name: "Ростов-на-Дону",
-      cases: {
-        nom: "Ростов-на-Дону",
-        prep: "в Ростове-на-Дону",
-        gen: "Ростова-на-Дону",
-      },
+      cases: { nom: "Ростов-на-Дону", prep: "в Ростове-на-Дону", gen: "Ростова-на-Дону" },
       address: "344000, г. Ростов-на-Дону, Большая Садовая ул. д.82, оф. 219",
       region: "Ростовской области",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 800,
-        workers: 800,
-        moving: 800,
-        truckStd: 2100,
-        truckExt: 2500,
-      },
+      prices: { loaders: 800, workers: 800, moving: 800, truckStd: 2100, truckExt: 2500 }
     },
     ufa: {
       name: "Уфа",
@@ -213,13 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "450000, г. Уфа, ул. Ленина д.32, оф. 104",
       region: "Республики Башкортостан",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 750,
-        workers: 750,
-        moving: 750,
-        truckStd: 2000,
-        truckExt: 2400,
-      },
+      prices: { loaders: 750, workers: 750, moving: 750, truckStd: 2000, truckExt: 2400 }
     },
     voronezh: {
       name: "Воронеж",
@@ -227,13 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "394000, г. Воронеж, проспект Революции д.18, оф. 302",
       region: "Воронежской области",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 800,
-        workers: 800,
-        moving: 800,
-        truckStd: 2100,
-        truckExt: 2500,
-      },
+      prices: { loaders: 800, workers: 800, moving: 800, truckStd: 2100, truckExt: 2500 }
     },
     volgograd: {
       name: "Волгоград",
@@ -241,46 +141,28 @@ document.addEventListener("DOMContentLoaded", () => {
       address: "400000, г. Волгоград, проспект Ленина д.12, оф. 410",
       region: "Волгоградской области",
       phone: "+7 (928) 333-32-81",
-      prices: {
-        loaders: 750,
-        workers: 750,
-        moving: 750,
-        truckStd: 2000,
-        truckExt: 2400,
-      },
-    },
+      prices: { loaders: 750, workers: 750, moving: 750, truckStd: 2000, truckExt: 2400 }
+    }
   };
 
-  // Render city specific content
   function renderCity(cityCode) {
     if (!CITIES_DATA[cityCode]) return;
     const data = CITIES_DATA[cityCode];
-
-    // Save to LocalStorage
     localStorage.setItem("selected_city", cityCode);
 
-    // 1. Update text spans for city names with correct declensions
-    const citySpans = document.querySelectorAll(".city-name");
-    citySpans.forEach((span) => {
+    document.querySelectorAll(".city-name").forEach((span) => {
       const caseName = span.getAttribute("data-case") || "nom";
-      if (data.cases[caseName]) {
-        span.textContent = data.cases[caseName];
-      }
+      if (data.cases[caseName]) span.textContent = data.cases[caseName];
     });
 
-    // 2. Update address fields
-    const addressSpans = document.querySelectorAll(".city-address");
-    addressSpans.forEach((span) => {
+    document.querySelectorAll(".city-address").forEach((span) => {
       span.textContent = data.address;
     });
 
-    // 3. Update region fields
-    const regionSpans = document.querySelectorAll(".city-region");
-    regionSpans.forEach((span) => {
+    document.querySelectorAll(".city-region").forEach((span) => {
       span.textContent = data.region;
     });
 
-    // 4. Update phone links dynamically
     const cleanPhone = data.phone.replace(/\D/g, "");
     const formattedPhone = data.phone;
 
@@ -289,20 +171,19 @@ document.addEventListener("DOMContentLoaded", () => {
       headerPhone.textContent = formattedPhone;
       headerPhone.href = `tel:${cleanPhone}`;
     }
+
     const mobilePhone = document.querySelector(".mobile-phone-link");
     if (mobilePhone) {
       mobilePhone.textContent = formattedPhone;
       mobilePhone.href = `tel:${cleanPhone}`;
     }
-    const footerPhone = document.querySelector(
-      '.footer-contacts a[href^="tel:"]',
-    );
+
+    const footerPhone = document.querySelector('.footer-contacts a[href^="tel:"]');
     if (footerPhone) {
       footerPhone.textContent = formattedPhone;
       footerPhone.href = `tel:${cleanPhone}`;
     }
 
-    // 5. Update browser window title and meta description for premium SEO (Page-aware)
     const pageType = document.body.getAttribute("data-page") || "index";
     let titleStr = "";
     let descStr = "";
@@ -333,49 +214,38 @@ document.addEventListener("DOMContentLoaded", () => {
       metaDesc.setAttribute("content", descStr);
     }
 
-    // 6. Update selector button text
     const btnText = document.getElementById("city-btn-text");
-    if (btnText) {
-      btnText.textContent = data.name;
-    }
+    if (btnText) btnText.textContent = data.name;
 
-    // 7. Update active state in dropdown
-    const cityItems = document.querySelectorAll(".city-item");
-    cityItems.forEach((item) => {
+    document.querySelectorAll(".city-item").forEach((item) => {
       if (item.getAttribute("data-city") === cityCode) {
         item.classList.add("active");
       } else {
         item.classList.remove("active");
       }
     });
-    // 8. Обновление цен на странице для выбранного города
+
+    // Update prices for city
     if (data.prices) {
-      // Обновляем карточки услуг (по data-base-price)
-      document
-        .querySelectorAll(".service-price-tag[data-service-type]")
-        .forEach((el) => {
-          const type = el.getAttribute("data-service-type");
-          if (data.prices[type] !== undefined) {
-            const priceValue = el.querySelector(".price-value");
-            if (priceValue) {
-              priceValue.textContent = data.prices[type];
-            } else if (data.prices[type] > 0) {
-              el.innerHTML = `от <span class="price-value">${data.prices[type]}</span> ₽/час`;
-            }
+      document.querySelectorAll(".service-price-tag[data-service-type]").forEach((el) => {
+        const type = el.getAttribute("data-service-type");
+        if (data.prices[type] !== undefined) {
+          const priceValue = el.querySelector(".price-value");
+          if (priceValue) {
+            priceValue.textContent = data.prices[type];
+          } else if (data.prices[type] > 0) {
+            el.innerHTML = `от <span class="price-value">${data.prices[type]}</span> ₽/час`;
           }
-        });
+        }
+      });
 
-      // Обновляем цены в автопарке
-      document
-        .querySelectorAll(".fleet-price[data-truck-type]")
-        .forEach((el) => {
-          const type = el.getAttribute("data-truck-type");
-          if (data.prices[type] !== undefined) {
-            el.textContent = `от ${data.prices[type]} ₽/час`;
-          }
-        });
+      document.querySelectorAll(".fleet-price[data-truck-type]").forEach((el) => {
+        const type = el.getAttribute("data-truck-type");
+        if (data.prices[type] !== undefined) {
+          el.textContent = `от ${data.prices[type]} ₽/час`;
+        }
+      });
 
-      // Обновляем тариф в калькуляторе
       const calcTabs = document.querySelectorAll(".calc-tab");
       calcTabs.forEach((tab) => {
         const tabName = tab.getAttribute("data-name");
@@ -393,98 +263,70 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      // Показываем метку "Цены для г. ..."
       let cityPriceLabel = document.getElementById("city-price-label");
       if (!cityPriceLabel) {
         cityPriceLabel = document.createElement("div");
         cityPriceLabel.id = "city-price-label";
         cityPriceLabel.style.cssText = `
-            text-align: center;
-            padding: 8px 16px;
-            margin: 0 auto 20px;
-            background: rgba(255, 115, 0, 0.08);
-            border: 1px solid rgba(255, 115, 0, 0.2);
-            border-radius: 50px;
-            color: #ff9f00;
-            font-size: 0.85rem;
-            font-weight: 600;
-            max-width: fit-content;
-            display: inline-block;
+          text-align: center;
+          padding: 8px 16px;
+          margin: 0 auto 20px;
+          background: rgba(255, 115, 0, 0.08);
+          border: 1px solid rgba(255, 115, 0, 0.2);
+          border-radius: 50px;
+          color: #ff9f00;
+          font-size: 0.85rem;
+          font-weight: 600;
+          max-width: fit-content;
+          display: inline-block;
         `;
-        const servicesSection = document.querySelector(
-          ".services-section .section-header",
-        );
+        const servicesSection = document.querySelector(".services-section .section-header");
         if (servicesSection) servicesSection.appendChild(cityPriceLabel);
       }
-      cityPriceLabel.textContent = `💰 Актуальные цены для г. ${data.name}`;
+      cityPriceLabel.textContent = ` Актуальные цены для г. ${data.name}`;
     }
   }
 
-  // Geotargeting IP Auto-Detect Logic
   async function detectUserCity() {
     const defaultCity = "krasnodar";
-
-    // Check if user has already made a manual choice
     const savedCity = localStorage.getItem("selected_city");
     if (savedCity && CITIES_DATA[savedCity]) {
       return { cityCode: savedCity, isConfirmed: true };
     }
 
-    // Try auto-detection via secure public endpoint with 2.5s abort timeout
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 2500);
-
-      const response = await fetch("https://ipapi.co/json/", {
-        signal: controller.signal,
-      });
+      const response = await fetch("https://ipapi.co/json/", { signal: controller.signal });
       clearTimeout(timeoutId);
 
       if (!response.ok) throw new Error("Response error");
       const data = await response.json();
+      const geoCityName = data.city;
 
-      const geoCityName = data.city; // e.g. "Moscow", "Krasnodar"
       if (geoCityName) {
         const lowerGeoCity = geoCityName.toLowerCase();
-
-        if (lowerGeoCity.includes("moscow"))
-          return { cityCode: "moscow", isConfirmed: false };
-        if (lowerGeoCity.includes("petersburg"))
-          return { cityCode: "spb", isConfirmed: false };
-        if (lowerGeoCity.includes("krasnodar"))
-          return { cityCode: "krasnodar", isConfirmed: false };
-        if (lowerGeoCity.includes("novosibirsk"))
-          return { cityCode: "novosibirsk", isConfirmed: false };
-        if (lowerGeoCity.includes("ekaterinburg"))
-          return { cityCode: "ekaterinburg", isConfirmed: false };
-        if (lowerGeoCity.includes("kazan"))
-          return { cityCode: "kazan", isConfirmed: false };
-        if (lowerGeoCity.includes("novgorod"))
-          return { cityCode: "nn", isConfirmed: false };
-        if (lowerGeoCity.includes("chelyabinsk"))
-          return { cityCode: "chelyabinsk", isConfirmed: false };
-        if (lowerGeoCity.includes("samara"))
-          return { cityCode: "samara", isConfirmed: false };
-        if (lowerGeoCity.includes("rostov"))
-          return { cityCode: "rostov", isConfirmed: false };
-        if (lowerGeoCity.includes("ufa"))
-          return { cityCode: "ufa", isConfirmed: false };
-        if (lowerGeoCity.includes("voronezh"))
-          return { cityCode: "voronezh", isConfirmed: false };
-        if (lowerGeoCity.includes("volgograd"))
-          return { cityCode: "volgograd", isConfirmed: false };
+        if (lowerGeoCity.includes("moscow")) return { cityCode: "moscow", isConfirmed: false };
+        if (lowerGeoCity.includes("petersburg")) return { cityCode: "spb", isConfirmed: false };
+        if (lowerGeoCity.includes("krasnodar")) return { cityCode: "krasnodar", isConfirmed: false };
+        if (lowerGeoCity.includes("novosibirsk")) return { cityCode: "novosibirsk", isConfirmed: false };
+        if (lowerGeoCity.includes("ekaterinburg")) return { cityCode: "ekaterinburg", isConfirmed: false };
+        if (lowerGeoCity.includes("kazan")) return { cityCode: "kazan", isConfirmed: false };
+        if (lowerGeoCity.includes("novgorod")) return { cityCode: "nn", isConfirmed: false };
+        if (lowerGeoCity.includes("chelyabinsk")) return { cityCode: "chelyabinsk", isConfirmed: false };
+        if (lowerGeoCity.includes("samara")) return { cityCode: "samara", isConfirmed: false };
+        if (lowerGeoCity.includes("rostov")) return { cityCode: "rostov", isConfirmed: false };
+        if (lowerGeoCity.includes("ufa")) return { cityCode: "ufa", isConfirmed: false };
+        if (lowerGeoCity.includes("voronezh")) return { cityCode: "voronezh", isConfirmed: false };
+        if (lowerGeoCity.includes("volgograd")) return { cityCode: "volgograd", isConfirmed: false };
       }
     } catch (e) {
-      console.warn(
-        "Geotargeting auto-detect failed or timed out. Defaulting to Краснодар.",
-        e,
-      );
+      console.warn("Geotargeting auto-detect failed or timed out. Defaulting to Краснодар.", e);
     }
 
     return { cityCode: defaultCity, isConfirmed: false };
   }
 
-  // Geotargeting DOM Binding
   const cityBtn = document.getElementById("current-selected-city");
   const cityDropdown = document.getElementById("city-dropdown-menu");
   const cityConfirmBanner = document.getElementById("city-confirm-banner");
@@ -493,7 +335,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnNo = document.getElementById("btn-city-confirm-no");
   const cityItems = document.querySelectorAll(".city-item");
 
-  // Toggle dropdown on click
   if (cityBtn && cityDropdown) {
     cityBtn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -502,12 +343,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Close dropdown when clicking elsewhere
   document.addEventListener("click", () => {
     if (cityDropdown) cityDropdown.classList.remove("active");
   });
 
-  // Handle city selection
   cityItems.forEach((item) => {
     item.addEventListener("click", () => {
       const cityCode = item.getAttribute("data-city");
@@ -519,18 +358,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Initialize Geotargeting
   async function initGeotargeting() {
     const { cityCode, isConfirmed } = await detectUserCity();
     renderCity(cityCode);
-
     const wasConfirmed = localStorage.getItem("city_confirmed") === "true";
 
     if (!wasConfirmed && !isConfirmed) {
-      // Show confirmation banner
       if (cityConfirmBanner && detectedCityName) {
         detectedCityName.textContent = CITIES_DATA[cityCode].name;
-        // Natural visual delay for loading feel
         setTimeout(() => {
           cityConfirmBanner.classList.add("active");
         }, 1200);
@@ -553,7 +388,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Run Geotargeting Engine
   initGeotargeting();
 
   // ==========================================
@@ -586,7 +420,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (burgerBtn && mobileMenuOverlay) {
     burgerBtn.addEventListener("click", toggleMobileMenu);
-
     mobileLinks.forEach((link) => {
       link.addEventListener("click", () => {
         if (mobileMenuOverlay.classList.contains("active")) {
@@ -614,12 +447,10 @@ document.addEventListener("DOMContentLoaded", () => {
       glowDiv.classList.add("card-glow");
       card.appendChild(glowDiv);
     }
-
     card.addEventListener("mousemove", (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-
       card.style.setProperty("--mouse-x", `${x}px`);
       card.style.setProperty("--mouse-y", `${y}px`);
     });
@@ -636,13 +467,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const rateDisplay = document.getElementById("rate-display");
   const priceDisplay = document.getElementById("price-display");
   const calcSubmitBtn = document.getElementById("calc-submit-btn");
-
-  let currentRate = 800; // Updated default rate (loaders: 800 ₽/h)
+  let currentRate = 800;
   let currentServiceName = "Грузчики";
 
   function updateCalculator() {
     if (!workersRange || !hoursRange) return;
-
     const workers = parseInt(workersRange.value, 10);
     const hours = parseInt(hoursRange.value, 10);
 
@@ -655,9 +484,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const isNegotiable = currentRate === 0;
     const totalPrice = currentRate * workers * hours;
-    const currencySpan = priceDisplay
-      ? priceDisplay.parentNode.querySelector(".currency")
-      : null;
+    const currencySpan = priceDisplay ? priceDisplay.parentNode.querySelector(".currency") : null;
     const rateInfo = document.querySelector(".result-rate-info");
 
     if (rateInfo) {
@@ -685,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
       workers,
       hours,
       rate: currentRate,
-      price: isNegotiable ? "Договорная" : totalPrice,
+      price: isNegotiable ? "Договорная" : totalPrice
     };
   }
 
@@ -694,11 +521,8 @@ document.addEventListener("DOMContentLoaded", () => {
       tab.addEventListener("click", () => {
         calcTabs.forEach((t) => t.classList.remove("active"));
         tab.classList.add("active");
-
-        // Update active rate & name
         currentRate = parseInt(tab.getAttribute("data-rate"), 10) || 800;
         currentServiceName = tab.getAttribute("data-name") || "Грузчики";
-
         updateCalculator();
       });
     });
@@ -706,15 +530,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (workersRange) workersRange.addEventListener("input", updateCalculator);
   if (hoursRange) hoursRange.addEventListener("input", updateCalculator);
-
-  // Initial Calculation
   updateCalculator();
 
   // ==========================================
-  // 7. RUSSIAN PHONE INPUT MASKING (PURE JS)
+  // 7. RUSSIAN PHONE INPUT MASKING
   // ==========================================
   const phoneInputs = document.querySelectorAll('input[type="tel"]');
-
   function setupPhoneMask(input) {
     input.addEventListener("input", (e) => {
       let inputNumbersValue = input.value.replace(/\D/g, "");
@@ -734,8 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (["7", "8", "9"].indexOf(inputNumbersValue[0]) > -1) {
-        if (inputNumbersValue[0] === "9")
-          inputNumbersValue = "7" + inputNumbersValue;
+        if (inputNumbersValue[0] === "9") inputNumbersValue = "7" + inputNumbersValue;
         let firstChar = "+7";
         if (inputNumbersValue[0] === "8") {
           inputNumbersValue = "7" + inputNumbersValue.substring(1);
@@ -780,7 +600,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
   phoneInputs.forEach(setupPhoneMask);
 
   // ==========================================
@@ -788,12 +607,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   const orderModal = document.getElementById("order-modal");
   const modalCloseBtn = document.getElementById("modal-close-btn");
-  const modalSuccessCloseBtn = document.getElementById(
-    "modal-success-close-btn",
-  );
+  const modalSuccessCloseBtn = document.getElementById("modal-success-close-btn");
   const modalBookingForm = document.getElementById("modal-booking-form");
   const modalSuccessConfirm = document.getElementById("modal-success-confirm");
-
   const modalServiceName = document.getElementById("modal-service-name");
   const modalServiceInput = document.getElementById("modal-service-input");
   const modalDetailsInput = document.getElementById("modal-details-input");
@@ -801,7 +617,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function openModal(serviceName, details, calculatedPrice) {
     if (!orderModal) return;
-
     if (modalBookingForm) {
       modalBookingForm.reset();
       modalBookingForm.style.display = "block";
@@ -837,9 +652,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (modalCloseBtn) modalCloseBtn.addEventListener("click", closeModal);
-  if (modalSuccessCloseBtn)
-    modalSuccessCloseBtn.addEventListener("click", closeModal);
-
+  if (modalSuccessCloseBtn) modalSuccessCloseBtn.addEventListener("click", closeModal);
   if (orderModal) {
     orderModal.addEventListener("click", (e) => {
       if (e.target === orderModal) {
@@ -848,31 +661,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cost calculator submission
   if (calcSubmitBtn) {
     calcSubmitBtn.addEventListener("click", () => {
       const calcData = updateCalculator();
       if (calcData) {
-        const detailsStr =
-          calcData.rate === 0
-            ? `${calcData.workers} чел., ${calcData.hours} ч. (Тариф: договорной)`
-            : `${calcData.workers} чел., ${calcData.hours} ч. (Тариф: ${calcData.rate} ₽/ч)`;
+        const detailsStr = calcData.rate === 0
+          ? `${calcData.workers} чел., ${calcData.hours} ч. (Тариф: договорной)`
+          : `${calcData.workers} чел., ${calcData.hours} ч. (Тариф: ${calcData.rate} ₽/ч)`;
         openModal(calcData.service, detailsStr, calcData.price);
       }
     });
   }
 
-  // Service Cards order binding (with updated rates)
   const serviceOrderBtns = document.querySelectorAll(".service-order-btn");
   serviceOrderBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       const serviceName = btn.getAttribute("data-service") || "Заказ персонала";
-      const isNego =
-        serviceName.includes("Такелаж") ||
-        serviceName.includes("Сборка мебели") ||
-        serviceName.includes("стеллаж") ||
-        serviceName.includes("Сборщик");
-
+      const isNego = serviceName.includes("Такелаж") || serviceName.includes("Сборка мебели") || serviceName.includes("стеллаж") || serviceName.includes("Сборщик");
       let rate = isNego ? 0 : 800;
       let detailsStr = "";
       let minPrice = 0;
@@ -889,32 +694,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Fleet Cards order binding (with updated rates)
   const fleetOrderBtns = document.querySelectorAll(".fleet-order-btn");
   fleetOrderBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       const truckName = btn.getAttribute("data-truck") || "Газель";
-
-      let rate = 2000; // standard truck default rate (2000 ₽/h)
-      if (truckName.includes("Удлиненная")) rate = 2500; // extended rate (2500 ₽/h)
+      let rate = 2000;
+      if (truckName.includes("Удлиненная")) rate = 2500;
 
       const detailsStr = `Аренда грузовика: ${truckName}. Минимальный заказ от 2 часов.`;
-      const minPrice = rate * 2; // Min order is 2 hours
+      const minPrice = rate * 2;
 
       openModal(`Аренда авто: ${truckName}`, detailsStr, minPrice);
     });
   });
 
-  // Outsourcing proposal CTA
   const outProposalLink = document.querySelector(".outsourcing-glass .btn");
   if (outProposalLink) {
     outProposalLink.addEventListener("click", (e) => {
       e.preventDefault();
-      openModal(
-        "Аутсорсинг персонала",
-        "Запрос коммерческого предложения по аутсорсингу линейного персонала.",
-        null,
-      );
+      openModal("Аутсорсинг персонала", "Запрос коммерческого предложения по аутсорсингу линейного персонала.", null);
     });
   }
 
@@ -922,7 +720,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // 9. FAQ ACCORDION ENGINE
   // ==========================================
   const faqTriggers = document.querySelectorAll(".faq-trigger");
-
   faqTriggers.forEach((trigger) => {
     trigger.addEventListener("click", () => {
       const faqItem = trigger.closest(".faq-item");
@@ -951,10 +748,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================
-  // 10. ANIMATED STATISTICS COUNTER (OBSERVER)
-  // ==========================================
-  // ==========================================
-  // 10. ANIMATED STATISTICS COUNTER (OBSERVER)
+  // 10. ANIMATED STATISTICS COUNTER
   // ==========================================
   const statNumbers = document.querySelectorAll(".stat-num");
   const countUp = (element) => {
@@ -991,30 +785,25 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       },
-      { threshold: 0.1 },
+      { threshold: 0.1 }
     );
 
-    // Наблюдаем за КАЖДЫМ элементом отдельно
     statNumbers.forEach((stat) => {
       statsObserver.observe(stat);
     });
   } else {
-    // Fallback для старых браузеров
     statNumbers.forEach((stat) => {
       stat.textContent = stat.getAttribute("data-target");
     });
   }
 
   // ==========================================
-  // 11. FORM SUBMISSIONS (AJAX STUBS & FX)
+  // 11. FORM SUBMISSIONS
   // ==========================================
-
-  // A. Hero Quick Form (Redirects to Modal)
   const heroForm = document.getElementById("hero-quick-form");
   if (heroForm) {
     heroForm.addEventListener("submit", (e) => {
       e.preventDefault();
-
       const selectElem = document.getElementById("quick-service");
       const phoneInput = document.getElementById("quick-phone");
 
@@ -1023,7 +812,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const phoneVal = phoneInput.value;
         const serviceCode = selectElem.value;
 
-        let rate = 800; // default for loaders, workers, moving (all 800 now)
+        let rate = 800;
         const isNego = serviceCode === "rigging";
         if (isNego) rate = 0;
 
@@ -1046,7 +835,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // B. Main Booking Form
   const mainForm = document.getElementById("main-booking-form");
   const successConfirm = document.getElementById("success-confirm");
   const successBackBtn = document.getElementById("success-back-btn");
@@ -1054,13 +842,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (mainForm && successConfirm) {
     mainForm.addEventListener("submit", (e) => {
       e.preventDefault();
-
       const nameVal = document.getElementById("form-name").value.trim();
       const phoneVal = document.getElementById("form-phone").value.trim();
-      const serviceVal =
-        document.getElementById("form-service").options[
-          document.getElementById("form-service").selectedIndex
-        ].text;
+      const serviceVal = document.getElementById("form-service").options[document.getElementById("form-service").selectedIndex].text;
       const commentVal = document.getElementById("form-comment").value.trim();
 
       if (!nameVal || phoneVal.length < 10) {
@@ -1074,7 +858,7 @@ document.addEventListener("DOMContentLoaded", () => {
         service: serviceVal,
         comment: commentVal,
         source: "Main Form",
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       };
 
       console.log("Sending lead to backend (Stub):", leadData);
@@ -1092,11 +876,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // C. Modal Booking Form
   if (modalBookingForm && modalSuccessConfirm) {
     modalBookingForm.addEventListener("submit", (e) => {
       e.preventDefault();
-
       const nameVal = document.getElementById("modal-name").value.trim();
       const phoneVal = document.getElementById("modal-phone").value.trim();
       const serviceVal = modalServiceInput ? modalServiceInput.value : "";
@@ -1113,7 +895,7 @@ document.addEventListener("DOMContentLoaded", () => {
         service: serviceVal,
         details: detailsVal,
         source: "Modal Form",
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       };
 
       console.log("Sending lead to backend (Stub):", leadData);
@@ -1124,105 +906,175 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // D. REAL-TIME ACTIVE WORKERS FLUCTUATION
+  // 12. REAL-TIME ACTIVE WORKERS FLUCTUATION
   // ==========================================
   const activeWorkersElement = document.getElementById("active-workers-count");
   if (activeWorkersElement) {
     let currentCount = 128;
-
-    // Dynamically inject delta element next to count
     let deltaBadge = document.getElementById("active-workers-delta");
     if (!deltaBadge) {
       deltaBadge = document.createElement("span");
       deltaBadge.id = "active-workers-delta";
       deltaBadge.className = "workers-delta";
-      activeWorkersElement.parentNode.insertBefore(
-        deltaBadge,
-        activeWorkersElement.nextSibling,
-      );
+      activeWorkersElement.parentNode.insertBefore(deltaBadge, activeWorkersElement.nextSibling);
     }
 
-    setInterval(
-      () => {
-        // Create a small, natural fluctuation: -3 to +3 (excluding 0 to ensure movement)
-        let change = 0;
-        while (change === 0) {
-          change = Math.floor(Math.random() * 7) - 3;
-        }
-        currentCount = Math.max(118, Math.min(138, currentCount + change));
+    setInterval(() => {
+      let change = 0;
+      while (change === 0) {
+        change = Math.floor(Math.random() * 7) - 3;
+      }
+      currentCount = Math.max(118, Math.min(138, currentCount + change));
 
-        // Configure delta animation
-        deltaBadge.className = "workers-delta";
-        void deltaBadge.offsetWidth; // Trigger reflow to restart CSS animation
+      deltaBadge.className = "workers-delta";
+      void deltaBadge.offsetWidth;
 
-        if (change > 0) {
-          deltaBadge.textContent = `+${change}`;
-          deltaBadge.classList.add("delta-positive");
-        } else {
-          deltaBadge.textContent = `${change}`;
-          deltaBadge.classList.add("delta-negative");
-        }
+      if (change > 0) {
+        deltaBadge.textContent = `+${change}`;
+        deltaBadge.classList.add("delta-positive");
+      } else {
+        deltaBadge.textContent = `${change}`;
+        deltaBadge.classList.add("delta-negative");
+      }
 
-        // Pulse animation trigger
-        activeWorkersElement.classList.add("number-pulse");
+      activeWorkersElement.classList.add("number-pulse");
 
-        // Update text right after scale up
-        setTimeout(() => {
-          activeWorkersElement.textContent = currentCount;
-        }, 150);
+      setTimeout(() => {
+        activeWorkersElement.textContent = currentCount;
+      }, 150);
 
-        // Remove pulse class to return to normal
-        setTimeout(() => {
-          activeWorkersElement.classList.remove("number-pulse");
-        }, 450);
-      },
-      6000 + Math.random() * 4000,
-    ); // Trigger every 6-10 seconds
+      setTimeout(() => {
+        activeWorkersElement.classList.remove("number-pulse");
+      }, 450);
+    }, 6000 + Math.random() * 4000);
   }
 
   // ==========================================
-  // 12. AUTO-SELECT CALCULATOR TAB BASED ON PAGE
+  // 13. AUTO-SELECT CALCULATOR TAB BASED ON PAGE
   // ==========================================
   const activePage = document.body.getAttribute("data-page") || "index";
   if (calcTabs.length > 0) {
     let tabToClick = null;
     if (activePage === "loaders") {
-      tabToClick = Array.from(calcTabs).find(
-        (t) => t.getAttribute("data-name") === "Грузчики",
-      );
+      tabToClick = Array.from(calcTabs).find((t) => t.getAttribute("data-name") === "Грузчики");
     } else if (activePage === "workers") {
-      tabToClick = Array.from(calcTabs).find(
-        (t) => t.getAttribute("data-name") === "Разнорабочие",
-      );
+      tabToClick = Array.from(calcTabs).find((t) => t.getAttribute("data-name") === "Разнорабочие");
     } else if (activePage === "moving") {
-      tabToClick = Array.from(calcTabs).find(
-        (t) => t.getAttribute("data-name") === "Переезд",
-      );
+      tabToClick = Array.from(calcTabs).find((t) => t.getAttribute("data-name") === "Переезд");
     } else if (activePage === "rigging") {
-      tabToClick = Array.from(calcTabs).find(
-        (t) => t.getAttribute("data-name") === "Такелажники",
-      );
+      tabToClick = Array.from(calcTabs).find((t) => t.getAttribute("data-name") === "Такелажники");
     } else if (activePage === "furniture") {
-      tabToClick = Array.from(calcTabs).find(
-        (t) => t.getAttribute("data-name") === "Грузчики",
-      );
+      tabToClick = Array.from(calcTabs).find((t) => t.getAttribute("data-name") === "Грузчики");
     }
-
     if (tabToClick) {
       tabToClick.click();
     }
   }
 
   // ==========================================
-  // 13. DYNAMIC EXIT-INTENT RETENTION POPUP
+  // 14. HERO LIVE ACTIVITY COUNTERS (PERSISTENT)
+  // ==========================================
+  const COUNTER_STORAGE_KEY = "pg_counters_state";
+  const COUNTER_UPDATE_INTERVAL = 60000;
+
+  function getCounterState() {
+    try {
+      const saved = localStorage.getItem(COUNTER_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveCounterState(state) {
+    try {
+      localStorage.setItem(COUNTER_STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      console.warn("Cannot save counter state:", e);
+    }
+  }
+
+  function generateInitialCounters() {
+    return {
+      lastOrderMinutes: Math.floor(Math.random() * 60) + 1,
+      freeBrigades: Math.floor(Math.random() * 11) + 5,
+      todayOrders: Math.floor(Math.random() * 30) + 35,
+      lastUpdate: Date.now(),
+      lastReset: Date.now()
+    };
+  }
+
+  function updatePersistentCounters() {
+    try {
+      let state = getCounterState();
+
+      if (!state) {
+        state = generateInitialCounters();
+        saveCounterState(state);
+      }
+
+      const now = Date.now();
+      const elapsedMinutes = Math.min(Math.floor((now - state.lastUpdate) / 60000), 1440);
+
+      state.lastOrderMinutes += elapsedMinutes;
+
+      if (state.lastOrderMinutes > 120) {
+        state.lastOrderMinutes = Math.floor(Math.random() * 10) + 1;
+      }
+
+      const brigadeChange = Math.floor(Math.random() * 3) - 1;
+      state.freeBrigades = Math.max(5, Math.min(15, state.freeBrigades + brigadeChange));
+
+      const lastUpdateDate = new Date(state.lastUpdate);
+      const nowDate = new Date(now);
+
+      if (lastUpdateDate.toDateString() !== nowDate.toDateString()) {
+        state.todayOrders = Math.floor(Math.random() * 20) + 20;
+      } else if (elapsedMinutes > 0) {
+        const newOrders = Math.floor(Math.random() * 2) * elapsedMinutes;
+        state.todayOrders = Math.min(state.todayOrders + newOrders, 999);
+      }
+
+      state.lastUpdate = now;
+      saveCounterState(state);
+
+      const minutesText = `${state.lastOrderMinutes} ${getMinutesWord(state.lastOrderMinutes)} назад`;
+
+      const lastOrder = document.getElementById("last-order-time");
+      const freeBrigades = document.getElementById("free-brigades-count");
+      const todayOrders = document.getElementById("today-orders-count");
+
+      if (lastOrder) {
+        lastOrder.textContent = minutesText;
+        lastOrder.classList.add("updating");
+        setTimeout(() => lastOrder.classList.remove("updating"), 600);
+      }
+      if (freeBrigades) {
+        freeBrigades.textContent = state.freeBrigades;
+        freeBrigades.classList.add("updating");
+        setTimeout(() => freeBrigades.classList.remove("updating"), 600);
+      }
+      if (todayOrders) {
+        todayOrders.textContent = state.todayOrders;
+        todayOrders.classList.add("updating");
+        setTimeout(() => todayOrders.classList.remove("updating"), 600);
+      }
+    } catch (e) {
+      console.error("Counter update error:", e);
+    }
+  }
+
+  updatePersistentCounters();
+  setInterval(updatePersistentCounters, COUNTER_UPDATE_INTERVAL);
+
+  // ==========================================
+  // 15. EXIT INTENT POPUP
   // ==========================================
   function initExitIntentPopup() {
-    // Check if exit intent is already shown or closed
     if (localStorage.getItem("exit_popup_shown")) {
       return;
     }
 
-    // Inject popup HTML into body
     const popupHtml = `
       <div class="exit-modal-overlay" id="exit-intent-overlay">
         <div class="exit-modal-card premium-card">
@@ -1233,14 +1085,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <h2>Подождите, не уходите!</h2>
             <p class="exit-modal-promo">Получите гарантированную <span class="text-gradient">скидку 10%</span> на ваш первый заказ!</p>
             <p class="exit-modal-desc">Закрепите за своим номером скидку. Мы перезвоним, проконсультируем и зафиксируем спецтариф.</p>
-            
             <form id="exit-booking-form" class="exit-form">
               <div class="form-group-custom">
                 <input type="tel" id="exit-phone" placeholder="+7 (999) 000-00-00" required class="form-input-custom">
               </div>
               <button type="submit" class="btn btn-primary btn-block btn-lg" id="exit-submit-btn">Получить скидку 10%</button>
             </form>
-            
             <div class="success-screen" id="exit-success-confirm">
               <div class="success-icon-box">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="success-svg">
@@ -1263,7 +1113,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const exitPopupOverlay = tempDiv.firstChild;
     document.body.appendChild(exitPopupOverlay);
 
-    // Bind spotlight glow to exit card
     const exitCard = exitPopupOverlay.querySelector(".exit-modal-card");
     if (exitCard) {
       exitCard.addEventListener("mousemove", (e) => {
@@ -1317,7 +1166,7 @@ document.addEventListener("DOMContentLoaded", () => {
           phone: phoneVal,
           promo: "OFFER10",
           source: "Exit Intent Form",
-          timestamp: new Date().toISOString(),
+          timestamp: new Date().toISOString()
         };
 
         console.log("Sending exit lead to backend (Stub):", leadData);
@@ -1328,7 +1177,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Trigger on mouseleave
     document.addEventListener("mouseleave", (e) => {
       if (e.clientY < 50 && !localStorage.getItem("exit_popup_shown")) {
         exitPopupOverlay.classList.add("active");
@@ -1336,100 +1184,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Delay trigger initialization slightly for better feel
   setTimeout(initExitIntentPopup, 2000);
-  // ==========================================
-  // 14. LIVE ACTIVITY COUNTERS (sticky bar)
-  // ==========================================
-  function updateLiveActivity() {
-    const minutesAgo = Math.floor(Math.random() * 60) + 1;
-    const brigades = Math.floor(Math.random() * 11) + 5;
-    const orders = Math.floor(Math.random() * 30) + 35;
-
-    const minutesText = `${minutesAgo} ${getMinutesWord(minutesAgo)} назад`;
-
-    // Hero счётчики (если есть)
-    const lastOrderTime = document.getElementById("last-order-time");
-    const freeBrigades = document.getElementById("free-brigades-count");
-    const todayOrders = document.getElementById("today-orders-count");
-
-    if (lastOrderTime) lastOrderTime.textContent = minutesText;
-    if (freeBrigades) freeBrigades.textContent = brigades;
-    if (todayOrders) todayOrders.textContent = orders;
-
-    // 🔥 Sticky bar счётчики
-    const stickyLastOrder = document.getElementById("sticky-last-order");
-    const stickyBrigades = document.getElementById("sticky-brigades");
-    const stickyOrders = document.getElementById("sticky-orders");
-
-    if (stickyLastOrder) {
-      stickyLastOrder.textContent = minutesText;
-      stickyLastOrder.classList.add("updating");
-      setTimeout(() => stickyLastOrder.classList.remove("updating"), 600);
-    }
-    if (stickyBrigades) {
-      stickyBrigades.textContent = brigades;
-      stickyBrigades.classList.add("updating");
-      setTimeout(() => stickyBrigades.classList.remove("updating"), 600);
-    }
-    if (stickyOrders) {
-      stickyOrders.textContent = orders;
-      stickyOrders.classList.add("updating");
-      setTimeout(() => stickyOrders.classList.remove("updating"), 600);
-    }
-  }
-
-  // Запуск функции
-  updateLiveActivity();
-  setInterval(updateLiveActivity, 60000); // Обновление каждую минуту
-
-  // ==========================================
-  // 15. SHOW STICKY BAR ON LOAD
-  // ==========================================
-  setTimeout(() => {
-    const liveBar = document.getElementById("live-activity-bar");
-    if (liveBar) liveBar.classList.add("visible");
-  }, 800);
-  // ==========================================
-  // 14. HERO LIVE ACTIVITY COUNTERS
-  // ==========================================
-  function getMinutesWord(num) {
-    const lastDigit = num % 10;
-    const lastTwoDigits = num % 100;
-    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) return "минут";
-    if (lastDigit === 1) return "минуту";
-    if (lastDigit >= 2 && lastDigit <= 4) return "минуты";
-    return "минут";
-  }
-
-  function updateHeroCounters() {
-    const minutesAgo = Math.floor(Math.random() * 60) + 1;
-    const brigades = Math.floor(Math.random() * 11) + 5;
-    const orders = Math.floor(Math.random() * 30) + 35;
-    const minutesText = `${minutesAgo} ${getMinutesWord(minutesAgo)} назад`;
-
-    const lastOrder = document.getElementById("last-order-time");
-    const freeBrigades = document.getElementById("free-brigades-count");
-    const todayOrders = document.getElementById("today-orders-count");
-
-    if (lastOrder) {
-      lastOrder.textContent = minutesText;
-      lastOrder.classList.add("updating");
-      setTimeout(() => lastOrder.classList.remove("updating"), 600);
-    }
-    if (freeBrigades) {
-      freeBrigades.textContent = brigades;
-      freeBrigades.classList.add("updating");
-      setTimeout(() => freeBrigades.classList.remove("updating"), 600);
-    }
-    if (todayOrders) {
-      todayOrders.textContent = orders;
-      todayOrders.classList.add("updating");
-      setTimeout(() => todayOrders.classList.remove("updating"), 600);
-    }
-  }
-
-  // Запуск счетчиков
-  updateHeroCounters();
-  setInterval(updateHeroCounters, 60000); // Каждую минуту
 });

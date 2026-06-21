@@ -8,7 +8,6 @@
       такелажников 24/7
     </title>
 
-    <!-- SEO Meta Tags -->
     <meta
       name="description"
       content="Услуги профессиональных грузчиков, разнорабочих и такелажников в Краснодаре от 800 руб/час. Квартирные и офисные переезды, аутсорсинг персонала для компаний. Работаем 24/7."
@@ -20,7 +19,6 @@
     <meta name="author" content="Правильные Грузчики" />
     <link rel="icon" type="image/x-icon" href="assets/favicon.png" />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://pragruz.ru/" />
     <meta
@@ -33,7 +31,6 @@
     />
     <meta property="og:image" content="assets/loaders_promo.png" />
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -41,239 +38,8 @@
       rel="stylesheet"
     />
 
-    <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css" />
 
-    <!-- ==========================================
-         🔥 НОВЫЕ СТИЛИ: STICKY BAR + ОТЗЫВЫ
-    ========================================== -->
-    <style>
-      /* Сдвигаем всё вниз, чтобы sticky-bar не перекрывал header */
-      body { padding-top: 52px; }
-      .main-header { top: 52px; }
-
-      /* 🔥 STICKY LIVE ACTIVITY BAR */
-      .live-activity-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: linear-gradient(135deg, rgba(255, 115, 0, 0.97), rgba(255, 81, 0, 0.97));
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        padding: 12px 0;
-        z-index: 1001;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        box-shadow: 0 4px 20px rgba(255, 115, 0, 0.4);
-        transform: translateY(-100%);
-        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .live-activity-bar.visible { transform: translateY(0); }
-
-      .live-activity-inner {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 28px;
-        flex-wrap: wrap;
-      }
-
-      .live-stat {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: #fff;
-        font-size: 0.9rem;
-        font-weight: 600;
-      }
-
-      .live-dot {
-        width: 8px;
-        height: 8px;
-        background: #10b981;
-        border-radius: 50%;
-        animation: live-pulse 1.5s infinite;
-        box-shadow: 0 0 10px #10b981;
-      }
-      @keyframes live-pulse {
-        0%, 100% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.4); opacity: 0.6; }
-      }
-
-      .live-icon { font-size: 1.1rem; }
-      .live-label { opacity: 0.92; font-weight: 500; }
-
-      .live-value {
-        font-weight: 800;
-        color: #fff;
-        background: rgba(255, 255, 255, 0.18);
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        min-width: 70px;
-        text-align: center;
-        transition: all 0.3s;
-      }
-      .live-value.updating { animation: value-flash 0.6s ease; }
-      @keyframes value-flash {
-        0% { transform: scale(1); background: rgba(255, 255, 255, 0.18); }
-        50% { transform: scale(1.15); background: rgba(255, 255, 255, 0.4); }
-        100% { transform: scale(1); background: rgba(255, 255, 255, 0.18); }
-      }
-
-      .live-cta {
-        background: #fff;
-        color: #ff7300;
-        padding: 7px 18px;
-        border-radius: 20px;
-        font-weight: 700;
-        font-size: 0.85rem;
-        transition: all 0.3s;
-        text-decoration: none;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-      }
-      .live-cta:hover {
-        background: #ff7300;
-        color: #fff;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
-      }
-
-      /* ⭐ REVIEWS SECTION */
-      .reviews-section {
-        padding: 100px 0;
-        background: linear-gradient(135deg, #0d111b 0%, #1a2233 100%);
-        position: relative;
-        overflow: hidden;
-      }
-      .reviews-section::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -10%;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(255, 115, 0, 0.15), transparent 70%);
-        filter: blur(100px);
-        pointer-events: none;
-      }
-
-      .reviews-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 24px;
-        margin-bottom: 40px;
-        position: relative;
-        z-index: 2;
-      }
-
-      .review-card {
-        background: rgba(19, 25, 38, 0.65);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        padding: 28px;
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .review-card:hover {
-        transform: translateY(-5px);
-        border-color: rgba(255, 115, 0, 0.3);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-      }
-
-      .review-header {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 14px;
-      }
-
-      .review-avatar,
-      .review-avatar-placeholder {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        font-weight: 700;
-        color: white;
-        flex-shrink: 0;
-      }
-      .review-avatar { object-fit: cover; }
-      .review-avatar-placeholder {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      }
-
-      .review-info h4 {
-        font-size: 15px;
-        font-weight: 700;
-        color: #fff;
-        margin: 0 0 3px 0;
-        font-family: 'Montserrat', sans-serif;
-      }
-      .review-city {
-        font-size: 12px;
-        color: #94a3b8;
-      }
-
-      .review-stars {
-        color: #f59e0b;
-        font-size: 16px;
-        margin-bottom: 10px;
-        letter-spacing: 2px;
-      }
-
-      .review-text {
-        color: #cbd5e1;
-        font-size: 13px;
-        line-height: 1.6;
-        margin-bottom: 12px;
-        font-style: italic;
-      }
-
-      .review-date {
-        color: #64748b;
-        font-size: 11px;
-        font-weight: 500;
-      }
-
-      .reviews-footer {
-        text-align: center;
-        color: #94a3b8;
-        font-size: 16px;
-        position: relative;
-        z-index: 2;
-      }
-      .reviews-footer strong {
-        color: #ff7300;
-        font-size: 22px;
-      }
-
-      /* Responsive */
-      @media (max-width: 1200px) {
-        .reviews-grid { grid-template-columns: repeat(3, 1fr); }
-      }
-      @media (max-width: 900px) {
-        .reviews-grid { grid-template-columns: repeat(2, 1fr); }
-      }
-      @media (max-width: 600px) {
-        .reviews-grid { grid-template-columns: 1fr; }
-        .reviews-section { padding: 60px 0; }
-        body { padding-top: 44px; }
-        .main-header { top: 44px; }
-        .live-activity-bar { padding: 8px 0; }
-        .live-activity-inner { gap: 10px; }
-        .live-stat { font-size: 0.75rem; gap: 5px; }
-        .live-label { display: none; }
-        .live-value { padding: 3px 8px; font-size: 0.75rem; min-width: 50px; }
-        .live-cta { padding: 5px 12px; font-size: 0.75rem; }
-      }
-    </style>
-
-    <!-- Schema.org Microdata -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -356,14 +122,11 @@
     </script>
   </head>
   <body data-page="index">
-
-    <!-- Background Glow FX -->
     <div class="glow-bg">
       <div class="glow-orb orb-1"></div>
       <div class="glow-orb orb-2"></div>
     </div>
 
-    <!-- HEADER -->
     <header class="main-header" id="site-header">
       <div class="container header-container">
         <a href="#" class="logo-area" id="header-logo-link">
@@ -393,7 +156,6 @@
           </div>
         </a>
 
-        <!-- Desktop Navigation -->
         <nav class="desktop-nav" aria-label="Основная навигация">
           <ul>
             <li><a href="#about" class="nav-link">О нас</a></li>
@@ -406,9 +168,7 @@
           </ul>
         </nav>
 
-        <!-- Contact Info & CTA -->
         <div class="header-right">
-          <!-- City Geotargeting Selector -->
           <div class="city-selector-wrap">
             <button class="city-selector-btn" id="current-selected-city">
               <span class="city-icon-pin">📍</span>
@@ -418,7 +178,6 @@
               <span class="city-selector-arrow">▼</span>
             </button>
 
-            <!-- Dropdown List -->
             <div class="city-dropdown" id="city-dropdown-menu">
               <div class="city-dropdown-list">
                 <button type="button" class="city-item" data-city="krasnodar">
@@ -467,7 +226,6 @@
               </div>
             </div>
 
-            <!-- Confirmation Banner -->
             <div class="city-confirm-banner" id="city-confirm-banner">
               <p>
                 Ваш город — <strong id="detected-city-name">Краснодар</strong>?
@@ -504,7 +262,6 @@
             >Заказать звонок</a
           >
 
-          <!-- Burger Button for Mobile -->
           <button
             class="burger-menu-btn"
             id="burger-btn"
@@ -518,7 +275,6 @@
       </div>
     </header>
 
-    <!-- Mobile Navigation Overlay -->
     <div class="mobile-nav-overlay" id="mobile-menu-overlay">
       <div class="mobile-nav-content">
         <ul class="mobile-nav-links">
@@ -548,7 +304,6 @@
     </div>
 
     <main>
-      <!-- HERO SECTION -->
       <section class="hero-section" id="hero">
         <div class="container hero-container">
           <div class="hero-text-content">
@@ -557,14 +312,12 @@
             </div>
             <h1 class="hero-title">
               Профессиональный рабочий персонал
-              <span class="text-gradient"
-                ><span class="city-name" data-case="prep"
-                  >в Краснодаре</span
-                ></span
-              >
+              <span class="text-gradient">
+                <span class="city-name" data-case="prep">в Краснодаре</span>
+              </span>
             </h1>
             <p class="hero-subtitle">
-              Выезжаем по звонку. Берем на себя все кадровые
+              Выезжаем по звонку через 30 минут. Берем на себя все кадровые
               вопросы, риски и физическую работу. Нам доверяют крупные склады,
               производства и тысячи жителей.
             </p>
@@ -583,27 +336,33 @@
                 >Наши услуги</a
               >
             </div>
-<!-- Динамические счетчики активности (полоса на всю ширину) -->
-<div class="hero-live-bar">
-  <div class="hero-live-bar-inner">
-    <div class="hero-live-item">
-      <span class="hero-live-dot"></span>
-      <span class="hero-live-label">Последний заказ:</span>
-      <span class="hero-live-value" id="last-order-time">3 мин/назад</span>
-    </div>
-    <div class="hero-live-item">
-      <span class="hero-live-dot"></span>
-      <span class="hero-live-label">Свободных бригад:</span>
-      <span class="hero-live-value" id="free-brigades-count">8</span>
-    </div>
-    <div class="hero-live-item">
-      <span class="hero-live-dot"></span>
-      <span class="hero-live-label">Заказов сегодня:</span>
-      <span class="hero-live-value" id="today-orders-count">47</span>
-    </div>
-  </div>
-</div>
-            <!-- Hero Trust Badges -->
+
+            <div class="hero-live-bar">
+              <div class="hero-live-bar-inner">
+                <div class="hero-live-item">
+                  <span class="hero-live-dot"></span>
+                  <span class="hero-live-label">Последний заказ:</span>
+                  <span class="hero-live-value" id="last-order-time"
+                    >3 минуты назад</span
+                  >
+                </div>
+                <div class="hero-live-item">
+                  <span class="hero-live-dot"></span>
+                  <span class="hero-live-label">Свободных бригад:</span>
+                  <span class="hero-live-value" id="free-brigades-count"
+                    >8</span
+                  >
+                </div>
+                <div class="hero-live-item">
+                  <span class="hero-live-dot"></span>
+                  <span class="hero-live-label">Заказов сегодня:</span>
+                  <span class="hero-live-value" id="today-orders-count"
+                    >47</span
+                  >
+                </div>
+              </div>
+            </div>
+
             <div class="hero-features-grid">
               <div class="hero-feature-item">
                 <span class="feature-icon">⚡</span>
@@ -613,7 +372,7 @@
                 </div>
               </div>
               <div class="hero-feature-item">
-                <span class="feature-icon">💼</span>
+                <span class="feature-icon"></span>
                 <div>
                   <strong>Работа с юрлицами</strong>
                   <p>Индивидуальные тарифы</p>
@@ -629,15 +388,14 @@
             </div>
           </div>
 
-          <!-- Hero Card Graphic -->
           <div class="hero-visual">
             <div class="premium-card hero-glass-card">
               <div class="card-glow"></div>
               <div class="visual-header">
-                <span class="visual-status"
-                  ><span class="pulse-dot"></span> Сейчас на смене:
-                  <span id="active-workers-count">128</span> человек</span
-                >
+                <span class="visual-status">
+                  <span class="pulse-dot"></span> Сейчас на смене:
+                  <span id="active-workers-count">128</span> человек
+                </span>
                 <h3>Заказ грузчиков онлайн</h3>
               </div>
               <form class="hero-quick-form" id="hero-quick-form">
@@ -690,7 +448,6 @@
         </div>
       </section>
 
-      <!-- STATS SECTION -->
       <section class="stats-section" id="about">
         <div class="container">
           <div class="stats-grid">
@@ -699,7 +456,7 @@
               <p class="stat-label">лет успешной работы</p>
             </div>
             <div class="stat-card">
-              <div class="stat-num" data-target="9001">0</div>
+              <div class="stat-num" data-target="5000">0</div>
               <p class="stat-label">выполненных заказов</p>
             </div>
             <div class="stat-card">
@@ -714,7 +471,6 @@
         </div>
       </section>
 
-      <!-- WHY CHOOSE US -->
       <section class="advantages-section">
         <div class="container">
           <div class="section-header text-center">
@@ -786,7 +542,6 @@
         </div>
       </section>
 
-      <!-- INTERACTIVE CALCULATOR SECTION -->
       <section class="calculator-section" id="calculator">
         <div class="container calculator-container">
           <div class="calc-info">
@@ -911,7 +666,6 @@
         </div>
       </section>
 
-      <!-- SERVICES SECTION -->
       <section class="services-section" id="services">
         <div class="container">
           <div class="section-header text-center">
@@ -925,18 +679,18 @@
           </div>
 
           <div class="services-grid">
-            <!-- Card 1 -->
             <div class="premium-card service-card">
               <div class="service-image-box">
-                <a href="loaders.html"
-                  ><img
+                <a href="loaders.html">
+                  <img
                     src="assets/loaders_promo.png"
                     alt="Услуги грузчиков"
                     loading="lazy"
                     class="service-img"
-                /></a>
-                <span class="service-price-tag" data-service-type="loaders">от <span class="price-value">800</span> ₽/час</span>
-                  >от <span class="price-value">750</span> ₽/час</span
+                  />
+                </a>
+                <span class="service-price-tag" data-service-type="loaders"
+                  >от <span class="price-value">800</span> ₽/час</span
                 >
               </div>
               <div class="service-card-body">
@@ -957,18 +711,18 @@
               </div>
             </div>
 
-            <!-- Card 2 -->
             <div class="premium-card service-card">
               <div class="service-image-box">
-                <a href="workers.html"
-                  ><img
+                <a href="workers.html">
+                  <img
                     src="assets/warehouse_promo.png"
                     alt="Разнорабочие на склады"
                     loading="lazy"
                     class="service-img"
-                /></a>
-                <span class="service-price-tag" data-service-type="loaders">от <span class="price-value">800</span> ₽/час</span>
-                  >от <span class="price-value">750</span> ₽/час</span
+                  />
+                </a>
+                <span class="service-price-tag" data-service-type="workers"
+                  >от <span class="price-value">800</span> ₽/час</span
                 >
               </div>
               <div class="service-card-body">
@@ -989,18 +743,18 @@
               </div>
             </div>
 
-            <!-- Card 3 -->
             <div class="premium-card service-card">
               <div class="service-image-box">
-                <a href="moving.html"
-                  ><img
+                <a href="moving.html">
+                  <img
                     src="assets/moving_promo.png"
                     alt="Квартирные переезды"
                     loading="lazy"
                     class="service-img"
-                /></a>
-                <span class="service-price-tag" data-service-type="loaders">от <span class="price-value">800</span> ₽/час</span>
-                  >от <span class="price-value">750</span> ₽/час</span
+                  />
+                </a>
+                <span class="service-price-tag" data-service-type="moving"
+                  >от <span class="price-value">800</span> ₽/час</span
                 >
               </div>
               <div class="service-card-body">
@@ -1021,18 +775,18 @@
               </div>
             </div>
 
-            <!-- Card 4 -->
             <div class="premium-card service-card">
               <div class="service-image-box">
-                <a href="moving.html"
-                  ><img
+                <a href="moving.html">
+                  <img
                     src="assets/moving_promo.png"
                     alt="Офисный переезд"
                     loading="lazy"
                     class="service-img"
-                /></a>
-                <span class="service-price-tag" data-service-type="loaders">от <span class="price-value">800</span> ₽/час</span>
-                  >от <span class="price-value">750</span> ₽/час</span
+                  />
+                </a>
+                <span class="service-price-tag" data-service-type="moving"
+                  >от <span class="price-value">800</span> ₽/час</span
                 >
               </div>
               <div class="service-card-body">
@@ -1053,16 +807,16 @@
               </div>
             </div>
 
-            <!-- Card 5 -->
             <div class="premium-card service-card">
               <div class="service-image-box">
-                <a href="rigging.html"
-                  ><img
+                <a href="rigging.html">
+                  <img
                     src="assets/rigging_promo.png"
                     alt="Такелажные работы"
                     loading="lazy"
                     class="service-img"
-                /></a>
+                  />
+                </a>
                 <span class="service-price-tag" data-base-price="0"
                   >Договорная</span
                 >
@@ -1085,16 +839,16 @@
               </div>
             </div>
 
-            <!-- Card 6 -->
             <div class="premium-card service-card">
               <div class="service-image-box">
-                <a href="furniture.html"
-                  ><img
+                <a href="furniture.html">
+                  <img
                     src="assets/furniture_promo.png"
                     alt="Сборка мебели"
                     loading="lazy"
                     class="service-img"
-                /></a>
+                  />
+                </a>
                 <span class="service-price-tag" data-base-price="0"
                   >Договорная</span
                 >
@@ -1120,7 +874,6 @@
         </div>
       </section>
 
-      <!-- ⭐ НОВАЯ СЕКЦИЯ: ОТЗЫВЫ КЛИЕНТОВ -->
       <section class="reviews-section" id="reviews">
         <div class="container">
           <div class="section-header text-center">
@@ -1130,9 +883,7 @@
               Отзывы обновляются каждый день — завтра вы увидите новые истории
             </p>
           </div>
-          <div class="reviews-grid" id="reviews-container">
-            <!-- Отзывы будут добавлены через JavaScript -->
-          </div>
+          <div class="reviews-grid" id="reviews-container"></div>
           <div class="reviews-footer">
             <p>
               Более <strong>2 847</strong> довольных клиентов по всей России
@@ -1141,7 +892,6 @@
         </div>
       </section>
 
-      <!-- OUTSOURCING & CORPORATE SERVICES -->
       <section class="outsourcing-section">
         <div class="container outsourcing-container">
           <div class="outsourcing-visual">
@@ -1216,7 +966,6 @@
         </div>
       </section>
 
-      <!-- FLEET SECTION -->
       <section class="fleet-section" id="fleet">
         <div class="container">
           <div class="section-header text-center">
@@ -1230,7 +979,6 @@
           </div>
 
           <div class="fleet-grid">
-            <!-- Truck 1 -->
             <div class="premium-card fleet-card">
               <div class="fleet-img-box">
                 <img
@@ -1251,7 +999,9 @@
                   </li>
                 </ul>
                 <div class="fleet-price-box">
-                  <span class="fleet-price" data-truck-type="truckStd">от 2000 ₽/час</span>
+                  <span class="fleet-price" data-truck-type="truckStd"
+                    >от 2000 ₽/час</span
+                  >
                   <button
                     class="btn btn-secondary btn-sm fleet-order-btn"
                     data-truck="Газель Стандарт 3м"
@@ -1262,7 +1012,6 @@
               </div>
             </div>
 
-            <!-- Truck 2 -->
             <div class="premium-card fleet-card">
               <div class="fleet-img-box">
                 <img
@@ -1283,7 +1032,9 @@
                   </li>
                 </ul>
                 <div class="fleet-price-box">
-                  <span class="fleet-price" data-truck-type="truckExt">от 2500 ₽/час</span>
+                  <span class="fleet-price" data-truck-type="truckExt"
+                    >от 2500 ₽/час</span
+                  >
                   <button
                     class="btn btn-secondary btn-sm fleet-order-btn"
                     data-truck="Газель Удлиненная 4.2м"
@@ -1297,7 +1048,6 @@
         </div>
       </section>
 
-      <!-- TRUSTED BY (MARQUEE SLIDER) -->
       <section class="partners-section">
         <div class="container">
           <h4 class="partners-title">
@@ -1312,11 +1062,9 @@
               <span class="partner-logo">🧱 Кнауф Гипс Краснодар</span>
               <span class="partner-logo">🏭 Южная Индустриальная Компания</span>
               <span class="partner-logo">📦 Велес-Трейд</span>
-
-              <!-- Duplicated for Infinite Loop -->
               <span class="partner-logo">🏗️ СпецСтройКубань</span>
               <span class="partner-logo">📦 Склад-Логистика</span>
-              <span class="partner-logo">🏬 ТРЦ «Красная Площадь»</span>
+              <span class="partner-logo"> ТРЦ «Красная Площадь»</span>
               <span class="partner-logo">🧱 Кнауф Гипс Краснодар</span>
               <span class="partner-logo">🏭 Южная Индустриальная Компания</span>
               <span class="partner-logo">📦 Велес-Трейд</span>
@@ -1325,7 +1073,6 @@
         </div>
       </section>
 
-      <!-- ORDER FORM SECTION -->
       <section class="order-section" id="order-form-section">
         <div class="container order-container">
           <div class="order-form-wrap">
@@ -1339,7 +1086,6 @@
                 </p>
               </div>
 
-              <!-- THE MAIN BOOKING FORM -->
               <form id="main-booking-form" class="main-form">
                 <div class="form-row">
                   <div class="form-group-custom">
@@ -1401,7 +1147,6 @@
                   ></textarea>
                 </div>
 
-                <!-- Form Submit -->
                 <button
                   type="submit"
                   class="btn btn-primary btn-block btn-lg"
@@ -1415,7 +1160,6 @@
                 </p>
               </form>
 
-              <!-- Success Confirmation Screen -->
               <div class="success-screen" id="success-confirm">
                 <div class="success-icon-box">
                   <svg
@@ -1487,7 +1231,7 @@
                 </div>
               </div>
               <div class="contact-item">
-                <span class="contact-icon">🧾</span>
+                <span class="contact-icon"></span>
                 <div>
                   <strong>Бухгалтерия и документы:</strong>
                   <p>Работа с юрлицами с 10:00 до 18:00 (Пн-Пт)</p>
@@ -1498,7 +1242,6 @@
         </div>
       </section>
 
-      <!-- FAQ SECTION (ACCORDION) -->
       <section class="faq-section" id="faq">
         <div class="container faq-container">
           <div class="section-header text-center">
@@ -1511,7 +1254,6 @@
           </div>
 
           <div class="faq-accordion-box">
-            <!-- FAQ 1 -->
             <div class="faq-item">
               <button class="faq-trigger" aria-expanded="false">
                 <span>Есть ли скрытые наценки за этаж или тяжелые вещи?</span>
@@ -1530,7 +1272,6 @@
               </div>
             </div>
 
-            <!-- FAQ 2 -->
             <div class="faq-item">
               <button class="faq-trigger" aria-expanded="false">
                 <span>Каков минимальный объем заказа по времени?</span>
@@ -1548,7 +1289,6 @@
               </div>
             </div>
 
-            <!-- FAQ 3 -->
             <div class="faq-item">
               <button class="faq-trigger" aria-expanded="false">
                 <span>Как быстро бригада приедет на объект?</span>
@@ -1569,7 +1309,6 @@
               </div>
             </div>
 
-            <!-- FAQ 4 -->
             <div class="faq-item">
               <button class="faq-trigger" aria-expanded="false">
                 <span
@@ -1589,7 +1328,6 @@
               </div>
             </div>
 
-            <!-- FAQ 5 -->
             <div class="faq-item">
               <button class="faq-trigger" aria-expanded="false">
                 <span
@@ -1615,7 +1353,6 @@
       </section>
     </main>
 
-    <!-- FOOTER -->
     <footer class="site-footer">
       <div class="container footer-grid">
         <div class="footer-col brand-col">
@@ -1687,7 +1424,7 @@
               <a href="tel:+79283333281">+7 (928) 333-32-81</a>
             </li>
             <li>
-              <span class="f-contact-icon">📍</span>
+              <span class="f-contact-icon"></span>
               <span class="city-address"
                 >г. Краснодар, ул. Кропоткина д.50, оф. 339</span
               >
@@ -1702,7 +1439,6 @@
       </div>
     </footer>
 
-    <!-- Modal Booking Window -->
     <div class="modal-overlay" id="order-modal">
       <div class="modal-box">
         <button
@@ -1792,272 +1528,6 @@
       </div>
     </div>
 
-    <!-- ==========================================
-         🔥 НОВЫЙ JAVASCRIPT: СЧЁТЧИКИ + ОТЗЫВЫ
-    ========================================== -->
-    <script>
-(function() {
-  'use strict';
-  
-  // ==========================================
-  // PERSISTENT COUNTERS & REVIEWS SYSTEM
-  // ==========================================
-  
-  function getMinutesWordLocal(num) {
-    const lastDigit = num % 10;
-    const lastTwoDigits = num % 100;
-    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) return "минут";
-    if (lastDigit === 1) return "минуту";
-    if (lastDigit >= 2 && lastDigit <= 4) return "минуты";
-    return "минут";
-  }
-
-  // ==========================================
-  // 1. PERSISTENT LIVE COUNTERS
-  // ==========================================
-  const COUNTER_STORAGE_KEY = 'pg_counters_state';
-  const COUNTER_UPDATE_INTERVAL = 60000;
-
-  function getCounterState() {
-    try {
-      const saved = localStorage.getItem(COUNTER_STORAGE_KEY);
-      return saved ? JSON.parse(saved) : null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  function saveCounterState(state) {
-    try {
-      localStorage.setItem(COUNTER_STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {
-      console.warn('Cannot save counter state:', e);
-    }
-  }
-
-  function generateInitialCounters() {
-    return {
-      lastOrderMinutes: Math.floor(Math.random() * 60) + 1,
-      freeBrigades: Math.floor(Math.random() * 11) + 5,
-      todayOrders: Math.floor(Math.random() * 30) + 35,
-      lastUpdate: Date.now(),
-      lastReset: Date.now()
-    };
-  }
-
-  function updatePersistentCounters() {
-    try {
-      let state = getCounterState();
-      
-      if (!state) {
-        state = generateInitialCounters();
-        saveCounterState(state);
-      }
-      
-      const now = Date.now();
-      const elapsedMinutes = Math.min(Math.floor((now - state.lastUpdate) / 60000), 1440); // Max 24 hours
-      
-      state.lastOrderMinutes += elapsedMinutes;
-      
-      // Limit "last order" to max 120 minutes
-      if (state.lastOrderMinutes > 120) {
-        state.lastOrderMinutes = Math.floor(Math.random() * 10) + 1;
-      }
-      
-      const brigadeChange = Math.floor(Math.random() * 3) - 1; // -1, 0, or +1
-      state.freeBrigades = Math.max(5, Math.min(15, state.freeBrigades + brigadeChange));
-      
-      const lastUpdateDate = new Date(state.lastUpdate);
-      const nowDate = new Date(now);
-      
-      if (lastUpdateDate.toDateString() !== nowDate.toDateString()) {
-        state.todayOrders = Math.floor(Math.random() * 20) + 20;
-      } else if (elapsedMinutes > 0) {
-        const newOrders = Math.floor(Math.random() * 2) * elapsedMinutes;
-        state.todayOrders = Math.min(state.todayOrders + newOrders, 999);
-      }
-      
-      state.lastUpdate = now;
-      saveCounterState(state);
-      
-      const minutesText = `${state.lastOrderMinutes} ${getMinutesWordLocal(state.lastOrderMinutes)} назад`;
-      
-      const lastOrder = document.getElementById("last-order-time");
-      const freeBrigades = document.getElementById("free-brigades-count");
-      const todayOrders = document.getElementById("today-orders-count");
-      
-      if (lastOrder) {
-        lastOrder.textContent = minutesText;
-        lastOrder.classList.add("updating");
-        setTimeout(() => lastOrder.classList.remove("updating"), 600);
-      }
-      if (freeBrigades) {
-        freeBrigades.textContent = state.freeBrigades;
-        freeBrigades.classList.add("updating");
-        setTimeout(() => freeBrigades.classList.remove("updating"), 600);
-      }
-      if (todayOrders) {
-        todayOrders.textContent = state.todayOrders;
-        todayOrders.classList.add("updating");
-        setTimeout(() => todayOrders.classList.remove("updating"), 600);
-      }
-    } catch (e) {
-      console.error('Counter update error:', e);
-    }
-  }
-
-  // Initial update
-  updatePersistentCounters();
-  setInterval(updatePersistentCounters, COUNTER_UPDATE_INTERVAL);
-
-  // ==========================================
-  // 2. PERSISTENT REVIEWS (24-hour rotation)
-  // ==========================================
-  const REVIEWS_STORAGE_KEY = 'pg_reviews_state';
-  const REVIEWS_ROTATION_HOURS = 24;
-
-  const ALL_REVIEWS = [
-    { name: "Алексей К.", city: "Краснодар", text: "Заказывал на разгрузку фуры со стройматериалами — 4 парня приехали за 25 минут, отработали 6 часов без перекуров. Виталий (диспетчер) реально держит слово, перезвонил через 3 минуты после заявки. Цена вышла даже дешевле, чем считал в калькуляторе. Буду брать ещё на следующий объект.", rating: 5, date: "18 июня 2026" },
-    { name: "Марина", city: "Москва", text: "Переезжали с мужем из трешки на Северном в Бутово. Боялась за антикварный комод бабушки — ребята завернули его в 3 слоя пленки, поставили в угол кузова и зафиксировали ремнями. Комод доехал целым! Единственное — опоздали на 15 минут, но предупредили заранее.", rating: 4, date: "16 июня 2026" },
-    { name: "Дмитрий Соколов-Волков", city: "Санкт-Петербург", text: "Перевозили банкомат из одного ТЦ в другой. Думал, придётся искать спецтехнику, но ребята приехали с талью, катками и профессиональными ремнями. 400 кг переместили за час. Цена — 18 тысяч, для Питера нормально.", rating: 5, date: "14 июня 2026" },
-    { name: "Леночка", city: "Новосибирск", text: "Брала 3 разнорабочих на уборку после ремонта. Приехали трезвые (что редкость!), работали 5 часов. Убрали весь мусор, помыли окна, вынесли старую мебель. За 12 000 рублей — вообще подарок. Сохранила номер, буду рекомендовать соседям.", rating: 5, date: "12 июня 2026" },
-    { name: "Андрей В.", city: "Екатеринбург", text: "Офисный переезд на 25 рабочих мест. Сделали всё в субботу, в понедельник уже работали на новом месте. Отдельное спасибо за маркировку коробок — каждая подписана, ничего не потерялось. Из минусов — один грузчик был грубоват, но в целом всё ок.", rating: 4, date: "10 июня 2026" },
-    { name: "Ольга Новикова-Ким", city: "Казань", text: "Заказывала сборку кухни из Леруа Мерлен. Мастер Сергей приехал со своим шуруповертом, собрал за 5 часов. Даже врезал мойку и подключил смеситель! Правда, пришлось доплатить 2000 за врезку — это не было озвучено сразу. Но результат отличный.", rating: 4, date: "8 июня 2026" },
-    { name: "Игорь М.", city: "Нижний Новгород", text: "Собирали стеллажи на склад — 12 штук паллетных. Два мастера управлись за день. Работают быстро, без разговоров. Единственное — не убрали за собой упаковку от стеллажей, пришлось самим выносить. А так — рекомендую.", rating: 4, date: "6 июня 2026" },
-    { name: "Татьяна Белова", city: "Челябинск", text: "Переезжали всей семьёй с ребёнком 3 лет. Ребята были очень аккуратны с детскими вещами — игрушки упаковали отдельно, коляску разобрали и собрали на месте. Жена довольна, я доволен. Цена — 28 000 за всё, включая Газель.", rating: 5, date: "4 июня 2026" },
-    { name: "Серёга", city: "Самара", text: "Разгружал 20 тонн плитки со стройки. 4 человека за 3 часа — нереально быстро! Правда, один парень накосячил — разбил 2 коробки плитки. Но компания заменила бесплатно, без скандалов. Респект за честность.", rating: 4, date: "2 июня 2026" },
-    { name: "Наталья Орлова", city: "Ростов-на-Дону", text: "Подруга посоветовала — не пожалела! Переезд из однушки на 5 этаж без лифта. 3 грузчика, 2 часа работы. Всё донесли, ничего не поцарапали. Цена — 9600, как в калькуляторе. Буду обращаться ещё, когда мама будет переезжать.", rating: 5, date: "31 мая 2026" },
-    { name: "Виктор Громов", city: "Уфа", text: "Такелаж промышленного станка 800 кг. Ребята профессионалы — использовали лебёдки, катки, специальные ремни. Станок переместили на 50 метров без единой царапины. Цена договорная, вышло 35 тысяч. Для Уфы нормально.", rating: 5, date: "29 мая 2026" },
-    { name: "Анна С.", city: "Воронеж", text: "Заказывала грузчиков на склад — фасовка товара. 5 человек работали неделю. Все вежливые, трезвые, без опозданий. Виталий (диспетчер) всегда на связи, решает вопросы мгновенно. Для бизнеса — идеальный вариант.", rating: 5, date: "27 мая 2026" },
-    { name: "Павел Козлов", city: "Волгоград", text: "Переезд офиса в выходные — чтобы не останавливать работу. 15 человек, 2 Газели, 8 часов работы. Всё упаковали, перевезли, расставили по местам. В понедельник пришли — всё на своих местах. Цена — 120 000, но оно того стоило.", rating: 5, date: "25 мая 2026" },
-    { name: "Катя Ф.", city: "Краснодар", text: "Разгружали контейнер со стройматериалами. Приехали вовремя, работали слаженно. Единственное — один грузчик курил прямо на складе, пришлось сделать замечание. В остальном — всё отлично, цена адекватная.", rating: 4, date: "23 мая 2026" },
-    { name: "Михаил Попов", city: "Москва", text: "Брал разнорабочих на склад Wildberries — 10 человек на месяц. Ребята трудолюбивые, выполняют все указания. Текучка минимальная — за месяц только 2 человека заменили. Для аутсорсинга — топ вариант.", rating: 5, date: "21 мая 2026" },
-    { name: "Юлия Васильева", city: "Санкт-Петербург", text: "Переезжала из однушки в студию. Думала, справлюсь сама, но поняла, что без грузчиков никуда. 2 парня за 2 часа всё перевезли. Особенно порадовало, что сами предложили упаковать хрупкие вещи — я даже не просила.", rating: 5, date: "19 мая 2026" },
-    { name: "Лёха Зайцев", city: "Новосибирск", text: "Собирал стеллажи на склад — 8 штук. Мастер приехал вовремя, собрал за 4 часа. Работает аккуратно, без лишней суеты. Цена — 16 000, для Новосиба нормально. Рекомендую!", rating: 5, date: "17 мая 2026" },
-    { name: "Ирина Павлова", city: "Екатеринбург", text: "Заказывала грузчиков для переезда. Приехали вовремя, работали быстро. Единственное — один парень был немного грубоват, но в целом всё ок. Цена — 11 200 за 2 часа работы двоих грузчиков.", rating: 4, date: "15 мая 2026" },
-    { name: "Роман С.", city: "Казань", text: "Такелаж банкомата из банка в новый офис. 300 кг, 2 этажа, лифт маленький. Ребята справились на ура — использовали специальные катки и ремни. Цена — 22 тысячи. Для Казани — нормально.", rating: 5, date: "13 мая 2026" },
-    { name: "Светлана Голубева", city: "Нижний Новгород", text: "Переезд из двушки в трешку. 3 грузчика, 3 часа работы. Всё сделали быстро, аккуратно. Особенно понравилась упаковка посуды — каждая тарелка в пленке, ничего не разбилось. Цена — 14 400.", rating: 5, date: "11 мая 2026" },
-    { name: "Колян", city: "Челябинск", text: "Разгружал фуру со стройматериалами — 25 тонн. 5 человек за 4 часа. Работают как машина — без перекуров, без разговоров. Цена — 20 000. Для Челябинска — отлично. Буду брать ещё.", rating: 5, date: "9 мая 2026" },
-    { name: "Валентина Богданова", city: "Самара", text: "Заказывала разнорабочих на уборку после ремонта. 3 человека, 6 часов работы. Убрали всё — мусор, пыль, помыли окна. Цена — 14 400. Немного дороговато, но качество отличное.", rating: 4, date: "7 мая 2026" },
-    { name: "Артём Воробьёв", city: "Ростов-на-Дону", text: "Брал разнорабочих на стройку — 4 человека на неделю. Ребята трудолюбивые, выполняют все указания. Один раз опоздали на 20 минут, но предупредили заранее. В целом — доволен, буду обращаться ещё.", rating: 4, date: "5 мая 2026" },
-    { name: "Людмила Ф.", city: "Уфа", text: "Переезжали всей семьёй — 2 взрослых, 2 ребёнка, собака. Ребята были очень аккуратны с вещами, помогли с упаковкой. Собаку вообще не беспокоили — работали тихо. Цена — 32 000 за всё.", rating: 5, date: "3 мая 2026" },
-    { name: "Денис Михайлов", city: "Воронеж", text: "Офисный переезд на 40 рабочих мест. Сделали всё за выходные — в понедельник уже работали. Отдельное спасибо за маркировку — каждая коробка подписана, ничего не потерялось. Цена — 180 000.", rating: 5, date: "1 мая 2026" },
-    { name: "Галя Новикова", city: "Волгоград", text: "Заказывала сборку мебели из IKEA — шкаф-купе и комод. Мастер приехал вовремя, собрал за 3 часа. Работает аккуратно, без лишней суеты. Цена — 8 000. Для Волгограда — нормально.", rating: 5, date: "29 апреля 2026" },
-    { name: "Владимир Соколов", city: "Краснодар", text: "Заказывал грузчиков на склад — разгрузка фуры. Приехали вовремя, работали быстро. Единственное — один парень курил на территории, пришлось сделать замечание. В остальном — всё отлично.", rating: 4, date: "27 апреля 2026" },
-    { name: "Оксана К.", city: "Москва", text: "Переезд из трешки в частный дом. 4 грузчика, 5 часов работы. Всё сделали быстро, аккуратно. Особенно понравилась упаковка хрупких вещей — ничего не разбилось. Цена — 40 000.", rating: 5, date: "25 апреля 2026" },
-    { name: "Костя Лебедев", city: "Санкт-Петербург", text: "Такелаж сейфа 500 кг из офиса на 3 этаже. Ребята профессионалы — использовали таль, катки, специальные ремни. Сейф переместили без единой царапины. Цена — 28 тысяч. Для Питера — нормально.", rating: 5, date: "23 апреля 2026" },
-    { name: "Марина Орлова", city: "Новосибирск", text: "Заказывала разнорабочих на склад — фасовка товара. 6 человек работали 2 недели. Все вежливые, трезвые, без опозданий. Для бизнеса — идеальный вариант. Цена — 96 000 за 2 недели.", rating: 5, date: "21 апреля 2026" },
-    { name: "Женя Морозов", city: "Екатеринбург", text: "Офисный переезд на 20 рабочих мест. Сделали всё в субботу — в понедельник уже работали. Единственное — один грузчик поцарапал стол, но компания компенсировала ущерб. В целом — доволен.", rating: 4, date: "19 апреля 2026" },
-    { name: "Тамара Белова", city: "Казань", text: "Разгружали контейнер со стройматериалами. 4 человека за 3 часа. Работают быстро, без перекуров. Цена — 14 400. Для Казани — отлично. Буду обращаться ещё.", rating: 5, date: "17 апреля 2026" },
-    { name: "Саша Волков", city: "Нижний Новгород", text: "Брал разнорабочих на склад Ozon — 8 человек на месяц. Ребята трудолюбивые, выполняют все указания. Текучка минимальная — за месяц только 1 человек заменили. Для аутсорсинга — топ.", rating: 5, date: "15 апреля 2026" },
-    { name: "Вера Громова", city: "Челябинск", text: "Переезжала из двушки в однушку. 2 грузчика, 2 часа работы. Всё сделали быстро, аккуратно. Особенно порадовала упаковка хрупких вещей — ничего не разбилось. Цена — 9 600.", rating: 5, date: "13 апреля 2026" },
-    { name: "Стас Смирнов", city: "Самара", text: "Собирал стеллажи на склад — 10 штук. 2 мастера управлись за день. Работают быстро, без разговоров. Единственное — не убрали за собой упаковку. А так — рекомендую. Цена — 20 000.", rating: 4, date: "11 апреля 2026" },
-    { name: "Лариса Попова", city: "Ростов-на-Дону", text: "Заказывала грузчиков для переезда. Приехали вовремя, работали быстро. Цена — 12 800 за 2 часа работы двоих грузчиков. Немного дороговато, но качество отличное. Буду обращаться ещё.", rating: 4, date: "9 апреля 2026" },
-    { name: "Борис Васильев", city: "Уфа", text: "Такелаж оборудования из цеха в новый офис. 600 кг, 2 этажа. Ребята справились на ура — использовали лебёдки и катки. Цена — 32 тысячи. Для Уфы — нормально. Рекомендую!", rating: 5, date: "7 апреля 2026" },
-    { name: "Зина Зайцева", city: "Воронеж", text: "Переезд из трешки в частный дом. 4 грузчика, 4 часа работы. Всё сделали быстро, аккуратно. Особенно понравилась упаковка посуды — ничего не разбилось. Цена — 32 000.", rating: 5, date: "5 апреля 2026" },
-    { name: "Гена Павлов", city: "Волгоград", text: "Разгружал фуру со стройматериалами — 30 тонн. 6 человек за 5 часов. Работают как машина — без перекуров, без разговоров. Цена — 24 000. Для Волгограда — отлично.", rating: 5, date: "3 апреля 2026" },
-    { name: "Раиса С.", city: "Краснодар", text: "Заказывала разнорабочих на уборку после ремонта. 2 человека, 4 часа работы. Убрали всё — мусор, пыль, помыли окна. Цена — 6 400. Немного дороговато, но качество отличное.", rating: 4, date: "1 апреля 2026" }
-  ];
-
-  function getReviewState() {
-    try {
-      const saved = localStorage.getItem(REVIEWS_STORAGE_KEY);
-      return saved ? JSON.parse(saved) : null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  function saveReviewState(state) {
-    try {
-      localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {
-      console.warn('Cannot save review state:', e);
-    }
-  }
-
-  function shuffleArray(array, seed) {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = (seed * (i + 1) * 9301 + 49297) % 233280;
-      const randomIndex = Math.floor((j / 233280) * (i + 1));
-      [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
-    }
-    return shuffled;
-  }
-
-  function getPersistentDailyReviews() {
-    let state = getReviewState();
-    const now = Date.now();
-    const rotationMs = REVIEWS_ROTATION_HOURS * 60 * 60 * 1000;
-    
-    if (!state || (now - state.lastRotation) > rotationMs) {
-      const today = new Date();
-      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-      const seed = dayOfYear * 7 + 13;
-      
-      const shuffled = shuffleArray(ALL_REVIEWS, seed);
-      const selectedReviews = shuffled.slice(0, 4);
-      
-      state = {
-        reviews: selectedReviews,
-        lastRotation: now
-      };
-      saveReviewState(state);
-    }
-    
-    return state.reviews;
-  }
-
-  function renderPersistentReviews() {
-    const container = document.getElementById("reviews-container");
-    if (!container) return;
-    
-    const dailyReviews = getPersistentDailyReviews();
-    container.innerHTML = "";
-    
-    const gradients = [
-      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-      "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-      "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-      "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
-      "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
-      "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
-      "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
-      "linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)"
-    ];
-    
-    dailyReviews.forEach((review, idx) => {
-      const reviewCard = document.createElement("div");
-      reviewCard.className = "review-card";
-      
-      const stars = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
-      const initials = review.name.split(" ").map(n => n[0]).join("");
-      const gradientIndex = review.name.charCodeAt(0) % gradients.length;
-      
-      reviewCard.innerHTML = `
-        <div class="review-header">
-          <div class="review-avatar-placeholder" style="background: ${gradients[gradientIndex]}">${initials}</div>
-          <div class="review-info">
-            <h4>${review.name}</h4>
-            <div class="review-city">📍 ${review.city}</div>
-          </div>
-        </div>
-        <div class="review-stars">${stars}</div>
-        <div class="review-text">"${review.text}"</div>
-        <div class="review-date">📅 ${review.date}</div>
-      `;
-      
-      container.appendChild(reviewCard);
-    });
-  }
-
-  // Initialize reviews
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', renderPersistentReviews);
-  } else {
-    renderPersistentReviews();
-  }
-})();
-</script>
+    <script src="main.js"></script>
+  </body>
 </html>
