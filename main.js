@@ -800,13 +800,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 11. FORM SUBMISSIONS
   // ==========================================
+  const WHATSAPP_NUMBER = "79283333281"; // без + и символов
+  const TELEGRAM_USERNAME = "flashpointmusik"; // без @
   const CONTACT_EMAIL = "info@pragruz.ru";
 
-  function sendLeadByEmail(leadData) {
-    const subject = encodeURIComponent(
-      `[Pragruz] ${leadData.source || "Заявка"}${leadData.service ? ` — ${leadData.service}` : ""}`
-    );
-    const bodyLines = [
+  function buildLeadText(leadData) {
+    const lines = [
       leadData.name ? `Имя: ${leadData.name}` : null,
       leadData.phone ? `Телефон: ${leadData.phone}` : null,
       leadData.service ? `Услуга: ${leadData.service}` : null,
@@ -816,9 +815,42 @@ document.addEventListener("DOMContentLoaded", () => {
       `Источник: ${leadData.source || "Не указано"}`,
       `Время: ${new Date(leadData.timestamp || Date.now()).toLocaleString("ru-RU")}`
     ].filter(Boolean);
+    return encodeURIComponent(lines.join("\n"));
+  }
 
-    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
-    window.location.href = mailtoUrl;
+  function openUrlInNewTab(url) {
+    const newWindow = window.open(url, "_blank", "noopener");
+    if (!newWindow) {
+      console.warn("Popup blocked for URL:", url);
+    }
+    return newWindow;
+  }
+
+  function sendLeadToWhatsApp(leadData) {
+    const text = buildLeadText(leadData);
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+    openUrlInNewTab(url);
+  }
+
+  function sendLeadToTelegram(leadData) {
+    const text = buildLeadText(leadData);
+    const url = `https://t.me/${TELEGRAM_USERNAME}?text=${text}`;
+    openUrlInNewTab(url);
+  }
+
+  function sendLeadToEmail(leadData) {
+    const subject = encodeURIComponent(
+      `[Pragruz] ${leadData.source || "Заявка"}${leadData.service ? ` — ${leadData.service}` : ""}`
+    );
+    const body = buildLeadText(leadData);
+    const url = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    openUrlInNewTab(url);
+  }
+
+  function sendLeadToAllChannels(leadData) {
+    sendLeadToWhatsApp(leadData);
+    sendLeadToTelegram(leadData);
+    sendLeadToEmail(leadData);
   }
 
   const heroForm = document.getElementById("hero-quick-form");
@@ -883,7 +915,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       console.log("Sending lead to backend (Stub):", leadData);
-      sendLeadByEmail(leadData);
+      sendLeadToAllChannels(leadData);
 
       mainForm.style.display = "none";
       successConfirm.classList.add("active");
@@ -921,7 +953,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       console.log("Sending lead to backend (Stub):", leadData);
-      sendLeadByEmail(leadData);
+      sendLeadToAllChannels(leadData);
 
       modalBookingForm.style.display = "none";
       modalSuccessConfirm.classList.add("active");
@@ -1193,7 +1225,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         console.log("Sending exit lead to backend (Stub):", leadData);
-        sendLeadByEmail(leadData);
+        sendLeadToAllChannels(leadData);
 
         exitForm.style.display = "none";
         exitSuccessConfirm.classList.add("active");
