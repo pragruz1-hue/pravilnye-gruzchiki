@@ -1,25 +1,15 @@
 # robots.txt для Правильные Грузчики
-# Блокировка служебных путей
+# Основные правила
 User-agent: *
 Disallow: /cgi-bin/
 Disallow: /*?*
 Disallow: /*&*
-Disallow: /*.json$
-Disallow: /*.xml$
 
-# Разрешаем индексацию основных страниц
+# Разрешаем индексацию всех страниц сайта
 Allow: /
-Allow: /index.html
-Allow: /loaders.html
-Allow: /workers.html
-Allow: /furniture.html
-Allow: /moving.html
-Allow: /rigging.html
+
 # Карта сайта
 Sitemap: https://pragruz.ru/sitemap.xml
-
-# Хост
-Host: https://pragruz.ru
 
 # Crawl-delay для Яндекса
 User-agent: Yandex
