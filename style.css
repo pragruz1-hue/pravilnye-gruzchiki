@@ -2451,3 +2451,21 @@ h6 {
     margin: 15px auto 20px;
   }
 }
+/* Растягиваем "ГРУЗЧИКИ" под ширину "ПРАВИЛЬНЫЕ" */
+.logo-subtitle {
+  display: block;
+  width: 100%;
+  text-align: justify;
+  text-align-last: justify;
+}
+
+.logo-subtitle::after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+}
+.logo-subtitle {
+  display: block;
+  letter-spacing: 11px; /* Растягиваем буквы */
+  font-size: 14px; /* Чуть уменьшим шрифт */
+}
