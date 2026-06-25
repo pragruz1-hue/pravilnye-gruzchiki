@@ -2469,3 +2469,131 @@ h6 {
   letter-spacing: 11px; /* Растягиваем буквы */
   font-size: 14px; /* Чуть уменьшим шрифт */
 }
+/* Статистика достижений */
+.honors-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin: 40px 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.honor-stat {
+  background: linear-gradient(135deg, #151a27 0%, #0f1420 100%);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  border: 1px solid rgba(255,184,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.honor-stat:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255,184,0,0.3);
+}
+
+.honor-stat-number {
+  font-size: 36px;
+  font-weight: 800;
+  color: #FFB800;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.honor-stat-label {
+  font-size: 14px;
+  color: #8892b0;
+}
+
+/* Интерактивная галерея */
+.honors-gallery {
+  position: relative;
+  cursor: pointer;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.honors-gallery:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.gallery-overlay span:last-child {
+  color: #fff;
+  font-size: 16px;
+}
+
+/* Логотипы партнеров */
+.partners-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin: 40px 0;
+}
+
+.partners-logos img {
+  height: 60px;
+  width: auto;
+  filter: grayscale(100%) brightness(200%);
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.partners-logos img:hover {
+  filter: grayscale(0%) brightness(100%);
+  opacity: 1;
+}
+
+/* CTA блок */
+.honors-cta {
+  text-align: center;
+  margin-top: 48px;
+  padding: 40px;
+  background: linear-gradient(135deg, rgba(255,184,0,0.1) 0%, rgba(255,140,0,0.05) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(255,184,0,0.2);
+}
+
+.honors-cta p {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .honors-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .partners-logos {
+    gap: 20px;
+  }
+  
+  .partners-logos img {
+    height: 40px;
+  }
+}
