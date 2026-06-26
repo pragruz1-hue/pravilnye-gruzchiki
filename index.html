@@ -1080,25 +1080,122 @@
         </div>
       </section>
 
-      <section class="reviews-section" id="reviews">
-        <div class="container">
-          <div class="section-header text-center">
-            <span class="sub-title-gradient">Отзывы клиентов</span>
-            <h2 class="section-title">Что говорят о нас люди</h2>
-            <p class="section-desc" id="reviews-subtitle">
-              Реальные отзывы наших клиентов из Краснодара
-            </p>
+      <!-- Отзывы клиентов -->
+<section class="reviews-section" id="reviews">
+  <div class="container">
+    <div class="section-header">
+      <span class="sub-title-gradient">Отзывы клиентов</span>
+      <h2 class="section-title">Что говорят о нас люди</h2>
+      <p class="section-desc">Реальные отзывы наших клиентов из Краснодара</p>
+    </div>
+
+    <!-- Карусель отзывов -->
+    <div class="reviews-carousel-wrapper">
+      <div class="reviews-carousel-track" id="reviewsTrack">
+        <!-- Отзыв 1 -->
+        <div class="review-card">
+          <div class="review-header">
+            <img src="assets/avatar-male-1.webp" alt="Александр К." class="review-avatar">
+            <div class="review-info">
+              <h4>Александр К.</h4>
+              <span class="review-city">Краснодар</span>
+            </div>
           </div>
-          <div class="reviews-grid" id="reviews-container">
-            <!-- Reviews are generated dynamically by main.js -->
-          </div>
-          <div class="reviews-footer">
-            <p>
-              Более <strong>2 847</strong> довольных клиентов по всей России
-            </p>
-          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Заказывал грузчиков для разгрузки фуры. Приехали вовремя, работали быстро и аккуратно. Очень доволен!"</p>
+          <span class="review-date">15 июня 2026</span>
         </div>
-      </section>
+
+        <!-- Отзыв 2 -->
+        <div class="review-card">
+          <div class="review-header">
+            <img src="assets/avatar-female-1.webp" alt="Елена М." class="review-avatar">
+            <div class="review-info">
+              <h4>Елена М.</h4>
+              <span class="review-city">Краснодар</span>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Переезжали всей семьей. Ребята помогли упаковать, перевезти и расставить мебель. Всё чётко!"</p>
+          <span class="review-date">12 июня 2026</span>
+        </div>
+
+        <!-- Отзыв 3 -->
+        <div class="review-card">
+          <div class="review-header">
+            <img src="assets/avatar-male-2.webp" alt="Дмитрий С." class="review-avatar">
+            <div class="review-info">
+              <h4>Дмитрий С.</h4>
+              <span class="review-city">Краснодар</span>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Работаю с этой компанией уже год. Всегда предоставляют отличных работников для склада."</p>
+          <span class="review-date">8 июня 2026</span>
+        </div>
+
+        <!-- Отзыв 4 -->
+        <div class="review-card">
+          <div class="review-header">
+            <img src="assets/avatar-female-2.webp" alt="Ольга В." class="review-avatar">
+            <div class="review-info">
+              <h4>Ольга В.</h4>
+              <span class="review-city">Краснодар</span>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Собирали кухню. Мастера пришли со своим инструментом, всё сделали за один день. Рекомендую!"</p>
+          <span class="review-date">5 июня 2026</span>
+        </div>
+
+        <!-- Дублируем отзывы для бесконечной прокрутки -->
+        <div class="review-card">
+          <div class="review-header">
+            <img src="assets/avatar-male-1.webp" alt="Александр К." class="review-avatar">
+            <div class="review-info">
+              <h4>Александр К.</h4>
+              <span class="review-city">Краснодар</span>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Заказывал грузчиков для разгрузки фуры. Приехали вовремя, работали быстро и аккуратно. Очень доволен!"</p>
+          <span class="review-date">15 июня 2026</span>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <img src="assets/avatar-female-1.webp" alt="Елена М." class="review-avatar">
+            <div class="review-info">
+              <h4>Елена М.</h4>
+              <span class="review-city">Краснодар</span>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Переезжали всей семьей. Ребята помогли упаковать, перевезти и расставить мебель. Всё чётко!"</p>
+          <span class="review-date">12 июня 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-footer">
+      Более <strong>2 847</strong> довольных клиентов по всей России
+    </div>
+
+    <!-- Кнопка оставить отзыв -->
+    <div class="reviews-cta">
+      <button type="button" id="open-review-btn" class="btn btn-primary btn-lg review-cta-btn">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+  </svg>
+  Оставить отзыв
+</button>
+  </div>
+</section>
+
+    
+  </div>
+</section>
 
       <section class="outsourcing-section">
         <div class="container outsourcing-container">
@@ -1770,23 +1867,107 @@
   </button>
 
   <!-- ===== СКРИПТЫ ДЛЯ КНОПОК ===== -->
-  <script>
-  (function() {
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
-    if (!scrollTopBtn) return;
-    window.addEventListener('scroll', function() {
-      if (window.scrollY > 300) {
-        scrollTopBtn.style.display = 'flex';
-      } else {
-        scrollTopBtn.style.display = 'none';
-      }
-    });
-    scrollTopBtn.addEventListener('click', function() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  })();
-  </script>
+<script>
+(function() {
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+  if (!scrollTopBtn) return;
+  
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 300) {
+      scrollTopBtn.style.display = 'flex';
+    } else {
+      scrollTopBtn.style.display = 'none';
+    }
+  });
+  
+  scrollTopBtn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО СБОРА ОТЗЫВОВ ===== -->
+<div class="modal-overlay" id="review-modal">
+  <div class="modal-box premium-card">
+    <div class="card-glow"></div>
+    <button class="modal-close" onclick="closeReviewModal()" aria-label="Закрыть">×</button>
+    
+    <div class="modal-header">
+      <h3>Поделитесь впечатлениями</h3>
+      <p>Ваш отзыв поможет нам стать лучше</p>
+    </div>
+
+    <form id="review-form" onsubmit="submitReview(event)">
+      
+      <!-- Интерактивный рейтинг -->
+      <div class="form-group-custom" style="text-align: center; margin-bottom: 24px;">
+        <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.85rem;">Оцените качество услуг</label>
+        <div class="star-rating" id="star-rating">
+          <span data-value="1" onclick="setRating(1)">★</span>
+          <span data-value="2" onclick="setRating(2)">★</span>
+          <span data-value="3" onclick="setRating(3)">★</span>
+          <span data-value="4" onclick="setRating(4)">★</span>
+          <span data-value="5" onclick="setRating(5)">★</span>
+        </div>
+        <input type="hidden" id="review-rating" value="5" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group-custom">
+          <label for="review-name">Ваше имя</label>
+          <input type="text" id="review-name" class="form-input-custom" placeholder="Иван Иванов" required>
+        </div>
+        <div class="form-group-custom">
+          <label for="review-phone">Телефон</label>
+          <input type="tel" id="review-phone" class="form-input-custom" placeholder="+7 (___) ___-__-__" required>
+        </div>
+      </div>
+
+      <div class="form-group-custom">
+        <label for="review-service">Тип услуги</label>
+        <select id="review-service" class="form-select-custom" required>
+          <option value="" disabled selected>Выберите услугу...</option>
+          <option value="Грузчики">Грузчики / Разгрузка</option>
+          <option value="Квартирный переезд">Квартирный переезд</option>
+          <option value="Офисный переезд">Офисный переезд</option>
+          <option value="Разнорабочие">Разнорабочие</option>
+          <option value="Такелаж">Такелажные работы</option>
+          <option value="Сборка мебели">Сборка мебели</option>
+          <option value="Аренда Газели">Аренда Газели</option>
+          <option value="Аутсорсинг">Аутсорсинг персонала</option>
+        </select>
+      </div>
+
+      <div class="form-group-custom">
+        <label for="review-text">Ваш отзыв</label>
+        <textarea id="review-text" class="form-input-custom textarea-custom" rows="4" placeholder="Что вам понравилось? Как быстро приехали? Аккуратность?" required></textarea>
+      </div>
+
+      <input type="hidden" id="review-city" value="">
+
+      <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 16px;">
+        Отправить отзыв
+      </button>
+      
+      <p style="font-size: 0.7rem; color: #4b5563; text-align: center; margin-top: 12px;">
+        Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
+      </p>
+    </form>
+
+    <!-- Экран успеха -->
+    <div class="success-screen" id="review-success">
+      <div class="success-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="success-svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3>Спасибо за отзыв!</h3>
+      <p>Мы проверим его и опубликуем в ближайшее время.</p>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="closeReviewModal()">Закрыть</button>
+    </div>
+  </div>
+</div>
+
 </body>
-</html>
-  </body>
 </html>
