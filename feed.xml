@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<yml_catalog date="2026-06-25 12:00">
+<yml_catalog date="2026-06-26 12:00">
 <shop>
 <name>Правильные грузчики Краснодар</name>
 <company>ООО "Правильные грузчики"</company>
 <url>https://www.pragruz.ru</url>
-
 <!-- СЕТЫ (обязательно для услуг!) -->
 <sets>
 <set id="set_gruzchiki" name="Грузчики и переезды в Краснодаре" />
@@ -12,7 +11,6 @@
 <set id="set_transport" name="Аренда транспорта в Краснодаре" />
 <set id="set_business" name="Услуги для бизнеса в Краснодаре" />
 </sets>
-
 <categories>
 <category id="1">Грузчики</category>
 <category id="2">Переезды</category>
@@ -20,9 +18,7 @@
 <category id="4">Аренда транспорта</category>
 <category id="5">Аутсорсинг персонала</category>
 </categories>
-
 <offers>
-
 <!-- ОФФЕР 1: Услуги грузчиков -->
 <offer id="gruzchiki_800" available="true">
 <name>Правильные грузчики</name>
@@ -44,11 +40,10 @@
 <param name="Режим работы">Круглосуточно 24/7</param>
 <param name="Ссылка на телефон">tel:+79283333281</param>
 </offer>
-
 <!-- ОФФЕР 2: Квартирный переезд -->
 <offer id="kvartirniy_pereezd" available="true">
 <name>Правильные грузчики</name>
-<url>https://www.pragruz.ru/kvartirnyj-pereezd</url>
+<url>https://www.pragruz.ru/krasnodar/kvartirnyj-pereezd.html</url>
 <price>800</price>
 <currencyId>RUR</currencyId>
 <categoryId>2</categoryId>
@@ -66,11 +61,10 @@
 <param name="Подача">от 60 минут</param>
 <param name="Ссылка на телефон">tel:+79283333281</param>
 </offer>
-
 <!-- ОФФЕР 3: Офисный переезд -->
 <offer id="ofisniy_pereezd" available="true">
 <name>Правильные грузчики</name>
-<url>https://www.pragruz.ru/ofisnyj-pereezd</url>
+<url>https://www.pragruz.ru/krasnodar/ofisnyj-pereezd.html</url>
 <price>800</price>
 <currencyId>RUR</currencyId>
 <categoryId>2</categoryId>
@@ -88,11 +82,10 @@
 <param name="Подача">от 60 минут</param>
 <param name="Ссылка на телефон">tel:+79283333281</param>
 </offer>
-
 <!-- ОФФЕР 4: Разнорабочие -->
 <offer id="raznorabochie" available="true">
 <name>Правильные грузчики</name>
-<url>https://www.pragruz.ru/raznorabochie</url>
+<url>https://www.pragruz.ru/krasnodar/raznorabochie.html</url>
 <price>800</price>
 <currencyId>RUR</currencyId>
 <categoryId>1</categoryId>
@@ -109,11 +102,10 @@
 <param name="Подача">от 60 минут</param>
 <param name="Ссылка на телефон">tel:+79283333281</param>
 </offer>
-
 <!-- ОФФЕР 5: Такелажные работы -->
-<offer id="takilag" available="true">
+<offer id="takelag" available="true">
 <name>Правильные грузчики</name>
-<url>https://www.pragruz.ru/takelazh</url>
+<url>https://www.pragruz.ru/rigging.html</url>
 <price>1200</price>
 <currencyId>RUR</currencyId>
 <categoryId>3</categoryId>
@@ -131,16 +123,15 @@
 <param name="Подача">от 90 минут</param>
 <param name="Ссылка на телефон">tel:+79283333281</param>
 </offer>
-
 <!-- ОФФЕР 6: Аренда Газели стандартной -->
 <offer id="gazel_standart" available="true">
 <name>Правильные грузчики</name>
-<url>https://www.pragruz.ru/fleet-gazel-3m.webp</url>
+<url>https://www.pragruz.ru/krasnodar/arenda-gazeli-3m.html</url>
 <price>2000</price>
 <currencyId>RUR</currencyId>
 <categoryId>4</categoryId>
 <set-ids>set_transport</set-ids>
-<picture>https://www.pragruz.ru/assets/standard_gazelle.png</picture>
+<picture>https://www.pragruz.ru/assets/fleet-gazel-3m.webp</picture>
 <description>Аренда Газели Краснодар — грузоперевозки 3 метра от 2000 руб/час. Газель с водителем: кузов 3 метра, грузоподъемность 1.5 тонны. Перевозка мебели, бытовой техники, строительных материалов.</description>
 <param name="Рейтинг">5.0</param>
 <param name="Число отзывов">127</param>
@@ -150,16 +141,15 @@
 <param name="Вид услуги">Грузоперевозки</param>
 <param name="Тип транспорта">Газель стандартная (3м)</param>
 <param name="Грузоподъемность">1.5 тонны</param>
-<param name="Объем кузова">18 м³</param>
+<param name="Объем кузова">10 м³</param>
 <param name="Минимальный заказ">2 часа</param>
 <param name="Подача">от 60 минут</param>
 <param name="Ссылка на телефон">tel:+79283333281</param>
 </offer>
-
 <!-- ОФФЕР 7: Аренда Газели удлиненной -->
 <offer id="gazel_udlinennaya" available="true">
 <name>Правильные грузчики</name>
-<url>https://www.pragruz.ru/arenda-gazeli-udlinennoj</url>
+<url>https://www.pragruz.ru/krasnodar/arenda-gazeli-udlinennoj.html</url>
 <price>2500</price>
 <currencyId>RUR</currencyId>
 <categoryId>4</categoryId>
@@ -179,7 +169,6 @@
 <param name="Подача">от 60 минут</param>
 <param name="Ссылка на телефон">tel:+79283333281</param>
 </offer>
-
 <!-- ОФФЕР 8: Сборка/разборка мебели -->
 <offer id="sborka_mebeli" available="true">
 <name>Правильные грузчики</name>
@@ -201,11 +190,10 @@
 <param name="Подача">от 60 минут</param>
 <param name="Ссылка на телефон">tel:+79283333281</param>
 </offer>
-
 <!-- ОФФЕР 9: Аутсорсинг персонала -->
 <offer id="autsorsing" available="true">
 <name>Правильные грузчики</name>
-<url>https://www.pragruz.ru/autsorsing</url>
+<url>https://www.pragruz.ru/krasnodar/autsorsing.html</url>
 <price>800</price>
 <currencyId>RUR</currencyId>
 <categoryId>5</categoryId>
@@ -223,7 +211,6 @@
 <param name="Минимальный заказ">4 часа</param>
 <param name="Ссылка на телефон">tel:+79283333281</param>
 </offer>
-
 </offers>
 </shop>
 </yml_catalog>
