@@ -1080,10 +1080,11 @@
         </div>
       </section>
 
-      <!-- Отзывы клиентов -->
+
+    <!-- Отзывы клиентов -->
 <section class="reviews-section" id="reviews">
   <div class="container">
-    <div class="section-header">
+    <div class="section-header text-center">
       <span class="sub-title-gradient">Отзывы клиентов</span>
       <h2 class="section-title">Что говорят о нас люди</h2>
       <p class="section-desc">Реальные отзывы наших клиентов из Краснодара</p>
@@ -1092,106 +1093,25 @@
     <!-- Карусель отзывов -->
     <div class="reviews-carousel-wrapper">
       <div class="reviews-carousel-track" id="reviewsTrack">
-        <!-- Отзыв 1 -->
-        <div class="review-card">
-          <div class="review-header">
-            <img src="assets/avatar-male-1.webp" alt="Александр К." class="review-avatar">
-            <div class="review-info">
-              <h4>Александр К.</h4>
-              <span class="review-city">Краснодар</span>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Заказывал грузчиков для разгрузки фуры. Приехали вовремя, работали быстро и аккуратно. Очень доволен!"</p>
-          <span class="review-date">15 июня 2026</span>
-        </div>
-
-        <!-- Отзыв 2 -->
-        <div class="review-card">
-          <div class="review-header">
-            <img src="assets/avatar-female-1.webp" alt="Елена М." class="review-avatar">
-            <div class="review-info">
-              <h4>Елена М.</h4>
-              <span class="review-city">Краснодар</span>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Переезжали всей семьей. Ребята помогли упаковать, перевезти и расставить мебель. Всё чётко!"</p>
-          <span class="review-date">12 июня 2026</span>
-        </div>
-
-        <!-- Отзыв 3 -->
-        <div class="review-card">
-          <div class="review-header">
-            <img src="assets/avatar-male-2.webp" alt="Дмитрий С." class="review-avatar">
-            <div class="review-info">
-              <h4>Дмитрий С.</h4>
-              <span class="review-city">Краснодар</span>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Работаю с этой компанией уже год. Всегда предоставляют отличных работников для склада."</p>
-          <span class="review-date">8 июня 2026</span>
-        </div>
-
-        <!-- Отзыв 4 -->
-        <div class="review-card">
-          <div class="review-header">
-            <img src="assets/avatar-female-2.webp" alt="Ольга В." class="review-avatar">
-            <div class="review-info">
-              <h4>Ольга В.</h4>
-              <span class="review-city">Краснодар</span>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Собирали кухню. Мастера пришли со своим инструментом, всё сделали за один день. Рекомендую!"</p>
-          <span class="review-date">5 июня 2026</span>
-        </div>
-
-        <!-- Дублируем отзывы для бесконечной прокрутки -->
-        <div class="review-card">
-          <div class="review-header">
-            <img src="assets/avatar-male-1.webp" alt="Александр К." class="review-avatar">
-            <div class="review-info">
-              <h4>Александр К.</h4>
-              <span class="review-city">Краснодар</span>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Заказывал грузчиков для разгрузки фуры. Приехали вовремя, работали быстро и аккуратно. Очень доволен!"</p>
-          <span class="review-date">15 июня 2026</span>
-        </div>
-
-        <div class="review-card">
-          <div class="review-header">
-            <img src="assets/avatar-female-1.webp" alt="Елена М." class="review-avatar">
-            <div class="review-info">
-              <h4>Елена М.</h4>
-              <span class="review-city">Краснодар</span>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Переезжали всей семьей. Ребята помогли упаковать, перевезти и расставить мебель. Всё чётко!"</p>
-          <span class="review-date">12 июня 2026</span>
-        </div>
+        <!-- Сюда JavaScript вставит отзывы динамически -->
       </div>
     </div>
 
-    <div class="reviews-footer">
-      Более <strong>2 847</strong> довольных клиентов по всей России
-    </div>
-
-    <!-- Кнопка оставить отзыв -->
-    <div class="reviews-cta">
-      <button type="button" id="open-review-btn" class="btn btn-primary btn-lg review-cta-btn">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+    <!-- Подвал отзывов -->
+    <div class="reviews-footer-block">
+      <p class="reviews-stat">Более <strong>2 847</strong> довольных клиентов по всей России</p>
+      <button type="button" id="open-review-btn" class="btn btn-primary review-cta-btn">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px; vertical-align: middle;">
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
   </svg>
   Оставить отзыв
 </button>
+    </div>
   </div>
 </section>
+
+   
 
     
   </div>

@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Заказывал грузчиков для разгрузки фуры. Приехали вовремя, работали быстро и аккуратно. Очень доволен!",
         date: "15 июня 2026",
         initials: "АК",
-        color: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        avatar: "assets/avatar-male.webp",
       },
       {
         name: "Елена М.",
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Переезжали всей семьей из ЖК «Парус». Ребята помогли упаковать, перевезти и расставить мебель. Всё чётко!",
         date: "12 июня 2026",
         initials: "ЕМ",
-        color: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+        avatar: "assets/avatar-female.webp",
       },
       {
         name: "Дмитрий С.",
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Работаю с этой компанией уже год. Всегда предоставляют отличных работников для склада «Склад-Логистика».",
         date: "8 июня 2026",
         initials: "ДС",
-        color: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+        avatar: "assets/avatar-male.webp",
       },
       {
         name: "Ольга В.",
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Собирали кухню. Мастера пришли со своим инструментом, всё сделали за один день. Рекомендую!",
         date: "5 июня 2026",
         initials: "ОВ",
-        color: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+        avatar: "assets/avatar-female.webp",
       },
     ],
     moscow: [
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Заказывали офисный переезд на Дмитровском шоссе. Перевезли 50 рабочих мест за выходные. В понедельник все работало.",
         date: "20 июня 2026",
         initials: "ИП",
-        color: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+        avatar: "assets/avatar-male.webp",
       },
       {
         name: "Сергей Л.",
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Нужны были разнорабочие на демонтаж в центре. Вывели бригаду за 2 часа. Работали слаженно.",
         date: "18 июня 2026",
         initials: "СЛ",
-        color: "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
+        avatar: "assets/avatar-male.webp",
       },
       {
         name: "Анна К.",
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Перевозили сейф 800 кг. Такелажники профессионалы, ни одной царапины на полу.",
         date: "15 июня 2026",
         initials: "АК",
-        color: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+        avatar: "assets/avatar-female.webp",
       },
     ],
     spb: [
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Заказывал грузчиков на Невский проспект. Поднялись на 5 этаж без лифта с пианино. Респект!",
         date: "22 июня 2026",
         initials: "МД",
-        color: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)",
+        avatar: "assets/avatar-male.webp",
       },
       {
         name: "Татьяна В.",
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Аутсорсинг персонала для нашего магазина. Девочки аккуратные, всегда трезвые. Работаем полгода.",
         date: "19 июня 2026",
         initials: "ТВ",
-        color: "linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)",
+        avatar: "assets/avatar-female.webp",
       },
     ],
     // Для остальных городов можно добавить свои массивы или использовать дефолтный
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Отличный сервис! Грузчики приехали точно в срок, работу выполнили на 5+. Буду обращаться еще.",
         date: "10 июня 2026",
         initials: "АР",
-        color: "linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)",
+        avatar: "assets/avatar-male.webp",
       },
       {
         name: "Мария С.",
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Заказывала квартирный переезд. Все вещи доехали целыми, мебель собрали быстро. Спасибо!",
         date: "7 июня 2026",
         initials: "МС",
-        color: "linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)",
+        avatar: "assets/avatar-female.webp",
       },
       {
         name: "Виктор Н.",
@@ -135,43 +135,48 @@ document.addEventListener("DOMContentLoaded", () => {
         text: "Нужны были разнорабочие на стройку. Предоставили крепких ребят, работали всю смену без перекуров.",
         date: "4 июня 2026",
         initials: "ВН",
-        color: "linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)",
+        avatar: "assets/avatar-male.webp",
       },
     ],
   };
 
   // Function to render reviews based on city
-  function renderReviews(cityCode) {
-    const container = document.querySelector(".reviews-carousel-track");
-    if (!container) return;
+function renderReviews(cityCode) {
+  const container = document.querySelector(".reviews-carousel-track");
+  if (!container) return;
 
-    // Get reviews for city or fallback to default
-    const reviews = REVIEWS_DB[cityCode] || REVIEWS_DB["default"];
+  // Get reviews for city or fallback to default
+  const reviews = REVIEWS_DB[cityCode] || REVIEWS_DB["default"];
 
-    // Clear existing content
-    container.innerHTML = "";
+  // Clear existing content
+  container.innerHTML = "";
 
-    // Create cards (Original + Duplicates for infinite scroll)
-    const allReviews = [...reviews, ...reviews];
+  // Create cards (Original + Duplicates for infinite scroll)
+  const allReviews = [...reviews, ...reviews];
 
-    allReviews.forEach((review) => {
-      const card = document.createElement("div");
-      card.className = "review-card";
-      card.innerHTML = `
-                <div class="review-header">
-                    <div class="review-avatar-placeholder" style="background: ${review.color};">${review.initials}</div>
-                    <div class="review-info">
-                        <h4>${review.name}</h4>
-                        <span class="review-city">${review.city}</span>
-                    </div>
-                </div>
-                <div class="review-stars">★★★★★</div>
-                <p class="review-text">"${review.text}"</p>
-                <span class="review-date">${review.date}</span>
-            `;
-      container.appendChild(card);
-    });
-  }
+  allReviews.forEach((review) => {
+    const card = document.createElement("div");
+    card.className = "review-card";
+    
+    // Используем review.avatar (путь к картинке) вместо review.color
+    // Если пути нет, ставим заглушку или цветной фон как фолбэк
+    const avatarSrc = review.avatar || "assets/avatar-male.webp"; 
+
+    card.innerHTML = `
+      <div class="review-header">
+        <img src="${avatarSrc}" alt="${review.name}" class="review-avatar-img">
+        <div class="review-info">
+          <h4>${review.name}</h4>
+          <span class="review-city">${review.city}</span>
+        </div>
+      </div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"${review.text}"</p>
+      <span class="review-date">${review.date}</span>
+    `;
+    container.appendChild(card);
+  });
+}
 
   // ==========================================
   // 3. DYNAMIC GEOTARGETING SYSTEM (MULTI-CITY)
