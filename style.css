@@ -2484,19 +2484,19 @@ h6 {
   border-radius: 12px;
   padding: 32px 24px;
   text-align: center;
-  border: 1px solid rgba(255,184,0,0.1);
+  border: 1px solid rgba(255, 184, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
 .honor-stat:hover {
   transform: translateY(-5px);
-  border-color: rgba(255,184,0,0.3);
+  border-color: rgba(255, 184, 0, 0.3);
 }
 
 .honor-stat-number {
   font-size: 36px;
   font-weight: 800;
-  color: #FFB800;
+  color: #ffb800;
   display: block;
   margin-bottom: 8px;
 }
@@ -2520,7 +2520,7 @@ h6 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2571,9 +2571,13 @@ h6 {
   text-align: center;
   margin-top: 48px;
   padding: 40px;
-  background: linear-gradient(135deg, rgba(255,184,0,0.1) 0%, rgba(255,140,0,0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 184, 0, 0.1) 0%,
+    rgba(255, 140, 0, 0.05) 100%
+  );
   border-radius: 16px;
-  border: 1px solid rgba(255,184,0,0.2);
+  border: 1px solid rgba(255, 184, 0, 0.2);
 }
 
 .honors-cta p {
@@ -2585,7 +2589,7 @@ h6 {
 /* ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ ===== */
 .mobile-call-button {
   position: fixed;
-  bottom: 90px;
+  bottom: 80px; /* Выше кнопки "Наверх" */
   right: 20px;
   z-index: 999;
   display: none;
@@ -2594,20 +2598,51 @@ h6 {
 .mobile-call-button .call-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #FF8C00 0%, #FFB800 100%);
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #ff8c00 0%, #ffb800 100%);
   color: #fff;
-  padding: 14px 24px;
   text-decoration: none;
-  font-weight: 700;
-  font-size: 16px;
-  border-radius: 50px;
-  box-shadow: 0 4px 20px rgba(255, 140, 0, 0.4);
-  transition: transform 0.3s ease;
+  border-radius: 50%;
+  box-shadow: 0 4px 20px rgba(255, 140, 0, 0.5);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .mobile-call-button .call-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(255, 140, 0, 0.7);
+}
+
+.mobile-call-button .call-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: #fff;
+}
+
+/* Анимация пульсации для привлечения внимания */
+.mobile-call-button .call-btn::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255, 140, 0, 0.4);
+  animation: call-pulse 2s infinite;
+  z-index: -1;
+}
+
+@keyframes call-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
 }
 
 /* ===== КНОПКА НАВЕРХ ===== */
@@ -2618,20 +2653,20 @@ h6 {
   width: 50px;
   height: 50px;
   background: linear-gradient(135deg, #0a0e1a 0%, #151a27 100%);
-  border: 2px solid #FF8C00;
+  border: 2px solid #ff8c00;
   border-radius: 50%;
-  color: #FF8C00;
+  color: #ff8c00;
   display: none;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 998;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .scroll-to-top:hover {
-  background: #FF8C00;
+  background: #ff8c00;
   color: #fff;
   transform: translateY(-3px);
 }
@@ -2641,33 +2676,50 @@ h6 {
   .honors-stats {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+  @media (max-width: 480px) {
+    .mobile-call-button .call-btn {
+      width: 45px;
+      height: 45px;
+    }
+
+    .mobile-call-button .call-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .scroll-to-top {
+      width: 45px;
+      height: 45px;
+    }
+  }
   .partners-logos {
     gap: 20px;
   }
-  
+
   .partners-logos img {
     height: 40px;
   }
-  
+
   /* Показываем мобильную кнопку позвонить */
   .mobile-call-button {
     display: block;
   }
-  
+
   /* Исправление z-index для кнопок */
-  .btn, .header-cta, .main-header {
+  .btn,
+  .header-cta,
+  .main-header {
     position: relative;
     z-index: 100;
   }
-  
+
   /* Исправление изображений на мобильных */
   img {
     max-width: 100%;
     height: auto;
     object-fit: contain;
   }
-  
+
   .hero-section img,
   .leadership-photo,
   .safety-image,
@@ -2675,9 +2727,11 @@ h6 {
     object-fit: cover;
     width: 100%;
   }
-  
+
   /* Исправление форм на iOS */
-  input, select, textarea {
+  input,
+  select,
+  textarea {
     font-size: 16px;
   }
 }
@@ -2687,7 +2741,7 @@ h6 {
     padding: 12px 20px;
     font-size: 14px;
   }
-  
+
   .scroll-to-top {
     width: 45px;
     height: 45px;
