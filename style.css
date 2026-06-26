@@ -2451,12 +2451,15 @@ h6 {
     margin: 15px auto 20px;
   }
 }
-/* Растягиваем "ГРУЗЧИКИ" под ширину "ПРАВИЛЬНЫЕ" */
+
+/* ===== ЛОГОТИП - ИСПРАВЛЕНО ===== */
 .logo-subtitle {
   display: block;
   width: 100%;
   text-align: justify;
   text-align-last: justify;
+  letter-spacing: 11px;
+  font-size: 14px;
 }
 
 .logo-subtitle::after {
@@ -2464,12 +2467,8 @@ h6 {
   display: inline-block;
   width: 100%;
 }
-.logo-subtitle {
-  display: block;
-  letter-spacing: 11px; /* Растягиваем буквы */
-  font-size: 14px; /* Чуть уменьшим шрифт */
-}
-/* Статистика достижений */
+
+/* ===== Статистика достижений ===== */
 .honors-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -2507,7 +2506,7 @@ h6 {
   color: #8892b0;
 }
 
-/* Интерактивная галерея */
+/* ===== Интерактивная галерея ===== */
 .honors-gallery {
   position: relative;
   cursor: pointer;
@@ -2544,7 +2543,7 @@ h6 {
   font-size: 16px;
 }
 
-/* Логотипы партнеров */
+/* ===== Логотипы партнеров ===== */
 .partners-logos {
   display: flex;
   justify-content: center;
@@ -2567,7 +2566,7 @@ h6 {
   opacity: 1;
 }
 
-/* CTA блок */
+/* ===== CTA блок ===== */
 .honors-cta {
   text-align: center;
   margin-top: 48px;
@@ -2583,7 +2582,61 @@ h6 {
   margin-bottom: 24px;
 }
 
-/* Адаптивность */
+/* ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ ===== */
+.mobile-call-button {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  z-index: 999;
+  display: none;
+}
+
+.mobile-call-button .call-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #FF8C00 0%, #FFB800 100%);
+  color: #fff;
+  padding: 14px 24px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(255, 140, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.mobile-call-button .call-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== КНОПКА НАВЕРХ ===== */
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #0a0e1a 0%, #151a27 100%);
+  border: 2px solid #FF8C00;
+  border-radius: 50%;
+  color: #FF8C00;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 998;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.scroll-to-top:hover {
+  background: #FF8C00;
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
 @media (max-width: 768px) {
   .honors-stats {
     grid-template-columns: repeat(2, 1fr);
@@ -2595,5 +2648,48 @@ h6 {
   
   .partners-logos img {
     height: 40px;
+  }
+  
+  /* Показываем мобильную кнопку позвонить */
+  .mobile-call-button {
+    display: block;
+  }
+  
+  /* Исправление z-index для кнопок */
+  .btn, .header-cta, .main-header {
+    position: relative;
+    z-index: 100;
+  }
+  
+  /* Исправление изображений на мобильных */
+  img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  .hero-section img,
+  .leadership-photo,
+  .safety-image,
+  .values-image {
+    object-fit: cover;
+    width: 100%;
+  }
+  
+  /* Исправление форм на iOS */
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-call-button .call-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+  
+  .scroll-to-top {
+    width: 45px;
+    height: 45px;
   }
 }
