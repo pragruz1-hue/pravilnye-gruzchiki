@@ -417,7 +417,7 @@ h6 {
   background-color: rgba(7, 9, 14, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  z-index: 90;
+  z-index: 120;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2678,10 +2678,10 @@ h6 {
   margin-bottom: 24px;
 }
 
-/* ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ ===== */
+/* ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ (РЕТРО ТРУБКА) ===== */
 .mobile-call-button {
   position: fixed;
-  bottom: 80px; /* Выше кнопки "Наверх" */
+  bottom: 80px;
   right: 20px;
   z-index: 999;
   display: none;
@@ -2691,16 +2691,31 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #ff8c00 0%, #ffb800 100%);
+  width: 48px;
+  height: 64px;
+  background: linear-gradient(145deg, #ff8c00 0%, #ff5500 100%);
   color: #fff;
   text-decoration: none;
-  border-radius: 50%;
+  border-radius: 18px 18px 10px 10px;
   box-shadow: 0 4px 20px rgba(255, 140, 0, 0.5);
+  position: relative;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
+}
+
+.mobile-call-button .call-btn::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 30% 30%, #ffcc66, #cc6600);
+  border-radius: 50%;
+  box-shadow: 0 -2px 8px rgba(255, 140, 0, 0.6);
+  border: 2px solid #ffaa33;
 }
 
 .mobile-call-button .call-btn:hover {
@@ -2710,18 +2725,23 @@ h6 {
 
 .mobile-call-button .call-btn svg {
   width: 22px;
-  height: 22px;
+  height: 30px;
   fill: #fff;
+  z-index: 2;
+  position: relative;
+  margin-top: 2px;
 }
 
 /* Анимация пульсации для привлечения внимания */
 .mobile-call-button .call-btn::before {
   content: "";
   position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: rgba(255, 140, 0, 0.4);
+  width: 120%;
+  height: 120%;
+  top: -10%;
+  left: -10%;
+  border-radius: 20px;
+  background: rgba(255, 140, 0, 0.3);
   animation: call-pulse 2s infinite;
   z-index: -1;
 }
@@ -2729,10 +2749,10 @@ h6 {
 @keyframes call-pulse {
   0% {
     transform: scale(1);
-    opacity: 0.7;
+    opacity: 0.6;
   }
   100% {
-    transform: scale(1.6);
+    transform: scale(1.4);
     opacity: 0;
   }
 }
