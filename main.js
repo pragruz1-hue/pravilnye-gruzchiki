@@ -1156,7 +1156,21 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.classList.remove("active");
     document.body.classList.remove("no-scroll");
   }
+  // Привязка кнопки закрытия модалки отзывов
+  const reviewModalCloseBtn = document.getElementById("review-modal-close");
+  if (reviewModalCloseBtn) {
+    reviewModalCloseBtn.addEventListener("click", closeReviewModal);
+  }
 
+  // Закрытие по клику на оверлей
+  const reviewModalOverlay = document.getElementById("review-modal");
+  if (reviewModalOverlay) {
+    reviewModalOverlay.addEventListener("click", (e) => {
+      if (e.target === reviewModalOverlay) {
+        closeReviewModal();
+      }
+    });
+  }
   // Управление звездами
   function setRating(value) {
     const stars = document.querySelectorAll(".star-rating span");
@@ -1173,7 +1187,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (input) input.value = value;
   }
-
+  // Привязка клика по звездам
+  const starRatingContainer = document.getElementById("star-rating");
+  if (starRatingContainer) {
+    starRatingContainer.addEventListener("click", (e) => {
+      if (e.target.tagName === "SPAN") {
+        const value = parseInt(e.target.getAttribute("data-value"));
+        setRating(value);
+      }
+    });
+  }
   // Отправка формы
   function submitReview(e) {
     e.preventDefault();

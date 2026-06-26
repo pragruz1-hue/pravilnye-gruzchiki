@@ -3077,7 +3077,8 @@ h6 {
   }
 }
 }
-/* ===== МОДАЛЬНОЕ ОКНО ОТЗЫВА ===== */
+
+/* ===== МОДАЛЬНОЕ ОКНО ОТЗЫВА - ИСПРАВЛЕННЫЕ ЗВЕЗДЫ ===== */
 .star-rating {
   display: flex;
   justify-content: center;
@@ -3085,6 +3086,7 @@ h6 {
   font-size: 32px;
   cursor: pointer;
   user-select: none;
+  /* Убираем row-reverse, будем управлять через JS и порядок HTML */
 }
 
 .star-rating span {
@@ -3093,23 +3095,12 @@ h6 {
   text-shadow: none;
 }
 
+/* Подсветка при наведении и активные звезды */
 .star-rating span.active,
-.star-rating span:hover,
-.star-rating span:hover ~ span {
-  color: #f59e0b; /* Цвет золотых звезд */
+.star-rating span:hover {
+  color: #f59e0b;
   text-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
   transform: scale(1.1);
-}
-
-/* Инвертируем порядок для hover-эффекта справа налево */
-.star-rating {
-  flex-direction: row-reverse;
-  justify-content: center;
-}
-
-.star-rating span:hover ~ span,
-.star-rating span.active {
-  color: #f59e0b;
 }
 
 /* Адаптация модалки под мобильные */

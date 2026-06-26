@@ -1890,7 +1890,7 @@
 <div class="modal-overlay" id="review-modal">
   <div class="modal-box premium-card">
     <div class="card-glow"></div>
-    <button class="modal-close" onclick="closeReviewModal()" aria-label="Закрыть">×</button>
+    <button class="modal-close" id="review-modal-close" aria-label="Закрыть">×</button>
     
     <div class="modal-header">
       <h3>Поделитесь впечатлениями</h3>
@@ -1903,12 +1903,12 @@
       <div class="form-group-custom" style="text-align: center; margin-bottom: 24px;">
         <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.85rem;">Оцените качество услуг</label>
         <div class="star-rating" id="star-rating">
-          <span data-value="1" onclick="setRating(1)">★</span>
-          <span data-value="2" onclick="setRating(2)">★</span>
-          <span data-value="3" onclick="setRating(3)">★</span>
-          <span data-value="4" onclick="setRating(4)">★</span>
-          <span data-value="5" onclick="setRating(5)">★</span>
-        </div>
+  <span data-value="1">★</span>
+  <span data-value="2">★</span>
+  <span data-value="3">★</span>
+  <span data-value="4">★</span>
+  <span data-value="5">★</span>
+</div>
         <input type="hidden" id="review-rating" value="5" required>
       </div>
 
