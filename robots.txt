@@ -1,14 +1,15 @@
 # robots.txt для Правильные Грузчики
-# Основные правила для всех поисковиков
 User-agent: *
 Allow: /
 Disallow: /cgi-bin/
+Disallow: /thank-you.html
 Disallow: /*?*
 Disallow: /*&*
 Sitemap: https://pragruz.ru/sitemap.xml
 
-# Правила для Яндекса
 User-agent: Yandex
 Allow: /
 Disallow: /cgi-bin/
+Disallow: /thank-you.html
 Crawl-delay: 1
+Sitemap: https://pragruz.ru/sitemap.xml

@@ -1,0 +1,158 @@
+/* ===== ВЫБОР ГОРОДА ===== */
+.city-selector-wrap {
+  position: relative;
+  z-index: 105;
+}
+
+.city-selector-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+}
+
+.city-selector-btn:hover {
+  background: rgba(255, 115, 0, 0.08);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.city-icon-pin {
+  font-size: 0.95rem;
+}
+
+.city-selector-current {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.city-selector-arrow {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  transition: var(--transition-smooth);
+}
+
+.city-selector-btn:hover .city-selector-arrow {
+  color: var(--primary);
+  transform: translateY(1px);
+}
+
+.city-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  width: 240px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: var(--transition-smooth);
+  z-index: 110;
+}
+
+.city-dropdown.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.city-dropdown-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.city-dropdown-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.city-dropdown-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.01);
+  border-radius: 2px;
+}
+
+.city-dropdown-list::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+.city-item {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  text-align: left;
+  padding: 8px 12px;
+  width: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.city-item:hover,
+.city-item.active {
+  background: rgba(255, 115, 0, 0.08);
+  color: #fff;
+  padding-left: 16px;
+}
+
+.city-confirm-banner {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  width: 280px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: var(--transition-smooth);
+  z-index: 108;
+}
+
+.city-confirm-banner.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.city-confirm-banner p {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: #fff;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.city-confirm-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.city-confirm-btns .btn {
+  padding: 8px 14px;
+  font-size: 0.75rem;
+  border-radius: var(--radius-sm);
+}

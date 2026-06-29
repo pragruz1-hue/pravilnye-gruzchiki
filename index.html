@@ -3,18 +3,21 @@
   <head>
     <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110161606', 'ym');
+    if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110161606', 'ym');
 
-    ym(110161606, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+        ym(110161606, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    }
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/110161606" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript><div><img class="u-style-001" src="https://mc.yandex.ru/watch/110161606" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-    <meta charset="UTF-8" />
+
+<meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
       Правильные Грузчики Краснодар | Услуги грузчиков, разнорабочих и
@@ -54,7 +57,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
 
     <script type="application/ld+json">
       {
@@ -67,7 +70,7 @@
         "priceRange": "800RUB - 2500RUB",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "ул. Кропоткина д.50, офис 339",
+          "streetAddress": "ул. Кропоткина, д. 50, офис 339",
           "addressLocality": "Краснодар",
           "postalCode": "350004",
           "addressCountry": "RU"
@@ -135,8 +138,8 @@
           }
         ]
       }
-    </script>
-  </head>
+    </script>    <link rel="canonical" href="https://pragruz.ru/" />
+
   <body data-page="index">
     <div class="glow-bg">
       <div class="glow-orb orb-1"></div>
@@ -145,125 +148,23 @@
 
     <header class="main-header" id="site-header">
   <div class="container header-container">
-    <!-- Логотип -->
-    <a href="#" class="logo-area" id="header-logo-link">
-      <img
-        src="assets/logo.png"
-        alt="Правильные Грузчики"
-        class="logo-icon-img"
-        style="height: 64px; width: auto"
-      />
-      <div class="logo-text">
-        <span class="logo-title">ПРАВИЛЬНЫЕ</span>
-        <span class="logo-subtitle">ГРУЗЧИКИ</span>
-      </div>
+    <a href="index.html" class="logo-area" id="header-logo-link">
+      <img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" />
+      <div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div>
     </a>
-
-    <!-- Десктопное меню -->
-    <nav class="desktop-nav" aria-label="Основная навигация">
-      <ul>
-        <li><a href="about.html" class="nav-link">О нас</a></li>
-        <li><a href="#services" class="nav-link">Услуги</a></li>
-        <li><a href="#reviews" class="nav-link">Отзывы</a></li>
-        <li><a href="#calculator" class="nav-link">Калькулятор</a></li>
-        <li><a href="#fleet" class="nav-link">Автопарк</a></li>
-        <li><a href="#faq" class="nav-link">Вопросы</a></li>
-        <li><a href="blog/" class="nav-link">Блог</a></li>
-        <li><a href="#contacts" class="nav-link">Контакты</a></li>
-      </ul>
-    </nav>
-
-    <!-- Правая часть хедера -->
+    <nav class="desktop-nav" aria-label="Основная навигация"><ul>
+      <li><a href="index.html" class="nav-link">Главная</a></li><li><a href="about.html" class="nav-link">О нас</a></li><li><a href="index.html#services" class="nav-link">Услуги</a></li><li><a href="index.html#reviews" class="nav-link">Отзывы</a></li><li><a href="index.html#faq" class="nav-link">Вопросы</a></li><li><a href="blog/" class="nav-link">Блог</a></li>
+    </ul></nav>
     <div class="header-right">
-      <!-- Выбор города -->
-      <div class="city-selector-wrap">
-        <button class="city-selector-btn" id="current-selected-city">
-          <span class="city-icon-pin">📍</span>
-          <span class="city-selector-current" id="city-btn-text">Краснодар</span>
-          <span class="city-selector-arrow">▼</span>
-        </button>
-
-        <!-- Выпадающий список городов -->
-        <div class="city-dropdown" id="city-dropdown-menu">
-          <div class="city-dropdown-list">
-            <button type="button" class="city-item" data-city="krasnodar">Краснодар</button>
-            <button type="button" class="city-item" data-city="moscow">Москва</button>
-            <button type="button" class="city-item" data-city="spb">Санкт-Петербург</button>
-            <button type="button" class="city-item" data-city="novosibirsk">Новосибирск</button>
-            <button type="button" class="city-item" data-city="ekaterinburg">Екатеринбург</button>
-            <button type="button" class="city-item" data-city="kazan">Казань</button>
-            <button type="button" class="city-item" data-city="nn">Нижний Новгород</button>
-            <button type="button" class="city-item" data-city="chelyabinsk">Челябинск</button>
-            <button type="button" class="city-item" data-city="samara">Самара</button>
-            <button type="button" class="city-item" data-city="rostov">Ростов-на-Дону</button>
-            <button type="button" class="city-item" data-city="ufa">Уфа</button>
-            <button type="button" class="city-item" data-city="voronezh">Воронеж</button>
-            <button type="button" class="city-item" data-city="volgograd">Волгоград</button>
-          </div>
-        </div>
-
-        <!-- Баннер подтверждения города -->
-        <div class="city-confirm-banner" id="city-confirm-banner">
-          <p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p>
-          <div class="city-confirm-btns">
-            <button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button>
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Телефон и CTA -->
-      <div class="header-phone-box">
-        <a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a>
-        <span class="work-hours-badge">Круглосуточно 24/7</span>
-      </div>
-      
-      <a href="#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn">Заказать звонок</a>
-
-      <!-- Кнопка бургер-меню (видна только на мобильных) -->
-      <button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню">
-        <span class="burger-bar"></span>
-        <span class="burger-bar"></span>
-        <span class="burger-bar"></span>
-      </button>
+      <div class="city-selector-wrap"><button class="city-selector-btn" id="current-selected-city" type="button" aria-label="Выбрать город"><span class="city-icon-pin">📍</span><span class="city-selector-current" id="city-btn-text">Краснодар</span><span class="city-selector-arrow">▼</span></button><div class="city-dropdown" id="city-dropdown-menu"><div class="city-dropdown-list">
+        <button type="button" class="city-item" data-city="krasnodar">Краснодар</button><button type="button" class="city-item" data-city="anapa">Анапа</button><button type="button" class="city-item" data-city="novorossiysk">Новороссийск</button><button type="button" class="city-item" data-city="sochi">Сочи / Адлер / Сириус</button><button type="button" class="city-item" data-city="gelendzhik">Геленджик</button><button type="button" class="city-item" data-city="moscow">Москва</button><button type="button" class="city-item" data-city="spb">Санкт-Петербург</button><button type="button" class="city-item" data-city="novosibirsk">Новосибирск</button><button type="button" class="city-item" data-city="ekaterinburg">Екатеринбург</button><button type="button" class="city-item" data-city="kazan">Казань</button><button type="button" class="city-item" data-city="nn">Нижний Новгород</button><button type="button" class="city-item" data-city="chelyabinsk">Челябинск</button><button type="button" class="city-item" data-city="samara">Самара</button><button type="button" class="city-item" data-city="rostov">Ростов-на-Дону</button><button type="button" class="city-item" data-city="ufa">Уфа</button><button type="button" class="city-item" data-city="voronezh">Воронеж</button><button type="button" class="city-item" data-city="volgograd">Волгоград</button>
+      </div></div><div class="city-confirm-banner" id="city-confirm-banner"><p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p><div class="city-confirm-btns"><button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button><button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button></div></div></div>
+      <div class="header-phone-box"><a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a><span class="work-hours-badge">Круглосуточно 24/7</span></div><a href="index.html#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn">Заказать звонок</a><button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню" type="button"><span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span></button>
     </div>
   </div>
 </header>
-
-    <div class="mobile-nav-overlay" id="mobile-menu-overlay">
-      <div class="mobile-nav-content">
-        <button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню">
-          <span></span>
-          <span></span>
-        </button>
-        <ul class="mobile-nav-links">
-          <li><a href="about.html" class="mobile-link">О нас</a></li>
-          <li><a href="#services" class="mobile-link">Услуги</a></li>
-          <li><a href="#reviews" class="mobile-link">Отзывы</a></li>
-          <li>
-            <a href="#calculator" class="mobile-link">Калькулятор стоимости</a>
-          </li>
-          <li><a href="#fleet" class="mobile-link">Наш автопарк</a></li>
-          <li><a href="#faq" class="mobile-link">Частые вопросы</a></li>
-          <li><a href="blog/" class="mobile-link">Блог</a></li>
-          <li><a href="#contacts" class="mobile-link">Контакты</a></li>
-        </ul>
-        <div class="mobile-nav-footer">
-          <a href="tel:+79283333281" class="mobile-phone-link"
-            >+7 (928) 333-32-81</a
-          >
-          <p class="mobile-hours">Прием заказов с 9:00 до 20:00</p>
-          <a
-            href="#order-form-section"
-            class="btn btn-primary"
-            id="mobile-menu-cta"
-            >Быстрый заказ</a
-          >
-        </div>
-      </div>
-    </div>
-
-    <main>
+<div class="mobile-nav-overlay" id="mobile-menu-overlay"><div class="mobile-nav-content"><button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню"><span></span><span></span></button><ul class="mobile-nav-links"><li><a href="index.html" class="mobile-link">Главная</a></li><li><a href="about.html" class="mobile-link">О нас</a></li><li><a href="index.html#services" class="mobile-link">Услуги</a></li><li><a href="index.html#reviews" class="mobile-link">Отзывы</a></li><li><a href="index.html#faq" class="mobile-link">Вопросы</a></li><li><a href="blog/" class="mobile-link">Блог</a></li></ul><div class="mobile-nav-footer"><a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 333-32-81</a><p class="mobile-hours">Прием заказов 24/7</p><a href="index.html#order-form-section" class="btn btn-primary" id="mobile-menu-cta">Быстрый заказ</a></div></div></div>
+<main>
       <section class="hero-section" id="hero">
         <div class="container hero-container">
           <div class="hero-text-content">
@@ -359,16 +260,18 @@
                 <h3>Заказ грузчиков онлайн</h3>
               </div>
               <form
-                action="https://formspree.io/f/xeebjwkn"
-                method="POST"
                 class="hero-quick-form"
                 id="hero-quick-form"
-              >
+               action="https://formspree.io/f/xeebjwkn" method="POST"
                 <input
                   type="hidden"
                   name="_next"
                   value="https://pragruz.ru/thank-you.html"
                 />
+          <div class="form-hp-field" aria-hidden="true">
+            <label>Не заполняйте это поле</label>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
                 <div class="form-group-custom">
                   <label for="quick-service">Что требуется сделать?</label>
                   <select
@@ -390,7 +293,7 @@
                     type="tel"
                     name="phone"
                     id="quick-phone"
-                    placeholder="+7 (999) 000-00-00"
+                    placeholder="+7 (928) 333-32-81"
                     required
                     class="form-input-custom"
                   />
@@ -494,141 +397,6 @@
           </div>
         </div>
       </section>
-
-      <style>
-        .pg-team-section {
-          padding: 80px 20px;
-          background-color: #0a0e1a; /* Твой тёмный фон */
-          font-family:
-            system-ui,
-            -apple-system,
-            sans-serif;
-        }
-
-        .pg-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          text-align: center;
-        }
-
-        .pg-section-label {
-          font-size: 14px;
-          font-weight: 700;
-          color: #ffb800; /* Оранжевый как "ПРЕИМУЩЕСТВА" */
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          margin-bottom: 16px;
-        }
-
-        .pg-section-title {
-          font-size: 36px;
-          font-weight: 700;
-          color: #ffffff; /* Белый как у тебя */
-          margin: 0 0 16px 0;
-          line-height: 1.2;
-        }
-
-        .pg-section-subtitle {
-          font-size: 16px;
-          color: #b0b8c4; /* Светло-серый как описания у тебя */
-          max-width: 700px;
-          margin: 0 auto 40px;
-          line-height: 1.6;
-        }
-
-        .pg-team-photo-wrapper {
-          position: relative;
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-          margin-bottom: 40px;
-        }
-
-        .pg-team-photo {
-          width: 100%;
-          height: auto;
-          display: block;
-          object-fit: cover;
-        }
-
-        .pg-team-badge {
-          position: absolute;
-          bottom: 24px;
-          right: 24px;
-          background-color: #ffb800;
-          color: #0a0e1a;
-          padding: 16px 24px;
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          box-shadow: 0 10px 25px rgba(255, 184, 0, 0.4);
-        }
-
-        .pg-badge-number {
-          font-size: 42px;
-          font-weight: 900;
-          line-height: 1;
-        }
-
-        .pg-badge-text {
-          font-size: 14px;
-          font-weight: 600;
-          line-height: 1.3;
-          text-align: left;
-        }
-
-        .pg-team-features {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 20px;
-          max-width: 900px;
-          margin: 0 auto;
-        }
-
-        .pg-feature {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          font-size: 15px;
-          font-weight: 500;
-          color: #ffffff;
-          justify-content: center;
-        }
-
-        .pg-feature-icon {
-          color: #ffb800;
-          font-size: 20px;
-          font-weight: bold;
-        }
-
-        @media (max-width: 768px) {
-          .pg-team-section {
-            padding: 50px 15px;
-          }
-          .pg-section-title {
-            font-size: 26px;
-          }
-          .pg-section-subtitle {
-            font-size: 15px;
-          }
-          .pg-team-features {
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-          }
-          .pg-team-badge {
-            bottom: 15px;
-            right: 15px;
-            padding: 12px 16px;
-          }
-          .pg-badge-number {
-            font-size: 32px;
-          }
-          .pg-badge-text {
-            font-size: 12px;
-          }
-        }
-      </style>
       <section class="advantages-section">
         <div class="container">
           <div class="section-header text-center">
@@ -793,6 +561,60 @@
               />
             </div>
 
+
+
+            <div class="calc-extra-fields" aria-label="Дополнительные параметры расчета">
+              <div class="calc-step calc-step-compact">
+                <div class="calc-range-header">
+                  <label class="calc-label" for="floor-range">4. Этаж</label>
+                  <span class="range-val" id="floor-val">1 этаж</span>
+                </div>
+                <input
+                  type="range"
+                  id="floor-range"
+                  min="1"
+                  max="25"
+                  value="1"
+                  class="calc-slider"
+                />
+              </div>
+
+              <div class="calc-step calc-step-compact">
+                <label class="calc-label" for="elevator-select">5. Лифт</label>
+                <select id="elevator-select" class="form-select-custom calc-select">
+                  <option value="yes" selected>Есть грузовой/пассажирский лифт</option>
+                  <option value="no">Лифта нет или им нельзя пользоваться</option>
+                </select>
+              </div>
+
+              <div class="calc-step calc-step-compact">
+                <label class="calc-label" for="truck-select">6. Нужна машина?</label>
+                <select id="truck-select" class="form-select-custom calc-select">
+                  <option value="none" selected>Без машины</option>
+                  <option value="standard">Газель 3 м — от 2000 ₽/час</option>
+                  <option value="extended">Газель 4.2 м — от 2500 ₽/час</option>
+                </select>
+              </div>
+
+              <div class="calc-step calc-step-compact">
+                <label class="calc-label" for="distance-select">7. Расстояние переноски</label>
+                <select id="distance-select" class="form-select-custom calc-select">
+                  <option value="0" selected>До 20 метров</option>
+                  <option value="500">20–50 метров</option>
+                  <option value="1000">50–100 метров</option>
+                  <option value="1500">Более 100 метров</option>
+                </select>
+              </div>
+
+              <div class="calc-step calc-step-compact">
+                <label class="calc-label" for="heavy-select">8. Тяжелые предметы</label>
+                <select id="heavy-select" class="form-select-custom calc-select">
+                  <option value="0" selected>Нет предметов тяжелее 80 кг</option>
+                  <option value="1500">Есть тяжелые предметы / сложные условия</option>
+                </select>
+              </div>
+            </div>
+
             <div class="calc-result-box">
               <div class="result-pricing">
                 <span class="result-rate-info"
@@ -806,18 +628,11 @@
               <button class="btn btn-primary btn-block" id="calc-submit-btn">
                 Оформить заказ по этой цене
               </button>
-              <p
-                class="calc-disclaimer"
-                style="
-                  font-size: 0.8rem;
-                  opacity: 0.8;
-                  margin-top: 10px;
-                  line-height: 1.3;
-                "
-              >
-                * Предварительный расчет за наличный расчет. Не является
-                публичной офертой. Подъемы на этаж рассчитываются индивидуально.
-                Конечная стоимость зависит от объема и сложности работ.
+              <p class="calc-disclaimer price-disclaimer">
+                * Расчет является предварительным и не является публичной офертой.
+                Подъемы на этаж, аренда транспорта и дополнительные работы
+                рассчитываются индивидуально. Итоговая стоимость зависит от
+                объема, веса, условий доступа и сложности работ.
               </p>
             </div>
           </div>
@@ -1055,7 +870,7 @@
     <div class="reviews-footer-block">
       <p class="reviews-stat">Более <strong>2 847</strong> довольных клиентов по всей России</p>
       <button type="button" id="open-review-btn" class="btn btn-primary review-cta-btn">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px; vertical-align: middle;">
+  <svg class="u-style-021" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
   </svg>
@@ -1266,16 +1081,18 @@
               </div>
 
               <form
-                action="https://formspree.io/f/xeebjwkn"
-                method="POST"
                 id="main-booking-form"
                 class="main-form"
-              >
+               action="https://formspree.io/f/xeebjwkn" method="POST"
                 <input
                   type="hidden"
                   name="_next"
                   value="https://pragruz.ru/thank-you.html"
                 />
+          <div class="form-hp-field" aria-hidden="true">
+            <label>Не заполняйте это поле</label>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
                 <div class="form-row">
                   <div class="form-group-custom">
                     <label for="form-name">Ваше имя</label>
@@ -1294,7 +1111,7 @@
                       type="tel"
                       name="phone"
                       id="form-phone"
-                      placeholder="+7 (999) 000-00-00"
+                      placeholder="+7 (928) 333-32-81"
                       required
                       class="form-input-custom"
                     />
@@ -1407,9 +1224,9 @@
                 <span class="contact-icon">📞</span>
                 <div>
                   <strong>Телефон для заказа:</strong>
-                  <a
+                  <a class="u-style-020"
                     href="tel:+79283333281"
-                    style="color: inherit; text-decoration: none"
+                   
                     >+7 (928) 333-32-81</a
                   >
                   <p>Прием звонков с 9:00 до 20:00 ежедневно</p>
@@ -1421,13 +1238,7 @@
                   <strong>Адрес нашего офиса:</strong>
                   <p>
                     <span class="city-address"
-                      >350004, г. Краснодар, ул. Кропоткина д.50, офис 339</span
-                    >
-                  </p>
-                </div>
-              </div>
-              <div class="contact-item">
-                <span class="contact-icon"></span>
+                      >350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</span>
                 <div>
                   <strong>Бухгалтерия и документы:</strong>
                   <p>Работа с юрлицами с 10:00 до 18:00 (Пн-Пт)</p>
@@ -1549,77 +1360,27 @@
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div class="footer-col brand-col">
-          <a href="#" class="logo-area">
-            <div class="logo-area">
-              <img
-                src="assets/logo.png"
-                alt="Правильные Грузчики"
-                class="logo-icon-img"
-                style="height: 64px; width: auto"
-              />
-              <div class="logo-text">
-                <span class="logo-title">ПРАВИЛЬНЫЕ</span>
-                <span class="logo-subtitle">ГРУЗЧИКИ</span>
-              </div>
-            </div>
-          </a>
-          <p class="footer-pitch">
-            Лидеры подбора рабочего и складского персонала
-            <span class="city-name" data-case="prep">в Краснодаре</span>.
-            Работаем для вашего комфорта и прибыли с 2014 года.
-          </p>
-          <span class="footer-copy"
-            >© 2014 - 2026 ООО «Правильные грузчики». <br />Все права
-            защищены.</span
-          >
-        </div>
+    
+<section class="seo-links-section" data-dynamic-city-links aria-labelledby="city-services-title">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="sub-title-gradient js-city-name">Краснодар</span>
+      <h2 class="section-title" id="city-services-title">Популярные услуги <span class="js-city-prep">в Краснодаре</span></h2>
+      <p class="section-desc">Отдельные страницы по частым запросам: переезды, аренда Газели, разнорабочие и аутсорсинг персонала.</p>
+    </div>
+    <div class="seo-links-grid">
+      <a href="krasnodar/kvartirnyj-pereezd.html" data-service-path="kvartirnyj-pereezd.html">Квартирный переезд</a>
+      <a href="krasnodar/ofisnyj-pereezd.html" data-service-path="ofisnyj-pereezd.html">Офисный переезд</a>
+      <a href="krasnodar/raznorabochie.html" data-service-path="raznorabochie.html">Разнорабочие</a>
+      <a href="krasnodar/arenda-gazeli-3m.html" data-service-path="arenda-gazeli-3m.html">Аренда Газели 3 м</a>
+      <a href="krasnodar/arenda-gazeli-udlinennoj.html" data-service-path="arenda-gazeli-udlinennoj.html">Аренда удлиненной Газели</a>
+      <a href="krasnodar/autsorsing.html" data-service-path="autsorsing.html">Аутсорсинг персонала</a>
+    <a href="gruzoperevozki.html">Грузоперевозки и попутные грузы</a>
+    </div>
+  </div>
+</section>
 
-        <div class="footer-col">
-          <h4>Услуги</h4>
-          <ul class="footer-links">
-            <li><a href="#services">Услуги грузчиков</a></li>
-            <li><a href="#services">Разнорабочие на склады</a></li>
-            <li><a href="#fleet">Переезды с Газелью</a></li>
-            <li><a href="#services">Такелажники (сейфы, станки)</a></li>
-            <li><a href="#services">Сборка и разборка мебели</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Для бизнеса</h4>
-          <ul class="footer-links">
-            <li><a href="#order-form-section">Аутсорсинг персонала</a></li>
-            <li><a href="#order-form-section">Рабочие на производство</a></li>
-            <li><a href="#order-form-section">Комплектовщики складов</a></li>
-            <li><a href="#order-form-section">Безналичный расчет с НДС</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col contact-col">
-          <h4>Контакты</h4>
-          <ul class="footer-contacts">
-            <li>
-              <span class="f-contact-icon">📞</span>
-              <a href="tel:+79283333281">+7 (928) 333-32-81</a>
-            </li>
-            <li>
-              <span class="f-contact-icon"></span>
-              <span class="city-address"
-                >г. Краснодар, ул. Кропоткина д.50, оф. 339</span
-              >
-            </li>
-            <li><span class="f-contact-icon">✉️</span> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5d34333b321d2d2f3c3a2f2827732f28">[email&#160;protected]</a></li>
-          </ul>
-          <div class="social-links-stub">
-            <span class="social-icon">Telegram</span>
-            <span class="social-icon">WhatsApp</span>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="index.html" class="logo-area"><img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" /><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="loaders.html">Услуги грузчиков</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="moving.html">Квартирные переезды</a></li><li><a href="office-moving.html">Офисные переезды</a></li><li><a href="rigging.html">Такелажные работы</a></li><li><a href="furniture.html">Сборка мебели</a></li><li><a href="gruzoperevozki.html">Грузоперевозки</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</span></li><li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li></ul><div class="social-links-stub"><span class="social-icon">Telegram</span><span class="social-icon">WhatsApp</span></div></div></div></footer>
 
     <div class="modal-overlay" id="order-modal">
       <div class="modal-box">
@@ -1637,15 +1398,17 @@
           </p>
         </div>
         <form
-          action="https://formspree.io/f/xeebjwkn"
-          method="POST"
           id="modal-booking-form"
-        >
+         action="https://formspree.io/f/xeebjwkn" method="POST"
           <input
             type="hidden"
             name="_next"
             value="https://pragruz.ru/thank-you.html"
           />
+          <div class="form-hp-field" aria-hidden="true">
+            <label>Не заполняйте это поле</label>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
           <input type="hidden" name="service" id="modal-service-input" />
           <input type="hidden" name="details" id="modal-details-input" />
           <div class="form-group-custom">
@@ -1665,7 +1428,7 @@
               type="tel"
               name="phone"
               id="modal-phone"
-              placeholder="+7 (999) 000-00-00"
+              placeholder="+7 (928) 333-32-81"
               required
               class="form-input-custom"
             />
@@ -1673,6 +1436,10 @@
           <div class="modal-summary-badge" id="modal-summary-badge">
             Сумма расчета: <span>6400</span> ₽
           </div>
+          <p class="price-disclaimer modal-price-disclaimer">
+            * Расчет является предварительным и не является публичной офертой.
+            Итоговая стоимость подтверждается менеджером после уточнения деталей.
+          </p>
           <button
             type="submit"
             class="btn btn-primary btn-block btn-lg"
@@ -1720,8 +1487,8 @@
         </div>
       </div>
     </div>
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/@formspree/ajax@1" defer></script>
-    <script src="main.js"></script>
+    <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+    <script src="js/app.js"></script>
       
 <!-- ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ ===== -->
 <div class="glass-float-btn mobile-call-button">
@@ -1770,11 +1537,15 @@
       <p>Ваш отзыв поможет нам стать лучше</p>
     </div>
 
-    <form id="review-form" onsubmit="submitReview(event)">
+    <form id="review-form" onsubmit="submitReview(event)" action="https://formspree.io/f/xeebjwkn" method="POST"
       
       <!-- Интерактивный рейтинг -->
-      <div class="form-group-custom" style="text-align: center; margin-bottom: 24px;">
-        <label style="display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.85rem;">Оцените качество услуг</label>
+          <div class="form-hp-field" aria-hidden="true">
+            <label>Не заполняйте это поле</label>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+      <div class="form-group-custom u-style-022">
+        <label class="u-style-023">Оцените качество услуг</label>
         <div class="star-rating" id="star-rating">
   <span data-value="1">★</span>
   <span data-value="2">★</span>
@@ -1818,11 +1589,11 @@
 
       <input type="hidden" id="review-city" value="">
 
-      <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 16px;">
+      <button type="submit" class="btn btn-primary btn-block btn-lg u-style-024">
         Отправить отзыв
       </button>
       
-      <p style="font-size: 0.7rem; color: #4b5563; text-align: center; margin-top: 12px;">
+      <p class="u-style-025">
         Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
       </p>
     </form>

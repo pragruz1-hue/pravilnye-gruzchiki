@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='utf-8'?>
+<yml_catalog date="2026-06-29 12:00">
+  <shop>
+    <name>Правильные грузчики — Ростовская область</name>
+    <company>ООО "Правильные грузчики"</company>
+    <url>https://pragruz.ru</url>
+    <currencies>
+      <currency id="RUR" rate="1" />
+    </currencies>
+    <categories>
+      <category id="1">Грузчики и разнорабочие</category>
+      <category id="2">Переезды</category>
+      <category id="3">Такелаж и мебель</category>
+      <category id="4">Аренда транспорта</category>
+      <category id="5">Аутсорсинг персонала</category>
+    </categories>
+    <offers>
+      <offer id="rostov_loaders" available="true">
+        <name>Услуги грузчиков в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_workers" available="true">
+        <name>Разнорабочие в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_moving" available="true">
+        <name>Квартирный переезд в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_office-moving" available="true">
+        <name>Офисный переезд в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_rigging" available="true">
+        <name>Такелажные работы в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Ростове-на-Дону. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_furniture" available="true">
+        <name>Сборка мебели в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Ростове-на-Дону. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Ростове-на-Дону. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+    </offers>
+  </shop>
+</yml_catalog>

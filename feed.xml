@@ -1,211 +1,2621 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <yml_catalog date="2026-06-29 12:00">
-<shop>
-<name>Правильные грузчики Краснодар</name>
-<company>ООО "Правильные грузчики"</company>
-<url>https://pragruz.ru</url>
-
-<categories>
-<category id="1">Грузчики</category>
-<category id="2">Переезды</category>
-<category id="3">Такелажные работы</category>
-<category id="4">Аренда транспорта</category>
-<category id="5">Аутсорсинг персонала</category>
-</categories>
-
-<offers>
-<!-- ОФФЕР 1: Услуги грузчиков -->
-<offer id="gruzchiki_800" available="true">
-<name>Услуги грузчиков в Краснодаре, ООО "Правильные грузчики"</name>
-<url>https://pragruz.ru/loaders.html</url>
-<price>800</price>
-<currencyId>RUR</currencyId>
-<categoryId>1</categoryId>
-<picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
-<description>Услуги профессиональных грузчиков в Краснодаре от 800 руб/час. Разгрузка фур, контейнеров, вагонов. Квартирные и офисные переезды. Подъем на этаж, перестановка мебели. Выезд от 30 минут. Работаем 24/7. Более 12 лет опыта, 9000+ заказов.</description>
-<param name="Рейтинг">5.0</param>
-<param name="Число отзывов">127</param>
-<param name="Годы опыта">12</param>
-<param name="Регион">Краснодар</param>
-<param name="Вид услуги">Услуги грузчиков, Погрузо-разгрузочные работы</param>
-<param name="Минимальный заказ">2 часа</param>
-<param name="Подача">от 30 минут</param>
-<param name="Режим работы">Круглосуточно 24/7</param>
-<param name="Телефон">+79283333281</param>
-<param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
-</offer>
-
-<!-- ОФФЕР 2: Квартирный переезд -->
-<offer id="kvartirniy_pereezd" available="true">
-<name>Квартирный переезд в Краснодаре под ключ, ООО "Правильные грузчики"</name>
-<url>https://pragruz.ru/krasnodar/kvartirnyj-pereezd.html</url>
-<price>800</price>
-<currencyId>RUR</currencyId>
-<categoryId>2</categoryId>
-<picture>https://pragruz.ru/assets/service-kvartirnyy-pereezd.webp</picture>
-<description>Квартирный переезд в Краснодаре под ключ от 800 руб/час. Грузчики + Газель. Упаковка вещей, разборка и сборка мебели, перевозка на Газели 3м или 4.2м. Подача от 60 минут. Перевезли 9000+ квартир. Работаем 24/7.</description>
-<param name="Рейтинг">5.0</param>
-<param name="Число отзывов">127</param>
-<param name="Годы опыта">12</param>
-<param name="Регион">Краснодар</param>
-<param name="Вид услуги">Квартирный переезд</param>
-<param name="Включено">Грузчики, Транспорт, Упаковка, Сборка мебели</param>
-<param name="Минимальный заказ">2 часа</param>
-<param name="Подача">от 60 минут</param>
-<param name="Телефон">+79283333281</param>
-<param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
-</offer>
-
-<!-- ОФФЕР 3: Офисный переезд -->
-<offer id="ofisniy_pereezd" available="true">
-<name>Офисный переезд в Краснодаре без простоя, ООО "Правильные грузчики"</name>
-<url>https://pragruz.ru/krasnodar/ofisnyj-pereezd.html</url>
-<price>800</price>
-<currencyId>RUR</currencyId>
-<categoryId>2</categoryId>
-<picture>https://pragruz.ru/assets/service-ofisnyy-pereezd.webp</picture>
-<description>Офисный переезд в Краснодаре от 800 руб/час. Перевозка мебели, оргтехники, серверов, документов. Работаем в выходные и ночью — ваш офис не простаивает. Бережная перевозка IT-оборудования. 120+ офисных переездов. Договор, НДС.</description>
-<param name="Рейтинг">5.0</param>
-<param name="Число отзывов">127</param>
-<param name="Годы опыта">12</param>
-<param name="Регион">Краснодар</param>
-<param name="Вид услуги">Офисный переезд</param>
-<param name="Включено">Грузчики, Транспорт, Упаковка оргтехники, Маркировка</param>
-<param name="Минимальный заказ">3 часа</param>
-<param name="Подача">от 60 минут</param>
-<param name="Телефон">+79283333281</param>
-<param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
-</offer>
-
-<!-- ОФФЕР 4: Разнорабочие -->
-<offer id="raznorabochie" available="true">
-<name>Разнорабочие в Краснодаре от 800 ₽/час, ООО "Правильные грузчики"</name>
-<url>https://pragruz.ru/krasnodar/raznorabochie.html</url>
-<price>800</price>
-<currencyId>RUR</currencyId>
-<categoryId>1</categoryId>
-<picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
-<description>Разнорабочие в Краснодаре от 800 руб/час. Подсобные работы на стройке, уборка, демонтаж, работа на складах и производствах. Вывод от 1 до 50 человек за 24 часа. Работаем с физлицами и юрлицами. Минимальный заказ 2 часа.</description>
-<param name="Рейтинг">5.0</param>
-<param name="Число отзывов">127</param>
-<param name="Годы опыта">12</param>
-<param name="Регион">Краснодар</param>
-<param name="Вид услуги">Разнорабочие, Подсобные рабочие</param>
-<param name="Минимальный заказ">2 часа</param>
-<param name="Подача">от 60 минут</param>
-<param name="Телефон">+79283333281</param>
-<param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
-</offer>
-
-<!-- ОФФЕР 5: Такелажные работы -->
-<offer id="takelag" available="true">
-<name>Такелажные работы в Краснодаре, ООО "Правильные грузчики"</name>
-<url>https://pragruz.ru/rigging.html</url>
-<price>1200</price>
-<currencyId>RUR</currencyId>
-<categoryId>3</categoryId>
-<picture>https://pragruz.ru/assets/service-takelag.webp</picture>
-<description>Такелажные работы в Краснодаре от 1200 руб/час. Перевозка сейфов, пианино, МРТ-томографов, банкоматов, промышленных станков. Спецоборудование: ролики, лебедки, стропы, гидравлические тележки. 14 МРТ-томографов перевезено. Договорные цены.</description>
-<param name="Рейтинг">5.0</param>
-<param name="Число отзывов">127</param>
-<param name="Годы опыта">12</param>
-<param name="Регион">Краснодар</param>
-<param name="Вид услуги">Такелажные работы</param>
-<param name="Оборудование">Ролики, лебедки, стропы, гидравлические тележки</param>
-<param name="Минимальный заказ">3 часа</param>
-<param name="Подача">от 90 минут</param>
-<param name="Телефон">+79283333281</param>
-<param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
-</offer>
-
-<!-- ОФФЕР 6: Аренда Газели стандартной -->
-<offer id="gazel_standart" available="true">
-<name>Аренда Газели 3 метра в Краснодаре, ООО "Правильные грузчики"</name>
-<url>https://pragruz.ru/krasnodar/arenda-gazeli-3m.html</url>
-<price>2000</price>
-<currencyId>RUR</currencyId>
-<categoryId>4</categoryId>
-<picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
-<description>Аренда Газели 3 метра в Краснодаре с водителем от 2000 руб/час. Грузоподъемность 1.5 тонны, кузов 10 м³. Перевозка мебели, бытовой техники, стройматериалов. Подача от 60 минут. Чистый кузов, крепежные ремни. Работаем 24/7.</description>
-<param name="Рейтинг">5.0</param>
-<param name="Число отзывов">127</param>
-<param name="Годы опыта">12</param>
-<param name="Регион">Краснодар</param>
-<param name="Вид услуги">Грузоперевозки, Аренда Газели</param>
-<param name="Тип транспорта">Газель стандартная (3м)</param>
-<param name="Грузоподъемность">1.5 тонны</param>
-<param name="Объем кузова">10 м³</param>
-<param name="Минимальный заказ">2 часа</param>
-<param name="Подача">от 60 минут</param>
-<param name="Телефон">+79283333281</param>
-<param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
-</offer>
-
-<!-- ОФФЕР 7: Аренда Газели удлиненной -->
-<offer id="gazel_udlinennaya" available="true">
-<name>Аренда Газели 4.2 метра в Краснодаре, ООО "Правильные грузчики"</name>
-<url>https://pragruz.ru/krasnodar/arenda-gazeli-udlinennoj.html</url>
-<price>2500</price>
-<currencyId>RUR</currencyId>
-<categoryId>4</categoryId>
-<picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
-<description>Аренда Газели 4.2 метра (удлиненной) в Краснодаре с водителем от 2500 руб/час. Грузоподъемность 2 тонны, кузов 25 м³. Перевозка 2-3 комнатных квартир, офисов, крупногабаритных грузов. Подача от 60 минут. Работаем 24/7.</description>
-<param name="Рейтинг">5.0</param>
-<param name="Число отзывов">127</param>
-<param name="Годы опыта">12</param>
-<param name="Регион">Краснодар</param>
-<param name="Вид услуги">Грузоперевозки, Аренда Газели</param>
-<param name="Тип транспорта">Газель удлиненная (4.2м)</param>
-<param name="Грузоподъемность">2 тонны</param>
-<param name="Объем кузова">25 м³</param>
-<param name="Минимальный заказ">2 часа</param>
-<param name="Подача">от 60 минут</param>
-<param name="Телефон">+79283333281</param>
-<param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
-</offer>
-
-<!-- ОФФЕР 8: Сборка/разборка мебели -->
-<offer id="sborka_mebeli" available="true">
-<name>Сборка мебели в Краснодаре, ООО "Правильные грузчики"</name>
-<url>https://pragruz.ru/furniture.html</url>
-<price>800</price>
-<currencyId>RUR</currencyId>
-<categoryId>3</categoryId>
-<picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
-<description>Сборка и разборка мебели в Краснодаре от 800 руб/час. Шкафы-купе, кухни, кровати, офисная мебель, торговое оборудование. Собрали 200+ кухонь для ЖК «Парус», 500+ шкафов-купе. Свой инструмент, выезд в день заказа. Гарантия качества.</description>
-<param name="Рейтинг">5.0</param>
-<param name="Число отзывов">127</param>
-<param name="Годы опыта">12</param>
-<param name="Регион">Краснодар</param>
-<param name="Вид услуги">Сборка мебели, Разборка мебели</param>
-<param name="Тип мебели">Шкафы, Кухни, Кровати, Офисная мебель</param>
-<param name="Минимальный заказ">1 час</param>
-<param name="Подача">от 60 минут</param>
-<param name="Телефон">+79283333281</param>
-<param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
-</offer>
-
-<!-- ОФФЕР 9: Аутсорсинг персонала -->
-<offer id="autsorsing" available="true">
-<name>Аутсорсинг персонала в Краснодаре, ООО "Правильные грузчики"</name>
-<url>https://pragruz.ru/krasnodar/autsorsing.html</url>
-<price>800</price>
-<currencyId>RUR</currencyId>
-<categoryId>5</categoryId>
-<picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
-<description>Аутсорсинг линейного персонала в Краснодаре от 800 руб/час. Грузчики, разнорабочие, комплектовщики, упаковщики для складов, производств, логистических центров. Экономия до 30% бюджета. Вывод от 1 до 50 человек за 24 часа. Договор, НДС.</description>
-<param name="Рейтинг">5.0</param>
-<param name="Число отзывов">127</param>
-<param name="Годы опыта">12</param>
-<param name="Регион">Краснодар</param>
-<param name="Вид услуги">Аутсорсинг персонала</param>
-<param name="Специальности">Грузчики, Разнорабочие, Комплектовщики, Упаковщики</param>
-<param name="Для кого">Склады, Производства, Логистические центры</param>
-<param name="Минимальный заказ">4 часа</param>
-<param name="Телефон">+79283333281</param>
-<param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
-</offer>
-
-</offers>
-</shop>
+  <shop>
+    <name>Правильные грузчики</name>
+    <company>ООО "Правильные грузчики"</company>
+    <url>https://pragruz.ru</url>
+    <currencies>
+      <currency id="RUR" rate="1" />
+    </currencies>
+    <categories>
+      <category id="1">Грузчики и разнорабочие</category>
+      <category id="2">Переезды</category>
+      <category id="3">Такелаж и мебель</category>
+      <category id="4">Аренда транспорта</category>
+      <category id="5">Аутсорсинг персонала</category>
+    </categories>
+    <offers>
+      <offer id="krasnodar_loaders" available="true">
+        <name>Услуги грузчиков в Краснодаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/krasnodar/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Краснодаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Краснодар</param>
+        <param name="Адрес">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="krasnodar_workers" available="true">
+        <name>Разнорабочие в Краснодаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/krasnodar/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Краснодаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Краснодар</param>
+        <param name="Адрес">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="krasnodar_moving" available="true">
+        <name>Квартирный переезд в Краснодаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/krasnodar/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Краснодаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Краснодар</param>
+        <param name="Адрес">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="krasnodar_office-moving" available="true">
+        <name>Офисный переезд в Краснодаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/krasnodar/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Краснодаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Краснодар</param>
+        <param name="Адрес">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="krasnodar_rigging" available="true">
+        <name>Такелажные работы в Краснодаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/krasnodar/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Краснодаре. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Краснодар</param>
+        <param name="Адрес">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="krasnodar_furniture" available="true">
+        <name>Сборка мебели в Краснодаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/krasnodar/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Краснодаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Краснодар</param>
+        <param name="Адрес">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="krasnodar_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Краснодаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/krasnodar/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Краснодаре. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Краснодар</param>
+        <param name="Адрес">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="krasnodar_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Краснодаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/krasnodar/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Краснодаре. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Краснодар</param>
+        <param name="Адрес">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="krasnodar_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Краснодаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/krasnodar/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Краснодаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Краснодар</param>
+        <param name="Адрес">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="anapa_loaders" available="true">
+        <name>Услуги грузчиков в Анапе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/anapa/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Анапе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Анапа</param>
+        <param name="Адрес">353440, г. Анапа, ул. Крымская, д. 177, офис 12</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="anapa_workers" available="true">
+        <name>Разнорабочие в Анапе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/anapa/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Анапе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Анапа</param>
+        <param name="Адрес">353440, г. Анапа, ул. Крымская, д. 177, офис 12</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="anapa_moving" available="true">
+        <name>Квартирный переезд в Анапе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/anapa/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Анапе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Анапа</param>
+        <param name="Адрес">353440, г. Анапа, ул. Крымская, д. 177, офис 12</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="anapa_office-moving" available="true">
+        <name>Офисный переезд в Анапе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/anapa/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Анапе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Анапа</param>
+        <param name="Адрес">353440, г. Анапа, ул. Крымская, д. 177, офис 12</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="anapa_rigging" available="true">
+        <name>Такелажные работы в Анапе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/anapa/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Анапе. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Анапа</param>
+        <param name="Адрес">353440, г. Анапа, ул. Крымская, д. 177, офис 12</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="anapa_furniture" available="true">
+        <name>Сборка мебели в Анапе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/anapa/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Анапе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Анапа</param>
+        <param name="Адрес">353440, г. Анапа, ул. Крымская, д. 177, офис 12</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="anapa_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Анапе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/anapa/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Анапе. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Анапа</param>
+        <param name="Адрес">353440, г. Анапа, ул. Крымская, д. 177, офис 12</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="anapa_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Анапе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/anapa/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Анапе. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Анапа</param>
+        <param name="Адрес">353440, г. Анапа, ул. Крымская, д. 177, офис 12</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="anapa_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Анапе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/anapa/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Анапе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Анапа</param>
+        <param name="Адрес">353440, г. Анапа, ул. Крымская, д. 177, офис 12</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novorossiysk_loaders" available="true">
+        <name>Услуги грузчиков в Новороссийске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novorossiysk/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Новороссийске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Новороссийск</param>
+        <param name="Адрес">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novorossiysk_workers" available="true">
+        <name>Разнорабочие в Новороссийске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novorossiysk/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Новороссийске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Новороссийск</param>
+        <param name="Адрес">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novorossiysk_moving" available="true">
+        <name>Квартирный переезд в Новороссийске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novorossiysk/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Новороссийске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Новороссийск</param>
+        <param name="Адрес">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novorossiysk_office-moving" available="true">
+        <name>Офисный переезд в Новороссийске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novorossiysk/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Новороссийске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Новороссийск</param>
+        <param name="Адрес">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novorossiysk_rigging" available="true">
+        <name>Такелажные работы в Новороссийске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novorossiysk/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Новороссийске. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Новороссийск</param>
+        <param name="Адрес">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novorossiysk_furniture" available="true">
+        <name>Сборка мебели в Новороссийске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novorossiysk/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Новороссийске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Новороссийск</param>
+        <param name="Адрес">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novorossiysk_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Новороссийске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novorossiysk/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Новороссийске. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Новороссийск</param>
+        <param name="Адрес">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novorossiysk_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Новороссийске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novorossiysk/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Новороссийске. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Новороссийск</param>
+        <param name="Адрес">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novorossiysk_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Новороссийске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novorossiysk/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Новороссийске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Новороссийск</param>
+        <param name="Адрес">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="sochi_loaders" available="true">
+        <name>Услуги грузчиков в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/sochi/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Сочи, Адлере и Сириусе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Сочи / Адлер / Сириус</param>
+        <param name="Адрес">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="sochi_workers" available="true">
+        <name>Разнорабочие в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/sochi/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Сочи, Адлере и Сириусе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Сочи / Адлер / Сириус</param>
+        <param name="Адрес">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="sochi_moving" available="true">
+        <name>Квартирный переезд в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/sochi/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Сочи, Адлере и Сириусе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Сочи / Адлер / Сириус</param>
+        <param name="Адрес">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="sochi_office-moving" available="true">
+        <name>Офисный переезд в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/sochi/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Сочи, Адлере и Сириусе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Сочи / Адлер / Сириус</param>
+        <param name="Адрес">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="sochi_rigging" available="true">
+        <name>Такелажные работы в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/sochi/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Сочи, Адлере и Сириусе. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Сочи / Адлер / Сириус</param>
+        <param name="Адрес">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="sochi_furniture" available="true">
+        <name>Сборка мебели в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/sochi/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Сочи, Адлере и Сириусе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Сочи / Адлер / Сириус</param>
+        <param name="Адрес">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="sochi_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/sochi/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Сочи, Адлере и Сириусе. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Сочи / Адлер / Сириус</param>
+        <param name="Адрес">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="sochi_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/sochi/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Сочи, Адлере и Сириусе. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Сочи / Адлер / Сириус</param>
+        <param name="Адрес">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="sochi_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/sochi/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Сочи, Адлере и Сириусе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Сочи / Адлер / Сириус</param>
+        <param name="Адрес">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="gelendzhik_loaders" available="true">
+        <name>Услуги грузчиков в Геленджике, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/gelendzhik/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Геленджике. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Геленджик</param>
+        <param name="Адрес">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="gelendzhik_workers" available="true">
+        <name>Разнорабочие в Геленджике, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/gelendzhik/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Геленджике. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Геленджик</param>
+        <param name="Адрес">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="gelendzhik_moving" available="true">
+        <name>Квартирный переезд в Геленджике, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/gelendzhik/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Геленджике. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Геленджик</param>
+        <param name="Адрес">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="gelendzhik_office-moving" available="true">
+        <name>Офисный переезд в Геленджике, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/gelendzhik/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Геленджике. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Геленджик</param>
+        <param name="Адрес">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="gelendzhik_rigging" available="true">
+        <name>Такелажные работы в Геленджике, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/gelendzhik/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Геленджике. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Геленджик</param>
+        <param name="Адрес">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="gelendzhik_furniture" available="true">
+        <name>Сборка мебели в Геленджике, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/gelendzhik/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Геленджике. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Геленджик</param>
+        <param name="Адрес">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="gelendzhik_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Геленджике, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/gelendzhik/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Геленджике. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Геленджик</param>
+        <param name="Адрес">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="gelendzhik_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Геленджике, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/gelendzhik/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Геленджике. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Геленджик</param>
+        <param name="Адрес">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="gelendzhik_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Геленджике, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/gelendzhik/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Геленджике. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Краснодарский край</param>
+        <param name="Город">Геленджик</param>
+        <param name="Адрес">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="moscow_loaders" available="true">
+        <name>Услуги грузчиков в Москве, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/moscow/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Москве. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Москва</param>
+        <param name="Город">Москва</param>
+        <param name="Адрес">101000, г. Москва, ул. Мясницкая, д. 24, офис 102</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="moscow_workers" available="true">
+        <name>Разнорабочие в Москве, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/moscow/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Москве. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Москва</param>
+        <param name="Город">Москва</param>
+        <param name="Адрес">101000, г. Москва, ул. Мясницкая, д. 24, офис 102</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="moscow_moving" available="true">
+        <name>Квартирный переезд в Москве, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/moscow/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Москве. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Москва</param>
+        <param name="Город">Москва</param>
+        <param name="Адрес">101000, г. Москва, ул. Мясницкая, д. 24, офис 102</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="moscow_office-moving" available="true">
+        <name>Офисный переезд в Москве, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/moscow/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Москве. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Москва</param>
+        <param name="Город">Москва</param>
+        <param name="Адрес">101000, г. Москва, ул. Мясницкая, д. 24, офис 102</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="moscow_rigging" available="true">
+        <name>Такелажные работы в Москве, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/moscow/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Москве. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Москва</param>
+        <param name="Город">Москва</param>
+        <param name="Адрес">101000, г. Москва, ул. Мясницкая, д. 24, офис 102</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="moscow_furniture" available="true">
+        <name>Сборка мебели в Москве, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/moscow/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Москве. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Москва</param>
+        <param name="Город">Москва</param>
+        <param name="Адрес">101000, г. Москва, ул. Мясницкая, д. 24, офис 102</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="moscow_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Москве, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/moscow/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Москве. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Москва</param>
+        <param name="Город">Москва</param>
+        <param name="Адрес">101000, г. Москва, ул. Мясницкая, д. 24, офис 102</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="moscow_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Москве, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/moscow/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Москве. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Москва</param>
+        <param name="Город">Москва</param>
+        <param name="Адрес">101000, г. Москва, ул. Мясницкая, д. 24, офис 102</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="moscow_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Москве, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/moscow/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Москве. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Москва</param>
+        <param name="Город">Москва</param>
+        <param name="Адрес">101000, г. Москва, ул. Мясницкая, д. 24, офис 102</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="spb_loaders" available="true">
+        <name>Услуги грузчиков в Санкт-Петербурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/spb/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Санкт-Петербурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Санкт-Петербург</param>
+        <param name="Город">Санкт-Петербург</param>
+        <param name="Адрес">191025, г. Санкт-Петербург, Невский проспект, д. 42, офис 15</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="spb_workers" available="true">
+        <name>Разнорабочие в Санкт-Петербурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/spb/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Санкт-Петербурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Санкт-Петербург</param>
+        <param name="Город">Санкт-Петербург</param>
+        <param name="Адрес">191025, г. Санкт-Петербург, Невский проспект, д. 42, офис 15</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="spb_moving" available="true">
+        <name>Квартирный переезд в Санкт-Петербурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/spb/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Санкт-Петербурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Санкт-Петербург</param>
+        <param name="Город">Санкт-Петербург</param>
+        <param name="Адрес">191025, г. Санкт-Петербург, Невский проспект, д. 42, офис 15</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="spb_office-moving" available="true">
+        <name>Офисный переезд в Санкт-Петербурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/spb/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Санкт-Петербурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Санкт-Петербург</param>
+        <param name="Город">Санкт-Петербург</param>
+        <param name="Адрес">191025, г. Санкт-Петербург, Невский проспект, д. 42, офис 15</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="spb_rigging" available="true">
+        <name>Такелажные работы в Санкт-Петербурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/spb/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Санкт-Петербурге. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Санкт-Петербург</param>
+        <param name="Город">Санкт-Петербург</param>
+        <param name="Адрес">191025, г. Санкт-Петербург, Невский проспект, д. 42, офис 15</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="spb_furniture" available="true">
+        <name>Сборка мебели в Санкт-Петербурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/spb/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Санкт-Петербурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Санкт-Петербург</param>
+        <param name="Город">Санкт-Петербург</param>
+        <param name="Адрес">191025, г. Санкт-Петербург, Невский проспект, д. 42, офис 15</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="spb_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Санкт-Петербурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/spb/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Санкт-Петербурге. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Санкт-Петербург</param>
+        <param name="Город">Санкт-Петербург</param>
+        <param name="Адрес">191025, г. Санкт-Петербург, Невский проспект, д. 42, офис 15</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="spb_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Санкт-Петербурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/spb/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Санкт-Петербурге. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Санкт-Петербург</param>
+        <param name="Город">Санкт-Петербург</param>
+        <param name="Адрес">191025, г. Санкт-Петербург, Невский проспект, д. 42, офис 15</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="spb_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Санкт-Петербурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/spb/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Санкт-Петербурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Санкт-Петербург</param>
+        <param name="Город">Санкт-Петербург</param>
+        <param name="Адрес">191025, г. Санкт-Петербург, Невский проспект, д. 42, офис 15</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novosibirsk_loaders" available="true">
+        <name>Услуги грузчиков в Новосибирске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novosibirsk/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Новосибирске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Новосибирская область</param>
+        <param name="Город">Новосибирск</param>
+        <param name="Адрес">630099, г. Новосибирск, Красный проспект, д. 28, офис 412</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novosibirsk_workers" available="true">
+        <name>Разнорабочие в Новосибирске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novosibirsk/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Новосибирске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Новосибирская область</param>
+        <param name="Город">Новосибирск</param>
+        <param name="Адрес">630099, г. Новосибирск, Красный проспект, д. 28, офис 412</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novosibirsk_moving" available="true">
+        <name>Квартирный переезд в Новосибирске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novosibirsk/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Новосибирске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Новосибирская область</param>
+        <param name="Город">Новосибирск</param>
+        <param name="Адрес">630099, г. Новосибирск, Красный проспект, д. 28, офис 412</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novosibirsk_office-moving" available="true">
+        <name>Офисный переезд в Новосибирске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novosibirsk/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Новосибирске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Новосибирская область</param>
+        <param name="Город">Новосибирск</param>
+        <param name="Адрес">630099, г. Новосибирск, Красный проспект, д. 28, офис 412</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novosibirsk_rigging" available="true">
+        <name>Такелажные работы в Новосибирске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novosibirsk/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Новосибирске. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Новосибирская область</param>
+        <param name="Город">Новосибирск</param>
+        <param name="Адрес">630099, г. Новосибирск, Красный проспект, д. 28, офис 412</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novosibirsk_furniture" available="true">
+        <name>Сборка мебели в Новосибирске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novosibirsk/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Новосибирске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Новосибирская область</param>
+        <param name="Город">Новосибирск</param>
+        <param name="Адрес">630099, г. Новосибирск, Красный проспект, д. 28, офис 412</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novosibirsk_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Новосибирске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novosibirsk/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Новосибирске. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Новосибирская область</param>
+        <param name="Город">Новосибирск</param>
+        <param name="Адрес">630099, г. Новосибирск, Красный проспект, д. 28, офис 412</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novosibirsk_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Новосибирске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novosibirsk/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Новосибирске. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Новосибирская область</param>
+        <param name="Город">Новосибирск</param>
+        <param name="Адрес">630099, г. Новосибирск, Красный проспект, д. 28, офис 412</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="novosibirsk_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Новосибирске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/novosibirsk/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Новосибирске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Новосибирская область</param>
+        <param name="Город">Новосибирск</param>
+        <param name="Адрес">630099, г. Новосибирск, Красный проспект, д. 28, офис 412</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ekaterinburg_loaders" available="true">
+        <name>Услуги грузчиков в Екатеринбурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ekaterinburg/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Екатеринбурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Свердловская область</param>
+        <param name="Город">Екатеринбург</param>
+        <param name="Адрес">620014, г. Екатеринбург, ул. Малышева, д. 51, офис 805</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ekaterinburg_workers" available="true">
+        <name>Разнорабочие в Екатеринбурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ekaterinburg/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Екатеринбурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Свердловская область</param>
+        <param name="Город">Екатеринбург</param>
+        <param name="Адрес">620014, г. Екатеринбург, ул. Малышева, д. 51, офис 805</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ekaterinburg_moving" available="true">
+        <name>Квартирный переезд в Екатеринбурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ekaterinburg/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Екатеринбурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Свердловская область</param>
+        <param name="Город">Екатеринбург</param>
+        <param name="Адрес">620014, г. Екатеринбург, ул. Малышева, д. 51, офис 805</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ekaterinburg_office-moving" available="true">
+        <name>Офисный переезд в Екатеринбурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ekaterinburg/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Екатеринбурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Свердловская область</param>
+        <param name="Город">Екатеринбург</param>
+        <param name="Адрес">620014, г. Екатеринбург, ул. Малышева, д. 51, офис 805</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ekaterinburg_rigging" available="true">
+        <name>Такелажные работы в Екатеринбурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ekaterinburg/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Екатеринбурге. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Свердловская область</param>
+        <param name="Город">Екатеринбург</param>
+        <param name="Адрес">620014, г. Екатеринбург, ул. Малышева, д. 51, офис 805</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ekaterinburg_furniture" available="true">
+        <name>Сборка мебели в Екатеринбурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ekaterinburg/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Екатеринбурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Свердловская область</param>
+        <param name="Город">Екатеринбург</param>
+        <param name="Адрес">620014, г. Екатеринбург, ул. Малышева, д. 51, офис 805</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ekaterinburg_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Екатеринбурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ekaterinburg/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Екатеринбурге. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Свердловская область</param>
+        <param name="Город">Екатеринбург</param>
+        <param name="Адрес">620014, г. Екатеринбург, ул. Малышева, д. 51, офис 805</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ekaterinburg_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Екатеринбурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ekaterinburg/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Екатеринбурге. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Свердловская область</param>
+        <param name="Город">Екатеринбург</param>
+        <param name="Адрес">620014, г. Екатеринбург, ул. Малышева, д. 51, офис 805</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ekaterinburg_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Екатеринбурге, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ekaterinburg/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Екатеринбурге. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Свердловская область</param>
+        <param name="Город">Екатеринбург</param>
+        <param name="Адрес">620014, г. Екатеринбург, ул. Малышева, д. 51, офис 805</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="kazan_loaders" available="true">
+        <name>Услуги грузчиков в Казани, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/kazan/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Казани. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Татарстан</param>
+        <param name="Город">Казань</param>
+        <param name="Адрес">420111, г. Казань, ул. Баумана, д. 12, офис 301</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="kazan_workers" available="true">
+        <name>Разнорабочие в Казани, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/kazan/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Казани. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Татарстан</param>
+        <param name="Город">Казань</param>
+        <param name="Адрес">420111, г. Казань, ул. Баумана, д. 12, офис 301</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="kazan_moving" available="true">
+        <name>Квартирный переезд в Казани, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/kazan/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Казани. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Татарстан</param>
+        <param name="Город">Казань</param>
+        <param name="Адрес">420111, г. Казань, ул. Баумана, д. 12, офис 301</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="kazan_office-moving" available="true">
+        <name>Офисный переезд в Казани, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/kazan/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Казани. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Татарстан</param>
+        <param name="Город">Казань</param>
+        <param name="Адрес">420111, г. Казань, ул. Баумана, д. 12, офис 301</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="kazan_rigging" available="true">
+        <name>Такелажные работы в Казани, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/kazan/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Казани. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Татарстан</param>
+        <param name="Город">Казань</param>
+        <param name="Адрес">420111, г. Казань, ул. Баумана, д. 12, офис 301</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="kazan_furniture" available="true">
+        <name>Сборка мебели в Казани, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/kazan/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Казани. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Татарстан</param>
+        <param name="Город">Казань</param>
+        <param name="Адрес">420111, г. Казань, ул. Баумана, д. 12, офис 301</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="kazan_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Казани, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/kazan/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Казани. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Татарстан</param>
+        <param name="Город">Казань</param>
+        <param name="Адрес">420111, г. Казань, ул. Баумана, д. 12, офис 301</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="kazan_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Казани, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/kazan/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Казани. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Татарстан</param>
+        <param name="Город">Казань</param>
+        <param name="Адрес">420111, г. Казань, ул. Баумана, д. 12, офис 301</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="kazan_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Казани, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/kazan/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Казани. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Татарстан</param>
+        <param name="Город">Казань</param>
+        <param name="Адрес">420111, г. Казань, ул. Баумана, д. 12, офис 301</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="nn_loaders" available="true">
+        <name>Услуги грузчиков в Нижнем Новгороде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/nn/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Нижнем Новгороде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Нижегородская область</param>
+        <param name="Город">Нижний Новгород</param>
+        <param name="Адрес">603005, г. Нижний Новгород, ул. Большая Покровская, д. 15, офис 204</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="nn_workers" available="true">
+        <name>Разнорабочие в Нижнем Новгороде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/nn/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Нижнем Новгороде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Нижегородская область</param>
+        <param name="Город">Нижний Новгород</param>
+        <param name="Адрес">603005, г. Нижний Новгород, ул. Большая Покровская, д. 15, офис 204</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="nn_moving" available="true">
+        <name>Квартирный переезд в Нижнем Новгороде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/nn/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Нижнем Новгороде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Нижегородская область</param>
+        <param name="Город">Нижний Новгород</param>
+        <param name="Адрес">603005, г. Нижний Новгород, ул. Большая Покровская, д. 15, офис 204</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="nn_office-moving" available="true">
+        <name>Офисный переезд в Нижнем Новгороде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/nn/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Нижнем Новгороде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Нижегородская область</param>
+        <param name="Город">Нижний Новгород</param>
+        <param name="Адрес">603005, г. Нижний Новгород, ул. Большая Покровская, д. 15, офис 204</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="nn_rigging" available="true">
+        <name>Такелажные работы в Нижнем Новгороде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/nn/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Нижнем Новгороде. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Нижегородская область</param>
+        <param name="Город">Нижний Новгород</param>
+        <param name="Адрес">603005, г. Нижний Новгород, ул. Большая Покровская, д. 15, офис 204</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="nn_furniture" available="true">
+        <name>Сборка мебели в Нижнем Новгороде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/nn/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Нижнем Новгороде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Нижегородская область</param>
+        <param name="Город">Нижний Новгород</param>
+        <param name="Адрес">603005, г. Нижний Новгород, ул. Большая Покровская, д. 15, офис 204</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="nn_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Нижнем Новгороде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/nn/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Нижнем Новгороде. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Нижегородская область</param>
+        <param name="Город">Нижний Новгород</param>
+        <param name="Адрес">603005, г. Нижний Новгород, ул. Большая Покровская, д. 15, офис 204</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="nn_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Нижнем Новгороде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/nn/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Нижнем Новгороде. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Нижегородская область</param>
+        <param name="Город">Нижний Новгород</param>
+        <param name="Адрес">603005, г. Нижний Новгород, ул. Большая Покровская, д. 15, офис 204</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="nn_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Нижнем Новгороде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/nn/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Нижнем Новгороде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Нижегородская область</param>
+        <param name="Город">Нижний Новгород</param>
+        <param name="Адрес">603005, г. Нижний Новгород, ул. Большая Покровская, д. 15, офис 204</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="chelyabinsk_loaders" available="true">
+        <name>Услуги грузчиков в Челябинске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/chelyabinsk/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Челябинске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Челябинская область</param>
+        <param name="Город">Челябинск</param>
+        <param name="Адрес">454091, г. Челябинск, проспект Ленина, д. 64, офис 512</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="chelyabinsk_workers" available="true">
+        <name>Разнорабочие в Челябинске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/chelyabinsk/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Челябинске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Челябинская область</param>
+        <param name="Город">Челябинск</param>
+        <param name="Адрес">454091, г. Челябинск, проспект Ленина, д. 64, офис 512</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="chelyabinsk_moving" available="true">
+        <name>Квартирный переезд в Челябинске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/chelyabinsk/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Челябинске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Челябинская область</param>
+        <param name="Город">Челябинск</param>
+        <param name="Адрес">454091, г. Челябинск, проспект Ленина, д. 64, офис 512</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="chelyabinsk_office-moving" available="true">
+        <name>Офисный переезд в Челябинске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/chelyabinsk/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Челябинске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Челябинская область</param>
+        <param name="Город">Челябинск</param>
+        <param name="Адрес">454091, г. Челябинск, проспект Ленина, д. 64, офис 512</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="chelyabinsk_rigging" available="true">
+        <name>Такелажные работы в Челябинске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/chelyabinsk/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Челябинске. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Челябинская область</param>
+        <param name="Город">Челябинск</param>
+        <param name="Адрес">454091, г. Челябинск, проспект Ленина, д. 64, офис 512</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="chelyabinsk_furniture" available="true">
+        <name>Сборка мебели в Челябинске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/chelyabinsk/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Челябинске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Челябинская область</param>
+        <param name="Город">Челябинск</param>
+        <param name="Адрес">454091, г. Челябинск, проспект Ленина, д. 64, офис 512</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="chelyabinsk_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Челябинске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/chelyabinsk/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Челябинске. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Челябинская область</param>
+        <param name="Город">Челябинск</param>
+        <param name="Адрес">454091, г. Челябинск, проспект Ленина, д. 64, офис 512</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="chelyabinsk_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Челябинске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/chelyabinsk/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Челябинске. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Челябинская область</param>
+        <param name="Город">Челябинск</param>
+        <param name="Адрес">454091, г. Челябинск, проспект Ленина, д. 64, офис 512</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="chelyabinsk_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Челябинске, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/chelyabinsk/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Челябинске. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Челябинская область</param>
+        <param name="Город">Челябинск</param>
+        <param name="Адрес">454091, г. Челябинск, проспект Ленина, д. 64, офис 512</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="samara_loaders" available="true">
+        <name>Услуги грузчиков в Самаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/samara/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Самаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Самарская область</param>
+        <param name="Город">Самара</param>
+        <param name="Адрес">443099, г. Самара, ул. Ленинградская, д. 45, офис 311</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="samara_workers" available="true">
+        <name>Разнорабочие в Самаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/samara/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Самаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Самарская область</param>
+        <param name="Город">Самара</param>
+        <param name="Адрес">443099, г. Самара, ул. Ленинградская, д. 45, офис 311</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="samara_moving" available="true">
+        <name>Квартирный переезд в Самаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/samara/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Самаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Самарская область</param>
+        <param name="Город">Самара</param>
+        <param name="Адрес">443099, г. Самара, ул. Ленинградская, д. 45, офис 311</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="samara_office-moving" available="true">
+        <name>Офисный переезд в Самаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/samara/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Самаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Самарская область</param>
+        <param name="Город">Самара</param>
+        <param name="Адрес">443099, г. Самара, ул. Ленинградская, д. 45, офис 311</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="samara_rigging" available="true">
+        <name>Такелажные работы в Самаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/samara/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Самаре. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Самарская область</param>
+        <param name="Город">Самара</param>
+        <param name="Адрес">443099, г. Самара, ул. Ленинградская, д. 45, офис 311</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="samara_furniture" available="true">
+        <name>Сборка мебели в Самаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/samara/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Самаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Самарская область</param>
+        <param name="Город">Самара</param>
+        <param name="Адрес">443099, г. Самара, ул. Ленинградская, д. 45, офис 311</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="samara_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Самаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/samara/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Самаре. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Самарская область</param>
+        <param name="Город">Самара</param>
+        <param name="Адрес">443099, г. Самара, ул. Ленинградская, д. 45, офис 311</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="samara_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Самаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/samara/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Самаре. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Самарская область</param>
+        <param name="Город">Самара</param>
+        <param name="Адрес">443099, г. Самара, ул. Ленинградская, д. 45, офис 311</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="samara_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Самаре, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/samara/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Самаре. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Самарская область</param>
+        <param name="Город">Самара</param>
+        <param name="Адрес">443099, г. Самара, ул. Ленинградская, д. 45, офис 311</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_loaders" available="true">
+        <name>Услуги грузчиков в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_workers" available="true">
+        <name>Разнорабочие в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_moving" available="true">
+        <name>Квартирный переезд в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_office-moving" available="true">
+        <name>Офисный переезд в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_rigging" available="true">
+        <name>Такелажные работы в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Ростове-на-Дону. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_furniture" available="true">
+        <name>Сборка мебели в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Ростове-на-Дону. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Ростове-на-Дону. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="rostov_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Ростове-на-Дону, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/rostov/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Ростове-на-Дону. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Ростовская область</param>
+        <param name="Город">Ростов-на-Дону</param>
+        <param name="Адрес">344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ufa_loaders" available="true">
+        <name>Услуги грузчиков в Уфе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ufa/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Уфе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Башкортостан</param>
+        <param name="Город">Уфа</param>
+        <param name="Адрес">450077, г. Уфа, ул. Ленина, д. 32, офис 104</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ufa_workers" available="true">
+        <name>Разнорабочие в Уфе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ufa/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Уфе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Башкортостан</param>
+        <param name="Город">Уфа</param>
+        <param name="Адрес">450077, г. Уфа, ул. Ленина, д. 32, офис 104</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ufa_moving" available="true">
+        <name>Квартирный переезд в Уфе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ufa/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Уфе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Башкортостан</param>
+        <param name="Город">Уфа</param>
+        <param name="Адрес">450077, г. Уфа, ул. Ленина, д. 32, офис 104</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ufa_office-moving" available="true">
+        <name>Офисный переезд в Уфе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ufa/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Уфе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Башкортостан</param>
+        <param name="Город">Уфа</param>
+        <param name="Адрес">450077, г. Уфа, ул. Ленина, д. 32, офис 104</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ufa_rigging" available="true">
+        <name>Такелажные работы в Уфе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ufa/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Уфе. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Башкортостан</param>
+        <param name="Город">Уфа</param>
+        <param name="Адрес">450077, г. Уфа, ул. Ленина, д. 32, офис 104</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ufa_furniture" available="true">
+        <name>Сборка мебели в Уфе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ufa/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Уфе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Башкортостан</param>
+        <param name="Город">Уфа</param>
+        <param name="Адрес">450077, г. Уфа, ул. Ленина, д. 32, офис 104</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ufa_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Уфе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ufa/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Уфе. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Башкортостан</param>
+        <param name="Город">Уфа</param>
+        <param name="Адрес">450077, г. Уфа, ул. Ленина, д. 32, офис 104</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ufa_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Уфе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ufa/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Уфе. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Башкортостан</param>
+        <param name="Город">Уфа</param>
+        <param name="Адрес">450077, г. Уфа, ул. Ленина, д. 32, офис 104</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="ufa_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Уфе, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/ufa/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Уфе. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Республика Башкортостан</param>
+        <param name="Город">Уфа</param>
+        <param name="Адрес">450077, г. Уфа, ул. Ленина, д. 32, офис 104</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="voronezh_loaders" available="true">
+        <name>Услуги грузчиков в Воронеже, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/voronezh/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Воронеже. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Воронежская область</param>
+        <param name="Город">Воронеж</param>
+        <param name="Адрес">394036, г. Воронеж, проспект Революции, д. 18, офис 302</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="voronezh_workers" available="true">
+        <name>Разнорабочие в Воронеже, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/voronezh/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Воронеже. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Воронежская область</param>
+        <param name="Город">Воронеж</param>
+        <param name="Адрес">394036, г. Воронеж, проспект Революции, д. 18, офис 302</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="voronezh_moving" available="true">
+        <name>Квартирный переезд в Воронеже, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/voronezh/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Воронеже. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Воронежская область</param>
+        <param name="Город">Воронеж</param>
+        <param name="Адрес">394036, г. Воронеж, проспект Революции, д. 18, офис 302</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="voronezh_office-moving" available="true">
+        <name>Офисный переезд в Воронеже, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/voronezh/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Воронеже. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Воронежская область</param>
+        <param name="Город">Воронеж</param>
+        <param name="Адрес">394036, г. Воронеж, проспект Революции, д. 18, офис 302</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="voronezh_rigging" available="true">
+        <name>Такелажные работы в Воронеже, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/voronezh/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Воронеже. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Воронежская область</param>
+        <param name="Город">Воронеж</param>
+        <param name="Адрес">394036, г. Воронеж, проспект Революции, д. 18, офис 302</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="voronezh_furniture" available="true">
+        <name>Сборка мебели в Воронеже, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/voronezh/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Воронеже. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Воронежская область</param>
+        <param name="Город">Воронеж</param>
+        <param name="Адрес">394036, г. Воронеж, проспект Революции, д. 18, офис 302</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="voronezh_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Воронеже, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/voronezh/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Воронеже. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Воронежская область</param>
+        <param name="Город">Воронеж</param>
+        <param name="Адрес">394036, г. Воронеж, проспект Революции, д. 18, офис 302</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="voronezh_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Воронеже, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/voronezh/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Воронеже. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Воронежская область</param>
+        <param name="Город">Воронеж</param>
+        <param name="Адрес">394036, г. Воронеж, проспект Революции, д. 18, офис 302</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="voronezh_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Воронеже, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/voronezh/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Воронеже. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Воронежская область</param>
+        <param name="Город">Воронеж</param>
+        <param name="Адрес">394036, г. Воронеж, проспект Революции, д. 18, офис 302</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="volgograd_loaders" available="true">
+        <name>Услуги грузчиков в Волгограде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/volgograd/loaders.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
+        <description>Погрузка и разгрузка, перенос мебели, техники, коробок и стройматериалов. Подъем на этаж, работа на складах и при переездах. в Волгограде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Волгоградская область</param>
+        <param name="Город">Волгоград</param>
+        <param name="Адрес">400066, г. Волгоград, проспект Ленина, д. 12, офис 410</param>
+        <param name="Вид услуги">Грузчики, погрузо-разгрузочные работы</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="volgograd_workers" available="true">
+        <name>Разнорабочие в Волгограде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/volgograd/workers.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>1</categoryId>
+        <picture>https://pragruz.ru/assets/service-raznorabochie.webp</picture>
+        <description>Подсобные работы на стройке, складах, производстве, уборка территории, фасовка, комплектовка и демонтаж. в Волгограде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Волгоградская область</param>
+        <param name="Город">Волгоград</param>
+        <param name="Адрес">400066, г. Волгоград, проспект Ленина, д. 12, офис 410</param>
+        <param name="Вид услуги">Разнорабочие, подсобные рабочие</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="volgograd_moving" available="true">
+        <name>Квартирный переезд в Волгограде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/volgograd/moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
+        <description>Квартирный переезд с грузчиками: перенос вещей, мебели, техники и коробок, разборка и сборка мебели по необходимости. в Волгограде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Волгоградская область</param>
+        <param name="Город">Волгоград</param>
+        <param name="Адрес">400066, г. Волгоград, проспект Ленина, д. 12, офис 410</param>
+        <param name="Вид услуги">Квартирный переезд</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="volgograd_office-moving" available="true">
+        <name>Офисный переезд в Волгограде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/volgograd/office-moving.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>2</categoryId>
+        <picture>https://pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
+        <description>Переезд офиса, перевозка мебели, оргтехники, документов и архивов. Возможна работа вечером и в выходные. в Волгограде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Волгоградская область</param>
+        <param name="Город">Волгоград</param>
+        <param name="Адрес">400066, г. Волгоград, проспект Ленина, д. 12, офис 410</param>
+        <param name="Вид услуги">Офисный переезд</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="volgograd_rigging" available="true">
+        <name>Такелажные работы в Волгограде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/volgograd/rigging.html</url>
+        <price>1200</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-takelag.webp</picture>
+        <description>Перемещение сейфов, банкоматов, станков, пианино и тяжелого оборудования с применением такелажного оснащения. в Волгограде. Цена от 1200 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Волгоградская область</param>
+        <param name="Город">Волгоград</param>
+        <param name="Адрес">400066, г. Волгоград, проспект Ленина, д. 12, офис 410</param>
+        <param name="Вид услуги">Такелажные работы</param>
+        <param name="Минимальный заказ">3 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="volgograd_furniture" available="true">
+        <name>Сборка мебели в Волгограде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/volgograd/furniture.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>3</categoryId>
+        <picture>https://pragruz.ru/assets/service-sborka-mebeli.webp</picture>
+        <description>Сборка и разборка шкафов, кухонь, кроватей, офисной мебели, стеллажей и торгового оборудования. в Волгограде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Волгоградская область</param>
+        <param name="Город">Волгоград</param>
+        <param name="Адрес">400066, г. Волгоград, проспект Ленина, д. 12, офис 410</param>
+        <param name="Вид услуги">Сборка и разборка мебели</param>
+        <param name="Минимальный заказ">1 час</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="volgograd_gazel-3m" available="true">
+        <name>Аренда Газели 3 метра в Волгограде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/volgograd/arenda-gazeli-3m.html</url>
+        <price>2000</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-3m.webp</picture>
+        <description>Газель 3 метра с водителем для перевозки мебели, техники, коробок и строительных материалов. в Волгограде. Цена от 2000 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Волгоградская область</param>
+        <param name="Город">Волгоград</param>
+        <param name="Адрес">400066, г. Волгоград, проспект Ленина, д. 12, офис 410</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="volgograd_gazel-42m" available="true">
+        <name>Аренда Газели 4.2 метра в Волгограде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/volgograd/arenda-gazeli-udlinennoj.html</url>
+        <price>2500</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+        <picture>https://pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+        <description>Удлиненная Газель 4.2 метра для квартирных и офисных переездов, объемных грузов и мебели. в Волгограде. Цена от 2500 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Волгоградская область</param>
+        <param name="Город">Волгоград</param>
+        <param name="Адрес">400066, г. Волгоград, проспект Ленина, д. 12, офис 410</param>
+        <param name="Вид услуги">Аренда транспорта, грузоперевозки</param>
+        <param name="Минимальный заказ">2 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+      <offer id="volgograd_outsourcing" available="true">
+        <name>Аутсорсинг персонала в Волгограде, ООО "Правильные грузчики"</name>
+        <url>https://pragruz.ru/volgograd/autsorsing.html</url>
+        <price>800</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>5</categoryId>
+        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
+        <description>Линейный персонал для складов, производств, логистики и подсобных работ: грузчики, комплектовщики, упаковщики. в Волгограде. Цена от 800 руб. Расчет предварительный, итоговая стоимость зависит от объема, этажа, лифта, расстояния переноски и условий работ.</description>
+        <param name="Регион">Волгоградская область</param>
+        <param name="Город">Волгоград</param>
+        <param name="Адрес">400066, г. Волгоград, проспект Ленина, д. 12, офис 410</param>
+        <param name="Вид услуги">Аутсорсинг персонала</param>
+        <param name="Минимальный заказ">4 часа</param>
+        <param name="Режим работы">Круглосуточно 24/7</param>
+        <param name="Телефон">+79283333281</param>
+        <param name="Расчет">Предварительный, не является публичной офертой</param>
+      </offer>
+    </offers>
+  </shop>
 </yml_catalog>

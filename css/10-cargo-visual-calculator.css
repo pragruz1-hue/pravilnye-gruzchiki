@@ -1,0 +1,452 @@
+/* ===== 2.5D cargo transportation visual calculator page ===== */
+.cargo-page {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 115, 0, 0.16), transparent 34%),
+    radial-gradient(circle at 84% 18%, rgba(255, 81, 0, 0.11), transparent 36%),
+    var(--bg-primary);
+}
+.cargo-hero {
+  padding: 168px 0 78px;
+  position: relative;
+  overflow: hidden;
+}
+.cargo-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.72fr);
+  gap: 44px;
+  align-items: center;
+}
+.cargo-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: rgba(255, 115, 0, 0.12);
+  border: 1px solid rgba(255, 115, 0, 0.28);
+  color: #ffb35c;
+  font-weight: 800;
+  font-family: var(--font-title);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.cargo-hero-title {
+  font-size: clamp(2.35rem, 5vw, 5.25rem);
+  line-height: 0.98;
+  max-width: 920px;
+  margin-bottom: 24px;
+}
+.cargo-hero-subtitle {
+  max-width: 760px;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.72;
+  margin-bottom: 30px;
+}
+.cargo-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+.cargo-trust-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 760px;
+}
+.cargo-trust-item {
+  padding: 14px 15px;
+  border-radius: 18px;
+  background: rgba(19, 25, 38, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #dbe3ee;
+  font-size: 0.9rem;
+}
+.cargo-trust-item strong {
+  display: block;
+  color: #fff;
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  margin-bottom: 3px;
+}
+.cargo-hero-card {
+  position: relative;
+  padding: 28px;
+  border-radius: 30px;
+  background:
+    linear-gradient(145deg, rgba(255, 143, 0, 0.14), transparent 38%),
+    rgba(13, 17, 27, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+  overflow: hidden;
+}
+.cargo-hero-card::before {
+  content: "";
+  position: absolute;
+  inset: -80px -60px auto auto;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(255, 115, 0, 0.28), transparent 70%);
+  pointer-events: none;
+}
+.cargo-hero-card h2 {
+  font-size: 1.55rem;
+  margin-bottom: 14px;
+}
+.cargo-hero-card p {
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+.cargo-mini-van {
+  position: relative;
+  min-height: 190px;
+  border-radius: 24px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
+    #0b101b;
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  transform: perspective(900px) rotateX(7deg) rotateY(-4deg);
+  box-shadow: inset 0 0 0 2px rgba(255, 115, 0, 0.08);
+}
+.cargo-mini-van::before {
+  content: "Кузов подбирает диспетчер: 3–6 м";
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  color: rgba(255,255,255,0.78);
+  font-weight: 800;
+  font-family: var(--font-title);
+}
+.cargo-mini-box {
+  position: absolute;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff9f2f, #ff5d00);
+  box-shadow: 0 12px 28px rgba(255, 115, 0, 0.25);
+  opacity: 0.92;
+}
+.cargo-mini-box.b1 { width: 86px; height: 48px; left: 30px; bottom: 28px; }
+.cargo-mini-box.b2 { width: 118px; height: 46px; left: 126px; bottom: 28px; background: linear-gradient(135deg, #c9d2df, #6c7787); }
+.cargo-mini-box.b3 { width: 68px; height: 88px; right: 34px; bottom: 28px; background: linear-gradient(135deg, #1f2937, #0f172a); border: 1px solid rgba(255,255,255,.12); }
+
+.cargo-section { padding: 82px 0; }
+.cargo-section-muted {
+  background: linear-gradient(180deg, rgba(13, 17, 27, 0.22), rgba(13, 17, 27, 0.58));
+}
+.cargo-calculator-shell {
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) minmax(0, 1fr) minmax(280px, 360px);
+  gap: 22px;
+  align-items: start;
+}
+.cargo-panel {
+  border-radius: 28px;
+  padding: 22px;
+  background: rgba(13, 17, 27, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 22px 64px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.cargo-panel-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.cargo-panel-title h3 { font-size: 1.18rem; }
+.cargo-car-options {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.cargo-car-btn,
+.cargo-item-btn {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 18px;
+  background: rgba(19,25,38,0.72);
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-smooth);
+}
+.cargo-car-btn {
+  padding: 14px 15px;
+}
+.cargo-car-btn strong,
+.cargo-item-btn strong { display: block; font-family: var(--font-title); }
+.cargo-car-btn span,
+.cargo-item-btn span { color: var(--text-muted); font-size: 0.84rem; }
+.cargo-car-btn.active,
+.cargo-car-btn:hover,
+.cargo-item-btn:hover {
+  border-color: rgba(255,115,0,0.48);
+  background: linear-gradient(135deg, rgba(255,115,0,0.18), rgba(19,25,38,0.86));
+  transform: translateY(-2px);
+}
+.cargo-items-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-height: 520px;
+  overflow: auto;
+  padding-right: 4px;
+}
+.cargo-item-btn { padding: 12px; }
+.cargo-visual-wrap {
+  min-width: 0;
+}
+.cargo-stage-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.cargo-dims-badge {
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: rgba(255,115,0,0.12);
+  border: 1px solid rgba(255,115,0,0.28);
+  color: #ffb35c;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.cargo-bay-outer {
+  position: relative;
+  padding: 28px 18px 44px 56px;
+  border-radius: 32px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.06), transparent),
+    rgba(5, 8, 14, 0.86);
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: auto;
+}
+.cargo-bay-measure-x,
+.cargo-bay-measure-y {
+  position: absolute;
+  color: rgba(255,255,255,0.72);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.cargo-bay-measure-x { left: 56px; right: 18px; bottom: 14px; text-align: center; }
+.cargo-bay-measure-y { left: 12px; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: center; }
+.cargo-bay {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  height: 318px;
+  margin: 0 auto;
+  border-radius: 20px;
+  background:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(180deg, #111827, #080b12);
+  background-size: 40px 40px;
+  border: 3px solid rgba(255, 143, 0, 0.72);
+  box-shadow: inset 0 0 40px rgba(255,115,0,0.08), 0 20px 54px rgba(0,0,0,0.35);
+  overflow: hidden;
+  transform: perspective(1200px) rotateX(3deg);
+}
+.cargo-bay::before {
+  content: "кабина";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.045);
+  border-left: 1px solid rgba(255,255,255,0.08);
+}
+.cargo-load-item {
+  position: absolute;
+  border-radius: 10px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(135deg, rgba(255,143,0,0.95), rgba(255,81,0,0.88));
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.28);
+  overflow: hidden;
+}
+.cargo-load-item.over { opacity: .35; filter: grayscale(.7); }
+.cargo-progress-wrap { margin-top: 18px; }
+.cargo-progress-line {
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.cargo-progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #10b981, #ffb000 62%, #ef4444);
+  transition: width .35s ease;
+}
+.cargo-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.cargo-summary-card {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(19,25,38,0.72);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.cargo-summary-card strong {
+  display: block;
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+  color: #fff;
+}
+.cargo-summary-card span { color: var(--text-muted); font-size: .82rem; }
+.cargo-recommendation {
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(16,185,129,0.11);
+  border: 1px solid rgba(16,185,129,0.24);
+  color: #dffcf0;
+  margin-bottom: 16px;
+}
+.cargo-selected-list {
+  display: grid;
+  gap: 8px;
+  max-height: 210px;
+  overflow: auto;
+  margin-bottom: 16px;
+}
+.cargo-selected-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.045);
+}
+.cargo-selected-row button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(239,68,68,.15);
+  color: #fff;
+  cursor: pointer;
+}
+.cargo-actions-col { display: grid; gap: 10px; }
+.cargo-disclaimer {
+  margin-top: 14px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+.cargo-sales-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.cargo-sales-card {
+  padding: 24px;
+  border-radius: 26px;
+  background: rgba(13, 17, 27, 0.78);
+  border: 1px solid rgba(255,255,255,0.09);
+  box-shadow: 0 18px 48px rgba(0,0,0,.24);
+}
+.cargo-sales-card h3 { margin-bottom: 10px; }
+.cargo-sales-card p { color: var(--text-muted); }
+.cargo-route-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+.cargo-route-pill {
+  padding: 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,115,0,.13), rgba(19,25,38,.76));
+  border: 1px solid rgba(255,255,255,.08);
+  font-weight: 800;
+  color: #fff;
+}
+.cargo-lead-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(320px, .55fr);
+  gap: 24px;
+  align-items: start;
+}
+.cargo-lead-note {
+  padding: 26px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(255,115,0,.16), rgba(13,17,27,.84));
+  border: 1px solid rgba(255,255,255,.1);
+}
+.cargo-lead-note ul { list-style: none; display: grid; gap: 12px; margin-top: 18px; }
+.cargo-lead-note li { color: #dbe3ee; }
+.cargo-lead-note li::before { content: "✓"; color: #ff8f00; font-weight: 900; margin-right: 9px; }
+.cargo-form {
+  display: grid;
+  gap: 12px;
+}
+.cargo-form input,
+.cargo-form textarea,
+.cargo-form select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(7, 9, 14, .72);
+  color: #fff;
+  outline: none;
+}
+.cargo-form textarea { min-height: 112px; resize: vertical; }
+.cargo-form input:focus,
+.cargo-form textarea:focus,
+.cargo-form select:focus { border-color: rgba(255,115,0,.52); }
+.cargo-form label { color: #dbe3ee; font-weight: 700; font-size: .92rem; }
+
+@media (max-width: 1180px) {
+  .cargo-calculator-shell { grid-template-columns: 340px 1fr; }
+  .cargo-summary-panel { grid-column: 1 / -1; }
+  .cargo-hero-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .cargo-hero { padding-top: 132px; }
+  .cargo-calculator-shell,
+  .cargo-lead-grid { grid-template-columns: 1fr; }
+  .cargo-sales-grid,
+  .cargo-route-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cargo-trust-row { grid-template-columns: 1fr; }
+  .cargo-bay { height: 260px; min-width: 560px; }
+}
+@media (max-width: 560px) {
+  .cargo-section { padding: 58px 0; }
+  .cargo-items-grid,
+  .cargo-summary-grid,
+  .cargo-sales-grid,
+  .cargo-route-list { grid-template-columns: 1fr; }
+  .cargo-panel { padding: 18px; border-radius: 22px; }
+  .cargo-hero-card { padding: 20px; }
+  .cargo-bay-outer { padding-left: 40px; }
+  .cargo-bay-measure-y { left: -4px; }
+}
