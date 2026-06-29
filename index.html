@@ -232,6 +232,10 @@
 
     <div class="mobile-nav-overlay" id="mobile-menu-overlay">
       <div class="mobile-nav-content">
+        <button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню">
+          <span></span>
+          <span></span>
+        </button>
         <ul class="mobile-nav-links">
           <li><a href="about.html" class="mobile-link">О нас</a></li>
           <li><a href="#services" class="mobile-link">Услуги</a></li>
@@ -1607,7 +1611,7 @@
                 >г. Краснодар, ул. Кропоткина д.50, оф. 339</span
               >
             </li>
-            <li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li>
+            <li><span class="f-contact-icon">✉️</span> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5d34333b321d2d2f3c3a2f2827732f28">[email&#160;protected]</a></li>
           </ul>
           <div class="social-links-stub">
             <span class="social-icon">Telegram</span>
@@ -1716,19 +1720,14 @@
         </div>
       </div>
     </div>
-    <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/@formspree/ajax@1" defer></script>
     <script src="main.js"></script>
       
 <!-- ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ ===== -->
-<div class="mobile-call-button">
+<div class="glass-float-btn mobile-call-button">
   <a href="tel:+79283333281" class="call-btn" aria-label="Позвонить">
-    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" class="retro-phone-svg">
-      <rect x="6" y="6" rx="10" ry="10" width="36" height="36" fill="currentColor" opacity="0"/>
-      <path d="M20.5 10.5c-2.5 0-4.5 2-4.5 4.5v0.5c0 0.5 0.3 1 0.7 1.3l2.8 2.8-1.4 1.4-2.8-2.8c-0.6-0.6-1-1.5-1-2.4v-0.8c0-3.3 2.7-6 6-6s6 2.7 6 6v0.8c0 0.9-0.4 1.8-1 2.4l-2.8 2.8-1.4-1.4 2.8-2.8c0.4-0.4 0.7-0.9 0.7-1.4V15c0-2.5-2-4.5-4.5-4.5z" fill="currentColor"/>
-      <rect x="18" y="20" rx="3" ry="2" width="12" height="18" fill="currentColor" transform="rotate(-30 24 29)"/>
-      <ellipse cx="14" cy="28" rx="3" ry="6" fill="currentColor" transform="rotate(-30 14 28)"/>
-      <ellipse cx="34" cy="28" rx="3" ry="6" fill="currentColor" transform="rotate(-30 34 28)"/>
-      <circle cx="24" cy="30" r="3" fill="currentColor"/>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="retro-phone-svg" aria-hidden="true">
+      <path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.28-.28.69-.37 1.06-.25 1.16.38 2.42.59 3.68.59.57 0 1.03.46 1.03 1.03v3.49c0 .57-.46 1.03-1.03 1.03C10.61 21.07 2.93 13.39 2.93 3.85c0-.57.46-1.03 1.03-1.03h3.5c.57 0 1.03.46 1.03 1.03 0 1.27.2 2.52.59 3.68.11.37.03.78-.26 1.06l-2.2 2.2z" fill="currentColor"/>
     </svg>
   </a>
 </div>
@@ -1842,56 +1841,5 @@
     </div>
   </div>
 </div>
-<!-- Мобильное меню (вставить в index.html перед </body>) -->
-<div class="mobile-nav-overlay" id="mobile-menu-overlay">
-  <div class="mobile-nav-content">
-    <nav class="mobile-nav-links">
-      <a href="#about" class="mobile-link" onclick="toggleMobileMenu()">О нас</a>
-      <a href="#services" class="mobile-link" onclick="toggleMobileMenu()">Услуги</a>
-      <a href="#reviews" class="mobile-link" onclick="toggleMobileMenu()">Отзывы</a>
-      <a href="#calculator" class="mobile-link" onclick="toggleMobileMenu()">Калькулятор</a>
-      <a href="#fleet" class="mobile-link" onclick="toggleMobileMenu()">Автопарк</a>
-      <a href="#faq" class="mobile-link" onclick="toggleMobileMenu()">Вопросы</a>
-      <a href="#contacts" class="mobile-link" onclick="toggleMobileMenu()">Контакты</a>
-    </nav>
-    <div class="mobile-nav-footer">
-      <a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 333-32-81</a>
-      <span class="mobile-hours">Круглосуточно 24/7</span>
-      <a href="#order-form-section" class="btn btn-primary btn-lg" onclick="toggleMobileMenu()" id="mobile-menu-cta">Заказать звонок</a>
-    </div>
-  </div>
-</div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ✅ ВСТАВИТЬ СТЕКЛЯННЫЕ КНОПКИ СЮДА (ПЕРЕД </body>) -->
-  
-  <!-- Плавающие кнопки (Стеклянный стиль) -->
-  <div class="glass-float-btn mobile-call-button">
-    <a href="tel:+79283333281" class="call-btn" aria-label="Позвонить нам">
-      <!-- Иконка телефона -->
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
-      </svg>
-    </a>
-  </div>
-
-  <div class="glass-float-btn scroll-to-top" id="scrollTopBtn" aria-label="Наверх">
-    <!-- Иконка стрелки вверх -->
-    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="12" y1="19" x2="12" y2="5"></line>
-      <polyline points="5 12 12 5 19 12"></polyline>
-    </svg>
-  </div>
-
-  <!-- Модальное окно отзывов (если еще не добавлено) -->
-  <div class="modal-overlay" id="review-modal">
-     ... (код модалки отзывов) ...
-  </div>
-
-  <script src="main.js"></script>
-</body>
-</html>
 </body>
 </html>

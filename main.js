@@ -35,43 +35,57 @@ document.addEventListener("DOMContentLoaded", () => {
   const REVIEWS_DB = {
     krasnodar: [
       {
-        name: "Александр К.",
+        name: "Игорь Н.",
         city: "Краснодар",
-        text: "Заказывал грузчиков для разгрузки фуры. Приехали вовремя, работали быстро и аккуратно. Очень доволен!",
-        date: "15 июня 2026",
-        initials: "АК",
+        rating: 5,
+        text: "Заказывал двух грузчиков на переезд с ул. Ставропольской в ЖК «Губернский». Приехали без опоздания, шкаф разобрали аккуратно, технику обмотали пленкой. По времени вышло чуть больше, чем думал, но ничего не поцарапали.",
+        date: "18 июня 2026",
+        initials: "ИН",
         avatar: "assets/avatar-male.webp",
       },
       {
-        name: "Елена М.",
+        name: "Марина Л.",
         city: "Краснодар",
-        text: "Переезжали всей семьей из ЖК «Парус». Ребята помогли упаковать, перевезти и расставить мебель. Всё чётко!",
-        date: "12 июня 2026",
-        initials: "ЕМ",
+        rating: 5,
+        text: "Нужно было поднять диван и холодильник на 6 этаж, лифт как назло не работал. Ребята заранее предупредили по цене за подъем, сделали спокойно и без лишних разговоров. Спасибо диспетчеру, быстро нашла бригаду.",
+        date: "14 июня 2026",
+        initials: "МЛ",
         avatar: "assets/avatar-female.webp",
       },
       {
-        name: "Дмитрий С.",
+        name: "Андрей П.",
         city: "Краснодар",
-        text: "Работаю с этой компанией уже год. Всегда предоставляют отличных работников для склада «Склад-Логистика».",
-        date: "8 июня 2026",
-        initials: "ДС",
+        rating: 4,
+        text: "Разгружали машину со стройматериалами на объекте в районе Энки. Один грузчик задержался минут на 15, поэтому ставлю 4, но по самой работе претензий нет: мешки и плитку перенесли аккуратно, мусор за собой собрали.",
+        date: "10 июня 2026",
+        initials: "АП",
         avatar: "assets/avatar-male.webp",
       },
       {
         name: "Ольга В.",
         city: "Краснодар",
-        text: "Собирали кухню. Мастера пришли со своим инструментом, всё сделали за один день. Рекомендую!",
-        date: "5 июня 2026",
+        rating: 5,
+        text: "Переезжала из однушки, вещей было больше, чем я указала по телефону. Бригадир на месте пересчитал объем, цену объяснил до начала работ. Коробки подписали и расставили по комнатам, ничего не потерялось.",
+        date: "6 июня 2026",
         initials: "ОВ",
         avatar: "assets/avatar-female.webp",
+      },
+      {
+        name: "Сергей К.",
+        city: "Краснодар",
+        rating: 4,
+        text: "Брали разнорабочих на склад на один день. Работали нормально, без простоев, документы для оплаты отправили на следующий день. Хотелось бы чуть быстрее обратную связь по закрывающим, но в целом всё устроило.",
+        date: "2 июня 2026",
+        initials: "СК",
+        avatar: "assets/avatar-male.webp",
       },
     ],
     moscow: [
       {
         name: "Иван П.",
         city: "Москва",
-        text: "Заказывали офисный переезд на Дмитровском шоссе. Перевезли 50 рабочих мест за выходные. В понедельник все работало.",
+        rating: 5,
+        text: "Перевозили небольшой офис на Дмитровском шоссе. Столы промаркировали, мониторы упаковали отдельно, в понедельник сотрудники уже работали на новом месте. Бригада была на связи весь день.",
         date: "20 июня 2026",
         initials: "ИП",
         avatar: "assets/avatar-male.webp",
@@ -79,17 +93,28 @@ document.addEventListener("DOMContentLoaded", () => {
       {
         name: "Сергей Л.",
         city: "Москва",
-        text: "Нужны были разнорабочие на демонтаж в центре. Вывели бригаду за 2 часа. Работали слаженно.",
-        date: "18 июня 2026",
+        rating: 4,
+        text: "Нужны были разнорабочие на демонтаж перегородок. Приехали не мгновенно, около двух часов ожидания, но предупредили заранее. Работу сделали чисто, мешки вынесли к месту погрузки.",
+        date: "17 июня 2026",
         initials: "СЛ",
         avatar: "assets/avatar-male.webp",
       },
       {
         name: "Анна К.",
         city: "Москва",
-        text: "Перевозили сейф 800 кг. Такелажники профессионалы, ни одной царапины на полу.",
-        date: "15 июня 2026",
+        rating: 5,
+        text: "Перевозили тяжелый сейф из офиса. Очень переживали за плитку и стены, но такелажники привезли ремни и настил, прошли аккуратно. Видно, что не первый раз делают такую работу.",
+        date: "13 июня 2026",
         initials: "АК",
+        avatar: "assets/avatar-female.webp",
+      },
+      {
+        name: "Наталья Р.",
+        city: "Москва",
+        rating: 5,
+        text: "Заказывала грузчиков для доставки мебели после ремонта. Позвонили за 20 минут до приезда, обувь сняли в квартире, упаковку сложили в одну кучу. Редко пишу отзывы, но тут действительно аккуратно.",
+        date: "9 июня 2026",
+        initials: "НР",
         avatar: "assets/avatar-female.webp",
       },
     ],
@@ -97,7 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
       {
         name: "Михаил Д.",
         city: "Санкт-Петербург",
-        text: "Заказывал грузчиков на Невский проспект. Поднялись на 5 этаж без лифта с пианино. Респект!",
+        rating: 5,
+        text: "Поднимали пианино на пятый этаж в старом доме. Лестница узкая, но ребята заранее всё промерили, сняли перила где можно и занесли без повреждений. Работой доволен.",
         date: "22 июня 2026",
         initials: "МД",
         avatar: "assets/avatar-male.webp",
@@ -105,37 +131,58 @@ document.addEventListener("DOMContentLoaded", () => {
       {
         name: "Татьяна В.",
         city: "Санкт-Петербург",
-        text: "Аутсорсинг персонала для нашего магазина. Девочки аккуратные, всегда трезвые. Работаем полгода.",
+        rating: 4,
+        text: "Берем персонал на подработку в магазин уже несколько месяцев. Обычно всё отлично, один раз была замена сотрудника в середине смены. Вопрос решили быстро, поэтому оценка 4 с плюсом.",
         date: "19 июня 2026",
         initials: "ТВ",
         avatar: "assets/avatar-female.webp",
       },
+      {
+        name: "Роман А.",
+        city: "Санкт-Петербург",
+        rating: 5,
+        text: "Помогали с переездом с Васильевского острова. Машина подъехала в согласованное окно, коробки закрепили ремнями, стеклянный стол довезли целым. Цена совпала с расчетом.",
+        date: "11 июня 2026",
+        initials: "РА",
+        avatar: "assets/avatar-male.webp",
+      },
     ],
-    // Для остальных городов можно добавить свои массивы или использовать дефолтный
     default: [
       {
         name: "Алексей Р.",
         city: "Город",
-        text: "Отличный сервис! Грузчики приехали точно в срок, работу выполнили на 5+. Буду обращаться еще.",
-        date: "10 июня 2026",
+        rating: 5,
+        text: "Заказывал грузчиков на разгрузку машины после ремонта. Диспетчер уточнил адрес и объем, ребята приехали со своими перчатками и тележкой. Работали без суеты, но быстро.",
+        date: "16 июня 2026",
         initials: "АР",
         avatar: "assets/avatar-male.webp",
       },
       {
         name: "Мария С.",
         city: "Город",
-        text: "Заказывала квартирный переезд. Все вещи доехали целыми, мебель собрали быстро. Спасибо!",
-        date: "7 июня 2026",
+        rating: 5,
+        text: "Квартирный переезд прошел спокойнее, чем ожидала. Мебель разобрали и собрали обратно, коробки с посудой перенесли отдельно. Ничего не разбилось, за это отдельное спасибо.",
+        date: "12 июня 2026",
         initials: "МС",
         avatar: "assets/avatar-female.webp",
       },
       {
         name: "Виктор Н.",
         city: "Город",
-        text: "Нужны были разнорабочие на стройку. Предоставили крепких ребят, работали всю смену без перекуров.",
-        date: "4 июня 2026",
+        rating: 4,
+        text: "Брали разнорабочих на стройку. По работе всё нормально, ребята крепкие и трезвые. Снимаю звезду только за то, что утром пришлось повторно уточнять время приезда.",
+        date: "8 июня 2026",
         initials: "ВН",
         avatar: "assets/avatar-male.webp",
+      },
+      {
+        name: "Екатерина Б.",
+        city: "Город",
+        rating: 5,
+        text: "Нужно было срочно вынести старую мебель и загрузить новую. Приняли заказ в тот же день, приехали вечером. Работали аккуратно, подъезд после выноса оставили чистым.",
+        date: "4 июня 2026",
+        initials: "ЕБ",
+        avatar: "assets/avatar-female.webp",
       },
     ],
   };
@@ -162,6 +209,9 @@ function renderReviews(cityCode) {
     // Если пути нет, ставим заглушку или цветной фон как фолбэк
     const avatarSrc = review.avatar || "assets/avatar-male.webp"; 
 
+    const rating = Math.max(1, Math.min(5, parseInt(review.rating, 10) || 5));
+    const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+
     card.innerHTML = `
       <div class="review-header">
         <img src="${avatarSrc}" alt="${review.name}" class="review-avatar-img">
@@ -170,7 +220,7 @@ function renderReviews(cityCode) {
           <span class="review-city">${review.city}</span>
         </div>
       </div>
-      <div class="review-stars">★★★★★</div>
+      <div class="review-stars" aria-label="Оценка ${rating} из 5">${stars}</div>
       <p class="review-text">"${review.text}"</p>
       <span class="review-date">${review.date}</span>
     `;
@@ -543,6 +593,7 @@ function renderReviews(cityCode) {
   const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
   const mobileLinks = document.querySelectorAll(".mobile-link");
   const mobileCta = document.getElementById("mobile-menu-cta");
+  const mobileMenuClose = document.getElementById("mobile-menu-close");
 
   function toggleMobileMenu() {
     burgerBtn.classList.toggle("active");
@@ -552,6 +603,16 @@ function renderReviews(cityCode) {
 
   if (burgerBtn && mobileMenuOverlay) {
     burgerBtn.addEventListener("click", toggleMobileMenu);
+    if (mobileMenuClose) {
+      mobileMenuClose.addEventListener("click", () => {
+        if (mobileMenuOverlay.classList.contains("active")) toggleMobileMenu();
+      });
+    }
+    mobileMenuOverlay.addEventListener("click", (e) => {
+      if (e.target === mobileMenuOverlay && mobileMenuOverlay.classList.contains("active")) {
+        toggleMobileMenu();
+      }
+    });
     mobileLinks.forEach((link) => {
       link.addEventListener("click", () => {
         if (mobileMenuOverlay.classList.contains("active")) toggleMobileMenu();
@@ -1236,6 +1297,10 @@ function renderReviews(cityCode) {
     document.getElementById("review-form").style.display = "none";
     document.getElementById("review-success").classList.add("active");
   }
+
+  // Делаем функции доступными для inline-обработчиков в HTML
+  window.submitReview = submitReview;
+  window.closeReviewModal = closeReviewModal;
 
   // Привязка маски телефона к полю в модалке отзыва
   const reviewPhone = document.getElementById("review-phone");

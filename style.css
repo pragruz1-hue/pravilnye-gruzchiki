@@ -139,6 +139,7 @@ h6 {
   background: radial-gradient(circle, #ff0077, transparent);
 }
 
+/* ===== КНОПКИ ===== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -201,6 +202,7 @@ h6 {
   gap: 10px;
 }
 
+/* ===== КАРТОЧКИ ===== */
 .premium-card {
   background: var(--card-bg);
   backdrop-filter: blur(16px);
@@ -252,6 +254,7 @@ h6 {
   text-align: center;
 }
 
+/* ===== ШАПКА ===== */
 .main-header {
   position: fixed;
   top: 0;
@@ -389,15 +392,19 @@ h6 {
   box-shadow: 0 0 8px var(--success);
 }
 
+/* ===== БУРГЕР-МЕНЮ ===== */
 .burger-menu-btn {
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  width: 24px;
-  height: 18px;
+  width: 28px;
+  height: 20px;
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  position: relative;
 }
 
 .burger-bar {
@@ -405,38 +412,61 @@ h6 {
   height: 2px;
   background-color: #fff;
   border-radius: 2px;
-  transition: var(--transition-smooth);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
 }
 
+.burger-menu-btn.active .burger-bar:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.burger-menu-btn.active .burger-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.burger-menu-btn.active .burger-bar:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* ===== МОБИЛЬНОЕ МЕНЮ ===== */
 .mobile-nav-overlay {
   position: fixed;
   top: 0;
-  right: -100%;
+  left: 0;
   width: 100%;
   height: 100vh;
   background-color: rgba(7, 9, 14, 0.98);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  z-index: 120;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition-smooth);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-20px);
 }
 
 .mobile-nav-overlay.active {
-  right: 0;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .mobile-nav-content {
   text-align: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
 }
 
 .mobile-nav-links {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  margin-bottom: 48px;
+  gap: 24px;
+  margin-bottom: 40px;
 }
 
 .mobile-link {
@@ -444,6 +474,8 @@ h6 {
   font-weight: 700;
   font-size: 1.8rem;
   color: #fff;
+  display: block;
+  transition: color 0.3s ease;
 }
 
 .mobile-link:hover {
@@ -469,6 +501,7 @@ h6 {
   font-size: 0.9rem;
 }
 
+/* ===== HERO ===== */
 .hero-section {
   padding-top: 180px;
   padding-bottom: 100px;
@@ -570,6 +603,7 @@ h6 {
   color: var(--success);
   font-weight: 600;
   margin-bottom: 12px;
+  position: relative;
 }
 
 .pulse-dot {
@@ -614,6 +648,7 @@ h6 {
   color: #fff;
 }
 
+/* ===== ФОРМЫ ===== */
 .form-group-custom {
   display: flex;
   flex-direction: column;
@@ -656,6 +691,24 @@ h6 {
   color: #fff;
 }
 
+.textarea-custom {
+  resize: vertical;
+}
+
+.form-privacy-note {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin-top: 14px;
+  text-align: center;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ===== СТАТИСТИКА ===== */
 .stats-section {
   padding: 80px 0;
   position: relative;
@@ -694,6 +747,7 @@ h6 {
   font-weight: 500;
 }
 
+/* ===== ПРЕИМУЩЕСТВА ===== */
 .advantages-section {
   padding: 100px 0;
 }
@@ -725,6 +779,7 @@ h6 {
   font-size: 0.9rem;
 }
 
+/* ===== КАЛЬКУЛЯТОР ===== */
 .calculator-section {
   padding: 100px 0;
   background-color: var(--bg-secondary);
@@ -879,6 +934,7 @@ h6 {
   font-size: 1.5rem;
 }
 
+/* ===== УСЛУГИ ===== */
 .services-section {
   padding: 100px 0;
 }
@@ -962,7 +1018,7 @@ h6 {
   align-items: center;
 }
 
-/* ===== КОМПАКТНЫЙ БЛОК ОТЗЫВОВ ===== */
+/* ===== ОТЗЫВЫ ===== */
 .reviews-section {
   padding: 60px 0;
   background: linear-gradient(135deg, #0d111b 0%, #1a2233 100%);
@@ -982,137 +1038,122 @@ h6 {
   pointer-events: none;
 }
 
-/* Обертка карусели */
 .reviews-carousel-wrapper {
   position: relative;
   width: 100%;
   overflow: hidden;
   mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-  padding: 10px 0;
+  padding: 20px 0 40px;
 }
 
-/* Трек с карточками */
+.reviews-carousel-wrapper::before,
+.reviews-carousel-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.reviews-carousel-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-primary), transparent);
+}
+
+.reviews-carousel-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-primary), transparent);
+}
+
 .reviews-carousel-track {
   display: flex;
-  gap: 16px;
+  gap: 24px;
   width: max-content;
-  animation: scrollReviews 35s linear infinite;
+  animation: reviewsScroll 35s linear infinite;
+  padding-left: 20px;
 }
 
 .reviews-carousel-track:hover {
   animation-play-state: paused;
 }
 
-/* ===== КОМПАКТНЫЙ БЛОК ОТЗЫВОВ (ФИНАЛЬНАЯ ВЕРСИЯ) ===== */
-.reviews-section {
-  padding: 60px 0;
-  background: linear-gradient(135deg, #0d111b 0%, #1a2233 100%);
-  position: relative;
-  overflow: hidden;
-}
-
-.reviews-carousel-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-  padding: 10px 0;
-}
-
-.reviews-carousel-track {
-  display: flex;
-  gap: 16px;
-  width: max-content;
-  animation: scrollReviews 35s linear infinite;
-}
-
-.reviews-carousel-track:hover {
-  animation-play-state: paused;
-}
-
-/* Карточка отзыва */
 .review-card {
-  width: 280px;
-  flex-shrink: 0;
+  flex: 0 0 350px;
   background: rgba(19, 25, 38, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  padding: 20px;
-  border-radius: 12px;
+  padding: 28px;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.06);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
-  /* Убираем фиксированную высоту, чтобы текст влезал полностью */
-  min-height: 220px; 
 }
 
 .review-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
   border-color: rgba(255, 115, 0, 0.3);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-}
-
-/* === АВАТАРКИ-КАРТИНКИ === */
-.review-avatar-img {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  /* Оранжевая обводка в стиле сайта */
-  border: 2px solid rgba(255, 115, 0, 0.4); 
-  flex-shrink: 0;
-  background-color: var(--bg-secondary);
-  /* Легкое свечение */
-  box-shadow: 0 0 8px rgba(255, 115, 0, 0.2); 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .review-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.review-avatar,
+.review-avatar-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 115, 0, 0.3);
+  flex-shrink: 0;
+  background-color: var(--bg-secondary);
+  box-shadow: 0 0 8px rgba(255, 115, 0, 0.2);
 }
 
 .review-info h4 {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: #fff;
-  margin: 0 0 2px 0;
+  margin: 0 0 3px 0;
+  font-family: var(--font-title);
 }
 
 .review-city {
-  font-size: 11px;
+  font-size: 12px;
   color: #94a3b8;
 }
 
 .review-stars {
   color: #f59e0b;
-  font-size: 14px;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
+  font-size: 16px;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
 }
 
 .review-text {
   color: #cbd5e1;
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.6;
   margin-bottom: 12px;
   font-style: italic;
   flex-grow: 1;
-  /* Гарантируем, что текст не обрезается */
-  overflow: visible; 
+  overflow: visible;
 }
 
 .review-date {
   color: #64748b;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
 }
 
-/* Подвал отзывов */
 .reviews-footer-block {
   display: flex;
   flex-direction: column;
@@ -1141,31 +1182,12 @@ h6 {
   font-size: 14px;
 }
 
-/* Анимация прокрутки */
-@keyframes scrollReviews {
+@keyframes reviewsScroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-280px * 4 - 16px * 4)); }
+  100% { transform: translateX(calc(-350px * 4 - 24px * 4)); }
 }
 
-@media (max-width: 768px) {
-  .review-card { width: 260px; padding: 16px; }
-  @keyframes scrollReviews {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-260px * 4 - 16px * 4)); }
-  }
-}
-
-/* Адаптив для мобильных */
-@media (max-width: 768px) {
-  .review-card {
-    width: 300px;
-  }
-  
-  @keyframes scrollReviews {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-300px * 4 - 24px * 4)); }
-  }
-}
+/* ===== АУТСОРСИНГ ===== */
 .outsourcing-section {
   padding: 100px 0;
 }
@@ -1274,6 +1296,7 @@ h6 {
   margin-bottom: 0;
 }
 
+/* ===== АВТОПАРК ===== */
 .fleet-section {
   padding: 100px 0;
   background-color: var(--bg-secondary);
@@ -1344,6 +1367,7 @@ h6 {
   color: var(--primary);
 }
 
+/* ===== ПАРТНЕРЫ ===== */
 .partners-section {
   padding: 60px 0;
   background-color: rgba(7, 9, 14, 0.4);
@@ -1408,14 +1432,11 @@ h6 {
 }
 
 @keyframes marquee {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
+/* ===== ЗАКАЗ ===== */
 .order-section {
   padding: 100px 0;
   position: relative;
@@ -1445,23 +1466,6 @@ h6 {
 .form-header p {
   color: var(--text-muted);
   font-size: 0.9rem;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.textarea-custom {
-  resize: vertical;
-}
-
-.form-privacy-note {
-  font-size: 0.75rem;
-  color: #4b5563;
-  margin-top: 14px;
-  text-align: center;
 }
 
 .success-screen {
@@ -1556,6 +1560,7 @@ h6 {
   font-size: 0.85rem;
 }
 
+/* ===== FAQ ===== */
 .faq-section {
   padding: 100px 0;
   background-color: var(--bg-secondary);
@@ -1625,6 +1630,7 @@ h6 {
   color: var(--primary);
 }
 
+/* ===== ПОДВАЛ ===== */
 .site-footer {
   background-color: #040508;
   border-top: 1px solid rgba(255, 255, 255, 0.04);
@@ -1715,6 +1721,7 @@ h6 {
   color: var(--primary);
 }
 
+/* ===== МОДАЛЬНЫЕ ОКНА ===== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1805,210 +1812,485 @@ h6 {
   font-weight: 800;
 }
 
-@media (min-width: 1600px) {
-  .glow-orb {
-    filter: blur(180px);
-  }
+/* ===== EXIT MODAL ===== */
+.exit-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(7, 9, 14, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2000;
 }
 
-@media (max-width: 1300px) {
-  .desktop-nav ul {
-    gap: 20px;
-  }
-  .header-right {
-    gap: 16px;
-  }
-  .city-selector-btn {
-    padding: 8px 12px;
-  }
+.exit-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-@media (max-width: 1200px) {
-  .header-cta {
-    display: none;
-  }
-  .hero-container {
-    gap: 40px;
-  }
-  .hero-title {
-    font-size: 3rem;
-  }
-  .advantages-grid,
-  .services-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  .fleet-grid {
-    grid-template-columns: 1fr;
-  }
+.exit-modal-card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  position: relative;
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@media (max-width: 1120px) {
-  .desktop-nav {
-    display: none !important;
-  }
-  
-  .burger-menu-btn {
-    display: flex !important;
-  }
-  .burger-menu-btn.active .burger-bar:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  .burger-menu-btn.active .burger-bar:nth-child(2) {
-    opacity: 0;
-  }
-  .burger-menu-btn.active .burger-bar:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
-  }
+.exit-modal-overlay.active .exit-modal-card {
+  transform: scale(1) translateY(0);
 }
 
-@media (max-width: 991px) {
-  .hero-container {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 50px;
-  }
-  .hero-text-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .hero-subtitle {
-    max-width: 100%;
-  }
-  .hero-features-grid {
-    width: 100%;
-  }
-  .hero-visual {
-    justify-content: center;
-  }
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .advantages-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .calculator-container {
-    grid-template-columns: 1fr;
-    gap: 50px;
-  }
-  .outsourcing-container {
-    grid-template-columns: 1fr;
-    gap: 50px;
-  }
-  .outsourcing-visual {
-    order: 2;
-  }
-  .order-container {
-    grid-template-columns: 1fr;
-    gap: 50px;
-  }
-  .footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.exit-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 2.2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition-smooth);
 }
 
-@media (max-width: 768px) {
-  .header-phone-box {
-    display: none;
-  }
-  .header-right {
-    gap: 12px;
-  }
-  .logo-area {
-    gap: 8px;
-  }
-  .logo-icon-box {
-    width: 36px;
-    height: 36px;
-  }
-  .logo-svg {
-    width: 18px;
-    height: 18px;
-  }
-  .logo-title {
-    font-size: 1rem;
-  }
-  .logo-subtitle {
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    margin-top: 2px;
-  }
-  .city-selector-btn {
-    padding: 6px 10px;
-    font-size: 0.75rem;
-    gap: 6px;
-  }
-  .city-selector-current {
-    max-width: 95px;
-  }
-  .hero-title {
-    font-size: 2.3rem;
-  }
-  .hero-cta-group {
-    flex-direction: column;
-    width: 100%;
-  }
-  .hero-cta-group .btn {
-    width: 100%;
-  }
-  .hero-features-grid {
-    grid-template-columns: 1fr;
-    text-align: left;
-    gap: 16px;
-  }
-  .hero-glass-card {
-    padding: 24px;
-  }
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-  .advantages-grid {
-    grid-template-columns: 1fr;
-  }
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-  .fleet-card {
-    grid-template-columns: 1fr;
-  }
-  .fleet-img-box {
-    height: 180px;
-  }
-  .service-tabs {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  .reviews-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.exit-modal-close:hover {
+  color: #fff;
+  transform: rotate(90deg);
 }
 
-@media (max-width: 480px) {
-  .section-title {
-    font-size: 1.8rem;
-  }
-  .calc-card,
-  .order-glass-card {
-    padding: 20px;
-  }
-  .service-tabs {
-    grid-template-columns: 1fr;
-  }
-  .reviews-grid {
-    grid-template-columns: 1fr;
-  }
+.exit-modal-content {
+  text-align: center;
 }
 
+.exit-gift-icon {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+  animation: gift-bounce 2s infinite ease-in-out;
+}
+
+.exit-modal-content h2 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  color: #fff;
+  font-family: var(--font-title);
+}
+
+.exit-modal-promo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-family: var(--font-title);
+}
+
+.exit-modal-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.exit-form {
+  display: block;
+}
+
+.exit-form .form-group-custom {
+  margin-bottom: 16px;
+}
+
+#exit-success-confirm {
+  display: none;
+  padding: 20px 0 0 0;
+}
+
+#exit-success-confirm.active {
+  display: block;
+}
+
+@keyframes gift-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(5deg); }
+}
+
+/* ===== HERO LIVE BAR ===== */
+.hero-live-bar {
+  width: 100%;
+  background: rgba(13, 17, 27, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 115, 0, 0.08);
+  border-bottom: 1px solid rgba(255, 115, 0, 0.05);
+  padding: 14px 0;
+  margin-top: 40px;
+}
+
+.hero-live-bar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.hero-live-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.hero-live-dot {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-radius: 50%;
+  animation: hero-live-pulse 2s infinite;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+  flex-shrink: 0;
+}
+
+@keyframes hero-live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.15); }
+}
+
+.hero-live-label {
+  color: rgba(248, 250, 252, 0.7);
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.hero-live-value {
+  color: var(--primary);
+  font-weight: 700;
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.hero-live-value.updating {
+  animation: live-value-flash 0.6s ease;
+}
+
+@keyframes live-value-flash {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); color: #fff; }
+  100% { transform: scale(1); }
+}
+
+/* ===== CITY PRICE LABEL ===== */
+#city-price-label {
+  text-align: center;
+  padding: 10px 20px;
+  margin: 20px auto 30px;
+  background: rgba(255, 115, 0, 0.08);
+  border: 1px solid rgba(255, 115, 0, 0.2);
+  border-radius: 50px;
+  color: #ff9f00;
+  font-size: 0.9rem;
+  font-weight: 600;
+  max-width: fit-content;
+  display: inline-block;
+  animation: fadeInScale 0.5s ease;
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ===== WORKERS DELTA ===== */
+.workers-delta {
+  position: absolute;
+  left: 102%;
+  top: 2px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.workers-delta.delta-positive {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  animation: delta-up-fade 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.workers-delta.delta-negative {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  animation: delta-down-fade 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes delta-up-fade {
+  0% { opacity: 0; transform: translateY(12px) scale(0.7); }
+  15% { opacity: 1; transform: translateY(-2px) scale(1.1); }
+  25% { transform: translateY(0) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-15px) scale(0.9); }
+}
+
+@keyframes delta-down-fade {
+  0% { opacity: 0; transform: translateY(-12px) scale(0.7); }
+  15% { opacity: 1; transform: translateY(2px) scale(1.1); }
+  25% { transform: translateY(0) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(15px) scale(0.9); }
+}
+
+/* ===== СТЕКЛЯННЫЕ ПЛАВАЮЩИЕ КНОПКИ ===== */
+.glass-float-btn {
+  position: fixed;
+  right: 20px;
+  z-index: 999;
+  display: none;
+  background: rgba(13, 17, 27, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-float-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 40px rgba(255, 115, 0, 0.25);
+  background: rgba(20, 25, 38, 0.85);
+}
+
+.mobile-call-button {
+  bottom: 80px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-call-button .call-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  text-decoration: none;
+}
+
+.mobile-call-button .call-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  transition: transform 0.3s ease;
+}
+
+.mobile-call-button:hover .call-btn svg {
+  transform: scale(1.1);
+  fill: var(--primary);
+}
+
+@keyframes call-pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* ===== КНОПКА "НАВЕРХ" ===== */
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #0a0e1a 0%, #151a27 100%);
+  border: 2px solid #ff8c00;
+  border-radius: 50%;
+  color: #ff8c00;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 998;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-to-top:hover {
+  background: #ff8c00;
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+.scroll-to-top svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  transition: stroke 0.3s ease;
+}
+
+/* ===== СТАТИСТИКА ДОСТИЖЕНИЙ ===== */
+.honors-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin: 40px 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.honor-stat {
+  background: linear-gradient(135deg, #151a27 0%, #0f1420 100%);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  border: 1px solid rgba(255, 184, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.honor-stat:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 184, 0, 0.3);
+}
+
+.honor-stat-number {
+  font-size: 36px;
+  font-weight: 800;
+  color: #ffb800;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.honor-stat-label {
+  font-size: 14px;
+  color: #8892b0;
+}
+
+/* ===== ИНТЕРАКТИВНАЯ ГАЛЕРЕЯ ===== */
+.honors-gallery {
+  position: relative;
+  cursor: pointer;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.honors-gallery:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.gallery-overlay span:last-child {
+  color: #fff;
+  font-size: 16px;
+}
+
+/* ===== ЛОГОТИПЫ ПАРТНЕРОВ ===== */
+.partners-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin: 40px 0;
+}
+
+.partners-logos img {
+  height: 60px;
+  width: auto;
+  filter: grayscale(100%) brightness(200%);
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.partners-logos img:hover {
+  filter: grayscale(0%) brightness(100%);
+  opacity: 1;
+}
+
+/* ===== CTA БЛОК ===== */
+.honors-cta {
+  text-align: center;
+  margin-top: 48px;
+  padding: 40px;
+  background: linear-gradient(135deg, rgba(255, 184, 0, 0.1) 0%, rgba(255, 140, 0, 0.05) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 184, 0, 0.2);
+}
+
+.honors-cta p {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+/* ===== ЗВЕЗДНЫЙ РЕЙТИНГ ===== */
+.star-rating {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  font-size: 32px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.star-rating span {
+  color: rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+  text-shadow: none;
+}
+
+.star-rating span.active,
+.star-rating span:hover {
+  color: #f59e0b;
+  text-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+  transform: scale(1.1);
+}
+
+/* ===== ВЫБОР ГОРОДА ===== */
 .city-selector-wrap {
   position: relative;
   z-index: 105;
@@ -2167,1215 +2449,291 @@ h6 {
   border-radius: var(--radius-sm);
 }
 
+/* =========================================================
+   ===== АДАПТИВНОСТЬ (MEDIA QUERIES - СОБРАНЫ ВМЕСТЕ) =====
+   ========================================================= */
+
+@media (min-width: 1600px) {
+  .glow-orb { filter: blur(180px); }
+}
+
+@media (max-width: 1300px) {
+  .desktop-nav ul { gap: 20px; }
+  .header-right { gap: 16px; }
+  .city-selector-btn { padding: 8px 12px; }
+}
+
+@media (max-width: 1200px) {
+  .header-cta { display: none; }
+  .hero-container { gap: 40px; }
+  .hero-title { font-size: 3rem; }
+  .advantages-grid,
+  .services-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .fleet-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 1120px) {
+  .desktop-nav { display: none !important; }
+  .burger-menu-btn { display: flex !important; }
+}
+
+@media (max-width: 991px) {
+  .hero-container { grid-template-columns: 1fr; text-align: center; gap: 50px; }
+  .hero-text-content { display: flex; flex-direction: column; align-items: center; }
+  .hero-subtitle { max-width: 100%; }
+  .hero-features-grid { width: 100%; }
+  .hero-visual { justify-content: center; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .advantages-grid { grid-template-columns: repeat(2, 1fr); }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .calculator-container { grid-template-columns: 1fr; gap: 50px; }
+  .outsourcing-container { grid-template-columns: 1fr; gap: 50px; }
+  .outsourcing-visual { order: 2; }
+  .order-container { grid-template-columns: 1fr; gap: 50px; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 768px) {
+  .header-phone-box { display: none; }
+  .header-right { gap: 12px; }
+  .logo-area { gap: 8px; }
+  .logo-icon-box { width: 36px; height: 36px; }
+  .logo-svg { width: 18px; height: 18px; }
+  .logo-title { font-size: 1rem; }
+  .logo-subtitle { font-size: 0.6rem; letter-spacing: 0.2em; margin-top: 2px; }
+  .city-selector-btn { padding: 6px 10px; font-size: 0.75rem; gap: 6px; }
+  .city-selector-current { max-width: 95px; }
   .city-confirm-banner,
-  .city-dropdown {
-    right: -20px;
-  }
-}
+  .city-dropdown { right: -20px; }
 
-@media (max-width: 380px) {
-  .logo-title {
-    font-size: 0.92rem;
-  }
-  .logo-subtitle {
-    font-size: 0.55rem;
-    letter-spacing: 0.15em;
-  }
-  .city-selector-current {
-    max-width: 70px;
-  }
-  .city-selector-btn {
-    padding: 5px 8px;
-    gap: 4px;
-  }
-}
+  .hero-title { font-size: 2.3rem; }
+  .hero-cta-group { flex-direction: column; width: 100%; }
+  .hero-cta-group .btn { width: 100%; }
+  .hero-features-grid { grid-template-columns: 1fr; text-align: left; gap: 16px; }
+  .hero-glass-card { padding: 24px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .advantages-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .fleet-card { grid-template-columns: 1fr; }
+  .fleet-img-box { height: 180px; }
+  .service-tabs { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+  .reviews-grid { grid-template-columns: 1fr; }
 
-.visual-status {
-  position: relative;
-}
+  .honors-stats { grid-template-columns: repeat(2, 1fr); }
+  .partners-logos { gap: 20px; }
+  .partners-logos img { height: 40px; }
+  .mobile-call-button { display: block; }
+  .mobile-call-button .call-btn { width: 50px; height: 50px; }
+  .mobile-call-button .call-btn svg { width: 22px; height: 22px; }
+  .mobile-link { font-size: 1.5rem; }
+  .mobile-phone-link { font-size: 1.3rem; }
 
-.workers-delta {
-  position: absolute;
-  left: 102%;
-  top: 2px;
-  font-family: var(--font-title);
-  font-weight: 700;
-  font-size: 0.8rem;
-  padding: 2px 6px;
-  border-radius: 4px;
-  opacity: 0;
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 10;
-}
+  .glass-float-btn { display: flex; }
+  .btn, .header-cta, .main-header { position: relative; z-index: 100; }
+  img { max-width: 100%; height: auto; object-fit: contain; }
+  .hero-section img,
+  .leadership-photo,
+  .safety-image,
+  .values-image { object-fit: cover; width: 100%; }
+  input, select, textarea { font-size: 16px; }
 
-.workers-delta.delta-positive {
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  animation: delta-up-fade 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+  .hero-live-bar { padding: 12px 0; margin-top: 32px; }
+  .hero-live-bar-inner { flex-direction: column; gap: 10px; }
+  .hero-live-item { font-size: 0.8rem; }
+  .hero-live-label { font-size: 0.8rem; }
+  .hero-live-value { font-size: 0.85rem; }
 
-.workers-delta.delta-negative {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.25);
-  animation: delta-down-fade 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+  #city-price-label { font-size: 0.8rem; padding: 8px 16px; margin: 15px auto 20px; }
 
-@keyframes delta-up-fade {
-  0% {
-    opacity: 0;
-    transform: translateY(12px) scale(0.7);
-  }
-  15% {
-    opacity: 1;
-    transform: translateY(-2px) scale(1.1);
-  }
-  25% {
-    transform: translateY(0) scale(1);
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-15px) scale(0.9);
-  }
-}
-
-@keyframes delta-down-fade {
-  0% {
-    opacity: 0;
-    transform: translateY(-12px) scale(0.7);
-  }
-  15% {
-    opacity: 1;
-    transform: translateY(2px) scale(1.1);
-  }
-  25% {
-    transform: translateY(0) scale(1);
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(15px) scale(0.9);
-  }
-}
-
-.exit-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(7, 9, 14, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 2000;
-}
-
-.exit-modal-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.exit-modal-card {
-  width: 100%;
-  max-width: 520px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--primary);
-  border-radius: var(--radius-lg);
-  padding: 40px;
-  position: relative;
-  box-shadow:
-    0 25px 60px rgba(0, 0, 0, 0.8),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transform: scale(0.9) translateY(20px);
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.exit-modal-overlay.active .exit-modal-card {
-  transform: scale(1) translateY(0);
-}
-
-.exit-modal-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 2.2rem;
-  line-height: 1;
-  cursor: pointer;
-  transition: var(--transition-smooth);
-}
-
-.exit-modal-close:hover {
-  color: #fff;
-  transform: rotate(90deg);
-}
-
-.exit-modal-content {
-  text-align: center;
-}
-
-.exit-gift-icon {
-  font-size: 3.5rem;
-  margin-bottom: 16px;
-  animation: gift-bounce 2s infinite ease-in-out;
-}
-
-.exit-modal-content h2 {
-  font-size: 2rem;
-  margin-bottom: 12px;
-  color: #fff;
-  font-family: var(--font-title);
-}
-
-.exit-modal-promo {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-  font-family: var(--font-title);
-}
-
-.exit-modal-desc {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-}
-
-.exit-form {
-  display: block;
-}
-
-.exit-form .form-group-custom {
-  margin-bottom: 16px;
-}
-
-#exit-success-confirm {
-  display: none;
-  padding: 20px 0 0 0;
-}
-
-#exit-success-confirm.active {
-  display: block;
-}
-
-@keyframes gift-bounce {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(5deg);
+  .review-card { flex: 0 0 300px; }
+  .reviews-carousel-track { animation-duration: 28s; }
+  @keyframes reviewsScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-300px * 4 - 24px * 4)); }
   }
 }
 
 @media (max-width: 576px) {
-  .exit-modal-card {
-    max-width: 90%;
-    padding: 30px 20px;
-  }
-  .exit-modal-content h2 {
-    font-size: 1.6rem;
-  }
-  .exit-modal-promo {
-    font-size: 1.1rem;
-  }
-}
-
-.hero-live-bar {
-  width: 100%;
-  background: rgba(13, 17, 27, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255, 115, 0, 0.08);
-  border-bottom: 1px solid rgba(255, 115, 0, 0.05);
-  padding: 14px 0;
-  margin-top: 40px;
-}
-
-.hero-live-bar-inner {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 50px;
-}
-
-.hero-live-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-
-.hero-live-dot {
-  width: 8px;
-  height: 8px;
-  background: linear-gradient(135deg, #10b981, #059669);
-  border-radius: 50%;
-  animation: hero-live-pulse 2s infinite;
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
-  flex-shrink: 0;
-}
-
-@keyframes hero-live-pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.15);
-  }
-}
-
-.hero-live-label {
-  color: rgba(248, 250, 252, 0.7);
-  font-weight: 500;
-  font-size: 0.85rem;
-}
-
-.hero-live-value {
-  color: var(--primary);
-  font-weight: 700;
-  font-family: var(--font-title);
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-}
-
-.hero-live-value.updating {
-  animation: live-value-flash 0.6s ease;
-}
-
-@keyframes live-value-flash {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-    color: #fff;
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-live-bar {
-    padding: 12px 0;
-    margin-top: 32px;
-  }
-  .hero-live-bar-inner {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .hero-live-item {
-    font-size: 0.8rem;
-  }
-  .hero-live-label {
-    font-size: 0.8rem;
-  }
-  .hero-live-value {
-    font-size: 0.85rem;
-  }
+  .exit-modal-card { max-width: 90%; padding: 30px 20px; }
+  .exit-modal-content h2 { font-size: 1.6rem; }
+  .exit-modal-promo { font-size: 1.1rem; }
 }
 
 @media (max-width: 480px) {
-  .hero-live-bar {
-    padding: 10px 0;
+  .section-title { font-size: 1.8rem; }
+  .calc-card,
+  .order-glass-card { padding: 20px; }
+  .service-tabs { grid-template-columns: 1fr; }
+  .reviews-grid { grid-template-columns: 1fr; }
+
+  .glass-float-btn { right: 16px; }
+  .mobile-call-button { width: 52px; height: 52px; bottom: 76px; }
+  .mobile-call-button .call-btn { width: 48px; height: 48px; padding: 0; font-size: 14px; }
+  .mobile-call-button .call-btn svg { width: 20px; height: 20px; }
+  .scroll-to-top { width: 45px; height: 45px; }
+  .mobile-link { font-size: 1.3rem; }
+  .mobile-nav-links { gap: 20px; }
+
+  .hero-live-bar { padding: 10px 0; }
+  .hero-live-item { gap: 8px; }
+  .hero-live-dot { width: 6px; height: 6px; }
+
+  .review-card { flex: 0 0 280px; padding: 20px; }
+  .reviews-carousel-track { animation-duration: 24s; }
+  @keyframes reviewsScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-280px * 4 - 24px * 4)); }
   }
-  .hero-live-item {
-    gap: 8px;
-  }
-  .hero-live-dot {
-    width: 6px;
-    height: 6px;
-  }
+  .review-avatar { width: 48px; height: 48px; }
+
+  .star-rating { font-size: 28px; gap: 4px; }
+  .modal-box { padding: 24px; max-height: 90vh; overflow-y: auto; }
 }
 
-#city-price-label {
-  text-align: center;
-  padding: 10px 20px;
-  margin: 20px auto 30px;
-  background: rgba(255, 115, 0, 0.08);
-  border: 1px solid rgba(255, 115, 0, 0.2);
-  border-radius: 50px;
-  color: #ff9f00;
-  font-size: 0.9rem;
-  font-weight: 600;
-  max-width: fit-content;
-  display: inline-block;
-  animation: fadeInScale 0.5s ease;
+@media (max-width: 380px) {
+  .logo-title { font-size: 0.92rem; }
+  .logo-subtitle { font-size: 0.55rem; letter-spacing: 0.15em; }
+  .city-selector-current { max-width: 70px; }
+  .city-selector-btn { padding: 5px 8px; gap: 4px; }
 }
-
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@media (max-width: 768px) {
-  #city-price-label {
-    font-size: 0.8rem;
-    padding: 8px 16px;
-    margin: 15px auto 20px;
-  }
-}
-
-/* ===== ЛОГОТИП - ИСПРАВЛЕНО ===== */
-.logo-subtitle {
-  display: block;
-  width: 100%;
-  text-align: justify;
-  text-align-last: justify;
-  letter-spacing: 11px;
-  font-size: 14px;
-}
-
-.logo-subtitle::after {
-  content: "";
-  display: inline-block;
-  width: 100%;
-}
-
-/* ===== Статистика достижений ===== */
-.honors-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  margin: 40px 0;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.honor-stat {
-  background: linear-gradient(135deg, #151a27 0%, #0f1420 100%);
-  border-radius: 12px;
-  padding: 32px 24px;
-  text-align: center;
-  border: 1px solid rgba(255, 184, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.honor-stat:hover {
-  transform: translateY(-5px);
-  border-color: rgba(255, 184, 0, 0.3);
-}
-
-.honor-stat-number {
-  font-size: 36px;
-  font-weight: 800;
-  color: #ffb800;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.honor-stat-label {
-  font-size: 14px;
-  color: #8892b0;
-}
-
-/* ===== Интерактивная галерея ===== */
-.honors-gallery {
-  position: relative;
-  cursor: pointer;
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.gallery-overlay {
+/* ===== ПРАВКИ: мобильное меню, плавающие кнопки, отзывы ===== */
+.mobile-menu-close {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.honors-gallery:hover .gallery-overlay {
-  opacity: 1;
-}
-
-.gallery-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-}
-
-.gallery-overlay span:last-child {
-  color: #fff;
-  font-size: 16px;
-}
-
-/* ===== Логотипы партнеров ===== */
-.partners-logos {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-  flex-wrap: wrap;
-  margin: 40px 0;
-}
-
-.partners-logos img {
-  height: 60px;
-  width: auto;
-  filter: grayscale(100%) brightness(200%);
-  opacity: 0.6;
-  transition: all 0.3s ease;
-}
-
-.partners-logos img:hover {
-  filter: grayscale(0%) brightness(100%);
-  opacity: 1;
-}
-
-/* ===== CTA блок ===== */
-.honors-cta {
-  text-align: center;
-  margin-top: 48px;
-  padding: 40px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 184, 0, 0.1) 0%,
-    rgba(255, 140, 0, 0.05) 100%
-  );
-  border-radius: 16px;
-  border: 1px solid rgba(255, 184, 0, 0.2);
-}
-
-.honors-cta p {
-  font-size: 18px;
-  color: #fff;
-  margin-bottom: 24px;
-}
-
-/* ===== СТЕКЛЯННЫЕ ПЛАВАЮЩИЕ КНОПКИ ===== */
-
-/* Общий стиль для стеклянных кнопок */
-.glass-float-btn {
-  position: fixed;
-  right: 20px;
-  z-index: 999;
-  display: none; /* Скрыты на десктопе */
-  
-  /* Эффект стекла */
-  background: rgba(13, 17, 27, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-float-btn:hover {
-  transform: translateY(-3px);
-  border-color: var(--primary);
-  box-shadow: 0 12px 40px rgba(255, 115, 0, 0.25);
-  background: rgba(20, 25, 38, 0.85);
-}
-
-/* === Кнопка "Позвонить" === */
-.mobile-call-button {
-  bottom: 80px; /* Выше кнопки "Наверх" */
-  width: 56px;
-  height: 56px;
-  border-radius: 16px; /* Скругленный квадрат выглядит современнее круга */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mobile-call-button .call-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  color: #fff;
-  text-decoration: none;
-}
-
-.mobile-call-button .call-btn svg {
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-  transition: transform 0.3s ease;
-}
-
-.mobile-call-button:hover .call-btn svg {
-  transform: scale(1.1);
-  fill: var(--primary);
-}
-
-/* === Кнопка "Наверх" === */
-.scroll-to-top {
-  bottom: 20px;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  cursor: pointer;
-  color: #fff;
-  display: none; /* Управляется через JS */
-  align-items: center;
-  justify-content: center;
-}
-
-.scroll-to-top svg {
-  width: 20px;
-  height: 20px;
-  stroke: currentColor;
-  stroke-width: 2.5;
-  transition: stroke 0.3s ease;
-}
-
-.scroll-to-top:hover {
-  color: var(--primary);
-  border-color: var(--primary);
-}
-
-/* Показываем кнопки только на мобильных */
-@media (max-width: 768px) {
-  .glass-float-btn {
-    display: flex;
-  }
-}
-
-/* Адаптив для очень маленьких экранов */
-@media (max-width: 480px) {
-  .glass-float-btn {
-    right: 16px;
-  }
-  .mobile-call-button {
-    width: 52px;
-    height: 52px;
-    bottom: 76px;
-  }
-  .scroll-to-top {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-/* ===== КНОПКА БУРГЕР-МЕНЮ (ПОСТОЯННАЯ НА МОБИЛЬНОМ) ===== */
-.burger-menu-btn {
-  display: none; /* Скрыта на десктопе */
-  flex-direction: column;
-  justify-content: space-between;
-  width: 28px;
-  height: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 1001; /* Поверх всего, кроме самого меню */
-}
-
-.burger-bar {
-  width: 100%;
-  height: 2px;
-  background-color: #fff;
-  border-radius: 2px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  transform-origin: center;
-}
-
-/* Анимация крестика при открытии */
-.burger-menu-btn.active .burger-bar:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
-}
-.burger-menu-btn.active .burger-bar:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-.burger-menu-btn.active .burger-bar:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
-}
-
-/* ===== МОБИЛЬНОЕ МЕНЮ (МАКСИМАЛЬНЫЙ Z-INDEX) ===== */
-.mobile-nav-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(7, 9, 14, 0.98);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  z-index: 10000; /* Максимальный приоритет поверх всех кнопок */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-20px);
-}
-
-.mobile-nav-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-.mobile-nav-content {
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
-}
-
-.mobile-nav-links {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-bottom: 40px;
-}
-
-.mobile-link {
-  font-family: var(--font-title);
-  font-weight: 700;
-  font-size: 1.8rem;
-  color: #fff;
-  display: block;
-  transition: color 0.3s ease;
-}
-
-.mobile-link:hover {
-  color: var(--primary);
-}
-
-.mobile-nav-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.mobile-phone-link {
-  font-family: var(--font-title);
-  font-weight: 800;
-  font-size: 1.5rem;
-  color: #fff;
-}
-
-.mobile-hours {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-/* ===== АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ ЭЛЕМЕНТОВ ===== */
-@media (max-width: 1120px) {
-  /* Показываем бургер на планшетах и мобильных */
-  .burger-menu-btn {
-    display: flex;
-  }
-  
-  /* Скрываем десктопное меню */
-  .desktop-nav {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  /* Показываем кнопку звонка только на мобильных */
-  .mobile-call-button {
-    display: block;
-  }
-  
-  /* Корректировка отступов для кнопки звонка */
-  .mobile-call-button .call-btn {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .mobile-call-button .call-btn svg {
-    width: 22px;
-    height: 22px;
-  }
-  
-  /* Уменьшаем шрифт ссылок в мобильном меню */
-  .mobile-link {
-    font-size: 1.5rem;
-  }
-  
-  .mobile-phone-link {
-    font-size: 1.3rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .mobile-call-button {
-    bottom: 70px;
-    right: 16px;
-  }
-  
-  .mobile-call-button .call-btn {
-    width: 48px;
-    height: 48px;
-  }
-  
-  .mobile-link {
-    font-size: 1.3rem;
-  }
-  
-  .mobile-nav-links {
-    gap: 20px;
-  }
-}
-
-@keyframes call-pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
-}
-
-/* ===== КНОПКА НАВЕРХ ===== */
-.scroll-to-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #0a0e1a 0%, #151a27 100%);
-  border: 2px solid #ff8c00;
+  top: 22px;
+  right: 22px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 50%;
-  color: #ff8c00;
+  background: rgba(13, 17, 27, 0.72);
+  color: #fff;
+  cursor: pointer;
   display: none;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  z-index: 998;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.scroll-to-top:hover {
-  background: #ff8c00;
-  color: #fff;
-  transform: translateY(-3px);
-}
-
-/* ===== АДАПТИВНОСТЬ ===== */
-@media (max-width: 768px) {
-  .honors-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (max-width: 480px) {
-    .mobile-call-button .call-btn {
-      width: 45px;
-      height: 45px;
-    }
-
-    .mobile-call-button .call-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .scroll-to-top {
-      width: 45px;
-      height: 45px;
-    }
-  }
-  .partners-logos {
-    gap: 20px;
-  }
-
-  .partners-logos img {
-    height: 40px;
-  }
-
-  /* Показываем мобильную кнопку позвонить */
-  .mobile-call-button {
-    display: block;
-  }
-
-  /* Исправление z-index для кнопок */
-  .btn,
-  .header-cta,
-  .main-header {
-    position: relative;
-    z-index: 100;
-  }
-
-  /* Исправление изображений на мобильных */
-  img {
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-  }
-
-  .hero-section img,
-  .leadership-photo,
-  .safety-image,
-  .values-image {
-    object-fit: cover;
-    width: 100%;
-  }
-
-  /* Исправление форм на iOS */
-  input,
-  select,
-  textarea {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .mobile-call-button .call-btn {
-    padding: 12px 20px;
-    font-size: 14px;
-  }
-
-  .scroll-to-top {
-    width: 45px;
-    height: 45px;
-  }
-  /* ===== Карусель отзывов ===== */
-  .reviews-carousel-wrapper {
-    position: relative;
-    overflow: hidden;
-    padding: 20px 0 40px;
-    margin: 0 -20px;
-  }
-
-  .reviews-carousel-track {
-    display: flex;
-    gap: 24px;
-    animation: reviewsScroll 40s linear infinite;
-    width: max-content;
-    padding-left: 20px;
-  }
-
-  .reviews-carousel-track:hover {
-    animation-play-state: paused;
-  }
-
-  .review-card {
-    flex: 0 0 380px;
-    background: rgba(19, 25, 38, 0.65);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    padding: 28px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .review-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 115, 0, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  }
-
-  .review-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-
-  .review-avatar-placeholder {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 700;
-    color: white;
-    flex-shrink: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  }
-
-  .review-info h4 {
-    font-size: 15px;
-    font-weight: 700;
-    color: #fff;
-    margin: 0 0 3px 0;
-    font-family: "Montserrat", sans-serif;
-  }
-
-  .review-city {
-    font-size: 12px;
-    color: #94a3b8;
-  }
-
-  .review-stars {
-    color: #f59e0b;
-    font-size: 16px;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
-  }
-
-  .review-text {
-    color: #cbd5e1;
-    font-size: 13px;
-    line-height: 1.6;
-    margin-bottom: 12px;
-    font-style: italic;
-  }
-
-  .review-date {
-    color: #64748b;
-    font-size: 11px;
-    font-weight: 500;
-  }
-
-  @keyframes reviewsScroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc(-380px * 5 - 24px * 5));
-    }
-  }
-
- /* ===== Карусель отзывов ===== */
-.reviews-carousel-wrapper {
-  position: relative;
-  overflow: hidden;
-  padding: 20px 0 40px;
-  margin: 0 -20px;
-}
-
-.reviews-carousel-wrapper::before,
-.reviews-carousel-wrapper::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  width: 150px;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.reviews-carousel-wrapper::before {
-  left: 0;
-  background: linear-gradient(to right, var(--bg-primary), transparent);
-}
-
-.reviews-carousel-wrapper::after {
-  right: 0;
-  background: linear-gradient(to left, var(--bg-primary), transparent);
-}
-
-.reviews-carousel-track {
-  display: flex;
-  gap: 24px;
-  animation: reviewsScroll 35s linear infinite;
-  width: max-content;
-  padding-left: 20px;
-}
-
-.reviews-carousel-track:hover {
-  animation-play-state: paused;
-}
-
-.review-card {
-  flex: 0 0 350px;
-  background: rgba(19, 25, 38, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  padding: 28px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  height: 320px;
-  display: flex;
-  flex-direction: column;
-}
-
-.review-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(255, 115, 0, 0.3);
+  z-index: 10002;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: var(--transition-smooth);
 }
 
-.review-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 14px;
+.mobile-menu-close span {
+  position: absolute;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
 }
 
-.review-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255, 115, 0, 0.3);
-  flex-shrink: 0;
+.mobile-menu-close span:first-child {
+  transform: rotate(45deg);
 }
 
-.review-info h4 {
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  margin: 0 0 3px 0;
-  font-family: "Montserrat", sans-serif;
+.mobile-menu-close span:last-child {
+  transform: rotate(-45deg);
 }
 
-.review-city {
-  font-size: 12px;
-  color: #94a3b8;
+.mobile-menu-close:hover {
+  color: var(--primary);
+  border-color: rgba(255, 115, 0, 0.45);
+  transform: rotate(90deg);
 }
 
 .review-stars {
-  color: #f59e0b;
-  font-size: 16px;
-  margin-bottom: 12px;
-  letter-spacing: 2px;
+  font-family: Arial, sans-serif;
+  white-space: nowrap;
 }
 
-.review-text {
-  color: #cbd5e1;
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 12px;
-  font-style: italic;
-  flex-grow: 1;
+.review-card {
+  min-height: 310px;
 }
 
-.review-date {
-  color: #64748b;
-  font-size: 12px;
-  font-weight: 500;
+.mobile-call-button {
+  overflow: visible;
+  background: linear-gradient(135deg, #ff8f00, #ff5100);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 30px rgba(255, 115, 0, 0.45);
+  animation: call-button-breathe 1.8s ease-in-out infinite;
 }
 
-.reviews-cta {
-  text-align: center;
-  margin-top: 40px;
+.mobile-call-button::before,
+.mobile-call-button::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  border: 2px solid rgba(255, 115, 0, 0.55);
+  animation: call-pulse-ring 1.8s ease-out infinite;
+  pointer-events: none;
 }
 
-@keyframes reviewsScroll {
+.mobile-call-button::after {
+  animation-delay: 0.9s;
+}
+
+.mobile-call-button .call-btn {
+  position: relative;
+  z-index: 1;
+  color: #fff !important;
+}
+
+.mobile-call-button .call-btn svg,
+.mobile-call-button .retro-phone-svg {
+  width: 28px !important;
+  height: 28px !important;
+  display: block;
+  color: #fff;
+  fill: #fff;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
+.mobile-call-button:hover .call-btn svg {
+  fill: #fff;
+  transform: scale(1.08) rotate(-8deg);
+}
+
+@keyframes call-pulse-ring {
   0% {
-    transform: translateX(0);
+    transform: scale(0.82);
+    opacity: 0.78;
   }
-  100% {
-    transform: translateX(calc(-350px * 4 - 24px * 4));
+  70%, 100% {
+    transform: scale(1.42);
+    opacity: 0;
   }
 }
 
-/* Адаптивность для карусели отзывов */
+@keyframes call-button-breathe {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 30px rgba(255, 115, 0, 0.45);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 38px rgba(255, 115, 0, 0.65);
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-call-button,
+  .scroll-to-top {
+    display: none !important;
+  }
+}
+
 @media (max-width: 768px) {
-  .review-card {
-    flex: 0 0 300px;
-    height: 300px;
+  .mobile-menu-close {
+    display: flex;
   }
-  
-  .reviews-carousel-track {
-    animation-duration: 28s;
-  }
-  
-  @keyframes reviewsScroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc(-300px * 4 - 24px * 4));
-    }
-  }
-}
 
-@media (max-width: 480px) {
-  .review-card {
-    flex: 0 0 280px;
-    height: 290px;
-    padding: 20px;
+  .mobile-nav-content {
+    position: relative;
+    padding-top: 76px;
   }
-  
-  .reviews-carousel-track {
-    animation-duration: 24s;
-  }
-  
-  @keyframes reviewsScroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc(-280px * 4 - 24px * 4));
-    }
-  }
-  
-  .review-avatar {
-    width: 48px;
-    height: 48px;
-  }
-}
-}
 
-/* ===== МОДАЛЬНОЕ ОКНО ОТЗЫВА - ИСПРАВЛЕННЫЕ ЗВЕЗДЫ ===== */
-.star-rating {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  font-size: 32px;
-  cursor: pointer;
-  user-select: none;
-  /* Убираем row-reverse, будем управлять через JS и порядок HTML */
-}
-
-.star-rating span {
-  color: rgba(255, 255, 255, 0.2);
-  transition: all 0.2s ease;
-  text-shadow: none;
-}
-
-/* Подсветка при наведении и активные звезды */
-.star-rating span.active,
-.star-rating span:hover {
-  color: #f59e0b;
-  text-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
-  transform: scale(1.1);
-}
-
-/* Адаптация модалки под мобильные */
-@media (max-width: 480px) {
-  .star-rating {
-    font-size: 28px;
-    gap: 4px;
-  }
-  
-  .modal-box {
-    padding: 24px;
-    max-height: 90vh;
-    overflow-y: auto;
+  .mobile-call-button {
+    display: flex !important;
   }
 }
