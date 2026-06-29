@@ -1845,10 +1845,11 @@ h6 {
 
 @media (max-width: 1120px) {
   .desktop-nav {
-    display: none;
+    display: none !important;
   }
+  
   .burger-menu-btn {
-    display: flex;
+    display: flex !important;
   }
   .burger-menu-btn.active .burger-bar:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
@@ -2678,72 +2679,279 @@ h6 {
   margin-bottom: 24px;
 }
 
-/* ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ (РЕТРО ТРУБКА) ===== */
-.mobile-call-button {
+/* ===== СТЕКЛЯННЫЕ ПЛАВАЮЩИЕ КНОПКИ ===== */
+
+/* Общий стиль для стеклянных кнопок */
+.glass-float-btn {
   position: fixed;
-  bottom: 80px;
   right: 20px;
   z-index: 999;
-  display: none;
+  display: none; /* Скрыты на десктопе */
+  
+  /* Эффект стекла */
+  background: rgba(13, 17, 27, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-float-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 40px rgba(255, 115, 0, 0.25);
+  background: rgba(20, 25, 38, 0.85);
+}
+
+/* === Кнопка "Позвонить" === */
+.mobile-call-button {
+  bottom: 80px; /* Выше кнопки "Наверх" */
+  width: 56px;
+  height: 56px;
+  border-radius: 16px; /* Скругленный квадрат выглядит современнее круга */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobile-call-button .call-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 64px;
-  background: linear-gradient(145deg, #ff8c00 0%, #ff5500 100%);
+  width: 100%;
+  height: 100%;
   color: #fff;
   text-decoration: none;
-  border-radius: 18px 18px 10px 10px;
-  box-shadow: 0 4px 20px rgba(255, 140, 0, 0.5);
-  position: relative;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.mobile-call-button .call-btn::after {
-  content: "";
-  position: absolute;
-  top: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 14px;
-  height: 14px;
-  background: radial-gradient(circle at 30% 30%, #ffcc66, #cc6600);
-  border-radius: 50%;
-  box-shadow: 0 -2px 8px rgba(255, 140, 0, 0.6);
-  border: 2px solid #ffaa33;
-}
-
-.mobile-call-button .call-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 25px rgba(255, 140, 0, 0.7);
 }
 
 .mobile-call-button .call-btn svg {
-  width: 22px;
-  height: 30px;
-  fill: #fff;
-  z-index: 2;
-  position: relative;
-  margin-top: 2px;
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  transition: transform 0.3s ease;
 }
 
-/* Анимация пульсации для привлечения внимания */
-.mobile-call-button .call-btn::before {
-  content: "";
-  position: absolute;
-  width: 120%;
-  height: 120%;
-  top: -10%;
-  left: -10%;
-  border-radius: 20px;
-  background: rgba(255, 140, 0, 0.3);
-  animation: call-pulse 2s infinite;
-  z-index: -1;
+.mobile-call-button:hover .call-btn svg {
+  transform: scale(1.1);
+  fill: var(--primary);
+}
+
+/* === Кнопка "Наверх" === */
+.scroll-to-top {
+  bottom: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #fff;
+  display: none; /* Управляется через JS */
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-to-top svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  transition: stroke 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Показываем кнопки только на мобильных */
+@media (max-width: 768px) {
+  .glass-float-btn {
+    display: flex;
+  }
+}
+
+/* Адаптив для очень маленьких экранов */
+@media (max-width: 480px) {
+  .glass-float-btn {
+    right: 16px;
+  }
+  .mobile-call-button {
+    width: 52px;
+    height: 52px;
+    bottom: 76px;
+  }
+  .scroll-to-top {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* ===== КНОПКА БУРГЕР-МЕНЮ (ПОСТОЯННАЯ НА МОБИЛЬНОМ) ===== */
+.burger-menu-btn {
+  display: none; /* Скрыта на десктопе */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001; /* Поверх всего, кроме самого меню */
+}
+
+.burger-bar {
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+}
+
+/* Анимация крестика при открытии */
+.burger-menu-btn.active .burger-bar:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.burger-menu-btn.active .burger-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.burger-menu-btn.active .burger-bar:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* ===== МОБИЛЬНОЕ МЕНЮ (МАКСИМАЛЬНЫЙ Z-INDEX) ===== */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(7, 9, 14, 0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 10000; /* Максимальный приоритет поверх всех кнопок */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-20px);
+}
+
+.mobile-nav-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mobile-nav-content {
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.mobile-link {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #fff;
+  display: block;
+  transition: color 0.3s ease;
+}
+
+.mobile-link:hover {
+  color: var(--primary);
+}
+
+.mobile-nav-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.mobile-phone-link {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.mobile-hours {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ===== АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ ЭЛЕМЕНТОВ ===== */
+@media (max-width: 1120px) {
+  /* Показываем бургер на планшетах и мобильных */
+  .burger-menu-btn {
+    display: flex;
+  }
+  
+  /* Скрываем десктопное меню */
+  .desktop-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Показываем кнопку звонка только на мобильных */
+  .mobile-call-button {
+    display: block;
+  }
+  
+  /* Корректировка отступов для кнопки звонка */
+  .mobile-call-button .call-btn {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .mobile-call-button .call-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  /* Уменьшаем шрифт ссылок в мобильном меню */
+  .mobile-link {
+    font-size: 1.5rem;
+  }
+  
+  .mobile-phone-link {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-call-button {
+    bottom: 70px;
+    right: 16px;
+  }
+  
+  .mobile-call-button .call-btn {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .mobile-link {
+    font-size: 1.3rem;
+  }
+  
+  .mobile-nav-links {
+    gap: 20px;
+  }
 }
 
 @keyframes call-pulse {

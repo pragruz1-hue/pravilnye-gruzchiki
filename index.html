@@ -144,141 +144,91 @@
     </div>
 
     <header class="main-header" id="site-header">
-      <div class="container header-container">
-        <a href="#" class="logo-area" id="header-logo-link">
-          <div class="logo-area">
-            <img
-              src="assets/logo.png"
-              alt="Правильные Грузчики"
-              class="logo-icon-img"
-              style="height: 64px; width: auto"
-            />
-            <div class="logo-text">
-              <span class="logo-title">ПРАВИЛЬНЫЕ</span>
-              <span class="logo-subtitle">ГРУЗЧИКИ</span>
-            </div>
+  <div class="container header-container">
+    <!-- Логотип -->
+    <a href="#" class="logo-area" id="header-logo-link">
+      <img
+        src="assets/logo.png"
+        alt="Правильные Грузчики"
+        class="logo-icon-img"
+        style="height: 64px; width: auto"
+      />
+      <div class="logo-text">
+        <span class="logo-title">ПРАВИЛЬНЫЕ</span>
+        <span class="logo-subtitle">ГРУЗЧИКИ</span>
+      </div>
+    </a>
+
+    <!-- Десктопное меню -->
+    <nav class="desktop-nav" aria-label="Основная навигация">
+      <ul>
+        <li><a href="about.html" class="nav-link">О нас</a></li>
+        <li><a href="#services" class="nav-link">Услуги</a></li>
+        <li><a href="#reviews" class="nav-link">Отзывы</a></li>
+        <li><a href="#calculator" class="nav-link">Калькулятор</a></li>
+        <li><a href="#fleet" class="nav-link">Автопарк</a></li>
+        <li><a href="#faq" class="nav-link">Вопросы</a></li>
+        <li><a href="blog/" class="nav-link">Блог</a></li>
+        <li><a href="#contacts" class="nav-link">Контакты</a></li>
+      </ul>
+    </nav>
+
+    <!-- Правая часть хедера -->
+    <div class="header-right">
+      <!-- Выбор города -->
+      <div class="city-selector-wrap">
+        <button class="city-selector-btn" id="current-selected-city">
+          <span class="city-icon-pin">📍</span>
+          <span class="city-selector-current" id="city-btn-text">Краснодар</span>
+          <span class="city-selector-arrow">▼</span>
+        </button>
+
+        <!-- Выпадающий список городов -->
+        <div class="city-dropdown" id="city-dropdown-menu">
+          <div class="city-dropdown-list">
+            <button type="button" class="city-item" data-city="krasnodar">Краснодар</button>
+            <button type="button" class="city-item" data-city="moscow">Москва</button>
+            <button type="button" class="city-item" data-city="spb">Санкт-Петербург</button>
+            <button type="button" class="city-item" data-city="novosibirsk">Новосибирск</button>
+            <button type="button" class="city-item" data-city="ekaterinburg">Екатеринбург</button>
+            <button type="button" class="city-item" data-city="kazan">Казань</button>
+            <button type="button" class="city-item" data-city="nn">Нижний Новгород</button>
+            <button type="button" class="city-item" data-city="chelyabinsk">Челябинск</button>
+            <button type="button" class="city-item" data-city="samara">Самара</button>
+            <button type="button" class="city-item" data-city="rostov">Ростов-на-Дону</button>
+            <button type="button" class="city-item" data-city="ufa">Уфа</button>
+            <button type="button" class="city-item" data-city="voronezh">Воронеж</button>
+            <button type="button" class="city-item" data-city="volgograd">Волгоград</button>
           </div>
-        </a>
+        </div>
 
-        <nav class="desktop-nav" aria-label="Основная навигация">
-          <ul>
-            <li><a href="about.html" class="nav-link">О нас</a></li>
-            <li><a href="#services" class="nav-link">Услуги</a></li>
-            <li><a href="#reviews" class="nav-link">Отзывы</a></li>
-            <li><a href="#calculator" class="nav-link">Калькулятор</a></li>
-            <li><a href="#fleet" class="nav-link">Автопарк</a></li>
-            <li><a href="#faq" class="nav-link">Вопросы</a></li>
-            <li><a href="blog/" class="nav-link">Блог</a></li>
-            <li><a href="#contacts" class="nav-link">Контакты</a></li>
-          </ul>
-        </nav>
-
-        <div class="header-right">
-          <div class="city-selector-wrap">
-            <button class="city-selector-btn" id="current-selected-city">
-              <span class="city-icon-pin">📍</span>
-              <span class="city-selector-current" id="city-btn-text"
-                >Краснодар</span
-              >
-              <span class="city-selector-arrow">▼</span>
-            </button>
-
-            <div class="city-dropdown" id="city-dropdown-menu">
-              <div class="city-dropdown-list">
-                <button type="button" class="city-item" data-city="krasnodar">
-                  Краснодар
-                </button>
-                <button type="button" class="city-item" data-city="moscow">
-                  Москва
-                </button>
-                <button type="button" class="city-item" data-city="spb">
-                  Санкт-Петербург
-                </button>
-                <button type="button" class="city-item" data-city="novosibirsk">
-                  Новосибирск
-                </button>
-                <button
-                  type="button"
-                  class="city-item"
-                  data-city="ekaterinburg"
-                >
-                  Екатеринбург
-                </button>
-                <button type="button" class="city-item" data-city="kazan">
-                  Казань
-                </button>
-                <button type="button" class="city-item" data-city="nn">
-                  Нижний Новгород
-                </button>
-                <button type="button" class="city-item" data-city="chelyabinsk">
-                  Челябинск
-                </button>
-                <button type="button" class="city-item" data-city="samara">
-                  Самара
-                </button>
-                <button type="button" class="city-item" data-city="rostov">
-                  Ростов-на-Дону
-                </button>
-                <button type="button" class="city-item" data-city="ufa">
-                  Уфа
-                </button>
-                <button type="button" class="city-item" data-city="voronezh">
-                  Воронеж
-                </button>
-                <button type="button" class="city-item" data-city="volgograd">
-                  Волгоград
-                </button>
-              </div>
-            </div>
-
-            <div class="city-confirm-banner" id="city-confirm-banner">
-              <p>
-                Ваш город — <strong id="detected-city-name">Краснодар</strong>?
-              </p>
-              <div class="city-confirm-btns">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  id="btn-city-confirm-yes"
-                >
-                  Да, верно
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-sm"
-                  id="btn-city-confirm-no"
-                >
-                  Другой
-                </button>
-              </div>
-            </div>
+        <!-- Баннер подтверждения города -->
+        <div class="city-confirm-banner" id="city-confirm-banner">
+          <p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p>
+          <div class="city-confirm-btns">
+            <button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button>
           </div>
-
-          <div class="header-phone-box">
-            <a href="tel:+79283333281" class="phone-link" id="header-phone"
-              >+7 (928) 333-32-81</a
-            >
-            <span class="work-hours-badge">Круглосуточно 24/7</span>
-          </div>
-          <a
-            href="#order-form-section"
-            class="btn btn-primary btn-sm header-cta"
-            id="header-cta-btn"
-            >Заказать звонок</a
-          >
-
-          <button
-            class="burger-menu-btn"
-            id="burger-btn"
-            aria-label="Открыть меню"
-          >
-            <span class="burger-bar"></span>
-            <span class="burger-bar"></span>
-            <span class="burger-bar"></span>
-          </button>
         </div>
       </div>
-    </header>
+
+      <!-- Телефон и CTA -->
+      <div class="header-phone-box">
+        <a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a>
+        <span class="work-hours-badge">Круглосуточно 24/7</span>
+      </div>
+      
+      <a href="#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn">Заказать звонок</a>
+
+      <!-- Кнопка бургер-меню (видна только на мобильных) -->
+      <button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню">
+        <span class="burger-bar"></span>
+        <span class="burger-bar"></span>
+        <span class="burger-bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
 
     <div class="mobile-nav-overlay" id="mobile-menu-overlay">
       <div class="mobile-nav-content">
@@ -1892,6 +1842,56 @@
     </div>
   </div>
 </div>
+<!-- Мобильное меню (вставить в index.html перед </body>) -->
+<div class="mobile-nav-overlay" id="mobile-menu-overlay">
+  <div class="mobile-nav-content">
+    <nav class="mobile-nav-links">
+      <a href="#about" class="mobile-link" onclick="toggleMobileMenu()">О нас</a>
+      <a href="#services" class="mobile-link" onclick="toggleMobileMenu()">Услуги</a>
+      <a href="#reviews" class="mobile-link" onclick="toggleMobileMenu()">Отзывы</a>
+      <a href="#calculator" class="mobile-link" onclick="toggleMobileMenu()">Калькулятор</a>
+      <a href="#fleet" class="mobile-link" onclick="toggleMobileMenu()">Автопарк</a>
+      <a href="#faq" class="mobile-link" onclick="toggleMobileMenu()">Вопросы</a>
+      <a href="#contacts" class="mobile-link" onclick="toggleMobileMenu()">Контакты</a>
+    </nav>
+    <div class="mobile-nav-footer">
+      <a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 333-32-81</a>
+      <span class="mobile-hours">Круглосуточно 24/7</span>
+      <a href="#order-form-section" class="btn btn-primary btn-lg" onclick="toggleMobileMenu()" id="mobile-menu-cta">Заказать звонок</a>
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+  </footer>
 
+  <!-- ✅ ВСТАВИТЬ СТЕКЛЯННЫЕ КНОПКИ СЮДА (ПЕРЕД </body>) -->
+  
+  <!-- Плавающие кнопки (Стеклянный стиль) -->
+  <div class="glass-float-btn mobile-call-button">
+    <a href="tel:+79283333281" class="call-btn" aria-label="Позвонить нам">
+      <!-- Иконка телефона -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="glass-float-btn scroll-to-top" id="scrollTopBtn" aria-label="Наверх">
+    <!-- Иконка стрелки вверх -->
+    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="19" x2="12" y2="5"></line>
+      <polyline points="5 12 12 5 19 12"></polyline>
+    </svg>
+  </div>
+
+  <!-- Модальное окно отзывов (если еще не добавлено) -->
+  <div class="modal-overlay" id="review-modal">
+     ... (код модалки отзывов) ...
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
 </body>
 </html>

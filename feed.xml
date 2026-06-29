@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<yml_catalog date="2026-06-26 12:00">
+<yml_catalog date="2026-06-29 12:00">
 <shop>
 <name>Правильные грузчики Краснодар</name>
 <company>ООО "Правильные грузчики"</company>
 <url>https://www.pragruz.ru</url>
-
-<!-- СЕТЫ (без атрибута name!) -->
-<sets>
-<set id="set_gruzchiki" />
-<set id="set_tehnika" />
-<set id="set_transport" />
-<set id="set_business" />
-</sets>
 
 <categories>
 <category id="1">Грузчики</category>
@@ -22,215 +14,195 @@
 </categories>
 
 <offers>
-
 <!-- ОФФЕР 1: Услуги грузчиков -->
 <offer id="gruzchiki_800" available="true">
-<name>Услуги грузчиков в Краснодаре</name>
+<name>Услуги грузчиков в Краснодаре, ООО "Правильные грузчики"</name>
 <url>https://www.pragruz.ru/loaders.html</url>
 <price>800</price>
 <currencyId>RUR</currencyId>
 <categoryId>1</categoryId>
-<set-ids>set_gruzchiki</set-ids>
 <picture>https://www.pragruz.ru/assets/service-pogruzka-razgruzka.webp</picture>
-<picture>https://www.pragruz.ru/assets/loaders-hero.webp</picture>
 <description>Услуги профессиональных грузчиков в Краснодаре от 800 руб/час. Разгрузка фур, контейнеров, вагонов. Квартирные и офисные переезды. Подъем на этаж, перестановка мебели. Выезд от 30 минут. Работаем 24/7. Более 12 лет опыта, 9000+ заказов.</description>
-<param name="Рейтинг" type="num">5.0</param>
-<param name="Число отзывов" type="num">127</param>
-<param name="Годы опыта" type="num">12</param>
+<param name="Рейтинг">5.0</param>
+<param name="Число отзывов">127</param>
+<param name="Годы опыта">12</param>
 <param name="Регион">Краснодар</param>
-<param name="Конверсия" type="num">95</param>
 <param name="Вид услуги">Услуги грузчиков, Погрузо-разгрузочные работы</param>
 <param name="Минимальный заказ">2 часа</param>
 <param name="Подача">от 30 минут</param>
 <param name="Режим работы">Круглосуточно 24/7</param>
-<param name="Ссылка на телефон" type="url">tel:+79283333281</param>
+<param name="Телефон">+79283333281</param>
 <param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
 </offer>
 
 <!-- ОФФЕР 2: Квартирный переезд -->
 <offer id="kvartirniy_pereezd" available="true">
-<name>Квартирный переезд в Краснодаре под ключ</name>
+<name>Квартирный переезд в Краснодаре под ключ, ООО "Правильные грузчики"</name>
 <url>https://www.pragruz.ru/krasnodar/kvartirnyj-pereezd.html</url>
 <price>800</price>
 <currencyId>RUR</currencyId>
 <categoryId>2</categoryId>
-<set-ids>set_gruzchiki</set-ids>
 <picture>https://www.pragruz.ru/assets/service-kvartirniy-pereezd.webp</picture>
 <description>Квартирный переезд в Краснодаре под ключ от 800 руб/час. Грузчики + Газель. Упаковка вещей, разборка и сборка мебели, перевозка на Газели 3м или 4.2м. Подача от 60 минут. Перевезли 9000+ квартир. Работаем 24/7.</description>
-<param name="Рейтинг" type="num">5.0</param>
-<param name="Число отзывов" type="num">127</param>
-<param name="Годы опыта" type="num">12</param>
+<param name="Рейтинг">5.0</param>
+<param name="Число отзывов">127</param>
+<param name="Годы опыта">12</param>
 <param name="Регион">Краснодар</param>
-<param name="Конверсия" type="num">90</param>
 <param name="Вид услуги">Квартирный переезд</param>
 <param name="Включено">Грузчики, Транспорт, Упаковка, Сборка мебели</param>
 <param name="Минимальный заказ">2 часа</param>
 <param name="Подача">от 60 минут</param>
-<param name="Ссылка на телефон" type="url">tel:+79283333281</param>
+<param name="Телефон">+79283333281</param>
 <param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
 </offer>
 
 <!-- ОФФЕР 3: Офисный переезд -->
 <offer id="ofisniy_pereezd" available="true">
-<name>Офисный переезд в Краснодаре без простоя</name>
+<name>Офисный переезд в Краснодаре без простоя, ООО "Правильные грузчики"</name>
 <url>https://www.pragruz.ru/krasnodar/ofisnyj-pereezd.html</url>
 <price>800</price>
 <currencyId>RUR</currencyId>
 <categoryId>2</categoryId>
-<set-ids>set_gruzchiki</set-ids>
 <picture>https://www.pragruz.ru/assets/service-ofisniy-pereezd.webp</picture>
 <description>Офисный переезд в Краснодаре от 800 руб/час. Перевозка мебели, оргтехники, серверов, документов. Работаем в выходные и ночью — ваш офис не простаивает. Бережная перевозка IT-оборудования. 120+ офисных переездов. Договор, НДС.</description>
-<param name="Рейтинг" type="num">5.0</param>
-<param name="Число отзывов" type="num">127</param>
-<param name="Годы опыта" type="num">12</param>
+<param name="Рейтинг">5.0</param>
+<param name="Число отзывов">127</param>
+<param name="Годы опыта">12</param>
 <param name="Регион">Краснодар</param>
-<param name="Конверсия" type="num">85</param>
 <param name="Вид услуги">Офисный переезд</param>
 <param name="Включено">Грузчики, Транспорт, Упаковка оргтехники, Маркировка</param>
 <param name="Минимальный заказ">3 часа</param>
 <param name="Подача">от 60 минут</param>
-<param name="Ссылка на телефон" type="url">tel:+79283333281</param>
+<param name="Телефон">+79283333281</param>
 <param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
 </offer>
 
 <!-- ОФФЕР 4: Разнорабочие -->
 <offer id="raznorabochie" available="true">
-<name>Разнорабочие в Краснодаре от 800 ₽/час</name>
+<name>Разнорабочие в Краснодаре от 800 ₽/час, ООО "Правильные грузчики"</name>
 <url>https://www.pragruz.ru/krasnodar/raznorabochie.html</url>
 <price>800</price>
 <currencyId>RUR</currencyId>
 <categoryId>1</categoryId>
-<set-ids>set_gruzchiki</set-ids>
 <picture>https://www.pragruz.ru/assets/service-raznorabochie.webp</picture>
 <description>Разнорабочие в Краснодаре от 800 руб/час. Подсобные работы на стройке, уборка, демонтаж, работа на складах и производствах. Вывод от 1 до 50 человек за 24 часа. Работаем с физлицами и юрлицами. Минимальный заказ 2 часа.</description>
-<param name="Рейтинг" type="num">5.0</param>
-<param name="Число отзывов" type="num">127</param>
-<param name="Годы опыта" type="num">12</param>
+<param name="Рейтинг">5.0</param>
+<param name="Число отзывов">127</param>
+<param name="Годы опыта">12</param>
 <param name="Регион">Краснодар</param>
-<param name="Конверсия" type="num">88</param>
 <param name="Вид услуги">Разнорабочие, Подсобные рабочие</param>
 <param name="Минимальный заказ">2 часа</param>
 <param name="Подача">от 60 минут</param>
-<param name="Ссылка на телефон" type="url">tel:+79283333281</param>
+<param name="Телефон">+79283333281</param>
 <param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
 </offer>
 
 <!-- ОФФЕР 5: Такелажные работы -->
 <offer id="takelag" available="true">
-<name>Такелажные работы в Краснодаре</name>
+<name>Такелажные работы в Краснодаре, ООО "Правильные грузчики"</name>
 <url>https://www.pragruz.ru/rigging.html</url>
 <price>1200</price>
 <currencyId>RUR</currencyId>
 <categoryId>3</categoryId>
-<set-ids>set_tehnika</set-ids>
 <picture>https://www.pragruz.ru/assets/service-takelag.webp</picture>
 <description>Такелажные работы в Краснодаре от 1200 руб/час. Перевозка сейфов, пианино, МРТ-томографов, банкоматов, промышленных станков. Спецоборудование: ролики, лебедки, стропы, гидравлические тележки. 14 МРТ-томографов перевезено. Договорные цены.</description>
-<param name="Рейтинг" type="num">5.0</param>
-<param name="Число отзывов" type="num">127</param>
-<param name="Годы опыта" type="num">12</param>
+<param name="Рейтинг">5.0</param>
+<param name="Число отзывов">127</param>
+<param name="Годы опыта">12</param>
 <param name="Регион">Краснодар</param>
-<param name="Конверсия" type="num">80</param>
 <param name="Вид услуги">Такелажные работы</param>
 <param name="Оборудование">Ролики, лебедки, стропы, гидравлические тележки</param>
 <param name="Минимальный заказ">3 часа</param>
 <param name="Подача">от 90 минут</param>
-<param name="Ссылка на телефон" type="url">tel:+79283333281</param>
+<param name="Телефон">+79283333281</param>
 <param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
 </offer>
 
 <!-- ОФФЕР 6: Аренда Газели стандартной -->
 <offer id="gazel_standart" available="true">
-<name>Аренда Газели 3 метра в Краснодаре</name>
+<name>Аренда Газели 3 метра в Краснодаре, ООО "Правильные грузчики"</name>
 <url>https://www.pragruz.ru/krasnodar/arenda-gazeli-3m.html</url>
 <price>2000</price>
 <currencyId>RUR</currencyId>
 <categoryId>4</categoryId>
-<set-ids>set_transport</set-ids>
 <picture>https://www.pragruz.ru/assets/fleet-gazel-3m.webp</picture>
 <description>Аренда Газели 3 метра в Краснодаре с водителем от 2000 руб/час. Грузоподъемность 1.5 тонны, кузов 10 м³. Перевозка мебели, бытовой техники, стройматериалов. Подача от 60 минут. Чистый кузов, крепежные ремни. Работаем 24/7.</description>
-<param name="Рейтинг" type="num">5.0</param>
-<param name="Число отзывов" type="num">127</param>
-<param name="Годы опыта" type="num">12</param>
+<param name="Рейтинг">5.0</param>
+<param name="Число отзывов">127</param>
+<param name="Годы опыта">12</param>
 <param name="Регион">Краснодар</param>
-<param name="Конверсия" type="num">85</param>
 <param name="Вид услуги">Грузоперевозки, Аренда Газели</param>
 <param name="Тип транспорта">Газель стандартная (3м)</param>
 <param name="Грузоподъемность">1.5 тонны</param>
 <param name="Объем кузова">10 м³</param>
 <param name="Минимальный заказ">2 часа</param>
 <param name="Подача">от 60 минут</param>
-<param name="Ссылка на телефон" type="url">tel:+79283333281</param>
+<param name="Телефон">+79283333281</param>
 <param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
 </offer>
 
 <!-- ОФФЕР 7: Аренда Газели удлиненной -->
 <offer id="gazel_udlinennaya" available="true">
-<name>Аренда Газели 4.2 метра в Краснодаре</name>
+<name>Аренда Газели 4.2 метра в Краснодаре, ООО "Правильные грузчики"</name>
 <url>https://www.pragruz.ru/krasnodar/arenda-gazeli-udlinennoj.html</url>
 <price>2500</price>
 <currencyId>RUR</currencyId>
 <categoryId>4</categoryId>
-<set-ids>set_transport</set-ids>
-<picture>https://www.pragruz.ru/assets/fleet-gazel-4.2m.webp</picture>
+<picture>https://www.pragruz.ru/assets/fleet-gazel-4-2m.webp</picture>
 <description>Аренда Газели 4.2 метра (удлиненной) в Краснодаре с водителем от 2500 руб/час. Грузоподъемность 2 тонны, кузов 25 м³. Перевозка 2-3 комнатных квартир, офисов, крупногабаритных грузов. Подача от 60 минут. Работаем 24/7.</description>
-<param name="Рейтинг" type="num">5.0</param>
-<param name="Число отзывов" type="num">127</param>
-<param name="Годы опыта" type="num">12</param>
+<param name="Рейтинг">5.0</param>
+<param name="Число отзывов">127</param>
+<param name="Годы опыта">12</param>
 <param name="Регион">Краснодар</param>
-<param name="Конверсия" type="num">82</param>
 <param name="Вид услуги">Грузоперевозки, Аренда Газели</param>
 <param name="Тип транспорта">Газель удлиненная (4.2м)</param>
 <param name="Грузоподъемность">2 тонны</param>
 <param name="Объем кузова">25 м³</param>
 <param name="Минимальный заказ">2 часа</param>
 <param name="Подача">от 60 минут</param>
-<param name="Ссылка на телефон" type="url">tel:+79283333281</param>
+<param name="Телефон">+79283333281</param>
 <param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
 </offer>
 
 <!-- ОФФЕР 8: Сборка/разборка мебели -->
 <offer id="sborka_mebeli" available="true">
-<name>Сборка мебели в Краснодаре</name>
+<name>Сборка мебели в Краснодаре, ООО "Правильные грузчики"</name>
 <url>https://www.pragruz.ru/furniture.html</url>
 <price>800</price>
 <currencyId>RUR</currencyId>
 <categoryId>3</categoryId>
-<set-ids>set_tehnika</set-ids>
 <picture>https://www.pragruz.ru/assets/service-sborka-mebeli.webp</picture>
 <description>Сборка и разборка мебели в Краснодаре от 800 руб/час. Шкафы-купе, кухни, кровати, офисная мебель, торговое оборудование. Собрали 200+ кухонь для ЖК «Парус», 500+ шкафов-купе. Свой инструмент, выезд в день заказа. Гарантия качества.</description>
-<param name="Рейтинг" type="num">5.0</param>
-<param name="Число отзывов" type="num">127</param>
-<param name="Годы опыта" type="num">12</param>
+<param name="Рейтинг">5.0</param>
+<param name="Число отзывов">127</param>
+<param name="Годы опыта">12</param>
 <param name="Регион">Краснодар</param>
-<param name="Конверсия" type="num">87</param>
 <param name="Вид услуги">Сборка мебели, Разборка мебели</param>
 <param name="Тип мебели">Шкафы, Кухни, Кровати, Офисная мебель</param>
 <param name="Минимальный заказ">1 час</param>
 <param name="Подача">от 60 минут</param>
-<param name="Ссылка на телефон" type="url">tel:+79283333281</param>
+<param name="Телефон">+79283333281</param>
 <param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
 </offer>
 
 <!-- ОФФЕР 9: Аутсорсинг персонала -->
 <offer id="autsorsing" available="true">
-<name>Аутсорсинг персонала в Краснодаре</name>
+<name>Аутсорсинг персонала в Краснодаре, ООО "Правильные грузчики"</name>
 <url>https://www.pragruz.ru/krasnodar/autsorsing.html</url>
 <price>800</price>
 <currencyId>RUR</currencyId>
 <categoryId>5</categoryId>
-<set-ids>set_business</set-ids>
 <picture>https://www.pragruz.ru/assets/service-autsorsing.webp</picture>
 <description>Аутсорсинг линейного персонала в Краснодаре от 800 руб/час. Грузчики, разнорабочие, комплектовщики, упаковщики для складов, производств, логистических центров. Экономия до 30% бюджета. Вывод от 1 до 50 человек за 24 часа. Договор, НДС.</description>
-<param name="Рейтинг" type="num">5.0</param>
-<param name="Число отзывов" type="num">127</param>
-<param name="Годы опыта" type="num">12</param>
+<param name="Рейтинг">5.0</param>
+<param name="Число отзывов">127</param>
+<param name="Годы опыта">12</param>
 <param name="Регион">Краснодар</param>
-<param name="Конверсия" type="num">75</param>
 <param name="Вид услуги">Аутсорсинг персонала</param>
 <param name="Специальности">Грузчики, Разнорабочие, Комплектовщики, Упаковщики</param>
 <param name="Для кого">Склады, Производства, Логистические центры</param>
 <param name="Минимальный заказ">4 часа</param>
-<param name="Ссылка на телефон" type="url">tel:+79283333281</param>
+<param name="Телефон">+79283333281</param>
 <param name="Адрес">г. Краснодар, ул. Кропоткина д.50, офис 339</param>
 </offer>
 
