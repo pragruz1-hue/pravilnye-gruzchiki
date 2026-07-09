@@ -7,6 +7,7 @@ import { detectSiteBasePath } from "./helpers.js";
 
 const SITE_PHONE_DISPLAY = "+7 (928) 333-32-81";
 const SITE_PHONE_TEL = "+79283333281";
+const ALLOWED_CITY_CODES = ["krasnodar", "anapa", "novorossiysk", "sochi", "gelendzhik"];
 
 export const CITIES_DATA = {
   krasnodar: {
@@ -42,90 +43,6 @@ export const CITIES_DATA = {
     cases: { nom: "Геленджик", prep: "в Геленджике", gen: "Геленджика" },
     address: "353460, г. Геленджик, ул. Луначарского, д. 6, офис 21",
     region: "Краснодарского края",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  moscow: {
-    name: "Москва",
-    cases: { nom: "Москва", prep: "в Москве", gen: "Москвы" },
-    address: "101000, г. Москва, ул. Мясницкая, д. 24, офис 102",
-    region: "Москвы",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  spb: {
-    name: "Санкт-Петербург",
-    cases: { nom: "Санкт-Петербург", prep: "в Санкт-Петербурге", gen: "Санкт-Петербурга" },
-    address: "191025, г. Санкт-Петербург, Невский проспект, д. 42, офис 15",
-    region: "Санкт-Петербурга",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  novosibirsk: {
-    name: "Новосибирск",
-    cases: { nom: "Новосибирск", prep: "в Новосибирске", gen: "Новосибирска" },
-    address: "630099, г. Новосибирск, Красный проспект, д. 28, офис 412",
-    region: "Новосибирской области",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  ekaterinburg: {
-    name: "Екатеринбург",
-    cases: { nom: "Екатеринбург", prep: "в Екатеринбурге", gen: "Екатеринбурга" },
-    address: "620014, г. Екатеринбург, ул. Малышева, д. 51, офис 805",
-    region: "Свердловской области",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  kazan: {
-    name: "Казань",
-    cases: { nom: "Казань", prep: "в Казани", gen: "Казани" },
-    address: "420111, г. Казань, ул. Баумана, д. 12, офис 301",
-    region: "Республики Татарстан",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  nn: {
-    name: "Нижний Новгород",
-    cases: { nom: "Нижний Новгород", prep: "в Нижнем Новгороде", gen: "Нижнего Новгорода" },
-    address: "603005, г. Нижний Новгород, ул. Большая Покровская, д. 15, офис 204",
-    region: "Нижегородской области",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  chelyabinsk: {
-    name: "Челябинск",
-    cases: { nom: "Челябинск", prep: "в Челябинске", gen: "Челябинска" },
-    address: "454091, г. Челябинск, проспект Ленина, д. 64, офис 512",
-    region: "Челябинской области",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  samara: {
-    name: "Самара",
-    cases: { nom: "Самара", prep: "в Самаре", gen: "Самары" },
-    address: "443099, г. Самара, ул. Ленинградская, д. 45, офис 311",
-    region: "Самарской области",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  rostov: {
-    name: "Ростов-на-Дону",
-    cases: { nom: "Ростов-на-Дону", prep: "в Ростове-на-Дону", gen: "Ростова-на-Дону" },
-    address: "344002, г. Ростов-на-Дону, ул. Большая Садовая, д. 82, офис 219",
-    region: "Ростовской области",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  ufa: {
-    name: "Уфа",
-    cases: { nom: "Уфа", prep: "в Уфе", gen: "Уфы" },
-    address: "450077, г. Уфа, ул. Ленина, д. 32, офис 104",
-    region: "Республики Башкортостан",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  voronezh: {
-    name: "Воронеж",
-    cases: { nom: "Воронеж", prep: "в Воронеже", gen: "Воронежа" },
-    address: "394036, г. Воронеж, проспект Революции, д. 18, офис 302",
-    region: "Воронежской области",
-    phone: SITE_PHONE_DISPLAY,
-  },
-  volgograd: {
-    name: "Волгоград",
-    cases: { nom: "Волгоград", prep: "в Волгограде", gen: "Волгограда" },
-    address: "400066, г. Волгоград, проспект Ленина, д. 12, офис 410",
-    region: "Волгоградской области",
     phone: SITE_PHONE_DISPLAY,
   },
 };
@@ -228,7 +145,7 @@ export function injectSchemas(cityCode) {
  * Get redirect URL when changing city
  */
 export function getCityPageRedirect(cityCode) {
-  const cityFolders = Object.keys(CITIES_DATA);
+  const cityFolders = ALLOWED_CITY_CODES;
   const cityServiceFiles = [
     "loaders.html", "workers.html", "moving.html", "office-moving.html",
     "rigging.html", "furniture.html", "kvartirnyj-pereezd.html",
@@ -271,7 +188,7 @@ export function getCityPageRedirect(cityCode) {
  * Updates all text spans, phone numbers, addresses, SEO links, page titles, and reviews
  */
 export function renderCity(cityCode, options = {}) {
-  if (!CITIES_DATA[cityCode]) return;
+  if (!CITIES_DATA[cityCode] || !ALLOWED_CITY_CODES.includes(cityCode)) cityCode = "krasnodar";
 
   localStorage.setItem("selected_city", cityCode);
 
@@ -397,8 +314,12 @@ export function renderCity(cityCode, options = {}) {
 export async function detectUserCity() {
   const defaultCity = "krasnodar";
   const savedCity = localStorage.getItem("selected_city");
-  if (savedCity && CITIES_DATA[savedCity]) {
+  if (savedCity && CITIES_DATA[savedCity] && ALLOWED_CITY_CODES.includes(savedCity)) {
     return { cityCode: savedCity, isConfirmed: true };
+  }
+  if (savedCity && !ALLOWED_CITY_CODES.includes(savedCity)) {
+    localStorage.setItem("selected_city", defaultCity);
+    localStorage.removeItem("city_confirmed");
   }
 
   try {
@@ -413,13 +334,13 @@ export async function detectUserCity() {
     if (geoCityName) {
       const lowerGeoCity = geoCityName.toLowerCase();
       const cityMap = {
-        moscow: "moscow", petersburg: "spb", krasnodar: "krasnodar",
-        anapa: "anapa", novorossiysk: "novorossiysk", sochi: "sochi",
-        adler: "sochi", sirius: "sochi", gelendzhik: "gelendzhik",
-        novosibirsk: "novosibirsk", ekaterinburg: "ekaterinburg",
-        kazan: "kazan", novgorod: "nn", chelyabinsk: "chelyabinsk",
-        samara: "samara", rostov: "rostov", ufa: "ufa",
-        voronezh: "voronezh", volgograd: "volgograd",
+        krasnodar: "krasnodar",
+        anapa: "anapa",
+        novorossiysk: "novorossiysk",
+        sochi: "sochi",
+        adler: "sochi",
+        sirius: "sochi",
+        gelendzhik: "gelendzhik",
       };
       for (const [key, code] of Object.entries(cityMap)) {
         if (lowerGeoCity.includes(key)) return { cityCode: code, isConfirmed: false };
