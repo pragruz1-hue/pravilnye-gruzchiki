@@ -91,10 +91,11 @@ Bring the multi-city static site **Правильные Грузчики** to pr
 /css/style.css          @imports 01…10 partials
 /js/app.js              ES modules entry (most pages)
 /js/modules/*           geotargeting, reviews, forms, modals, calculator, …
-/partials/*             header, footer, modals, metrika, … (source for build.js)
+/partials/*             header, footer, modals, metrika, … (reference/source for baked HTML)
 /assets/*               webp images, logo
 /feeds/feed-*.xml       Yandex YML regional
-build.js                assembles pages from partials ({{BASE}})
+fix-site.js             idempotent one-off cleaner (dedupe review-modal,
+                        rebuild broken <main> structure, unique FAQ, schema fixes)
 ```
 
 **City storage key:** `localStorage.selected_city`  
@@ -157,7 +158,7 @@ If host supports redirects (not pure GH-pages static), add 301 later.
 | **Static hosting & 301** | Canonical ≠ redirect; duplicates may still be crawled. |
 | **Formspree single endpoint** | All forms → one form id; rate limits / spam. |
 | **Geotargeting overwrites `.city-address`** | Footer addresses set per city folder; JS may still swap on city change on root pages. |
-| **build.js vs baked HTML** | Many pages are pre-baked; editing only `partials/` without rebuild leaves drift. Prefer edit baked HTML **and** partials (as this session did). |
+| **No build.js anymore** | `build.js` was removed — its `buildCityPage()` was the source of `<main>` accumulation and review-modal duplication across re-builds. Pages are now self-contained baked HTML. `partials/` are reference only; editing them does NOT propagate (edit baked HTML directly, or re-run `fix-site.js` patterns). |
 | **main.js vs app.js** | Dual stacks; blog articles outdated UX. |
 | **AggregateRating removed** | Stars in UI/reviews remain; schema no longer claims rating — good for policy; re-add only with real sources. |
 | **Skip-link / main wrapper** | Added programmatically; if a page already had `<main>`, only id injected. Unbalanced count currently 0 — recheck after big HTML edits. |
@@ -200,7 +201,7 @@ rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
 | `sitemap.xml` / `robots.txt` | Crawl |
 | `privacy.html` / `404.html` | Legal + errors |
 | `server.js` | Optional Telegram relay — **env token only** |
-| `build.js` | Static page assembler |
+| `fix-site.js` | Idempotent site cleaner (review-modal dedupe, FAQ, schema) |
 
 ---
 
@@ -275,3 +276,25 @@ rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
 4. **Unique city content** — districts, local FAQ, prices per city
 
 *End of handoff. Keep this file updated when completing P1–P3 items (checkboxes above).*
+
+---
+
+## 13. Changes in arena/019f4754-pravilnye-gruzchiki session (2026-07-09)
+
+### Cleanup + unique FAQ + schema fixes (`fix-site.js`, idempotent)
+
+| Item | Status | Notes |
+|------|--------|-------|
+| **Dedup review-modal** | ✅ | Removed from all service pages (root + city). Left ONLY on 18 index pages (root + 17 cities) where the `open-review-btn` trigger exists. Elsewhere it was unreachable dead code. |
+| **Rebuild broken city service HTML** | ✅ | 306 city service pages: was up to 6× `<main>`, duplicated scripts/modals, stray `</div>` (-22 imbalance). Now 1× `<main id="main">`, 1× header, footer OUTSIDE main, 1× order-modal/app.js/formspree. |
+| **AI phrase removed** | ✅ | "Не стали создавать отдельные однотипные страницы…" → neutral phrasing in 18 `loaders.html`. |
+| **Unique FAQ per city×service** | ✅ | 336 pages: HTML accordion + `FAQPage` JSON-LD **synchronized** (0 mismatches). Two markups supported: `.faq-accordion-box` and details (`u-style-075`). Districts/delivery/local specifics per city. |
+| **Schema fixes** | ✅ | `LocalBusiness.url` → `/{city}/{service}.html`; `keywords "грузчики краснодар"` → actual city. |
+| **`build.js` deleted** | ✅ | It was the root cause of HTML corruption (`buildCityPage` re-wrapped pages on each run). `package.json` build script → `vite build` only. Pages are now self-contained baked HTML. |
+
+**Commit stats:** 340 files changed, +18 186 / −116 536 lines (removed ~98k lines of accumulated duplication).
+
+### Still relevant (do NOT reintroduce build.js)
+- `partials/modals.html` still contains `review-modal` — it is reference only now; do NOT inject into all pages.
+- If a rebuild of pages is ever needed, use targeted scripts (like `fix-site.js` patterns), never the old monolithic assembler.
+- Inherited (not introduced this session): 1 unclosed `<div>` in the contacts `order-section` on standard services, and 2× `<main>` on 5 blog posts. Left as-is (out of scope, no regression).

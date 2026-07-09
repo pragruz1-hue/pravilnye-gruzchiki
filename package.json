@@ -4,7 +4,7 @@
   "description": "Правильные Грузчики — статический сайт с модульной архитектурой",
   "scripts": {
     "dev": "vite",
-    "build": "node build.js && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "lint:js": "eslint js/**/*.js",
     "lint:css": "stylelint css/**/*.css"
