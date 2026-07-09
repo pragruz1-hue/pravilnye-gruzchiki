@@ -1,11 +1,13 @@
 /**
- * Phone masks, compliant form submission and analytics consent.
- * Personal-data forms post only to the same-origin Russian backend.
+ * Phone masks, consent-aware form submission and analytics consent.
+ * A same-origin RF backend is preferred; a clearly disclosed temporary
+ * Formspree channel remains available only while the migration is in progress.
  */
 
 import { detectSiteBasePath } from "./helpers.js";
 
 const LEAD_ENDPOINT = "/api/submit-lead";
+const TEMPORARY_FORM_ENDPOINT = "https://formspree.io/f/xeebjwkn";
 const MIN_FORM_TIME_MS = 2500;
 const PERSONAL_DATA_CONSENT_VERSION = "2026-07-09-1";
 const METRIKA_ID = 110161606;
@@ -123,6 +125,20 @@ export function preparePersonalDataForm(form) {
   if (submitButton) submitButton.insertAdjacentElement("beforebegin", consent);
   else form.appendChild(consent);
 
+  const transferCheckboxId = `temporary-transfer-consent-${form.id || Math.random().toString(36).slice(2)}`;
+  const transferNotice = document.createElement("div");
+  transferNotice.className = "temporary-transfer-notice";
+  transferNotice.dataset.temporaryTransferNotice = "true";
+  transferNotice.innerHTML = `
+    <strong>Временный порядок отправки</strong>
+    <p>Перенос приёма заявок на серверы в РФ находится в разработке. До завершения переноса эта форма обрабатывается через сервис Formspree (США). Вы можете не использовать форму и позвонить по номеру <a href="tel:+79283333281">+7 (928) 333-32-81</a>.</p>
+    <label class="personal-data-consent-label" for="${transferCheckboxId}">
+      <input type="checkbox" id="${transferCheckboxId}" name="temporary_transfer_consent" value="accepted" required>
+      <span>Я уведомлён(а) о временном способе отправки и согласен(на) отправить заявку через Formspree.</span>
+    </label>
+  `;
+  consent.insertAdjacentElement("afterend", transferNotice);
+
   if (form.id === "review-form") {
     const publicationConsent = document.createElement("div");
     publicationConsent.className = "personal-data-consent";
@@ -135,6 +151,8 @@ export function preparePersonalDataForm(form) {
     `;
     consent.insertAdjacentElement("afterend", publicationConsent);
   }
+
+  resolveLeadBackendMode().then((mode) => updateTemporaryTransferNotice(form, mode));
 }
 
 function hasPersonalDataConsent(form) {
@@ -152,7 +170,17 @@ function isLikelyBot(form) {
   return Boolean(hp?.value) || !token?.value || Date.now() - startedAt < MIN_FORM_TIME_MS;
 }
 
-async function ensureLeadBackendAvailable() {
+function updateTemporaryTransferNotice(form, mode) {
+  const notice = form?.querySelector('[data-temporary-transfer-notice="true"]');
+  const checkbox = notice?.querySelector('input[name="temporary_transfer_consent"]');
+  if (!notice || !checkbox) return;
+  const usesTemporaryChannel = mode === "temporary-formspree";
+  notice.hidden = !usesTemporaryChannel;
+  checkbox.required = usesTemporaryChannel;
+  if (!usesTemporaryChannel) checkbox.checked = false;
+}
+
+async function resolveLeadBackendMode() {
   if (!leadBackendCheck) {
     leadBackendCheck = fetch("/api/health", {
       method: "GET",
@@ -162,32 +190,31 @@ async function ensureLeadBackendAvailable() {
     }).then(async (response) => {
       let result = null;
       try { result = await response.json(); } catch (_) { /* static hosting returns HTML */ }
-      if (!response.ok || result?.status !== "ok" || result?.storage !== "local-rf-required") {
-        throw new Error("Сервис онлайн-заявок ещё не подключён. Позвоните нам по номеру +7 (928) 333-32-81.");
-      }
-      return true;
-    }).catch((error) => {
-      leadBackendCheck = null;
-      throw error;
-    });
+      return response.ok && result?.status === "ok" && result?.storage === "local-rf-required"
+        ? "rf"
+        : "temporary-formspree";
+    }).catch(() => "temporary-formspree");
   }
   return leadBackendCheck;
 }
 
-/** Submit a lead to the same-origin endpoint. No foreign form processor is used. */
+/** Submit a lead using the RF backend or the disclosed temporary channel. */
 export async function submitLead(payload, form) {
   preparePersonalDataForm(form);
 
+  // The health request contains no form data. It selects the RF endpoint as soon
+  // as it is deployed; until then the disclosed temporary channel remains active.
+  const backendMode = await resolveLeadBackendMode();
+  updateTemporaryTransferNotice(form, backendMode);
+
   if (!hasPersonalDataConsent(form)) {
-    throw new Error("Подтвердите отдельное согласие на обработку персональных данных.");
+    throw new Error(backendMode === "temporary-formspree"
+      ? "Подтвердите согласие на обработку данных и временный способ отправки."
+      : "Подтвердите отдельное согласие на обработку персональных данных.");
   }
   if (isLikelyBot(form)) {
     throw new Error("Проверка формы не пройдена. Пожалуйста, попробуйте ещё раз через несколько секунд.");
   }
-
-  // Verify a compatible RF-hosted backend before creating or transmitting the payload.
-  // On static GitHub Pages this harmless GET fails and personal data never leaves the form.
-  await ensureLeadBackendAvailable();
 
   const formValues = Object.fromEntries(new FormData(form).entries());
   const data = {
@@ -198,20 +225,36 @@ export async function submitLead(payload, form) {
     consentTimestamp: new Date().toISOString(),
     reviewPublicationConsent: form.querySelector('input[name="review_publication_consent"]')?.checked || false,
     publicationConsentVersion: form.querySelector('input[name="publication_consent_version"]')?.value || "",
+    temporaryTransferConsent: backendMode === "temporary-formspree",
+    temporaryTransferConsentTimestamp: backendMode === "temporary-formspree" ? new Date().toISOString() : "",
+    processingChannel: backendMode,
     page: window.location.pathname,
   };
 
-  const response = await fetch(LEAD_ENDPOINT, {
-    method: "POST",
-    credentials: "same-origin",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify(data),
-  });
+  let response;
+  if (backendMode === "rf") {
+    response = await fetch(LEAD_ENDPOINT, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(data),
+    });
+  } else {
+    const temporaryPayload = new FormData();
+    Object.entries(data).forEach(([key, value]) => temporaryPayload.set(key, String(value ?? "")));
+    response = await fetch(TEMPORARY_FORM_ENDPOINT, {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body: temporaryPayload,
+    });
+  }
 
   let result = null;
   try { result = await response.json(); } catch (_) { /* non-JSON proxy error */ }
   if (!response.ok) {
-    throw new Error(result?.error || "Онлайн-заявки временно недоступны. Позвоните нам по номеру +7 (928) 333-32-81.");
+    throw new Error(result?.error || (backendMode === "temporary-formspree"
+      ? "Не удалось отправить заявку через временный канал. Позвоните нам по номеру +7 (928) 333-32-81."
+      : "Онлайн-заявки временно недоступны. Позвоните нам по номеру +7 (928) 333-32-81."));
   }
   return result || { success: true };
 }
@@ -241,6 +284,12 @@ export function initFormsAntiSpam() {
   document.querySelectorAll("form").forEach((form) => {
     preparePersonalDataForm(form);
     initGenericLeadForm(form);
+  });
+
+  resolveLeadBackendMode().then((mode) => {
+    document.querySelectorAll('form[data-requires-personal-data-consent="true"]').forEach((form) => {
+      updateTemporaryTransferNotice(form, mode);
+    });
   });
 }
 

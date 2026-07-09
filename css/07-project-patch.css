@@ -817,6 +817,38 @@ button:disabled {
   text-underline-offset: 2px;
 }
 
+.temporary-transfer-notice {
+  margin: 14px 0;
+  padding: 14px;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 10px;
+  background: rgba(245, 158, 11, 0.1);
+  color: #fbbf24;
+}
+
+.temporary-transfer-notice[hidden] {
+  display: none;
+}
+
+.temporary-transfer-notice strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #fbbf24;
+  font-size: 0.85rem;
+}
+
+.temporary-transfer-notice p {
+  margin: 0 0 10px;
+  color: #d7dde7;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.temporary-transfer-notice a {
+  color: #fff;
+  text-decoration: underline;
+}
+
 .cookie-settings-button {
   position: fixed;
   left: 14px;

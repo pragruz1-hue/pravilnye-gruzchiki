@@ -4,13 +4,13 @@
 - Removed all unconditional Yandex.Metrika snippets and 345 noscript tracking pixels from baked HTML.
 - Analytics loads only after explicit opt-in; Webvisor and clickmap are disabled.
 - Added versioned cookie choice (180 days), permanent settings/withdrawal button and `cookies.html`.
-- Removed Formspree and its unpkg client from every page; all forms submit through JS to `/api/submit-lead` after `/api/health` validation.
+- Removed baked Formspree actions and unpkg client. JS prefers `/api/submit-lead`; while `/api/health` is unavailable it uses a temporary Formspree fallback only after a visible warning and separate checkbox.
 - Added separate form consent and separate review-publication consent with version/timestamp logging.
 - Replaced `server.js`: same-origin API, local NDJSON, 90-day cleanup, rate/body/origin controls, no Telegram/foreign forwarding.
 - Removed IP geolocation (`ipapi.co`) and switched to URL/saved explicit city selection.
 - Self-hosted Inter/Montserrat (18 WOFF2 files); removed Google Fonts requests.
 - Rewrote `privacy.html`; added `consent-personal-data.html` and `consent-review-publication.html`.
-- **Deployment blocker:** current GitHub Pages cannot execute `/api/submit-lead`. Production must move to a server physically located in РФ; see `SERVER_README.md`. Until then forms fail closed and do not transfer data abroad.
+- **Migration state:** current GitHub Pages cannot execute `/api/submit-lead`. Until RF deployment, forms use the explicitly disclosed Formspree fallback; this is temporary and must be removed after migration.
 
 # AGENT_HANDOFF — pravilnye-gruzchiki / pragruz.ru
 
@@ -133,7 +133,7 @@ fix-site.js             idempotent one-off cleaner (dedupe review-modal,
 **City storage key:** `localStorage.selected_city`
 **Event:** `document` → `cityChanged` `{ detail: { cityCode, data } }`
 **Reviews DB:** `js/modules/reviews.js` → `REVIEWS_DB`
-**Forms:** same-origin `/api/submit-lead`; local RF storage via `server.js`
+**Forms:** RF `/api/submit-lead` preferred; disclosed Formspree fallback during migration
 **Phone:** `+7 (928) 333-32-81` / `tel:+79283333281`
 
 ---
@@ -189,7 +189,7 @@ If host supports redirects (not pure GH-pages static), add 301 later.
 |------|--------|
 | **Secret in git history** | Token was in `server.js`; sanitizing file ≠ removing from history. Rotate token. |
 | **Static hosting & 301** | Canonical ≠ redirect; duplicates may still be crawled. |
-| **Same-origin lead endpoint** | Requires deployment on RF infrastructure; GitHub Pages cannot execute it. |
+| **Lead endpoint migration** | RF endpoint preferred; temporary disclosed Formspree fallback remains until deployment. |
 | **Geotargeting overwrites `.city-address`** | Footer addresses set per city folder; JS may still swap on city change on root pages. |
 | **No build.js anymore** | `build.js` was removed — its `buildCityPage()` was the source of `<main>` accumulation and review-modal duplication across re-builds. Pages are now self-contained baked HTML. `partials/` are reference only; editing them does NOT propagate (edit baked HTML directly, or re-run `fix-site.js` patterns). |
 | **main.js legacy file** | `main.js` still exists but real pages checked now use `js/app.js`; avoid reintroducing legacy stack. |
