@@ -240,6 +240,13 @@
   animation: hero-live-pulse 2s infinite;
   box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
   flex-shrink: 0;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.hero-live-item.is-closed .hero-live-dot {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.48);
+  animation: none;
 }
 
 @keyframes hero-live-pulse {
@@ -259,6 +266,18 @@
   font-family: var(--font-title);
   font-size: 0.95rem;
   transition: all 0.3s ease;
+}
+
+.hero-live-item.is-open .hero-live-value {
+  color: var(--primary);
+}
+
+.hero-live-item.is-closed .hero-live-label {
+  color: rgba(248, 250, 252, 0.76);
+}
+
+.hero-live-item.is-closed .hero-live-value {
+  color: #f87171;
 }
 
 .hero-live-value.updating {
