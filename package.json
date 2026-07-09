@@ -1,0 +1,16 @@
+{
+  "name": "pravilnye-gruzchiki",
+  "version": "2.0.0",
+  "description": "Правильные Грузчики — статический сайт с модульной архитектурой",
+  "scripts": {
+    "dev": "vite",
+    "build": "node build.js && vite build",
+    "preview": "vite preview",
+    "lint:js": "eslint js/**/*.js",
+    "lint:css": "stylelint css/**/*.css"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-legacy": "^5.0.0"
+  }
+}
