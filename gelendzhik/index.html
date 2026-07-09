@@ -159,7 +159,7 @@
                 <span class="visual-status" data-application-status aria-live="polite"><span class="pulse-dot"></span><span data-application-status-text>Принимаем заявки сейчас</span></span>
                 <h3>Быстрый расчёт за 2 минуты</h3>
               </div>
-              <form class="hero-quick-form" action="#" method="get" onsubmit="return false;">
+              <form class="hero-quick-form" id="hero-quick-form" action="/api/submit-lead" method="post">
                 <div class="form-group-custom">
                   <label for="quick-service">Что нужно сделать?</label>
                   <select id="quick-service" class="form-select-custom">
@@ -890,7 +890,7 @@
               <form
                 id="main-booking-form"
                 class="main-form"
-               action="https://formspree.io/f/xeebjwkn" method="POST">
+               action="/api/submit-lead" method="POST">
                 <input
                   type="hidden"
                   name="_next"
@@ -974,10 +974,7 @@
                 >
                   Отправить заявку
                 </button>
-                <p class="form-privacy-note">
-                  Нажимая кнопку, вы соглашаетесь с Политикой обработки
-                  <a href="../privacy.html" class="privacy-link-accent">персональных данных</a>.
-                </p>
+                <p class="form-privacy-note">Условия обработки описаны в <a href="../privacy.html">политике персональных данных</a>. Отдельное согласие запрашивается перед отправкой.</p>
               </form>
 
               <div class="success-screen" id="success-confirm">
@@ -1281,7 +1278,7 @@
       <h3>Оформление заказа</h3>
       <p id="modal-subtitle">Вы заказываете: <strong id="modal-service-name">Грузчики</strong></p>
     </div>
-    <form id="modal-booking-form" action="https://formspree.io/f/xeebjwkn" method="POST">
+    <form id="modal-booking-form" action="/api/submit-lead" method="POST">
       <input type="hidden" name="_next" value="https://pragruz.ru/thank-you.html" />
       <div class="form-hp-field" aria-hidden="true">
         <label>Не заполняйте это поле</label>
@@ -1324,7 +1321,7 @@
       <h3>Поделитесь впечатлениями</h3>
       <p>Ваш отзыв поможет нам стать лучше</p>
     </div>
-    <form id="review-form" onsubmit="submitReview(event)" action="https://formspree.io/f/xeebjwkn" method="POST">
+    <form id="review-form" onsubmit="submitReview(event)" action="/api/submit-lead" method="POST">
       <div class="form-hp-field" aria-hidden="true">
         <label>Не заполняйте это поле</label>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
@@ -1366,7 +1363,7 @@
       </div>
       <input type="hidden" id="review-city" value="">
       <button type="submit" class="btn btn-primary btn-block btn-lg u-style-024">Отправить отзыв</button>
-      <p class="u-style-025">Нажимая кнопку, вы соглашаетесь на <a href="../privacy.html" class="privacy-link-accent">обработку персональных данных</a>.</p>
+      <p class="u-style-025">Условия обработки описаны в <a href="../privacy.html">политике персональных данных</a>. Отдельное согласие запрашивается перед отправкой.</p>
     </form>
     <div class="success-screen" id="review-success">
       <div class="success-icon-box">
@@ -1389,8 +1386,6 @@
     </svg>
   </a>
 </div>
-
-<!-- ===== COOKIE CONSENT BANNER ===== --><div class="cookie-consent-banner" id="cookie-banner" role="dialog" aria-label="Согласие на использование cookies"><div class="cookie-consent-content"><p>Мы используем cookies и сервисы аналитики (Яндекс.Метрика) для улучшения работы сайта. Продолжая использовать сайт, вы соглашаетесь с <a href="../privacy.html" class="privacy-link-accent">политикой обработки персональных данных</a>.</p><div class="cookie-consent-btns"><button type="button" class="btn btn-primary btn-sm" id="cookie-accept-btn">Принять</button><button type="button" class="btn btn-secondary btn-sm" id="cookie-decline-btn">Отклонить</button></div></div></div>
 
 <!-- ===== КНОПКА НАВЕРХ ===== -->
 <button type="button" class="scroll-to-top" id="scrollTopBtn" aria-label="Вернуться наверх">

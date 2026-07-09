@@ -1,7 +1,7 @@
 /**
  * Cargo visual 2.5D calculator (for gruzoperevozki.html)
  */
-import { setupPhoneMask, submitLeadToFormspree, showToast, initFormsAntiSpam } from "./forms.js";
+import { setupPhoneMask, submitLead, showToast, initFormsAntiSpam } from "./forms.js";
 
 export function initCargoCalculator() {
   const cargoRoot = document.getElementById("cargo-visual-calculator");
@@ -172,7 +172,7 @@ export function initCargoCalculator() {
       const originalText = btn ? btn.textContent : "";
       try {
         if (btn) { btn.disabled = true; btn.textContent = "Отправляем..."; }
-        await submitLeadToFormspree({
+        await submitLead({
           name: document.getElementById("cargo-name")?.value || "",
           phone: document.getElementById("cargo-phone")?.value || "",
           route: document.getElementById("cargo-route")?.value || "",

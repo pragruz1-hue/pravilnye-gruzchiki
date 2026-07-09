@@ -1,6 +1,6 @@
 /**
  * City data and geotargeting module
- * Includes CITIES_DATA, Schema.org generation, IP-based city detection, and city rendering
+ * Includes CITIES_DATA, Schema.org generation, privacy-safe city selection, and city rendering
  */
 
 import { detectSiteBasePath } from "./helpers.js";
@@ -331,47 +331,29 @@ export function renderCity(cityCode, options = {}) {
 }
 
 /**
- * IP-based city detection
+ * Resolve the current city without sending the visitor IP to third parties.
+ * URL/body data wins, then the visitor's saved explicit choice, then Краснодар.
  */
 export async function detectUserCity() {
   const defaultCity = "krasnodar";
+  const pathSegments = (window.location.pathname || "").split("/").filter(Boolean);
+  const pathCity = pathSegments.find((segment) => ALLOWED_CITY_CODES.includes(segment));
+  const bodyCity = document.body?.dataset.city;
+  const pageCity = ALLOWED_CITY_CODES.includes(bodyCity) ? bodyCity : pathCity;
+
+  if (pageCity && CITIES_DATA[pageCity]) {
+    return { cityCode: pageCity, isConfirmed: true };
+  }
+
   const savedCity = localStorage.getItem("selected_city");
   if (savedCity && CITIES_DATA[savedCity] && ALLOWED_CITY_CODES.includes(savedCity)) {
-    return { cityCode: savedCity, isConfirmed: true };
+    return { cityCode: savedCity, isConfirmed: localStorage.getItem("city_confirmed") === "true" };
   }
-  if (savedCity && !ALLOWED_CITY_CODES.includes(savedCity)) {
-    localStorage.setItem("selected_city", defaultCity);
+
+  if (savedCity) {
+    localStorage.removeItem("selected_city");
     localStorage.removeItem("city_confirmed");
   }
-
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2500);
-    const response = await fetch("https://ipapi.co/json/", { signal: controller.signal });
-    clearTimeout(timeoutId);
-    if (!response.ok) throw new Error("Response error");
-    const data = await response.json();
-
-    const geoCityName = data.city;
-    if (geoCityName) {
-      const lowerGeoCity = geoCityName.toLowerCase();
-      const cityMap = {
-        krasnodar: "krasnodar",
-        anapa: "anapa",
-        novorossiysk: "novorossiysk",
-        sochi: "sochi",
-        adler: "sochi",
-        sirius: "sochi",
-        gelendzhik: "gelendzhik",
-      };
-      for (const [key, code] of Object.entries(cityMap)) {
-        if (lowerGeoCity.includes(key)) return { cityCode: code, isConfirmed: false };
-      }
-    }
-  } catch (e) {
-    console.warn("Geotargeting auto-detect failed. Defaulting to Краснодар.", e);
-  }
-
   return { cityCode: defaultCity, isConfirmed: false };
 }
 
@@ -393,8 +375,7 @@ export async function initGeotargeting() {
     if (cityBtn) cityBtn.setAttribute("aria-expanded", String(isOpen));
   };
 
-  // Bind the selector before the optional IP lookup finishes, so the city list
-  // responds immediately even on a slow connection.
+  // Bind the selector before city state resolution so it responds immediately.
   setCityDropdownOpen(false);
 
   if (cityBtn && cityDropdown) {

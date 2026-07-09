@@ -165,7 +165,7 @@ function buildCityIndex(code, city, rootHtml, oldHtml) {
   // где якоря уже локальные. Отлично.
 
   // 4. Служебные ссылки на страницы (thank-you.html) — они лежат в корне, но формы
-  // используют action="https://formspree.io/..." и value="https://pragruz.ru/thank-you.html"
+  // используют same-origin action="/api/submit-lead"
   // (абсолютные URL), поэтому трогать не надо.
 
   // 5. Meta / title / canonical
