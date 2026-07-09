@@ -639,72 +639,7 @@
   </div>
 </div>
 
-<!-- ===== МОДАЛЬНОЕ ОКНО СБОРА ОТЗЫВОВ ===== -->
-<div class="modal-overlay" id="review-modal">
-  <div class="modal-box premium-card">
-    <div class="card-glow"></div>
-    <button type="button" class="modal-close" id="review-modal-close" aria-label="Закрыть">×</button>
-    <div class="modal-header">
-      <h3>Поделитесь впечатлениями</h3>
-      <p>Ваш отзыв поможет нам стать лучше</p>
-    </div>
-    <form id="review-form" onsubmit="submitReview(event)" action="https://formspree.io/f/xeebjwkn" method="POST">
-      <div class="form-hp-field" aria-hidden="true">
-        <label>Не заполняйте это поле</label>
-        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
-      </div>
-      <div class="form-group-custom u-style-022">
-        <label class="u-style-023">Оцените качество услуг</label>
-        <div class="star-rating" id="star-rating">
-          <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
-        </div>
-        <input type="hidden" id="review-rating" value="5" required>
-      </div>
-      <div class="form-row">
-        <div class="form-group-custom">
-          <label for="review-name">Ваше имя</label>
-          <input type="text" id="review-name" class="form-input-custom" placeholder="Иван Иванов" required>
-        </div>
-        <div class="form-group-custom">
-          <label for="review-phone">Телефон</label>
-          <input type="tel" id="review-phone" class="form-input-custom" placeholder="+7 (___) ___-__-__" required>
-        </div>
-      </div>
-      <div class="form-group-custom">
-        <label for="review-service">Тип услуги</label>
-        <select id="review-service" class="form-select-custom" required>
-          <option value="" disabled selected>Выберите услугу...</option>
-          <option value="Грузчики">Грузчики / Разгрузка</option>
-          <option value="Квартирный переезд">Квартирный переезд</option>
-          <option value="Офисный переезд">Офисный переезд</option>
-          <option value="Разнорабочие">Разнорабочие</option>
-          <option value="Такелаж">Такелажные работы</option>
-          <option value="Сборка мебели">Сборка мебели</option>
-          <option value="Аренда Газели">Аренда Газели</option>
-          <option value="Аутсорсинг">Аутсорсинг персонала</option>
-        </select>
-      </div>
-      <div class="form-group-custom">
-        <label for="review-text">Ваш отзыв</label>
-        <textarea id="review-text" class="form-input-custom textarea-custom" rows="4" placeholder="Что вам понравилось? Как быстро приехали? Аккуратность?" required></textarea>
-      </div>
-      <input type="hidden" id="review-city" value="">
-      <button type="submit" class="btn btn-primary btn-block btn-lg u-style-024">Отправить отзыв</button>
-      <p class="u-style-025">Нажимая кнопку, вы соглашаетесь на <a href="privacy.html">обработку персональных данных</a>.</p>
-    </form>
-    <div class="success-screen" id="review-success">
-      <div class="success-icon-box">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="success-svg">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-          <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <h3>Спасибо за отзыв!</h3>
-      <p>Мы проверим его и опубликуем в ближайшее время.</p>
-      <button type="button" class="btn btn-secondary btn-sm" onclick="closeReviewModal()">Закрыть</button>
-    </div>
-  </div>
-</div>
+
 <!-- ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ ===== -->
 <div class="glass-float-btn mobile-call-button">
   <a href="tel:+79283333281" class="call-btn" aria-label="Позвонить">
