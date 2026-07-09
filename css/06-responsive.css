@@ -50,7 +50,14 @@
   .logo-icon-box { width: 36px; height: 36px; }
   .logo-svg { width: 18px; height: 18px; }
   .logo-title { font-size: 1rem; }
-  .logo-subtitle { font-size: 0.6rem; letter-spacing: 0.2em; margin-top: 2px; }
+  .logo-subtitle {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    margin-top: 2px;
+    text-align: justify;
+    text-align-last: justify;
+    transform: none;
+  }
   .city-selector-btn { padding: 6px 10px; font-size: 0.75rem; gap: 6px; }
   .city-selector-current { max-width: 95px; }
   .city-confirm-banner,
@@ -82,11 +89,74 @@
 
   .glass-float-btn { display: flex; }
   .btn, .header-cta, .main-header { position: relative; z-index: 100; }
-  img { max-width: 100%; height: auto; object-fit: contain; }
-  .hero-section img,
+
+  /* Images: never overflow; cards keep cover without text collision */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  .service-img,
+  .fleet-img,
+  .pg-team-photo,
+  .review-avatar-img,
+  .review-avatar,
   .leadership-photo,
   .safety-image,
-  .values-image { object-fit: cover; width: 100%; }
+  .values-image,
+  .hero-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .pg-team-photo {
+    height: auto;
+    max-height: none;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .pg-team-photo-wrapper {
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  .pg-team-badge {
+    bottom: 12px;
+    right: 12px;
+    left: auto;
+    max-width: calc(100% - 24px);
+    padding: 10px 14px;
+  }
+  .pg-badge-number { font-size: 28px; }
+  .pg-badge-text { font-size: 12px; }
+
+  .service-image-box {
+    aspect-ratio: 16 / 10;
+    height: auto;
+  }
+  .fleet-img-box {
+    height: 200px;
+    min-height: 200px;
+  }
+  .fleet-card { grid-template-columns: 1fr; }
+
+  /* Float buttons must not cover form CTAs */
+  body {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+  .order-section,
+  .order-glass-card,
+  .form-actions,
+  .reviews-footer-block {
+    position: relative;
+    z-index: 1;
+  }
+  .mobile-call-button {
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+  .scroll-to-top {
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+
   input, select, textarea { font-size: 16px; }
 
   .hero-live-bar { padding: 12px 0; margin-top: 32px; }
@@ -97,11 +167,24 @@
 
   #city-price-label { font-size: 0.8rem; padding: 8px 16px; margin: 15px auto 20px; }
 
-  .review-card { flex: 0 0 300px; }
+  .review-card { flex: 0 0 min(300px, 85vw); }
   .reviews-carousel-track { animation-duration: 28s; }
   @keyframes reviewsScroll {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-300px * 4 - 24px * 4)); }
+    100% { transform: translateX(calc(-1 * min(300px, 85vw) * 4 - 24px * 4)); }
+  }
+
+  .modal-box {
+    max-height: min(90vh, 90dvh);
+    overflow-y: auto;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Prevent horizontal scroll from 100vw modals */
+  .modal-overlay,
+  .mobile-nav-overlay {
+    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -144,7 +227,13 @@
 
 @media (max-width: 380px) {
   .logo-title { font-size: 0.92rem; }
-  .logo-subtitle { font-size: 0.55rem; letter-spacing: 0.15em; }
+  .logo-subtitle {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-align: justify;
+    text-align-last: justify;
+    transform: none;
+  }
   .city-selector-current { max-width: 70px; }
   .city-selector-btn { padding: 5px 8px; gap: 4px; }
 }

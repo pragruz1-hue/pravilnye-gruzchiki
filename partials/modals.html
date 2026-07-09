@@ -1,13 +1,13 @@
 <!-- ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== -->
 <div class="modal-overlay" id="order-modal">
   <div class="modal-box">
-    <button class="modal-close" id="modal-close-btn" aria-label="Закрыть модальное окно">×</button>
+    <button type="button" class="modal-close" id="modal-close-btn" aria-label="Закрыть модальное окно">×</button>
     <div class="modal-header">
       <h3>Оформление заказа</h3>
       <p id="modal-subtitle">Вы заказываете: <strong id="modal-service-name">Грузчики</strong></p>
     </div>
     <form id="modal-booking-form" action="https://formspree.io/f/xeebjwkn" method="POST">
-      <input type="hidden" name="_next" value="https://pragruz.ru/{{BASE}}thank-you.html" />
+      <input type="hidden" name="_next" value="https://pragruz.ru/thank-you.html" />
       <div class="form-hp-field" aria-hidden="true">
         <label>Не заполняйте это поле</label>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
@@ -44,7 +44,7 @@
 <div class="modal-overlay" id="review-modal">
   <div class="modal-box premium-card">
     <div class="card-glow"></div>
-    <button class="modal-close" id="review-modal-close" aria-label="Закрыть">×</button>
+    <button type="button" class="modal-close" id="review-modal-close" aria-label="Закрыть">×</button>
     <div class="modal-header">
       <h3>Поделитесь впечатлениями</h3>
       <p>Ваш отзыв поможет нам стать лучше</p>
@@ -91,7 +91,7 @@
       </div>
       <input type="hidden" id="review-city" value="">
       <button type="submit" class="btn btn-primary btn-block btn-lg u-style-024">Отправить отзыв</button>
-      <p class="u-style-025">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+      <p class="u-style-025">Нажимая кнопку, вы соглашаетесь на <a href="{{BASE}}privacy.html">обработку персональных данных</a>.</p>
     </form>
     <div class="success-screen" id="review-success">
       <div class="success-icon-box">

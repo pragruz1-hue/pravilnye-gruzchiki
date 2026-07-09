@@ -4,21 +4,31 @@
     {{METRIKA}}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#07090e" />
     <title>{{PAGE_TITLE}}</title>
     <meta name="description" content="{{PAGE_DESCRIPTION}}" />
     <meta name="keywords" content="{{PAGE_KEYWORDS}}" />
     <meta name="author" content="Правильные Грузчики" />
     <link rel="icon" type="image/x-icon" href="{{BASE}}assets/logo.png" />
+<link rel="apple-touch-icon" href="../assets/logo.png" />
     <link rel="canonical" href="{{PAGE_CANONICAL}}" />
     {{HEAD_COMMON}}
-  </head>
+  
+<meta property="og:title" content="{{PAGE_TITLE}}" />
+<meta property="og:description" content="{{PAGE_DESCRIPTION}}" />
+<meta property="og:image" content="https://pragruz.ru/assets/service-pogruzka-razgruzka.webp" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+</head>
   <body data-page="{{PAGE_TYPE}}">
+<a class="skip-link" href="#main">К содержанию</a>
     <div class="glow-bg">
       <div class="glow-orb orb-1"></div>
       <div class="glow-orb orb-2"></div>
     </div>
     {{HEADER}}
-    <main>
+    <main id="main">
       <section class="hero-section" id="hero">
         <div class="container hero-container">
           <div class="hero-text-content">
@@ -118,7 +128,7 @@
                   Перезвоните мне через 5 минут
                 </button>
                 <p class="u-style-023">
-                  Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
+                  Нажимая кнопку, вы соглашаетесь на <a href="../privacy.html">обработку персональных данных</a>.
                 </p>
               </form>
             </div>
@@ -249,24 +259,24 @@
             <div class="calc-step">
               <label class="calc-label">1. Выберите тип услуг</label>
               <div class="service-tabs">
-                <button
+                <button type="button"
                   class="calc-tab active"
                   data-rate="800"
                   data-name="Грузчики"
                 >
                   Грузчики
                 </button>
-                <button
+                <button type="button"
                   class="calc-tab"
                   data-rate="800"
                   data-name="Разнорабочие"
                 >
                   Разнорабочие
                 </button>
-                <button class="calc-tab" data-rate="800" data-name="Переезд">
+                <button type="button" class="calc-tab" data-rate="800" data-name="Переезд">
                   Переезд
                 </button>
-                <button
+                <button type="button"
                   class="calc-tab"
                   data-rate="0"
                   data-name="Такелаж / Сборка"
@@ -374,7 +384,7 @@
                   <span class="currency">₽</span>
                 </div>
               </div>
-              <button class="btn btn-primary btn-block" id="calc-submit-btn">
+              <button type="button" class="btn btn-primary btn-block" id="calc-submit-btn">
                 Оформить заказ по этой цене
               </button>
               <p class="calc-disclaimer price-disclaimer">
@@ -421,7 +431,7 @@
                   паллетам.
                 </p>
                 <div class="service-card-actions">
-                  <button
+                  <button type="button"
                     class="btn btn-secondary service-order-btn"
                     data-service="Разгрузка фур и контейнеров"
                   >
@@ -449,7 +459,7 @@
                   маркировка, паллетирование, помощь в инвентаризации.
                 </p>
                 <div class="service-card-actions">
-                  <button
+                  <button type="button"
                     class="btn btn-secondary service-order-btn"
                     data-service="Складские грузчики"
                   >
@@ -478,7 +488,7 @@
                   каждого заказа.
                 </p>
                 <div class="service-card-actions">
-                  <button
+                  <button type="button"
                     class="btn btn-secondary service-order-btn"
                     data-service="Подъем стройматериалов"
                   >
@@ -507,7 +517,7 @@
                   последующей утилизации.
                 </p>
                 <div class="service-card-actions">
-                  <button
+                  <button type="button"
                     class="btn btn-secondary service-order-btn"
                     data-service="Вывоз мусора с грузчиками"
                   >
@@ -627,7 +637,7 @@
                 </ul>
                 <div class="fleet-price-box">
                   <span class="fleet-price">от 2000 ₽/час</span>
-                  <button
+                  <button type="button"
                     class="btn btn-secondary btn-sm fleet-order-btn"
                     data-truck="Газель Стандарт 3м"
                   >
@@ -659,7 +669,7 @@
                 </ul>
                 <div class="fleet-price-box">
                   <span class="fleet-price">от 2500 ₽/час</span>
-                  <button
+                  <button type="button"
                     class="btn btn-secondary btn-sm fleet-order-btn"
                     data-truck="Газель Удлиненная 4.2м"
                   >
@@ -802,7 +812,7 @@
                 </button>
                 <p class="form-privacy-note">
                   Нажимая кнопку, вы соглашаетесь с Политикой обработки
-                  персональных данных.
+                  <a href="../privacy.html">персональных данных</a>.
                 </p>
               </form>
 
@@ -836,7 +846,7 @@
                   Менеджер уже обрабатывает вашу информацию и перезвонит вам на
                   указанный номер в течение 5 минут.
                 </p>
-                <button class="btn btn-secondary btn-sm" id="success-back-btn">
+                <button type="button" class="btn btn-secondary btn-sm" id="success-back-btn">
                   Отправить еще одну заявку
                 </button>
               </div>
@@ -896,7 +906,7 @@
           <div class="faq-accordion-box">
             <!-- FAQ 1 -->
             <div class="faq-item">
-              <button class="faq-trigger" aria-expanded="false">
+              <button type="button" class="faq-trigger" aria-expanded="false">
                 <span>Есть ли скрытые наценки за этаж или тяжелые вещи?</span>
                 <span class="faq-arrow">▼</span>
               </button>
@@ -915,7 +925,7 @@
 
             <!-- FAQ 2 -->
             <div class="faq-item">
-              <button class="faq-trigger" aria-expanded="false">
+              <button type="button" class="faq-trigger" aria-expanded="false">
                 <span>Каков минимальный объем заказа по времени?</span>
                 <span class="faq-arrow">▼</span>
               </button>
@@ -933,7 +943,7 @@
 
             <!-- FAQ 3 -->
             <div class="faq-item">
-              <button class="faq-trigger" aria-expanded="false">
+              <button type="button" class="faq-trigger" aria-expanded="false">
                 <span>Как быстро бригада приедет на объект?</span>
                 <span class="faq-arrow">▼</span>
               </button>
@@ -954,7 +964,7 @@
 
             <!-- FAQ 4 -->
             <div class="faq-item">
-              <button class="faq-trigger" aria-expanded="false">
+              <button type="button" class="faq-trigger" aria-expanded="false">
                 <span
                   >Как вы работаете по безналичному расчету с ООО и ИП?</span
                 >
@@ -974,7 +984,7 @@
 
             <!-- FAQ 5 -->
             <div class="faq-item">
-              <button class="faq-trigger" aria-expanded="false">
+              <button type="button" class="faq-trigger" aria-expanded="false">
                 <span
                   >Что происходит, если грузчик что-то сломает или
                   разобьет?</span

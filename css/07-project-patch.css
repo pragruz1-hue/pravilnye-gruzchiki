@@ -134,23 +134,40 @@
 }
 
 /* ===== Premium visual polish: header logo, compact stats, premium internal links ===== */
+/* Logo: «ГРУЗЧИКИ» same visual width as «ПРАВИЛЬНЫЕ», unified colors in header + footer */
 .logo-text {
-  min-width: 126px;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  min-width: 132px;
+  width: max-content;
 }
 .logo-title {
+  display: block !important;
+  width: 100% !important;
   font-weight: 900 !important;
+  font-size: 1.25rem !important;
   letter-spacing: 0.01em !important;
+  color: #fff !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  text-align: left !important;
 }
 .logo-subtitle {
-  display: block;
-  width: 100%;
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
   font-weight: 900 !important;
-  font-size: 0.86rem !important;
-  letter-spacing: 0.18em !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.205em !important;
   color: #ff8f00 !important;
+  line-height: 1 !important;
+  margin-top: 4px !important;
+  white-space: nowrap !important;
+  text-align: justify !important;
+  text-align-last: justify !important;
   text-shadow: 0 0 18px rgba(255, 115, 0, 0.28);
-  transform: scaleX(1.08);
-  transform-origin: left center;
+  transform: none !important;
 }
 .desktop-nav ul {
   gap: clamp(16px, 1.7vw, 28px);
@@ -317,8 +334,13 @@
   .seo-links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 768px) {
-  .logo-text { min-width: 112px; }
-  .logo-subtitle { font-size: 0.78rem !important; letter-spacing: 0.16em !important; transform: scaleX(1.05); }
+  .logo-text { min-width: 118px; }
+  .logo-title { font-size: 1rem !important; }
+  .logo-subtitle {
+    font-size: 0.68rem !important;
+    letter-spacing: 0.18em !important;
+    transform: none !important;
+  }
   .stats-section { padding: 34px 0 !important; }
   .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; }
   .stat-card { padding: 18px 10px !important; }
@@ -328,4 +350,101 @@
 }
 @media (max-width: 420px) {
   .stats-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ===== Mobile / a11y / image safety (ideal pass) ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .mobile-call-button::before,
+  .mobile-call-button::after {
+    display: none !important;
+  }
+}
+
+html {
+  scroll-padding-top: 96px;
+  overflow-x: clip;
+}
+body {
+  overflow-x: clip;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100000;
+  background: #ff8f00;
+  color: #0a0e1a;
+  padding: 10px 16px;
+  font-weight: 700;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* Ensure picture/source images fill card frames fully on all viewports */
+picture {
+  display: block;
+  width: 100%;
+}
+.service-image-box picture,
+.fleet-img-box picture,
+.pg-team-photo-wrapper picture {
+  height: 100%;
+}
+.service-image-box img,
+.fleet-img-box img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 768px) {
+  .hero-title { overflow-wrap: anywhere; }
+  .section-title { overflow-wrap: anywhere; }
+  .service-price-tag {
+    max-width: calc(100% - 20px);
+    white-space: normal;
+    line-height: 1.2;
+    text-align: center;
+  }
+  .pg-team-photo {
+    width: 100%;
+    height: auto;
+    min-height: 180px;
+    max-height: 52vh;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+  /* Keep float controls above content but leave form buttons clickable */
+  .glass-float-btn,
+  .scroll-to-top {
+    z-index: 900;
+  }
+  .site-footer {
+    padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-width: 480px) {
+  .review-card { flex: 0 0 min(280px, 88vw) !important; }
+  .mobile-call-button {
+    width: 52px;
+    height: 52px;
+    bottom: calc(70px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .scroll-to-top {
+    width: 44px;
+    height: 44px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+  }
 }

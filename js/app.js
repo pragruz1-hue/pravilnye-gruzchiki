@@ -14,6 +14,7 @@ import { initPhoneMasks, initFormsAntiSpam } from "./modules/forms.js";
 import { initOrderModal, initReviewModal, initExitIntentPopup } from "./modules/modals.js";
 import { initFaqAccordion } from "./modules/faq.js";
 import { initCargoCalculator } from "./modules/cargo.js";
+import { renderReviews } from "./modules/reviews.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Core UI
@@ -26,6 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 2. Geotargeting + city management
   initGeotargeting();
+
+  // 2.5. Reviews carousel (city-specific; also listens to cityChanged)
+  const cityCode = localStorage.getItem("selected_city") || "krasnodar";
+  renderReviews(cityCode);
 
   // 3. Forms & phone masks
   initPhoneMasks();

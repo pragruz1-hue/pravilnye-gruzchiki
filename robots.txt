@@ -3,13 +3,14 @@ User-agent: *
 Allow: /
 Disallow: /cgi-bin/
 Disallow: /thank-you.html
-Disallow: /*?*
-Disallow: /*&*
+Disallow: /404.html
+# Keep UTM crawlable; block only admin-like query patterns if needed
 Sitemap: https://pragruz.ru/sitemap.xml
 
 User-agent: Yandex
 Allow: /
 Disallow: /cgi-bin/
 Disallow: /thank-you.html
+Disallow: /404.html
 Crawl-delay: 1
 Sitemap: https://pragruz.ru/sitemap.xml

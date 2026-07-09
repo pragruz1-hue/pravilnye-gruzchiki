@@ -6,7 +6,7 @@ const fs = require("fs");
 const path = require("path");
 
 // Конфигурация бота
-const TELEGRAM_BOT_TOKEN = "8133133212:AAHa3rr88Oa3QlUDIHkE7xXLLgCRRi2pT1Q";
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || ""; // set via env, never commit secrets
 const TELEGRAM_CHAT_ID = "@flashpointmusik"; // или ID чата если числовой
 const WHATSAPP_NUMBER = "79283333281";
 const CONTACT_EMAIL = "info@pragruz.ru";
