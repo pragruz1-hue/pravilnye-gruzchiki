@@ -20,15 +20,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#07090e" />
-<link rel="icon" type="image/x-icon" href="assets/logo.png" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png" />
 <link rel="apple-touch-icon" href="assets/logo.png" />
+<link rel="manifest" href="manifest.json" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800&display=swap"
-  rel="stylesheet"
-/>
+<!-- Self-hosted fonts via 00-fonts.css (in style.css); src falls back to Google Fonts CDN -->
 
 <!-- Preload critical assets -->
 <link rel="preload" as="style" href="css/style.css">
@@ -231,7 +230,7 @@
                 </div>
               </div>
               <div class="hero-feature-item">
-                <span class="feature-icon"></span>
+                <span class="feature-icon">📄</span>
                 <div>
                   <strong>Работа с юрлицами</strong>
                   <p>Индивидуальные тарифы</p>
@@ -657,6 +656,8 @@
                     src="assets/service-pogruzka-razgruzka.webp"
                     alt="Услуги грузчиков"
                     loading="lazy"
+                    width="600"
+                    height="375"
                     class="service-img"
                   />
                 </a>
@@ -689,6 +690,8 @@
                     src="assets/service-raznorabochie.webp"
                     alt="Разнорабочие на склады"
                     loading="lazy"
+                    width="600"
+                    height="375"
                     class="service-img"
                   />
                 </a>
@@ -721,6 +724,8 @@
                     src="assets/service-kvartirniy-pereezd.webp"
                     alt="Квартирные переезды"
                     loading="lazy"
+                    width="600"
+                    height="375"
                     class="service-img"
                   />
                 </a>
@@ -753,6 +758,8 @@
                     src="assets/service-ofisniy-pereezd.webp"
                     alt="Офисный переезд"
                     loading="lazy"
+                    width="600"
+                    height="375"
                     class="service-img"
                   />
                 </a>
@@ -787,6 +794,8 @@
                     src="assets/service-takelag.webp"
                     alt="Такелажные работы"
                     loading="lazy"
+                    width="600"
+                    height="375"
                     class="service-img"
                   />
                 </a>
@@ -819,6 +828,8 @@
                     src="assets/service-sborka-mebeli.webp"
                     alt="Сборка мебели"
                     loading="lazy"
+                    width="600"
+                    height="375"
                     class="service-img"
                   />
                 </a>
@@ -973,6 +984,8 @@
                   src="assets/fleet-gazel-3m.webp"
                   alt="Газель стандартная"
                   loading="lazy"
+                  width="600"
+                  height="400"
                   class="fleet-img"
                 />
               </div>
@@ -1006,6 +1019,8 @@
                   src="assets/fleet-gazel-4.2m.webp"
                   alt="Газель удлиненная"
                   loading="lazy"
+                  width="600"
+                  height="400"
                   class="fleet-img"
                 />
               </div>
@@ -1231,14 +1246,14 @@
                 <div>
                   <strong>Адрес нашего офиса:</strong>
                   <p>
-                    <span class="city-address"
-                      >350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</span>
-                <div>
-                  <strong>Бухгалтерия и документы:</strong>
-                  <p>Работа с юрлицами с 10:00 до 18:00 (Пн-Пт)</p>
+                    <span class="city-address">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</span>
+                  </p>
+                  <div>
+                    <strong>Бухгалтерия и документы:</strong>
+                    <p>Работа с юрлицами с 10:00 до 18:00 (Пн-Пт)</p>
+                  </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </section>
@@ -1475,6 +1490,8 @@
     </svg>
   </a>
 </div>
+
+<!-- ===== COOKIE CONSENT BANNER ===== --><div class="cookie-consent-banner" id="cookie-banner" role="dialog" aria-label="Согласие на использование cookies"><div class="cookie-consent-content"><p>Мы используем cookies и сервисы аналитики (Яндекс.Метрика) для улучшения работы сайта. Продолжая использовать сайт, вы соглашаетесь с <a href="privacy.html">политикой обработки персональных данных</a>.</p><div class="cookie-consent-btns"><button type="button" class="btn btn-primary btn-sm" id="cookie-accept-btn">Принять</button><button type="button" class="btn btn-secondary btn-sm" id="cookie-decline-btn">Отклонить</button></div></div></div>
 
 <!-- ===== КНОПКА НАВЕРХ ===== -->
 <button type="button" class="scroll-to-top" id="scrollTopBtn" aria-label="Вернуться наверх">

@@ -607,3 +607,126 @@
 .pg-toast-success {
   background: #10b981;
 }
+
+/* ===== COOKIE CONSENT BANNER ===== */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  background: rgba(13, 17, 27, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 0;
+  transform: translateY(100%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.cookie-banner.active {
+  transform: translateY(0);
+}
+
+.cookie-banner-content {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cookie-banner-content p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0;
+  flex: 1;
+  min-width: 200px;
+}
+
+.cookie-banner-content a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.cookie-banner-buttons {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.cookie-banner-buttons .btn {
+  white-space: nowrap;
+}
+
+#cookie-decline-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+#cookie-decline-btn:hover {
+  border-color: var(--text-muted);
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .cookie-banner-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  .cookie-banner-content p {
+    font-size: 0.8rem;
+  }
+  .cookie-banner-buttons {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ===== FORM SUBMIT SPINNER ===== */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.btn-loading .btn-text {
+  visibility: hidden;
+}
+
+.btn-loading .btn-spinner {
+  display: inline-block;
+}
+
+.btn-spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: btn-spin 0.6s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -10px 0 0 -10px;
+}
+
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== REVIEWS CAROUSEL PAUSE ON HOVER ===== */
+.reviews-carousel-track {
+  animation-play-state: running;
+}
+
+.reviews-carousel-wrapper:hover .reviews-carousel-track {
+  animation-play-state: paused;
+}

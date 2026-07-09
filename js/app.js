@@ -10,13 +10,16 @@
 import { initHeaderFX, initMobileMenu, initScrollToTop, initCardGlow, initStatsCounter, initActiveWorkers } from "./modules/ui.js";
 import { initGeotargeting } from "./modules/geotargeting.js";
 import { initCalculator } from "./modules/calculator.js";
-import { initPhoneMasks, initFormsAntiSpam } from "./modules/forms.js";
+import { initPhoneMasks, initFormsAntiSpam, initCookieBanner } from "./modules/forms.js";
 import { initOrderModal, initReviewModal, initExitIntentPopup } from "./modules/modals.js";
 import { initFaqAccordion } from "./modules/faq.js";
 import { initCargoCalculator } from "./modules/cargo.js";
 import { renderReviews } from "./modules/reviews.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // 0. Cookie consent banner (before Metrika loads)
+  initCookieBanner();
+
   // 1. Core UI
   initHeaderFX();
   initMobileMenu();

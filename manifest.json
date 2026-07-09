@@ -1,0 +1,21 @@
+{
+  "name": "Правильные Грузчики",
+  "short_name": "Правильные Грузчики",
+  "description": "Профессиональные грузчики, разнорабочие и такелажники. Заказ грузчиков онлайн 24/7.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07090e",
+  "theme_color": "#07090e",
+  "icons": [
+    {
+      "src": "assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
