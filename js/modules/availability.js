@@ -10,7 +10,8 @@ const CLOSING_HOUR = 20;
 const OPEN_TEXT = "Принимаем заявки сейчас";
 const CLOSED_TEXT = "Заявку можно оставить — ответим с 8:00 МСК";
 
-const LIVE_ORDER_STORAGE_KEY = "pg_live_order_crm_v1";
+const LIVE_ORDER_STORAGE_PREFIX = "pg_live_order_crm_v1";
+const FALLBACK_CRM_CITY = "site";
 const MIN_INITIAL_ORDER_AGE_MINUTES = 7;
 const MAX_INITIAL_ORDER_AGE_MINUTES = 28;
 const MAX_VISIBLE_ORDER_AGE_MINUTES = 34;
@@ -18,7 +19,7 @@ const MIN_NEW_ORDER_INTERVAL_MS = 65 * 1000;
 const MAX_NEW_ORDER_INTERVAL_MS = 4 * 60 * 1000;
 const MINUTE_MS = 60 * 1000;
 
-let inMemoryCrmState = null;
+const inMemoryCrmStateByKey = new Map();
 
 const moscowTimeFormatter = new Intl.DateTimeFormat("ru-RU", {
   timeZone: MOSCOW_TIME_ZONE,
@@ -74,12 +75,36 @@ function getSafeLocalStorage() {
   }
 }
 
-function readStoredCrmState() {
+function normalizeCrmStoragePart(value) {
+  return (String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, "-")
+    .replace(/^-+|-+$/g, "")) || FALLBACK_CRM_CITY;
+}
+
+function getCurrentCrmCity() {
+  const bodyCity = document.body?.dataset?.city;
+  if (bodyCity) return normalizeCrmStoragePart(bodyCity);
+
   const storage = getSafeLocalStorage();
-  if (!storage) return inMemoryCrmState;
+  const storedCity = storage?.getItem("selected_city");
+  if (storedCity) return normalizeCrmStoragePart(storedCity);
+
+  const pathCity = window.location.pathname.split("/").filter(Boolean)[0];
+  return normalizeCrmStoragePart(pathCity || FALLBACK_CRM_CITY);
+}
+
+function getLiveOrderStorageKey(cityCode) {
+  return `${LIVE_ORDER_STORAGE_PREFIX}:${normalizeCrmStoragePart(cityCode)}`;
+}
+
+function readStoredCrmState(storageKey) {
+  const storage = getSafeLocalStorage();
+  if (!storage) return inMemoryCrmStateByKey.get(storageKey) || null;
 
   try {
-    const parsed = JSON.parse(storage.getItem(LIVE_ORDER_STORAGE_KEY) || "null");
+    const parsed = JSON.parse(storage.getItem(storageKey) || "null");
     if (!parsed || parsed.version !== 1) return null;
 
     const seed = Number(parsed.seed);
@@ -101,13 +126,13 @@ function readStoredCrmState() {
   }
 }
 
-function writeStoredCrmState(state) {
-  inMemoryCrmState = state;
+function writeStoredCrmState(storageKey, state) {
+  inMemoryCrmStateByKey.set(storageKey, state);
   const storage = getSafeLocalStorage();
   if (!storage) return;
 
   try {
-    storage.setItem(LIVE_ORDER_STORAGE_KEY, JSON.stringify(state));
+    storage.setItem(storageKey, JSON.stringify(state));
   } catch (error) {
     // Ignore quota/private-mode errors; the in-memory state keeps the page stable.
   }
@@ -220,15 +245,15 @@ function isCrmStateUsable(state, nowMs) {
   return true;
 }
 
-function getLiveOrderCrmState(nowMs, initialAgeMinutes, isOpen) {
-  let state = readStoredCrmState();
+function getLiveOrderCrmState(nowMs, initialAgeMinutes, isOpen, storageKey) {
+  let state = readStoredCrmState(storageKey);
   if (!isCrmStateUsable(state, nowMs)) {
     state = createCrmState(nowMs, initialAgeMinutes);
   }
 
   if (!isOpen) {
     state.updatedAt = nowMs;
-    writeStoredCrmState(state);
+    writeStoredCrmState(storageKey, state);
     return state;
   }
 
@@ -254,7 +279,7 @@ function getLiveOrderCrmState(nowMs, initialAgeMinutes, isOpen) {
   }
 
   state.updatedAt = nowMs;
-  writeStoredCrmState(state);
+  writeStoredCrmState(storageKey, state);
   return state;
 }
 
@@ -265,7 +290,7 @@ function getClosedLiveOrderText(availability) {
     : "откроется в 8:00 МСК";
 }
 
-function renderLiveOrderItems(items, availability, state, nowMs) {
+function renderLiveOrderItems(items, availability, state, nowMs, cityCode) {
   const ageMinutes = Math.max(1, Math.floor((nowMs - state.lastOrderAt) / MINUTE_MS));
   const openText = formatOrderAge(ageMinutes);
   const closedText = getClosedLiveOrderText(availability);
@@ -285,6 +310,7 @@ function renderLiveOrderItems(items, availability, state, nowMs) {
     item.classList.toggle("is-open", availability.isOpen);
     item.classList.toggle("is-closed", !availability.isOpen);
     item.dataset.moscowTime = availability.moscowTime;
+    item.dataset.crmCity = cityCode;
     item.dataset.crmLastOrderAt = String(state.lastOrderAt);
     item.title = availability.isOpen
       ? `Сейчас ${availability.moscowTime} МСК. Приём звонков до 20:00 МСК. CRM: последний заказ ${openText}.`
@@ -300,6 +326,8 @@ export function initApplicationAvailability() {
   if (!statusElements.length && !liveOrderItems.length) return;
 
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "local";
+  const crmCity = getCurrentCrmCity();
+  const liveOrderStorageKey = getLiveOrderStorageKey(crmCity);
   const initialOrderAgeMinutes = parseInitialOrderAgeMinutes(liveOrderItems);
   let updateTimer;
 
@@ -322,8 +350,13 @@ export function initApplicationAvailability() {
     });
 
     if (liveOrderItems.length) {
-      const state = getLiveOrderCrmState(nowMs, initialOrderAgeMinutes, availability.isOpen);
-      renderLiveOrderItems(liveOrderItems, availability, state, nowMs);
+      const state = getLiveOrderCrmState(
+        nowMs,
+        initialOrderAgeMinutes,
+        availability.isOpen,
+        liveOrderStorageKey,
+      );
+      renderLiveOrderItems(liveOrderItems, availability, state, nowMs, crmCity);
     }
   };
 
