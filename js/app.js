@@ -15,6 +15,7 @@ import { initOrderModal, initReviewModal, initExitIntentPopup } from "./modules/
 import { initFaqAccordion } from "./modules/faq.js";
 import { initCargoCalculator } from "./modules/cargo.js";
 import { renderReviews } from "./modules/reviews.js";
+import { initApplicationAvailability } from "./modules/availability.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // 0. Cookie consent banner (before Metrika loads)
@@ -27,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initCardGlow();
   initStatsCounter();
   initActiveWorkers();
+  initApplicationAvailability();
 
   // 2. Geotargeting + city management
   initGeotargeting();

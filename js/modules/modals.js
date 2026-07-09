@@ -2,7 +2,7 @@
  * Modal windows: Order modal, Review modal, Exit-intent popup
  */
 
-import { setupPhoneMask, submitLeadToFormspree, showToast, showButtonSpinner, hideButtonSpinner } from "./forms.js";
+import { setupPhoneMask, submitLead, showToast, showButtonSpinner, hideButtonSpinner, preparePersonalDataForm } from "./forms.js";
 import { CITIES_DATA } from "./geotargeting.js";
 
 // ==========================================
@@ -68,7 +68,7 @@ export function initOrderModal() {
         return;
       }
       try {
-        await submitLeadToFormspree({ name: nameVal, phone: phoneVal, service: serviceVal, details: detailsVal, source: "Order Modal" }, modalBookingForm);
+        await submitLead({ name: nameVal, phone: phoneVal, service: serviceVal, details: detailsVal, source: "Order Modal" }, modalBookingForm);
         modalBookingForm.style.display = "none";
         modalSuccessConfirm.classList.add("active");
         if (submitBtn) hideButtonSpinner(submitBtn);
@@ -161,7 +161,7 @@ export function initOrderModal() {
         return;
       }
       try {
-        await submitLeadToFormspree({
+        await submitLead({
           name: nameVal, phone: phoneVal,
           service: serviceEl ? serviceEl.options[serviceEl.selectedIndex].text : "Заявка с основной формы",
           comment: commentEl ? commentEl.value.trim() : "",
@@ -263,7 +263,7 @@ export function initReviewModal() {
       return;
     }
     try {
-      await submitLeadToFormspree({ name, phone, service, text, rating, city, source: "Review Modal", timestamp: new Date().toISOString() }, document.getElementById("review-form"));
+      await submitLead({ name, phone, service, text, rating, city, source: "Review Modal", timestamp: new Date().toISOString() }, document.getElementById("review-form"));
       if (submitBtn) hideButtonSpinner(submitBtn);
       document.getElementById("review-form").style.display = "none";
       document.getElementById("review-success").classList.add("active");
@@ -291,7 +291,7 @@ export function initExitIntentPopup() {
           <h2>Подождите, не уходите!</h2>
           <p class="exit-modal-promo">Получите гарантированную <span class="text-gradient">скидку 10%</span> на ваш первый заказ!</p>
           <p class="exit-modal-desc">Закрепите за своим номером скидку. Мы перезвоним, проконсультируем и зафиксируем спецтариф.</p>
-          <form id="exit-booking-form" class="exit-form">
+          <form id="exit-booking-form" class="exit-form" action="/api/submit-lead" method="post">
             <div class="form-group-custom">
               <input type="tel" id="exit-phone" placeholder="+7 (999) 000-00-00" required class="form-input-custom">
             </div>
@@ -334,6 +334,7 @@ export function initExitIntentPopup() {
   const successCloseBtn = document.getElementById("exit-success-close-btn");
   const exitForm = document.getElementById("exit-booking-form");
   const exitSuccessConfirm = document.getElementById("exit-success-confirm");
+  if (exitForm) preparePersonalDataForm(exitForm);
 
   function closeExitPopup() {
     exitPopupOverlay.classList.remove("active");
@@ -356,7 +357,7 @@ export function initExitIntentPopup() {
         return;
       }
       try {
-        await submitLeadToFormspree({ phone: phoneVal, service: "Скидка 10%", promo: "OFFER10", source: "Exit Intent Popup" }, exitForm);
+        await submitLead({ phone: phoneVal, service: "Скидка 10%", promo: "OFFER10", source: "Exit Intent Popup" }, exitForm);
         if (submitBtn) hideButtonSpinner(submitBtn);
         exitForm.style.display = "none";
         exitSuccessConfirm.classList.add("active");

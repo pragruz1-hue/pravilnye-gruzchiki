@@ -1,8 +1,22 @@
+
+## 2026-07-09 — RF privacy/compliance migration
+
+- Removed all unconditional Yandex.Metrika snippets and 345 noscript tracking pixels from baked HTML.
+- Analytics loads only after explicit opt-in; Webvisor and clickmap are disabled.
+- Added versioned cookie choice (180 days), permanent settings/withdrawal button and `cookies.html`.
+- Removed baked Formspree actions and unpkg client. JS prefers `/api/submit-lead`; while `/api/health` is unavailable it uses a temporary Formspree fallback only after a visible warning and separate checkbox.
+- Added separate form consent and separate review-publication consent with version/timestamp logging.
+- Replaced `server.js`: same-origin API, local NDJSON, 90-day cleanup, rate/body/origin controls, no Telegram/foreign forwarding.
+- Removed IP geolocation (`ipapi.co`) and switched to URL/saved explicit city selection.
+- Self-hosted Inter/Montserrat (18 WOFF2 files); removed Google Fonts requests.
+- Rewrote `privacy.html`; added `consent-personal-data.html` and `consent-review-publication.html`.
+- **Migration state:** current GitHub Pages cannot execute `/api/submit-lead`. Until RF deployment, forms use the explicitly disclosed Formspree fallback; this is temporary and must be removed after migration.
+
 # AGENT_HANDOFF — pravilnye-gruzchiki / pragruz.ru
 
-**Branch:** `arena/019f4786-pravilnye-gruzchiki`  
-**Date:** 2026-07-09  
-**Domain:** https://pragruz.ru  
+**Branch:** `arena/019f4786-pravilnye-gruzchiki`
+**Date:** 2026-07-09
+**Domain:** https://pragruz.ru
 **Session constraint:** work only on this branch; open PR only when user explicitly asks.
 
 This file is the handoff for the **next agent**. Read fully before editing.
@@ -69,7 +83,7 @@ Bring the multi-city static site **Правильные Грузчики** to pr
 | Blog interlinking | ✅ | New post `/blog/mezhdugorodnij-pereezd-iz-krasnodarskogo-kraya.html`; related boxes added to relevant blog posts; blog index card added |
 | Footer links | ✅ | `Междугородние переезды` added to baked footers and `partials/footer.html` |
 | YML feeds cleaned | ✅ | Deleted far-region feeds; left `feed.xml` and `feeds/feed-krasnodarskiy-krai.xml`; `feed.xml` no longer contains far-city offers/sets |
-| Yandex.Metrika validity | ✅ | Counter JS in `<head>`; `<noscript>` watch pixel moved after `<body>` on real HTML pages to satisfy Vite/parse5 |
+| Yandex.Metrika consent gate | ✅ | No static counter/pixel. Counter loads dynamically only after explicit analytics opt-in; Webvisor/clickmap disabled. |
 | Build-breaking invalid image syntax | ✅ | Fixed `<img ... / width=...>` → valid `<img ... width=...>` |
 | Thank-you page cleanup | ✅ | Rebuilt `thank-you.html` to remove duplicated footer/modal/floating buttons/scripts and duplicate `scrollTopBtn` |
 | Blog duplicate `<main>` cleanup | ✅ | Removed nested duplicate `<main>` wrappers from 5 legacy blog posts; structural check now reports 0 duplicate IDs and 0 duplicate `<main>` on real pages |
@@ -84,8 +98,8 @@ Bring the multi-city static site **Правильные Грузчики** to pr
 | Blog articles still load `main.js` | ✅ fixed | 7 posts → `js/app.js` + `css/style.css`; duplicate `</html>` removed |
 | BreadcrumbList not on all pages | ✅ mostly | City pages + many services got BreadcrumbList JSON-LD |
 | Real width/height on most `<img>` | ⚠️ | CLS still possible; CSS aspect-ratio helps cards |
-| Empty `alt=""` on Metrika pixel | OK leave | tracking pixel |
-| Cookie banner | ❌ not built | optional RU practice |
+| Metrika noscript pixel | ✅ removed | It bypassed consent. |
+| Cookie consent manager | ✅ | Dynamic on every real page; versioned choice, 180-day renewal, permanent settings button. |
 | YML feeds | ✅ | Far-region feeds deleted; left main `feed.xml` + `feeds/feed-krasnodarskiy-krai.xml` |
 | Custom favicon.ico / apple-touch | ✅ partial | `apple-touch-icon` → logo.png on pages; dedicated .ico still optional |
 | Duplicate slug soft-redirect | ✅ | `meta refresh` + canonical on `ofisnyj-pereezd` / `raznorabochie` (34 city pages) |
@@ -116,20 +130,20 @@ fix-site.js             idempotent one-off cleaner (dedupe review-modal,
                         rebuild broken <main> structure, unique FAQ, schema fixes)
 ```
 
-**City storage key:** `localStorage.selected_city`  
-**Event:** `document` → `cityChanged` `{ detail: { cityCode, data } }`  
-**Reviews DB:** `js/modules/reviews.js` → `REVIEWS_DB`  
-**Forms:** Formspree `https://formspree.io/f/xeebjwkn`  
+**City storage key:** `localStorage.selected_city`
+**Event:** `document` → `cityChanged` `{ detail: { cityCode, data } }`
+**Reviews DB:** `js/modules/reviews.js` → `REVIEWS_DB`
+**Forms:** RF `/api/submit-lead` preferred; disclosed Formspree fallback during migration
 **Phone:** `+7 (928) 333-32-81` / `tel:+79283333281`
 
 ---
 
 ## 4. Canonical / URL policy (current)
 
-1. **Root service pages** (`/loaders.html`, …) = primary for Krasnodar-default SEO.  
-2. **`/krasnodar/{service}.html`** for core services → canonical points to **root** (already).  
-3. **Indexed city folders now only Краснодарский край** (`krasnodar`, `anapa`, `novorossiysk`, `sochi`, `gelendzhik`). Far legacy folders are phased out with `noindex, follow` + meta refresh to `/mezhdugorodnie-pereezdy.html`.  
-4. **Distant cities in copy** should be used only as route destinations (e.g. “Анапа → Москва”), not as local филиалы.  
+1. **Root service pages** (`/loaders.html`, …) = primary for Krasnodar-default SEO.
+2. **`/krasnodar/{service}.html`** for core services → canonical points to **root** (already).
+3. **Indexed city folders now only Краснодарский край** (`krasnodar`, `anapa`, `novorossiysk`, `sochi`, `gelendzhik`). Far legacy folders are phased out with `noindex, follow` + meta refresh to `/mezhdugorodnie-pereezdy.html`.
+4. **Distant cities in copy** should be used only as route destinations (e.g. “Анапа → Москва”), not as local филиалы.
 5. **Duplicates (soft):**
    - `ofisnyj-pereezd.html` canonical → `office-moving.html` (same city)
    - `raznorabochie.html` canonical → `workers.html` (same city)
@@ -144,7 +158,7 @@ If host supports redirects (not pure GH-pages static), add 301 later.
 ### P0 — verify & ship hygiene
 1. **Revoke Telegram bot token** that was previously committed (see git history `server.js`). Confirm env-only deploy.
 2. Visual QA mobile **320 / 375 / 414** + desktop: hero, team photo, service cards, fleet, float call button vs form submit, city selector.
-3. Spot-check Formspree submit + thank-you redirect.
+3. Deploy on a server physically located in РФ; spot-check same-origin `/api/submit-lead` and local NDJSON storage.
 4. When user says **«делай PR»**: commit all, push `arena/019f4786-pravilnye-gruzchiki`, open PR → `main`.
 
 ### P1 — SEO / content depth
@@ -158,7 +172,7 @@ If host supports redirects (not pure GH-pages static), add 301 later.
 ### P2 — UX / a11y / perf
 11. Real `width`/`height` on content images (or consistent `aspect-ratio` utility classes).
 12. `favicon.ico` + `apple-touch-icon.png`.
-13. Cookie/consent banner if legal requires for Metrika (privacy page already exists).
+13. Cookie/consent completed: delayed Metrika, settings/withdrawal, cookie policy.
 14. `prefers-reduced-motion` already partially in patch — extend to marquees if needed.
 15. Consider self-host Montserrat/Inter for RU latency.
 
@@ -175,7 +189,7 @@ If host supports redirects (not pure GH-pages static), add 301 later.
 |------|--------|
 | **Secret in git history** | Token was in `server.js`; sanitizing file ≠ removing from history. Rotate token. |
 | **Static hosting & 301** | Canonical ≠ redirect; duplicates may still be crawled. |
-| **Formspree single endpoint** | All forms → one form id; rate limits / spam. |
+| **Lead endpoint migration** | RF endpoint preferred; temporary disclosed Formspree fallback remains until deployment. |
 | **Geotargeting overwrites `.city-address`** | Footer addresses set per city folder; JS may still swap on city change on root pages. |
 | **No build.js anymore** | `build.js` was removed — its `buildCityPage()` was the source of `<main>` accumulation and review-modal duplication across re-builds. Pages are now self-contained baked HTML. `partials/` are reference only; editing them does NOT propagate (edit baked HTML directly, or re-run `fix-site.js` patterns). |
 | **main.js legacy file** | `main.js` still exists but real pages checked now use `js/app.js`; avoid reintroducing legacy stack. |
@@ -200,7 +214,7 @@ rg -l 'Для бизнеса' --glob '*.html' | wc -l
 rg -c '<loc>' sitemap.xml
 
 # Secrets
-rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
+rg -n 'formspree|api\.telegram|ipapi\.co' server.js js || echo OK
 ```
 
 ---
@@ -213,7 +227,7 @@ rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
 | `js/modules/geotargeting.js` | Cities, `selected_city`, `cityChanged` |
 | `js/modules/reviews.js` | Reviews DB + render |
 | `partials/footer.html` | Footer source |
-| `partials/modals.html` | Order/review modals + Formspree |
+| `partials/modals.html` | Order/review modals + same-origin forms |
 | `css/06-responsive.css` | Mobile layout / images / floats |
 | `css/07-project-patch.css` | Logo polish + mobile safety + reduced-motion |
 | `css/03-sections.css` | Hero, services, fleet, footer, reviews |
@@ -236,19 +250,19 @@ rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
 
 ## 10. Suggested first message for next agent
 
-> Продолжи с `AGENT_HANDOFF.md`. Сначала mobile QA + revoke-token reminder. Затем P1 unique city content по Краснодарскому краю и проверка Formspree. PR не открывать, пока пользователь не скажет.
+> Продолжи с `AGENT_HANDOFF.md`. Сначала проверь перенос production с GitHub Pages на российский VPS: формы требуют same-origin `/api/submit-lead`. PR не открывать, пока пользователь не скажет.
 
 ---
 
 ## 11. Diff summary (high level)
 
-- Hundreds of HTML files: footers, meta, assets paths, skip-links, buttons, canonicals, social, privacy links  
-- `js/app.js` — reviews  
-- `css/02|03|06|07` — logo + mobile + sections  
-- `server.js` — token scrub  
-- `sitemap.xml`, `robots.txt` — crawl  
-- New: `privacy.html`, `404.html`, `AGENT_HANDOFF.md`  
-- Removed: junk TXT  
+- Hundreds of HTML files: footers, meta, assets paths, skip-links, buttons, canonicals, social, privacy links
+- `js/app.js` — reviews
+- `css/02|03|06|07` — logo + mobile + sections
+- `server.js` — token scrub
+- `sitemap.xml`, `robots.txt` — crawl
+- New: `privacy.html`, `404.html`, `AGENT_HANDOFF.md`
+- Removed: junk TXT
 
 ---
 
@@ -263,7 +277,7 @@ rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
 | **Broken HTML in contacts section** | ✅ | Fixed unclosed `<p>` tag before nested `<div>` in index.html contacts |
 | **Empty hero feature icon** | ✅ | Added missing emoji 📄 to "Работа с юрлицами" feature |
 | **Broken `extended_gazelle` file** | ✅ | Deleted 1-byte junk file from `/assets/` |
-| **Cookie consent banner** | ✅ | Added to `partials/floating-buttons.html` (all pages) + index.html; JS logic (`initCookieBanner`) with localStorage persistence; stops Metrika if declined |
+| **Cookie consent manager** | ✅ | UI создаётся из JS на всех страницах; Метрика не загружается до opt-in; постоянные настройки и отзыв. |
 | **Form submission spinners** | ✅ | `showButtonSpinner`/`hideButtonSpinner` in forms.js; added to modal form, main form, review form, exit-intent form |
 | **aspect-ratio CSS вместо width/height на 350+ страницах** | ✅ | CSS `aspect-ratio` rules для `.service-image-box` (16/10), `.fleet-img-box` (3/2), `.pg-team-photo-wrapper` (3/1), `.review-avatar-img` — применяется ко всем 350+ страницам без правки HTML |
 | **SVG favicon** | ✅ | Uses `assets/favicon.svg` (ПГ logo) + PNG fallback |
@@ -274,14 +288,14 @@ rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
 
 ### Fixed files
 
-- `index.html` — fonts, favicon, cookie banner, fixed HTML, aspect-ratio removed width/height, spinner
+- `index.html` — local fonts, dynamic consent UI, same-origin forms, spinner
 - `css/00-fonts.css` — **NEW** self-hosted fonts with `@font-face` + local path comments
 - `css/style.css` — imports 00-fonts.css
 - `css/07-project-patch.css` — cookie banner, spinner, aspect-ratio, mobile improvements
-- `js/modules/forms.js` — cookie banner, button spinner, showToast improvements
+- `js/modules/forms.js` — consent-gated Metrika, separate PD consent, same-origin lead submit, spinner/toasts
 - `js/modules/modals.js` — spinner on all form submissions
-- `js/app.js` — import initCookieBanner (moved before Metrika)
-- `partials/floating-buttons.html` — cookie banner with correct classes
+- `js/app.js` — initializes consent manager before the rest of the UI
+- `partials/floating-buttons.html` — floating controls; consent UI is injected centrally
 - `manifest.json` — **NEW** PWA manifest
 - `assets/extended_gazelle` — **DELETED** (1-byte junk)
 - `assets/logo.png` — **COMPRESSED** 1070KB → 76KB
@@ -305,7 +319,7 @@ rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
 | Item | Status | Notes |
 |------|--------|-------|
 | **Dedup review-modal** | ✅ | Removed from all service pages (root + city). Left ONLY on 18 index pages (root + 17 cities) where the `open-review-btn` trigger exists. Elsewhere it was unreachable dead code. |
-| **Rebuild broken city service HTML** | ✅ | 306 city service pages: was up to 6× `<main>`, duplicated scripts/modals, stray `</div>` (-22 imbalance). Now 1× `<main id="main">`, 1× header, footer OUTSIDE main, 1× order-modal/app.js/formspree. |
+| **Rebuild broken city service HTML** | ✅ | 306 city service pages: 1× `<main id="main">`, 1× header, footer outside main, 1× order-modal/app.js/same-origin form endpoint. |
 | **AI phrase removed** | ✅ | "Не стали создавать отдельные однотипные страницы…" → neutral phrasing in 18 `loaders.html`. |
 | **Unique FAQ per city×service** | ✅ | 336 pages: HTML accordion + `FAQPage` JSON-LD **synchronized** (0 mismatches). Two markups supported: `.faq-accordion-box` and details (`u-style-075`). Districts/delivery/local specifics per city. |
 | **Schema fixes** | ✅ | `LocalBusiness.url` → `/{city}/{service}.html`; `keywords "грузчики краснодар"` → actual city. |

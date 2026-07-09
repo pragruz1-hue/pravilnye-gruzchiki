@@ -1,127 +1,38 @@
-# Настройка отправки писем на info@pragruz.ru
+# Уведомления о новых заявках без трансграничной передачи
 
-## Текущее состояние
+## Текущее безопасное поведение
 
-- ✅ Форма отправляет данные на backend сервер
-- ✅ Сервер логирует все заявки в файл `leads_emails.log`
-- ✅ Заявки отправляются в Telegram
-- ⚠️ Письма НЕ отправляются на почту (требует настройки SMTP)
+`server.js` сохраняет заявки локально в `leads.ndjson` на сервере, который должен физически находиться в РФ. Автоматическая отправка в Telegram, Formspree, Gmail и SendGrid отключена.
 
-## Как включить отправку писем на почту
+Это сделано намеренно: подключение иностранного мессенджера, SMTP или webhook сразу после получения формы создаёт трансграничную передачу персональных данных.
 
-### Вариант 1: Использовать Nodemailer + Gmail (Рекомендуется для локального тестирования)
+## Как сотрудники получают заявки
 
-1. Установите `nodemailer`:
+Базовый вариант — доступ ответственного сотрудника к российскому серверу по SSH и чтение файла:
 
 ```bash
-npm install nodemailer
+sudo -u pragruz tail -f /var/lib/pragruz/leads.ndjson
 ```
 
-2. Обновите `server.js`, добавив в начало файла после импортов:
+Доступ к каталогу должен быть ограничен. Не отправляйте файл заявок в публичные чаты и зарубежные облака.
 
-```javascript
-const nodemailer = require("nodemailer");
+## Допустимое уведомление по почте
 
-// Создайте транспортер для отправки писем через Gmail
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "your-email@gmail.com", // Ваш Gmail адрес
-    pass: "your-app-password", // Пароль приложения (см. ниже)
-  },
-});
-```
+Если нужны письма, сначала выберите почтового провайдера и SMTP-сервер, которые:
 
-3. Получите пароль приложения для Gmail:
-   - Откройте https://myaccount.google.com/apppasswords
-   - Выберите "Mail" и "Windows Computer"
-   - Скопируйте 16-символьный пароль
-   - Вставьте его в `your-app-password` выше
+1. физически обрабатывают и хранят данные в РФ;
+2. предоставляют договор/поручение на обработку персональных данных;
+3. подтверждают сроки хранения и порядок удаления;
+4. не пересылают письма через зарубежных субпроцессоров.
 
-4. Найдите функцию `logLeadToEmail` в `server.js` и замените её на:
+После юридической и инфраструктурной проверки можно добавить SMTP-уведомление. До этого персональные данные должны оставаться только в локальном хранилище российского сервера.
 
-```javascript
-async function logLeadToEmail(leadData) {
-  try {
-    const logPath = path.join(__dirname, "leads_emails.log");
-    const entry = {
-      timestamp: new Date().toISOString(),
-      ...leadData,
-    };
-    fs.appendFileSync(logPath, JSON.stringify(entry) + "\n", {
-      encoding: "utf8",
-    });
+## Срок хранения
 
-    // Send email
-    const emailBody = formatEmailBody(leadData);
-    const mailOptions = {
-      from: "your-email@gmail.com",
-      to: "info@pragruz.ru",
-      subject: `Новая заявка - ${leadData.source}`,
-      text: emailBody,
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log("✓ Email sent to info@pragruz.ru");
-    return true;
-  } catch (err) {
-    console.error("Failed to send email:", err);
-    return true; // Still return true so form works even if email fails
-  }
-}
-```
-
-### Вариант 2: Использовать SendGrid (Для production)
-
-1. Зарегистрируйтесь на https://sendgrid.com
-2. Получите API ключ
-3. Установите sendgrid:
+По умолчанию заявки удаляются через 90 дней. Срок можно изменить переменной:
 
 ```bash
-npm install @sendgrid/mail
+LEAD_RETENTION_DAYS=90
 ```
 
-4. Обновите функцию отправки писем (аналогично вышеприведённому варианту)
-
-### Вариант 3: Встроенный `sendmail` (Linux/Mac)
-
-Если у вас Linux или Mac, можно использовать встроенный `sendmail`.
-
-## Проверка работы
-
-1. Запустите сервер:
-
-```bash
-node server.js
-```
-
-2. Заполните форму на сайте
-3. Проверьте:
-   - Наличие файла `leads_emails.log` с записью
-   - Сообщение в Telegram
-   - Письмо на почту (если настроили)
-
-## Файл логов
-
-Все заявки записываются в `leads_emails.log` в JSON формате:
-
-```json
-{
-  "timestamp": "2026-06-21T10:30:00.000Z",
-  "name": "Иван Иванов",
-  "phone": "+7(999)123-45-67",
-  "service": "Грузчики на склад / разгрузку",
-  "comment": "Нужно 2 грузчика",
-  "source": "Main Form"
-}
-```
-
-## Контакты для помощи
-
-Если возникли вопросы по настройке SMTP, обратитесь к документации:
-
-- Gmail: https://support.google.com/accounts/answer/185833
-- Nodemailer: https://nodemailer.com
-- SendGrid: https://sendgrid.com/docs
+Изменение срока должно соответствовать утверждённой политике обработки персональных данных и внутреннему регламенту оператора.

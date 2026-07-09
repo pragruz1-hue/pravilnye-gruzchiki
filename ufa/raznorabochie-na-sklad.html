@@ -1,21 +1,6 @@
 <!doctype html>
 <html lang="ru">
   <head>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    if (window.location.protocol === "http:" || window.location.protocol === "https:") {
-        (function(m,e,t,r,i,k,a){
-            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();
-            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110161606', 'ym');
-
-        ym(110161606, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-    }
-</script>
-<!-- /Yandex.Metrika counter -->
-
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex, follow" />
@@ -24,12 +9,6 @@
 <link rel="icon" type="image/x-icon" href="../assets/logo.png" />
 <link rel="apple-touch-icon" href="../assets/logo.png" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800&display=swap"
-  rel="stylesheet"
-/>
 
 <!-- Preload critical assets -->
 <link rel="preload" as="style" href="../css/style.css">
@@ -131,8 +110,6 @@
   </head>
 
 <body data-page="workers_warehouse">
-<noscript><div><img class="u-style-001" src="https://mc.yandex.ru/watch/110161606" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-
 <a class="skip-link" href="#main">К содержанию</a>
 <header class="main-header" id="site-header">
   <div class="container header-container">
@@ -224,7 +201,7 @@
                 >
                 <h3>Заказ услуг онлайн</h3>
               </div>
-              <form class="hero-quick-form" id="hero-quick-form" action="https://formspree.io/f/xeebjwkn" method="POST">
+              <form class="hero-quick-form" id="hero-quick-form" action="about:blank" method="POST">
                 <div class="form-hp-field" aria-hidden="true">
                   <label>Не заполняйте это поле</label>
                   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
@@ -258,7 +235,7 @@
                   Перезвоните мне через 5 минут
                 </button>
                 <p class="u-style-023">
-                  Нажимая кнопку, вы соглашаетесь на <a href="../privacy.html">обработку персональных данных</a>.
+                  Перед отправкой потребуется отдельное согласие на <a href="../consent-personal-data.html">обработку персональных данных</a>.
                 </p>
               </form>
             </div>
@@ -889,7 +866,7 @@
               </div>
 
               <!-- THE MAIN BOOKING FORM -->
-              <form id="main-booking-form" class="main-form" action="https://formspree.io/f/xeebjwkn" method="POST">
+              <form id="main-booking-form" class="main-form" action="about:blank" method="POST">
 
                 <div class="form-row">
           <div class="form-hp-field" aria-hidden="true">
@@ -963,10 +940,7 @@
                 >
                   Отправить заявку
                 </button>
-                <p class="form-privacy-note">
-                  Нажимая кнопку, вы соглашаетесь с Политикой обработки
-                  <a href="../privacy.html">персональных данных</a>.
-                </p>
+                <p class="form-privacy-note">Условия обработки описаны в <a href="../privacy.html">политике персональных данных</a>. Отдельное согласие запрашивается перед отправкой.</p>
               </form>
 
               <!-- Success Confirmation Screen -->
@@ -1139,7 +1113,7 @@
       <h3>Оформление заказа</h3>
       <p id="modal-subtitle">Вы заказываете: <strong id="modal-service-name">Грузчики</strong></p>
     </div>
-    <form id="modal-booking-form" action="https://formspree.io/f/xeebjwkn" method="POST">
+    <form id="modal-booking-form" action="about:blank" method="POST">
       <input type="hidden" name="_next" value="https://pragruz.ru/thank-you.html" />
       <div class="form-hp-field" aria-hidden="true">
         <label>Не заполняйте это поле</label>
@@ -1187,7 +1161,6 @@
   </svg>
 </button>
 <!-- ===== СКРИПТЫ ПОДКЛЮЧЕНИЯ ===== -->
-<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 <script type="module" src="../js/app.js"></script>
 <script>localStorage.setItem("selected_city", "ufa"); localStorage.setItem("city_confirmed", "true");</script>
 
