@@ -379,40 +379,50 @@ export async function detectUserCity() {
  * Initialize city selector UI and geo-targeting
  */
 export async function initGeotargeting() {
-  const { cityCode, isConfirmed } = await detectUserCity();
-  renderCity(cityCode);
-
   const cityConfirmBanner = document.getElementById("city-confirm-banner");
-  const wasConfirmed = localStorage.getItem("city_confirmed") === "true";
-  if (!wasConfirmed && !isConfirmed && cityConfirmBanner) {
-    const detectedCityName = document.getElementById("detected-city-name");
-    if (detectedCityName) detectedCityName.textContent = CITIES_DATA[cityCode].name;
-    setTimeout(() => cityConfirmBanner.classList.add("active"), 1200);
-  }
-
-  // Event bindings
   const cityBtn = document.getElementById("current-selected-city");
   const cityDropdown = document.getElementById("city-dropdown-menu");
   const btnYes = document.getElementById("btn-city-confirm-yes");
   const btnNo = document.getElementById("btn-city-confirm-no");
+  let userSelectedCity = false;
+
+  const setCityDropdownOpen = (isOpen) => {
+    if (!cityDropdown) return;
+    cityDropdown.classList.toggle("active", isOpen);
+    cityDropdown.setAttribute("aria-hidden", String(!isOpen));
+    if (cityBtn) cityBtn.setAttribute("aria-expanded", String(isOpen));
+  };
+
+  // Bind the selector before the optional IP lookup finishes, so the city list
+  // responds immediately even on a slow connection.
+  setCityDropdownOpen(false);
 
   if (cityBtn && cityDropdown) {
     cityBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      cityDropdown.classList.toggle("active");
+      setCityDropdownOpen(!cityDropdown.classList.contains("active"));
       if (cityConfirmBanner) cityConfirmBanner.classList.remove("active");
     });
   }
 
   document.addEventListener("click", () => {
-    if (cityDropdown) cityDropdown.classList.remove("active");
+    setCityDropdownOpen(false);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && cityDropdown?.classList.contains("active")) {
+      setCityDropdownOpen(false);
+      cityBtn?.focus();
+    }
   });
 
   document.querySelectorAll(".city-item").forEach((item) => {
     item.addEventListener("click", () => {
       const code = item.getAttribute("data-city");
       if (code && CITIES_DATA[code]) {
+        userSelectedCity = true;
         localStorage.setItem("city_confirmed", "true");
+        setCityDropdownOpen(false);
         renderCity(code, { navigate: true });
         if (cityConfirmBanner) cityConfirmBanner.classList.remove("active");
       }
@@ -425,11 +435,24 @@ export async function initGeotargeting() {
       if (cityConfirmBanner) cityConfirmBanner.classList.remove("active");
     });
   }
+
   if (btnNo) {
     btnNo.addEventListener("click", (e) => {
       e.stopPropagation();
       if (cityConfirmBanner) cityConfirmBanner.classList.remove("active");
-      if (cityDropdown) cityDropdown.classList.add("active");
+      setCityDropdownOpen(true);
     });
+  }
+
+  const { cityCode, isConfirmed } = await detectUserCity();
+  if (userSelectedCity) return;
+
+  renderCity(cityCode);
+
+  const wasConfirmed = localStorage.getItem("city_confirmed") === "true";
+  if (!wasConfirmed && !isConfirmed && cityConfirmBanner) {
+    const detectedCityName = document.getElementById("detected-city-name");
+    if (detectedCityName) detectedCityName.textContent = CITIES_DATA[cityCode].name;
+    setTimeout(() => cityConfirmBanner.classList.add("active"), 1200);
   }
 }

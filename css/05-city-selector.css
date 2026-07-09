@@ -48,6 +48,11 @@
   transform: translateY(1px);
 }
 
+.city-selector-btn[aria-expanded="true"] .city-selector-arrow {
+  color: var(--primary);
+  transform: rotate(180deg);
+}
+
 .city-dropdown {
   position: absolute;
   top: calc(100% + 12px);
@@ -59,6 +64,7 @@
   width: 240px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transform: translateY(-10px);
   transition: var(--transition-smooth);
@@ -67,6 +73,7 @@
 
 .city-dropdown.active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
 }

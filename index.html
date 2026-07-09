@@ -46,11 +46,27 @@
         </nav>
         <div class="header-right">
           <div class="city-selector-wrap">
-            <button class="city-selector-btn" type="button" id="current-selected-city" aria-label="Выбрать город">
+            <button class="city-selector-btn" type="button" id="current-selected-city" aria-label="Выбрать город" aria-haspopup="true" aria-expanded="false" aria-controls="city-dropdown-menu">
               <span class="city-icon-pin">📍</span>
               <span class="city-selector-current" id="city-btn-text">Краснодар</span>
               <span class="city-selector-arrow">▼</span>
             </button>
+            <div class="city-dropdown" id="city-dropdown-menu" aria-hidden="true">
+              <div class="city-dropdown-list">
+                <button type="button" class="city-item" data-city="krasnodar">Краснодар</button>
+                <button type="button" class="city-item" data-city="anapa">Анапа</button>
+                <button type="button" class="city-item" data-city="novorossiysk">Новороссийск</button>
+                <button type="button" class="city-item" data-city="sochi">Сочи / Адлер / Сириус</button>
+                <button type="button" class="city-item" data-city="gelendzhik">Геленджик</button>
+              </div>
+            </div>
+            <div class="city-confirm-banner" id="city-confirm-banner">
+              <p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p>
+              <div class="city-confirm-btns">
+                <button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button>
+              </div>
+            </div>
           </div>
           <div class="header-phone-box">
             <a href="tel:+79283333281" class="phone-link">+7 (928) 333-32-81</a>
@@ -141,7 +157,7 @@
             <div class="premium-card hero-glass-card">
               <div class="card-glow"></div>
               <div class="visual-header">
-                <span class="visual-status"><span class="pulse-dot"></span> Принимаем заявки сейчас</span>
+                <span class="visual-status" data-application-status aria-live="polite"><span class="pulse-dot"></span><span data-application-status-text>Принимаем заявки сейчас</span></span>
                 <h3>Быстрый расчёт за 2 минуты</h3>
               </div>
               <form class="hero-quick-form" action="#" method="get" onsubmit="return false;">

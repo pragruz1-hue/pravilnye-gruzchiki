@@ -118,6 +118,21 @@
   animation: pulse 1.8s infinite;
 }
 
+.visual-status[data-application-status] {
+  line-height: 1.35;
+}
+
+.visual-status[data-application-status].is-closed {
+  color: #ffad66;
+  background-color: rgba(255, 115, 0, 0.08);
+  border-color: rgba(255, 115, 0, 0.2);
+}
+
+.visual-status[data-application-status].is-closed .pulse-dot {
+  background-color: currentcolor;
+  animation: none;
+}
+
 #active-workers-count {
   display: inline-block;
   transition:
