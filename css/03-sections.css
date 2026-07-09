@@ -578,12 +578,25 @@
   display: flex;
   gap: 24px;
   width: max-content;
-  animation: reviewsScroll 35s linear infinite;
+  --reviews-count: 10;
+  animation: reviewsScroll 50s linear infinite;
   padding-left: 20px;
 }
 
 .reviews-carousel-track:hover {
   animation-play-state: paused;
+}
+
+.review-service-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 115, 0, 0.1);
+  color: #ffc48a;
+  margin-bottom: 8px;
+  width: fit-content;
 }
 
 .review-card {
@@ -690,7 +703,10 @@
 
 @keyframes reviewsScroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-350px * 4 - 24px * 4)); }
+  /* Сдвиг ровно на половину трека (уникальные карточки): card 350 + gap 24 */
+  100% {
+    transform: translateX(calc(-1 * var(--reviews-count, 10) * (350px + 24px)));
+  }
 }
 
 /* ===== АУТСОРСИНГ ===== */
