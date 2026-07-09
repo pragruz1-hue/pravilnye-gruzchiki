@@ -162,22 +162,44 @@ export function getCityPageRedirect(cityCode) {
   const lastSegment = segments[segments.length - 1] || "";
   const isDirectoryUrl = path.endsWith("/");
 
+  // Краснодар = корень сайта (/), отдельной главной /krasnodar/ нет
+  const cityHome = (code) => (code === "krasnodar" ? "../index.html" : `../${code}/index.html`);
+  const cityHomeFromRoot = (code) => (code === "krasnodar" ? "index.html" : `${code}/index.html`);
+
   if (cityIndex !== -1) {
     const currentCity = segments[cityIndex];
-    if (currentCity === cityCode) return null;
     const tail = segments.slice(cityIndex + 1).join("/");
-    if (!tail || tail === "index.html" || isDirectoryUrl) {
-      return `../${cityCode}/index.html`;
+    const isCityHome = !tail || tail === "index.html" || (isDirectoryUrl && segments.length === cityIndex + 1);
+
+    // На /krasnodar/ (старый URL) — всегда уводим на корень, если выбран Краснодар
+    if (currentCity === "krasnodar" && isCityHome) {
+      return cityCode === "krasnodar" ? "../index.html" : cityHome(cityCode);
+    }
+
+    if (currentCity === cityCode) return null;
+
+    if (isCityHome) {
+      return cityHome(cityCode);
+    }
+    // Сервисные страницы города: krasnodar/loaders.html и т.п. — оставляем
+    if (cityCode === "krasnodar") {
+      // для Краснодара сервисные могут жить в /krasnodar/*.html или в корне — сохраняем tail в папке krasnodar
+      return `../krasnodar/${tail}`;
     }
     return `../${cityCode}/${tail}`;
   }
 
+  // Мы на корне или корневой услуге
   if (cityServiceFiles.includes(lastSegment)) {
+    // корневые услуги: при смене города уходим в city/service
+    if (cityCode === "krasnodar") return null; // остаёмся на корневой услуге / донастроим при необходимости
     return `${cityCode}/${lastSegment}`;
   }
 
   if (!lastSegment || lastSegment === "index.html") {
-    return `${cityCode}/index.html`;
+    // главная /
+    if (cityCode === "krasnodar") return null;
+    return cityHomeFromRoot(cityCode);
   }
 
   return null;

@@ -4,17 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#07090e" />
-    
-    <title>Правильные Грузчики Краснодар | Грузчики и переезды</title>
-    <link rel="canonical" href="https://pragruz.ru/" />
-    <meta name="description" content="Грузчики и переезды в Краснодаре: квартирные и офисные переезды, разгрузка, такелаж. Звонки 8:00–20:00, работы 24/7. Выезд от 30 минут." />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Правильные Грузчики Краснодар · PREVIEW редизайна v8</title>
+    <meta name="description" content="Превью редизайна главной. Не боевая страница." />
     <link rel="icon" type="image/png" href="assets/logo.png" />
     <link rel="preload" as="style" href="css/style.css" />
-    <link rel="stylesheet" href="css/11-homepage-redesign.css" />
     <link rel="stylesheet" href="css/style.css" />
-    </head>
-  <body data-page="index" data-city="krasnodar">
-<div style="display:flex;gap:8px;flex-wrap:wrap">
+    <link rel="stylesheet" href="css/11-homepage-redesign.css" />
+    <style>
+      .preview-ribbon{position:sticky;top:0;z-index:2000;background:linear-gradient(90deg,#1a1208,#2a1800 40%,#1a1208);border-bottom:1px solid rgba(255,115,0,.4);color:#ffd9b0;font-size:13px;padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+      .preview-ribbon strong{color:#fff}.preview-ribbon a{display:inline-flex;padding:6px 12px;border-radius:8px;background:var(--primary);color:#fff;font-weight:700;font-size:12px;font-family:var(--font-title)}.preview-ribbon a.ghost{background:#334155}
+      body.preview-mode .main-header{top:42px}@media(max-width:640px){body.preview-mode .main-header{top:64px}}
+      .ideas-panel{margin:0 auto;max-width:1240px;padding:0 20px 40px}.ideas-panel-inner{border:1px dashed rgba(255,115,0,.35);background:rgba(255,115,0,.05);border-radius:16px;padding:20px 22px;color:#ffd9b0;font-size:14px;line-height:1.55}.ideas-panel-inner h3{color:#fff;font-size:1.05rem;margin-bottom:10px}.ideas-panel-inner ol{margin:0;padding-left:18px}.ideas-panel-inner li{margin-bottom:6px}
+    </style>
+  </head>
+  <body data-page="index" class="preview-mode">
+    <div class="preview-ribbon">
+      <div>
+        <strong>PREVIEW ETALON</strong> — ЭТАЛОН · reviews 10×2 + pause · city pages sync. Боевой <code style="color:#fff">index.html</code> не изменён.
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
         <a href="REDESIGN_HOMEPAGE_MOCKUP.md">Тексты (MD)</a>
         <a class="ghost" href="index.html">Текущая главная</a>
       </div>
@@ -27,7 +36,7 @@
 
     <header class="main-header" id="site-header">
       <div class="container header-container">
-        <a href="index.html" class="logo-area">
+        <a href="preview-homepage-redesign.html" class="logo-area">
           <img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64" />
           <div class="logo-text">
             <span class="logo-title">ПРАВИЛЬНЫЕ</span>
@@ -97,7 +106,10 @@
               — аккуратно, быстро, без лишних хлопот
             </h1>
             <p class="hero-subtitle">
-              Квартирные и офисные переезды, погрузка и разгрузка, такелаж, сборка мебели. Звонки с 8:00 до 20:00. Исполнители работают 24/7 — днём и ночью. Работаем с физлицами и организациями.
+              Квартирные и офисные переезды, погрузка и разгрузка, такелаж,
+              сборка мебели и междугородние маршруты из Краснодарского края.
+              Звонки принимаем с 8:00 до 20:00. Исполнители работают 24/7 — днём и ночью.
+              Работаем с физлицами и организациями.
             </p>
             <div class="hero-cta-group">
               <a href="#calculator" class="btn btn-primary btn-lg">Рассчитать стоимость</a>
@@ -659,7 +671,9 @@
           </div>
           <div class="reviews-footer-block">
             <p class="reviews-stat">
-              Более <strong>2 847</strong> выполненных заказов в Краснодаре и по краю</p>
+              Более <strong>2 847</strong> выполненных заказов в Краснодаре,
+              крае и на междугородних маршрутах
+            </p>
             <button type="button" id="open-review-btn" class="btn btn-primary review-cta-btn">
               <svg class="u-style-021" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -1048,12 +1062,14 @@
         <div class="container">
           <div class="section-header text-center">
             <span class="sub-title-gradient">География</span>
-            <h2 class="section-title">Работаем в Краснодаре и по городам края</h2>
-            <p class="section-desc">Нажмите на город — откроется, что делаем и как заказать.</p>
+            <h2 class="section-title">Работаем по Краснодару и городам края</h2>
+            <p class="section-desc">
+              Нажмите на город — откроется, что именно делаем и как быстро выезжаем.
+            </p>
           </div>
           <div class="geo-premium-grid">
             <button type="button" class="premium-card geo-premium-card" data-geo-modal="krasnodar">
-              <span class="geo-premium-pin" aria-hidden="true">📍</span>
+<span class="geo-premium-pin" aria-hidden="true">📍</span>
               <strong>Краснодар</strong>
               <span class="geo-premium-meta">от 30 минут</span>
               <span class="geo-premium-more">Подробнее →</span>
@@ -1085,8 +1101,8 @@
           </div>
           <div class="geo-premium-note">
             <div>
-              <strong>Основная зона — Краснодарский край</strong>
-              <p>Локальная подача в Краснодаре. Междугородние маршруты — по отдельному расчёту.</p>
+              <strong>Основная зона</strong>
+              <p>Краснодар и города края. Междугородние маршруты — по отдельному расчёту.</p>
             </div>
             <a href="#order-form-section" class="btn btn-secondary btn-sm">Уточнить по адресу</a>
           </div>
@@ -1101,48 +1117,95 @@
             <div class="krd-seo-head-text">
               <span class="sub-title-gradient">Локальный сервис</span>
               <h2 class="section-title">Грузчики в Краснодаре — по районам, с учётом пробок и парковки</h2>
-              <p class="section-desc krd-seo-lead">Не «просто выезд по городу», а подача с пониманием локации: центр и спальники, новостройки, Яблоновский и Новая Адыгея.</p>
+              <p class="section-desc krd-seo-lead">
+                Не «просто выезд по городу», а подача с пониманием локации:
+                центр и спальники, новостройки, Яблоновский и Новая Адыгея.
+                Ниже — как это устроено на практике.
+              </p>
             </div>
             <div class="krd-seo-metrics">
-              <div class="krd-metric"><strong>от 30 мин</strong><span>ориентир по городу*</span></div>
-              <div class="krd-metric"><strong>24/7</strong><span>работы исполнителей</span></div>
-              <div class="krd-metric"><strong>8–20</strong><span>звонки менеджера</span></div>
+              <div class="krd-metric">
+                <strong>от 30 мин</strong>
+                <span>подача по городу</span>
+              </div>
+              <div class="krd-metric">
+                <strong>24/7</strong>
+                <span>работы исполнителей</span>
+              </div>
+              <div class="krd-metric">
+                <strong>8–20</strong>
+                <span>звонки менеджера</span>
+              </div>
             </div>
           </div>
-          <div class="krd-district-strip" aria-label="Районы">
-            <div class="krd-district-label">Районы и направления · Краснодар</div>
-            <div class="krd-district-track"><span>Центр</span><span>ЦМР</span><span>ЧМР</span><span>ФМР</span><span>ЮМР</span><span>ГМР</span><span>КМР</span><span>СМР</span><span>Энка</span><span>ККБ</span><span>Метальникова</span><span>Музыкальный</span><span>Пашковский</span><span>Фестивальный</span><span>Юбилейный</span><span>Гидрострой</span><span>Восточно-Кругликовский</span></div>
+
+          <!-- District strip -->
+          <div class="krd-district-strip" aria-label="Районы Краснодара">
+            <div class="krd-district-label">Районы и микрорайоны</div>
+            <div class="krd-district-track">
+              <span>Центр</span><span>ЦМР</span><span>ЧМР</span><span>ФМР</span><span>ЮМР</span>
+              <span>ГМР</span><span>КМР</span><span>СМР</span><span>Энка</span><span>ККБ</span>
+              <span>Метальникова</span><span>Музыкальный</span><span>Пашковский</span>
+              <span>Фестивальный</span><span>Юбилейный</span><span>Гидрострой</span>
+              <span>Восточно-Кругликовский</span>
+            </div>
           </div>
+
           <div class="krd-bento">
             <article class="premium-card krd-bento-card krd-bento-main">
               <div class="krd-bento-icon" aria-hidden="true">🛣</div>
               <span class="krd-seo-kicker">Дороги и сроки</span>
               <h3>Подача с запасом под краснодарские пробки</h3>
-              <p>В час пик «встают» Красная, Северная, Российская, кольцо Лукьяненко, выезды на Ростовское шоссе и М4. Закладываем время на бригаду и Газель — особенно при переезде «дверь-в-дверь» и разгрузке в центре.</p>
-              <ul class="krd-bento-points"><li>Срочный выезд по городу — <strong>от 30 минут</strong></li><li>Точное окно — после адреса, этажа и загрузки смены</li><li>Учитываем парковку у подъезда и пропуск в ЖК</li></ul>
+              <p>
+                В час пик «встают» Красная, Северная, Российская, кольцо Лукьяненко,
+                выезды на Ростовское шоссе и М4. Мы закладываем время на бригаду и Газель —
+                особенно при переезде «дверь-в-дверь» и разгрузке в центре.
+              </p>
+              <ul class="krd-bento-points">
+                <li>Срочный выезд по городу — <strong>от 30 минут</strong></li>
+                <li>Точное окно — после адреса, этажа и загрузки смены</li>
+                <li>Учитываем парковку у подъезда и пропуск в ЖК</li>
+              </ul>
             </article>
+
             <article class="premium-card krd-bento-card">
               <div class="krd-bento-icon" aria-hidden="true">🏢</div>
               <span class="krd-seo-kicker">Новостройки</span>
               <h3>Лифт, этаж, двор</h3>
-              <p>В ЖК заранее уточняем грузовой лифт, габариты кабины, расстояние от парковки и правила въезда. Это влияет на время и цену.</p>
+              <p>
+                В ЖК заранее уточняем грузовой лифт, габариты кабины,
+                расстояние от парковки и правила въезда. Это влияет на время и цену.
+              </p>
             </article>
+
             <article class="premium-card krd-bento-card">
               <div class="krd-bento-icon" aria-hidden="true">🌉</div>
-              <span class="krd-seo-kicker">Пригород</span>
+              <span class="krd-seo-kicker">Пригород и Адыгея</span>
               <h3>За Краснодаром</h3>
-              <p>Яблоновский, Новая Адыгея, Знаменский, Индустриальный, Елизаветинская. Время и стоимость — от адреса и пробок на мостах и выездах.</p>
+              <p>
+                Яблоновский, Новая Адыгея, Знаменский, Индустриальный, Елизаветинская.
+                Время и стоимость — от адреса и пробок на мостах и выездах.
+              </p>
             </article>
+
             <article class="premium-card krd-bento-card krd-bento-tasks">
               <div class="krd-bento-icon" aria-hidden="true">📦</div>
               <span class="krd-seo-kicker">Частые заказы</span>
               <h3>Что заказывают в Краснодаре</h3>
-              <div class="krd-task-grid"><div class="krd-task"><span>01</span>Квартирный переезд 1–2 комнаты</div><div class="krd-task"><span>02</span>Разгрузка фуры / Газели на склад</div><div class="krd-task"><span>03</span>Подъём мебели и техники без лифта</div><div class="krd-task"><span>04</span>Офисный переезд в выходной / ночью</div><div class="krd-task"><span>05</span>Такелаж сейфа, банкомата, оборудования</div><div class="krd-task"><span>06</span>Грузчики на час и на смену</div></div>
+              <div class="krd-task-grid">
+                <div class="krd-task"><span>01</span>Квартирный переезд 1–2 комнаты</div>
+                <div class="krd-task"><span>02</span>Разгрузка фуры / Газели на склад</div>
+                <div class="krd-task"><span>03</span>Подъём мебели и техники без лифта</div>
+                <div class="krd-task"><span>04</span>Офисный переезд в выходной / ночью</div>
+                <div class="krd-task"><span>05</span>Такелаж сейфа, банкомата, оборудования</div>
+                <div class="krd-task"><span>06</span>Грузчики на час и на смену</div>
+              </div>
             </article>
           </div>
+
           <div class="krd-seo-footer-bar">
             <div>
-              <strong>Нужны грузчики в Краснодаре?</strong>
+              <strong>Нужны грузчики в вашем районе Краснодара?</strong>
               <p>Назовите адрес — скажем время подачи, состав бригады и ориентир по цене. Звонки 8:00–20:00, работы 24/7.</p>
             </div>
             <div class="krd-seo-footer-actions">
@@ -1150,7 +1213,6 @@
               <a href="tel:+79283333281" class="btn btn-secondary">Позвонить</a>
             </div>
           </div>
-          <p class="section-desc" style="margin-top:12px;font-size:12px;opacity:.75">* «от 30 минут» — ориентир для Краснодара; в других городах края окно подтверждаем по адресу и загрузке.</p>
         </div>
       </section>
 
@@ -1256,7 +1318,7 @@
       </section>
     </main>
 
-<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="index.html" class="logo-area"><img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64"><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="loaders.html">Услуги грузчиков</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="moving.html">Квартирные переезды</a></li><li><a href="office-moving.html">Офисные переезды</a></li><li><a href="rigging.html">Такелажные работы</a></li><li><a href="furniture.html">Сборка мебели</a></li><li><a href="gruzoperevozki.html">Грузоперевозки</a></li><li><a href="mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li></ul></div><div class="footer-col"><h4>Для бизнеса</h4><ul class="footer-links"><li><a href="krasnodar/autsorsing.html">Аутсорсинг персонала</a></li><li><a href="gruzchiki-na-smenu.html">Грузчики на смену</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="rigging.html">Такелаж</a></li><li><a href="krasnodar/arenda-gazeli-3m.html">Аренда Газели</a></li><li><a href="index.html#order-form-section">Работа с юрлицами / безнал</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</span></li><li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li><li><span class="f-contact-icon">🕒</span> Звонки 8:00–20:00 · исполнители 24/7</li></ul><div class="social-links-stub"><a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a><a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div></footer>
+<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="preview-homepage-redesign.html" class="logo-area"><img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64"><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="loaders.html">Услуги грузчиков</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="moving.html">Квартирные переезды</a></li><li><a href="office-moving.html">Офисные переезды</a></li><li><a href="rigging.html">Такелажные работы</a></li><li><a href="furniture.html">Сборка мебели</a></li><li><a href="gruzoperevozki.html">Грузоперевозки</a></li><li><a href="mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li></ul></div><div class="footer-col"><h4>Для бизнеса</h4><ul class="footer-links"><li><a href="krasnodar/autsorsing.html">Аутсорсинг персонала</a></li><li><a href="gruzchiki-na-smenu.html">Грузчики на смену</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="rigging.html">Такелаж</a></li><li><a href="krasnodar/arenda-gazeli-3m.html">Аренда Газели</a></li><li><a href="index.html#order-form-section">Работа с юрлицами / безнал</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</span></li><li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li><li><span class="f-contact-icon">🕒</span> Звонки 8:00–20:00 · исполнители 24/7</li></ul><div class="social-links-stub"><a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a><a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div></footer>
 
 <!-- ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== -->
 <div class="modal-overlay" id="order-modal">
@@ -1406,13 +1468,6 @@
       </div>
     </div>
 
-    
-    <script>
-      try {
-        localStorage.setItem('selected_city', 'krasnodar');
-        localStorage.setItem('city_confirmed', 'true');
-      } catch (e) {}
-    </script>
     <script type="module" src="js/app.js"></script>
   
     <script>
@@ -1437,28 +1492,28 @@
         krasnodar: {
           title: 'Краснодар',
           sub: 'Выезд от 30 минут по городу',
-          html: '<p>Работаем по всем районам: ЦМР, ЧМР, ФМР, ЮМР, Энка, Гидрострой, Метальникова и др.</p><ul><li><strong>Что делаем:</strong> грузчики, переезды, разгрузка, такелаж</li><li><strong>Срочность:</strong> от 30 минут</li><li><strong>Оплата:</strong> нал, перевод, безнал</li></ul>'
+          html: '<p>Работаем по всем районам города: ЦМР, КМР, ФМР, ЧМР, Энка, ЮМР и другим.</p><ul><li><strong>Что делаем:</strong> грузчики, квартирные и офисные переезды, разгрузка, такелаж, сборка мебели</li><li><strong>Срочность:</strong> подача обычно 30–45 минут</li><li><strong>Транспорт:</strong> Газель 3 м / 4,2 м, крупный — по запросу</li><li><strong>Оплата:</strong> нал, перевод, безнал для юрлиц</li></ul>'
         },
         anapa: {
           title: 'Анапа',
-          sub: 'Город, Витязево, Джемете, Сукко',
-          html: '<p>Учитываем курортный сезон и парковку у пляжной зоны.</p><ul><li><strong>Частые задачи:</strong> переезд, разгрузка, занос на этаж</li><li><strong>Посёлки:</strong> Витязево, Джемете, Сукко, Варваровка</li><li><strong>Звонки:</strong> 8:00–20:00, работы 24/7</li></ul>'
-        },
-        novorossiysk: {
-          title: 'Новороссийск',
-          sub: 'Склады, порт, переезды',
-          html: '<p>Разгрузка фур, переезды, такелаж.</p><ul><li><strong>Районы:</strong> центр, Южный, Цемдолина, Мысхако</li><li><strong>Для бизнеса:</strong> безнал, документы</li></ul>'
+          sub: 'Переезды, грузчики, разгрузки',
+          html: '<p>Выезжаем в Анапу и ближайшие районы по согласованному времени.</p><ul><li><strong>Частые задачи:</strong> квартирный переезд, вынос/занос мебели, разгрузка стройматериалов</li><li><strong>Сезон:</strong> в высокий сезон лучше бронировать заранее</li><li><strong>Как заказать:</strong> звонки 8:00–20:00, работы 24/7</li></ul>'
         },
         sochi: {
           title: 'Сочи / Адлер / Сириус',
-          sub: 'Рельеф, серпантин, побережье',
-          html: '<p>Переезды по Большому Сочи с учётом парковки и подъезда.</p><ul><li><strong>Зоны:</strong> центр, Хоста, Адлер, Сириус, Красная Поляна</li><li><strong>Важно:</strong> габариты Газели и пропуск в ЖК</li></ul>'
+          sub: 'Переезды и аккуратная подача по адресу',
+          html: '<p>Работаем по Сочи, Адлеру и Сириусу с учётом рельефа и парковки.</p><ul><li><strong>Частые задачи:</strong> переезд квартиры/дома, подъём без грузового лифта, техника</li><li><strong>Важно:</strong> уточняем этаж, парковку и узкие проезды заранее</li><li><strong>Транспорт:</strong> подбираем машину под объём и подъезд</li></ul>'
+        },
+        novorossiysk: {
+          title: 'Новороссийск',
+          sub: 'Склад, разгрузки, переезды',
+          html: '<p>Подходит для складских разгрузок, переездов и разовых бригад.</p><ul><li><strong>Частые задачи:</strong> фура/паллеты, квартирный переезд, разнорабочие</li><li><strong>Для бизнеса:</strong> безнал, документы, ЭДО</li><li><strong>Срок:</strong> согласуем окно подачи при подтверждении</li></ul>'
         },
         gelendzhik: {
           title: 'Геленджик',
-          sub: 'Город, мысы, посёлки',
-          html: '<p>Квартиры, дома, частный сектор.</p><ul><li><strong>Посёлки:</strong> Кабардинка, Дивноморское, Архипо-Осиповка</li><li><strong>Мин. заказ:</strong> от 2 часов</li></ul>'
-        },
+          sub: 'Квартиры, дома, частный сектор',
+          html: '<p>Переезды и грузчики по Геленджику и прилегающим адресам.</p><ul><li><strong>Частые задачи:</strong> вынос старой мебели, занос новой, переезд дом↔квартира</li><li><strong>Нюансы:</strong> узкие дворы и парковка — обсуждаем до выезда</li><li><strong>Мин. заказ:</strong> от 2 часов</li></ul>'
+        }
       };
 
       var overlay = document.getElementById('geo-modal-overlay');
