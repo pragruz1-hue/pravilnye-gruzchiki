@@ -151,6 +151,8 @@
 <main>
 </div></div>
 <main>
+</div></div>
+<main>
 <!-- Background Glow FX -->
     <div class="glow-bg">
       <div class="glow-orb orb-1"></div>
@@ -1175,6 +1177,58 @@
 
 
   <!-- ===== КНОПКА НАВЕРХ ===== -->
+</main>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== -->
+
+</div>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО СБОРА ОТЗЫВОВ ===== -->
+
+      <div class="form-group-custom">
+        <label for="review-service">Тип услуги</label>
+        <select id="review-service" class="form-select-custom" required>
+          <option value="" disabled selected>Выберите услугу...</option>
+          <option value="Грузчики">Грузчики / Разгрузка</option>
+          <option value="Квартирный переезд">Квартирный переезд</option>
+          <option value="Офисный переезд">Офисный переезд</option>
+          <option value="Разнорабочие">Разнорабочие</option>
+          <option value="Такелаж">Такелажные работы</option>
+          <option value="Сборка мебели">Сборка мебели</option>
+          <option value="Аренда Газели">Аренда Газели</option>
+          <option value="Аутсорсинг">Аутсорсинг персонала</option>
+        </select>
+      </div>
+      <div class="form-group-custom">
+        <label for="review-text">Ваш отзыв</label>
+        <textarea id="review-text" class="form-input-custom textarea-custom" rows="4" placeholder="Что вам понравилось? Как быстро приехали? Аккуратность?" required></textarea>
+      </div>
+      <input type="hidden" id="review-city" value="">
+      <button type="submit" class="btn btn-primary btn-block btn-lg u-style-024">Отправить отзыв</button>
+      <p class="u-style-025">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+    </form>
+    <div class="success-screen" id="review-success">
+      <div class="success-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="success-svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3>Спасибо за отзыв!</h3>
+      <p>Мы проверим его и опубликуем в ближайшее время.</p>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="closeReviewModal()">Закрыть</button>
+    </div>
+  </div>
+</div>
+<!-- ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ ===== -->
+
+
+<!-- ===== КНОПКА НАВЕРХ ===== -->
+
+
+<!-- ===== СКРИПТЫ ПОДКЛЮЧЕНИЯ ===== -->
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+<script type="module" src="../js/app.js"></script>
 </main>
 
 <!-- ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== -->
