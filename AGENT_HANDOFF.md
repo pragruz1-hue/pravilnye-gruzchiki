@@ -1,6 +1,6 @@
 # AGENT_HANDOFF — pravilnye-gruzchiki / pragruz.ru
 
-**Branch:** `arena/019f4636-pravilnye-gruzchiki`  
+**Branch:** `arena/019f4786-pravilnye-gruzchiki`  
 **Date:** 2026-07-09  
 **Domain:** https://pragruz.ru  
 **Session constraint:** work only on this branch; open PR only when user explicitly asks.
@@ -42,8 +42,8 @@ Bring the multi-city static site **Правильные Грузчики** to pr
 | Modal `_next` `{{BASE}}` bug | ✅ | all → `https://pragruz.ru/thank-you.html` |
 | Duplicate URL canonicals | ✅ | `*/ofisnyj-pereezd.html` → `.../office-moving.html`; `*/raznorabochie.html` → `.../workers.html` |
 | Krasnodar root canonical strategy | ✅ kept | `/krasnodar/loaders.html` etc. already canonical → `/loaders.html` |
-| `sitemap.xml` rebuild | ✅ | **345** URLs, `lastmod` today; includes new services + blog |
-| `robots.txt` | ✅ | removed aggressive `Disallow: /*?*`; thank-you + 404 disallowed |
+| `sitemap.xml` rebuild | ✅ | **119** URLs after SEO pivot; far-city sections removed; includes intercity landing + new blog post |
+| `robots.txt` | ✅ | removed aggressive `Disallow: /*?*`; thank-you + 404 disallowed; far city pages use meta noindex, not robots disallow |
 | `thank-you.html` noindex | ✅ | |
 | Open Graph + twitter:card + og:locale | ✅ | bulk; og:image absolute to CDN path |
 | Title/description length trim | ✅ | titles ≤60-ish; desc ≤160 with ellipsis |
@@ -58,18 +58,35 @@ Bring the multi-city static site **Правильные Грузчики** to pr
 | Blog typo «вывесить» → «вывезти» | ✅ | |
 | theme-color meta | ✅ | |
 
-### 2.3 Intentionally partial / not fully done
+### 2.3 July 09 SEO pivot: Krasnodar Krai only + intercity routes
+| Item | Status | Notes |
+|------|--------|--------|
+| Multi-region SEO risk reduced | ✅ | Far city pages removed from `sitemap.xml`; only Krasnodar Krai city sections remain indexed: `krasnodar`, `anapa`, `novorossiysk`, `sochi`, `gelendzhik` |
+| Far city folders phased out | ✅ | `moscow`, `spb`, `kazan`, `ekaterinburg`, `novosibirsk`, `nn`, `chelyabinsk`, `samara`, `rostov`, `ufa`, `voronezh`, `volgograd` got `meta robots="noindex, follow"` + meta refresh to `/mezhdugorodnie-pereezdy.html` |
+| City selector narrowed | ✅ | Header dropdown + `js/modules/geotargeting.js` now allow only Krasnodar Krai cities; saved far city in `localStorage` resets to Краснодар |
+| New intercity landing | ✅ | `/mezhdugorodnie-pereezdy.html` created: routes from Krasnodar Krai to Moscow/SPb/Rostov/etc. are presented as routes, not local branches |
+| Intercity blocks on Krai pages | ✅ | Added safe “междугородние переезды” blocks to `/`, `/krasnodar/`, `/anapa/`, `/novorossiysk/`, `/sochi/`, `/gelendzhik/` |
+| Blog interlinking | ✅ | New post `/blog/mezhdugorodnij-pereezd-iz-krasnodarskogo-kraya.html`; related boxes added to relevant blog posts; blog index card added |
+| Footer links | ✅ | `Междугородние переезды` added to baked footers and `partials/footer.html` |
+| YML feeds cleaned | ✅ | Deleted far-region feeds; left `feed.xml` and `feeds/feed-krasnodarskiy-krai.xml`; `feed.xml` no longer contains far-city offers/sets |
+| Yandex.Metrika validity | ✅ | Counter JS in `<head>`; `<noscript>` watch pixel moved after `<body>` on real HTML pages to satisfy Vite/parse5 |
+| Build-breaking invalid image syntax | ✅ | Fixed `<img ... / width=...>` → valid `<img ... width=...>` |
+| Thank-you page cleanup | ✅ | Rebuilt `thank-you.html` to remove duplicated footer/modal/floating buttons/scripts and duplicate `scrollTopBtn` |
+| Blog duplicate `<main>` cleanup | ✅ | Removed nested duplicate `<main>` wrappers from 5 legacy blog posts; structural check now reports 0 duplicate IDs and 0 duplicate `<main>` on real pages |
+| Verification | ✅ | `npm run build` passes; local HTTP smoke test on `/`, `/mezhdugorodnie-pereezdy.html`, blog, `thank-you.html`, `/anapa/`, `/moscow/` returned 200; internal link check found 0 missing links; duplicate ID/metrika/main structural check found 0 issues |
+
+### 2.4 Intentionally partial / not fully done
 | Item | Status | Why / next step |
 |------|--------|------------------|
 | Unique city content (districts, local FAQ) | ⚠️ thin | Still template + city name; needs copywriting |
 | Root pages for `autsorsing` / `arenda-gazeli-*` | ⚠️ missing | Footer links to `krasnodar/...` as fallback |
 | `gruzoperevozki` only at root | ⚠️ | No city clones |
-| Blog articles still load `main.js` | ✅ fixed | 6 posts → `js/app.js` + `css/style.css`; duplicate `</html>` removed |
+| Blog articles still load `main.js` | ✅ fixed | 7 posts → `js/app.js` + `css/style.css`; duplicate `</html>` removed |
 | BreadcrumbList not on all pages | ✅ mostly | City pages + many services got BreadcrumbList JSON-LD |
 | Real width/height on most `<img>` | ⚠️ | CLS still possible; CSS aspect-ratio helps cards |
 | Empty `alt=""` on Metrika pixel | OK leave | tracking pixel |
 | Cookie banner | ❌ not built | optional RU practice |
-| YML feeds date refresh | ✅ | `feed.xml` + 13 regional feeds `date=` updated |
+| YML feeds | ✅ | Far-region feeds deleted; left main `feed.xml` + `feeds/feed-krasnodarskiy-krai.xml` |
 | Custom favicon.ico / apple-touch | ✅ partial | `apple-touch-icon` → logo.png on pages; dedicated .ico still optional |
 | Duplicate slug soft-redirect | ✅ | `meta refresh` + canonical on `ofisnyj-pereezd` / `raznorabochie` (34 city pages) |
 | Blog broken HTML closers | ✅ | duplicate `</body></html>` removed on 6 articles |
@@ -84,16 +101,17 @@ Bring the multi-city static site **Правильные Грузчики** to pr
 
 ```
 /                       root = default Krasnodar marketing pages
-/{city}/                17 cities: anapa, chelyabinsk, ekaterinburg, gelendzhik,
-                        kazan, krasnodar, moscow, nn, novorossiysk, novosibirsk,
-                        rostov, samara, sochi, spb, ufa, volgograd, voronezh
-/blog/                  6 articles + index (legacy main.js on articles)
+/{city}/                Indexed/selector cities: krasnodar, anapa, novorossiysk, sochi, gelendzhik.
+                        Far-city legacy folders still exist but are `noindex, follow` + meta-refresh to intercity landing.
+/mezhdugorodnie-pereezdy.html
+                        Intercity moving landing: Moscow/SPb/Rostov/etc. are route destinations, not local филиалы.
+/blog/                  7 articles + index; all real pages use `js/app.js` and `css/style.css`
 /css/style.css          @imports 01…10 partials
 /js/app.js              ES modules entry (most pages)
 /js/modules/*           geotargeting, reviews, forms, modals, calculator, …
 /partials/*             header, footer, modals, metrika, … (reference/source for baked HTML)
 /assets/*               webp images, logo
-/feeds/feed-*.xml       Yandex YML regional
+/feeds/feed-krasnodarskiy-krai.xml  Yandex YML regional feed for Краснодарский край
 fix-site.js             idempotent one-off cleaner (dedupe review-modal,
                         rebuild broken <main> structure, unique FAQ, schema fixes)
 ```
@@ -110,11 +128,12 @@ fix-site.js             idempotent one-off cleaner (dedupe review-modal,
 
 1. **Root service pages** (`/loaders.html`, …) = primary for Krasnodar-default SEO.  
 2. **`/krasnodar/{service}.html`** for core services → canonical points to **root** (already).  
-3. **Other cities** → self-canonical under `/{city}/…`.  
-4. **Duplicates (soft):**
+3. **Indexed city folders now only Краснодарский край** (`krasnodar`, `anapa`, `novorossiysk`, `sochi`, `gelendzhik`). Far legacy folders are phased out with `noindex, follow` + meta refresh to `/mezhdugorodnie-pereezdy.html`.  
+4. **Distant cities in copy** should be used only as route destinations (e.g. “Анапа → Москва”), not as local филиалы.  
+5. **Duplicates (soft):**
    - `ofisnyj-pereezd.html` canonical → `office-moving.html` (same city)
    - `raznorabochie.html` canonical → `workers.html` (same city)
-5. Prefer **English slugs** as master for office-moving / workers; Russian slug kept for old links.
+6. Prefer **English slugs** as master for office-moving / workers; Russian slug kept for old links.
 
 If host supports redirects (not pure GH-pages static), add 301 later.
 
@@ -126,13 +145,13 @@ If host supports redirects (not pure GH-pages static), add 301 later.
 1. **Revoke Telegram bot token** that was previously committed (see git history `server.js`). Confirm env-only deploy.
 2. Visual QA mobile **320 / 375 / 414** + desktop: hero, team photo, service cards, fleet, float call button vs form submit, city selector.
 3. Spot-check Formspree submit + thank-you redirect.
-4. When user says **«делай PR»**: commit all, push `arena/019f4636-pravilnye-gruzchiki`, open PR → `main`.
+4. When user says **«делай PR»**: commit all, push `arena/019f4786-pravilnye-gruzchiki`, open PR → `main`.
 
 ### P1 — SEO / content depth
-5. Unique intro + «районы выезда» for top cities (krasnodar, sochi, moscow, spb, rostov, novorossiysk).
+5. Unique intro + «районы выезда» for indexed Krai cities only (krasnodar, anapa, novorossiysk, sochi, gelendzhik). Do **not** rebuild fake local pages for Moscow/SPb/etc.
 6. BreadcrumbList JSON-LD on all service pages.
-7. Refresh `feed.xml` + `feeds/*.xml` `date=` and offers list to match sitemap services.
-8. Migrate blog articles from `main.js` → `js/app.js` + shared header/footer partials.
+7. Keep `feed.xml` + `feeds/feed-krasnodarskiy-krai.xml` aligned with Krai-only sitemap; do not restore far-region feeds unless real филиалы appear.
+8. Blog articles already use `js/app.js`; optional next step is to normalize all blog headers/footers from shared partials.
 9. Add root landing pages or clean redirects: `autsorsing.html`, `arenda-gazeli-3m.html`.
 10. Optional host-level 301 for duplicate slugs.
 
@@ -159,7 +178,7 @@ If host supports redirects (not pure GH-pages static), add 301 later.
 | **Formspree single endpoint** | All forms → one form id; rate limits / spam. |
 | **Geotargeting overwrites `.city-address`** | Footer addresses set per city folder; JS may still swap on city change on root pages. |
 | **No build.js anymore** | `build.js` was removed — its `buildCityPage()` was the source of `<main>` accumulation and review-modal duplication across re-builds. Pages are now self-contained baked HTML. `partials/` are reference only; editing them does NOT propagate (edit baked HTML directly, or re-run `fix-site.js` patterns). |
-| **main.js vs app.js** | Dual stacks; blog articles outdated UX. |
+| **main.js legacy file** | `main.js` still exists but real pages checked now use `js/app.js`; avoid reintroducing legacy stack. |
 | **AggregateRating removed** | Stars in UI/reviews remain; schema no longer claims rating — good for policy; re-add only with real sources. |
 | **Skip-link / main wrapper** | Added programmatically; if a page already had `<main>`, only id injected. Unbalanced count currently 0 — recheck after big HTML edits. |
 
@@ -217,7 +236,7 @@ rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
 
 ## 10. Suggested first message for next agent
 
-> Продолжи с `AGENT_HANDOFF.md`. Сначала mobile QA + revoke-token reminder. Затем P1 unique city content и blog→app.js. PR не открывать, пока пользователь не скажет.
+> Продолжи с `AGENT_HANDOFF.md`. Сначала mobile QA + revoke-token reminder. Затем P1 unique city content по Краснодарскому краю и проверка Formspree. PR не открывать, пока пользователь не скажет.
 
 ---
 
@@ -297,4 +316,4 @@ rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
 ### Still relevant (do NOT reintroduce build.js)
 - `partials/modals.html` still contains `review-modal` — it is reference only now; do NOT inject into all pages.
 - If a rebuild of pages is ever needed, use targeted scripts (like `fix-site.js` patterns), never the old monolithic assembler.
-- Inherited (not introduced this session): 1 unclosed `<div>` in the contacts `order-section` on standard services, and 2× `<main>` on 5 blog posts. Left as-is (out of scope, no regression).
+- Superseded later in this session: 2× `<main>` on 5 blog posts was fixed; latest structural check reports 0 duplicate `<main>`/IDs on real pages. Recheck after large HTML edits.

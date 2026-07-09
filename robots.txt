@@ -5,6 +5,8 @@ Disallow: /cgi-bin/
 Disallow: /thank-you.html
 Disallow: /404.html
 # Keep UTM crawlable; block only admin-like query patterns if needed
+# Дальние городские разделы выведены из sitemap и содержат meta noindex, follow.
+# Не закрываем их через Disallow, чтобы поисковые роботы могли увидеть noindex.
 Sitemap: https://pragruz.ru/sitemap.xml
 
 User-agent: Yandex

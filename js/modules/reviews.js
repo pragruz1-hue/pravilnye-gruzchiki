@@ -33,66 +33,6 @@ export const REVIEWS_DB = {
     { name: "Максим Е.", city: "Геленджик", rating: 4, text: "Разгружали стройматериалы у частного дома. Все перенесли куда показал, ничего не повредили.", date: "12 июня 2026", initials: "МЕ", avatar: "/assets/avatar-male.webp" },
     { name: "Алена Ш.", city: "Геленджик", rating: 5, text: "Переезд из квартиры в дом прошел спокойно. Мебель разобрали, фурнитуру сложили отдельно.", date: "4 июня 2026", initials: "АШ", avatar: "/assets/avatar-female.webp" }
   ],
-  "moscow": [
-    { name: "Иван П.", city: "Москва", rating: 5, text: "Перевозили небольшой офис на Дмитровском шоссе. Столы промаркировали, мониторы упаковали отдельно.", date: "20 июня 2026", initials: "ИП", avatar: "/assets/avatar-male.webp" },
-    { name: "Сергей Л.", city: "Москва", rating: 4, text: "Нужны были разнорабочие на демонтаж перегородок. Приехали примерно через два часа, но предупредили заранее.", date: "17 июня 2026", initials: "СЛ", avatar: "/assets/avatar-male.webp" },
-    { name: "Анна К.", city: "Москва", rating: 5, text: "Перевозили тяжелый сейф из офиса. Привезли ремни и настил, плитку и стены не задели.", date: "13 июня 2026", initials: "АК", avatar: "/assets/avatar-female.webp" }
-  ],
-  "spb": [
-    { name: "Михаил Д.", city: "Санкт-Петербург", rating: 5, text: "Поднимали пианино на пятый этаж в старом доме. Лестница узкая, но ребята заранее все промерили.", date: "22 июня 2026", initials: "МД", avatar: "/assets/avatar-male.webp" },
-    { name: "Татьяна В.", city: "Санкт-Петербург", rating: 4, text: "Берем персонал на подработку в магазин уже несколько месяцев. Один раз была замена, но вопрос решили быстро.", date: "19 июня 2026", initials: "ТВ", avatar: "/assets/avatar-female.webp" },
-    { name: "Роман А.", city: "Санкт-Петербург", rating: 5, text: "Помогали с переездом с Васильевского острова. Машина подъехала в согласованное окно.", date: "11 июня 2026", initials: "РА", avatar: "/assets/avatar-male.webp" }
-  ],
-  "novosibirsk": [
-    { name: "Евгений Ф.", city: "Новосибирск", rating: 5, text: "Разгружали машину с мебелью на складе. Бригада приехала вовремя, работали быстро, но без спешки.", date: "18 июня 2026", initials: "ЕФ", avatar: "/assets/avatar-male.webp" },
-    { name: "Ирина Ч.", city: "Новосибирск", rating: 4, text: "Квартирный переезд прошел нормально, вещи целые. Снимаю звезду за то, что не сразу дозвонилась диспетчеру.", date: "10 июня 2026", initials: "ИЧ", avatar: "/assets/avatar-female.webp" },
-    { name: "Георгий С.", city: "Новосибирск", rating: 5, text: "Нужны были грузчики на подъем стройматериалов. Этажность посчитали заранее.", date: "3 июня 2026", initials: "ГС", avatar: "/assets/avatar-male.webp" }
-  ],
-  "ekaterinburg": [
-    { name: "Мария Н.", city: "Екатеринбург", rating: 5, text: "Перевозили вещи из квартиры в новостройку. Ребята аккуратно сняли зеркало и обмотали пленкой.", date: "21 июня 2026", initials: "МН", avatar: "/assets/avatar-female.webp" },
-    { name: "Дмитрий Я.", city: "Екатеринбург", rating: 4, text: "Заказывал разнорабочих на склад. Работали нормально, один человек был новичок.", date: "14 июня 2026", initials: "ДЯ", avatar: "/assets/avatar-male.webp" },
-    { name: "Оксана Р.", city: "Екатеринбург", rating: 5, text: "Нужно было вынести старую мебель. Приехали в тот же день, аккуратно вынесли диван и шкаф.", date: "8 июня 2026", initials: "ОР", avatar: "/assets/avatar-female.webp" }
-  ],
-  "kazan": [
-    { name: "Альберт Х.", city: "Казань", rating: 5, text: "Разгружали товар для магазина. Все коробки пересчитали, поставили по зонам.", date: "19 июня 2026", initials: "АХ", avatar: "/assets/avatar-male.webp" },
-    { name: "Гульнара М.", city: "Казань", rating: 5, text: "Переезд прошел без нервов. Мебель разобрали и собрали, стиральную машину вынесли аккуратно.", date: "12 июня 2026", initials: "ГМ", avatar: "/assets/avatar-female.webp" },
-    { name: "Петр Л.", city: "Казань", rating: 4, text: "Брал грузчиков на подъем плитки. Работу сделали хорошо, хотелось бы более точное время приезда.", date: "6 июня 2026", initials: "ПЛ", avatar: "/assets/avatar-male.webp" }
-  ],
-  "nn": [
-    { name: "Виктория Е.", city: "Нижний Новгород", rating: 5, text: "Заказывала грузчиков для переезда офиса. Документы и технику переносили отдельно.", date: "23 июня 2026", initials: "ВЕ", avatar: "/assets/avatar-female.webp" },
-    { name: "Артем З.", city: "Нижний Новгород", rating: 4, text: "Разгрузка стройматериалов прошла нормально. Один паллет был тяжелее, чем ожидали.", date: "16 июня 2026", initials: "АЗ", avatar: "/assets/avatar-male.webp" },
-    { name: "Наталья О.", city: "Нижний Новгород", rating: 5, text: "Перевозили мебель после ремонта. Приехали со своим инструментом, шкаф разобрали быстро.", date: "9 июня 2026", initials: "НО", avatar: "/assets/avatar-female.webp" }
-  ],
-  "chelyabinsk": [
-    { name: "Кирилл В.", city: "Челябинск", rating: 5, text: "Нужны были грузчики на разгрузку машины. Приехали без опоздания, работали слаженно.", date: "20 июня 2026", initials: "КВ", avatar: "/assets/avatar-male.webp" },
-    { name: "Елена Г.", city: "Челябинск", rating: 4, text: "Квартирный переезд сделали аккуратно. Был небольшой спор по количеству коробок.", date: "13 июня 2026", initials: "ЕГ", avatar: "/assets/avatar-female.webp" },
-    { name: "Станислав Р.", city: "Челябинск", rating: 5, text: "Заказывал разнорабочих на производство на смену. Люди адекватные, пришли в форме.", date: "5 июня 2026", initials: "СР", avatar: "/assets/avatar-male.webp" }
-  ],
-  "samara": [
-    { name: "Денис К.", city: "Самара", rating: 5, text: "Перевозили вещи из квартиры в частный дом. Машина чистая, мебель закрепили.", date: "22 июня 2026", initials: "ДК", avatar: "/assets/avatar-male.webp" },
-    { name: "Маргарита С.", city: "Самара", rating: 4, text: "Поднимали холодильник и диван без лифта. Все сделали аккуратно.", date: "15 июня 2026", initials: "МС", avatar: "/assets/avatar-female.webp" },
-    { name: "Олег Б.", city: "Самара", rating: 5, text: "Разгружали фуру с товаром. Бригаду дали на следующий день, работали ровно.", date: "8 июня 2026", initials: "ОБ", avatar: "/assets/avatar-male.webp" }
-  ],
-  "rostov": [
-    { name: "Яна П.", city: "Ростов-на-Дону", rating: 5, text: "Переезд был из двух адресов. Ребята не путались, коробки подписали.", date: "21 июня 2026", initials: "ЯП", avatar: "/assets/avatar-female.webp" },
-    { name: "Роман Т.", city: "Ростов-на-Дону", rating: 4, text: "Нужны были грузчики на склад. Работу выполнили, замечаний по качеству нет.", date: "14 июня 2026", initials: "РТ", avatar: "/assets/avatar-male.webp" },
-    { name: "Вера Л.", city: "Ростов-на-Дону", rating: 5, text: "Выносили старую мебель после ремонта. Приехали вечером, сделали быстро.", date: "7 июня 2026", initials: "ВЛ", avatar: "/assets/avatar-female.webp" }
-  ],
-  "ufa": [
-    { name: "Ильдар Н.", city: "Уфа", rating: 5, text: "Заказывал подъем стройматериалов. Этаж без лифта, но ребята справились.", date: "18 июня 2026", initials: "ИН", avatar: "/assets/avatar-male.webp" },
-    { name: "Алия С.", city: "Уфа", rating: 5, text: "Квартирный переезд прошел спокойно. Технику упаковали, мебель разобрали.", date: "11 июня 2026", initials: "АС", avatar: "/assets/avatar-female.webp" },
-    { name: "Павел Д.", city: "Уфа", rating: 4, text: "Брали двух разнорабочих на день. Работали нормально.", date: "4 июня 2026", initials: "ПД", avatar: "/assets/avatar-male.webp" }
-  ],
-  "voronezh": [
-    { name: "Екатерина Ж.", city: "Воронеж", rating: 5, text: "Перевозили мебель из квартиры родителей. Ребята были вежливые.", date: "23 июня 2026", initials: "ЕЖ", avatar: "/assets/avatar-female.webp" },
-    { name: "Александр У.", city: "Воронеж", rating: 4, text: "Разгружали машину с товаром. Немного задержались, но предупредили.", date: "16 июня 2026", initials: "АУ", avatar: "/assets/avatar-male.webp" },
-    { name: "Николай Е.", city: "Воронеж", rating: 5, text: "Заказывал грузчиков с Газелью. Вещей было много, но уложили грамотно.", date: "9 июня 2026", initials: "НЕ", avatar: "/assets/avatar-male.webp" }
-  ],
-  "volgograd": [
-    { name: "Сергей Ф.", city: "Волгоград", rating: 5, text: "Нужны были грузчики на переезд офиса. Системные блоки и мониторы переносили отдельно.", date: "20 июня 2026", initials: "СФ", avatar: "/assets/avatar-male.webp" },
-    { name: "Полина К.", city: "Волгоград", rating: 4, text: "Поднимали мебель на этаж без лифта. Работали аккуратно.", date: "12 июня 2026", initials: "ПК", avatar: "/assets/avatar-female.webp" },
-    { name: "Антон М.", city: "Волгоград", rating: 5, text: "Разгрузили стройматериалы у дома. Приехали со своими перчатками.", date: "5 июня 2026", initials: "АМ", avatar: "/assets/avatar-male.webp" }
-  ],
   "default": [
     { name: "Алексей Р.", city: "Город", rating: 5, text: "Заказывал грузчиков на разгрузку машины после ремонта. Диспетчер уточнил адрес и объем.", date: "16 июня 2026", initials: "АР", avatar: "/assets/avatar-male.webp" },
     { name: "Мария С.", city: "Город", rating: 5, text: "Квартирный переезд прошел спокойнее, чем ожидала. Мебель разобрали и собрали обратно.", date: "12 июня 2026", initials: "МС", avatar: "/assets/avatar-female.webp" },
