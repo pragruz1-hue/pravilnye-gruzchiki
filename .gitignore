@@ -3,3 +3,7 @@ node_modules/
 dist/
 .vite/
 __pycache__/
+# secrets & local
+.env
+.env.*
+!.env.example
