@@ -2,3 +2,4 @@ QWEN.md
 node_modules/
 dist/
 .vite/
+__pycache__/
