@@ -1189,8 +1189,7 @@
     </div>
 
     <!-- JavaScript -->
-      <script>localStorage.setItem("selected_city", "gelendzhik"); localStorage.setItem("city_confirmed", "true");</script>
-    <script src="../js/app.js"></script>
+    <script type="module" src="../js/app.js"></script>
 
   <!-- ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ ===== -->
 <div class="glass-float-btn mobile-call-button">
@@ -1208,22 +1207,5 @@
     </svg>
   </button>
 
-  <!-- ===== СКРИПТЫ ДЛЯ КНОПОК ===== -->
-  <script>
-  (function() {
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
-    if (!scrollTopBtn) return;
-    window.addEventListener('scroll', function() {
-      if (window.scrollY > 300) {
-        scrollTopBtn.style.display = 'flex';
-      } else {
-        scrollTopBtn.style.display = 'none';
-      }
-    });
-    scrollTopBtn.addEventListener('click', function() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  })();
-  </script>
 </body>
 </html>
