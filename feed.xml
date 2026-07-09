@@ -37,7 +37,7 @@
       <offer id="krasnodar_loaders" available="true">
         <name>ООО "Правильные грузчики" (Краснодар)</name>
         <url>https://pragruz.ru/krasnodar/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -61,7 +61,7 @@
       <offer id="krasnodar_workers" available="true">
         <name>ООО "Правильные грузчики" (Краснодар)</name>
         <url>https://pragruz.ru/krasnodar/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -85,7 +85,7 @@
       <offer id="krasnodar_moving" available="true">
         <name>ООО "Правильные грузчики" (Краснодар)</name>
         <url>https://pragruz.ru/krasnodar/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -109,7 +109,7 @@
       <offer id="krasnodar_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Краснодар)</name>
         <url>https://pragruz.ru/krasnodar/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -133,7 +133,7 @@
       <offer id="krasnodar_rigging" available="true">
         <name>ООО "Правильные грузчики" (Краснодар)</name>
         <url>https://pragruz.ru/krasnodar/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -157,7 +157,7 @@
       <offer id="krasnodar_furniture" available="true">
         <name>ООО "Правильные грузчики" (Краснодар)</name>
         <url>https://pragruz.ru/krasnodar/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -181,7 +181,7 @@
       <offer id="krasnodar_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Краснодар)</name>
         <url>https://pragruz.ru/krasnodar/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -205,7 +205,7 @@
       <offer id="krasnodar_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Краснодар)</name>
         <url>https://pragruz.ru/krasnodar/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -229,7 +229,7 @@
       <offer id="krasnodar_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Краснодар)</name>
         <url>https://pragruz.ru/krasnodar/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -253,7 +253,7 @@
       <offer id="anapa_loaders" available="true">
         <name>ООО "Правильные грузчики" (Анапа)</name>
         <url>https://pragruz.ru/anapa/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -277,7 +277,7 @@
       <offer id="anapa_workers" available="true">
         <name>ООО "Правильные грузчики" (Анапа)</name>
         <url>https://pragruz.ru/anapa/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -301,7 +301,7 @@
       <offer id="anapa_moving" available="true">
         <name>ООО "Правильные грузчики" (Анапа)</name>
         <url>https://pragruz.ru/anapa/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -325,7 +325,7 @@
       <offer id="anapa_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Анапа)</name>
         <url>https://pragruz.ru/anapa/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -349,7 +349,7 @@
       <offer id="anapa_rigging" available="true">
         <name>ООО "Правильные грузчики" (Анапа)</name>
         <url>https://pragruz.ru/anapa/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -373,7 +373,7 @@
       <offer id="anapa_furniture" available="true">
         <name>ООО "Правильные грузчики" (Анапа)</name>
         <url>https://pragruz.ru/anapa/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -397,7 +397,7 @@
       <offer id="anapa_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Анапа)</name>
         <url>https://pragruz.ru/anapa/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -421,7 +421,7 @@
       <offer id="anapa_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Анапа)</name>
         <url>https://pragruz.ru/anapa/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -445,7 +445,7 @@
       <offer id="anapa_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Анапа)</name>
         <url>https://pragruz.ru/anapa/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -469,7 +469,7 @@
       <offer id="novorossiysk_loaders" available="true">
         <name>ООО "Правильные грузчики" (Новороссийск)</name>
         <url>https://pragruz.ru/novorossiysk/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -493,7 +493,7 @@
       <offer id="novorossiysk_workers" available="true">
         <name>ООО "Правильные грузчики" (Новороссийск)</name>
         <url>https://pragruz.ru/novorossiysk/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -517,7 +517,7 @@
       <offer id="novorossiysk_moving" available="true">
         <name>ООО "Правильные грузчики" (Новороссийск)</name>
         <url>https://pragruz.ru/novorossiysk/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -541,7 +541,7 @@
       <offer id="novorossiysk_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Новороссийск)</name>
         <url>https://pragruz.ru/novorossiysk/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -565,7 +565,7 @@
       <offer id="novorossiysk_rigging" available="true">
         <name>ООО "Правильные грузчики" (Новороссийск)</name>
         <url>https://pragruz.ru/novorossiysk/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -589,7 +589,7 @@
       <offer id="novorossiysk_furniture" available="true">
         <name>ООО "Правильные грузчики" (Новороссийск)</name>
         <url>https://pragruz.ru/novorossiysk/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -613,7 +613,7 @@
       <offer id="novorossiysk_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Новороссийск)</name>
         <url>https://pragruz.ru/novorossiysk/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -637,7 +637,7 @@
       <offer id="novorossiysk_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Новороссийск)</name>
         <url>https://pragruz.ru/novorossiysk/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -661,7 +661,7 @@
       <offer id="novorossiysk_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Новороссийск)</name>
         <url>https://pragruz.ru/novorossiysk/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -685,7 +685,7 @@
       <offer id="sochi_loaders" available="true">
         <name>ООО "Правильные грузчики" (Сочи / Адлер / Сириус)</name>
         <url>https://pragruz.ru/sochi/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -709,7 +709,7 @@
       <offer id="sochi_workers" available="true">
         <name>ООО "Правильные грузчики" (Сочи / Адлер / Сириус)</name>
         <url>https://pragruz.ru/sochi/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -733,7 +733,7 @@
       <offer id="sochi_moving" available="true">
         <name>ООО "Правильные грузчики" (Сочи / Адлер / Сириус)</name>
         <url>https://pragruz.ru/sochi/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -757,7 +757,7 @@
       <offer id="sochi_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Сочи / Адлер / Сириус)</name>
         <url>https://pragruz.ru/sochi/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -781,7 +781,7 @@
       <offer id="sochi_rigging" available="true">
         <name>ООО "Правильные грузчики" (Сочи / Адлер / Сириус)</name>
         <url>https://pragruz.ru/sochi/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -805,7 +805,7 @@
       <offer id="sochi_furniture" available="true">
         <name>ООО "Правильные грузчики" (Сочи / Адлер / Сириус)</name>
         <url>https://pragruz.ru/sochi/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -829,7 +829,7 @@
       <offer id="sochi_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Сочи / Адлер / Сириус)</name>
         <url>https://pragruz.ru/sochi/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -853,7 +853,7 @@
       <offer id="sochi_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Сочи / Адлер / Сириус)</name>
         <url>https://pragruz.ru/sochi/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -877,7 +877,7 @@
       <offer id="sochi_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Сочи / Адлер / Сириус)</name>
         <url>https://pragruz.ru/sochi/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -901,7 +901,7 @@
       <offer id="gelendzhik_loaders" available="true">
         <name>ООО "Правильные грузчики" (Геленджик)</name>
         <url>https://pragruz.ru/gelendzhik/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -925,7 +925,7 @@
       <offer id="gelendzhik_workers" available="true">
         <name>ООО "Правильные грузчики" (Геленджик)</name>
         <url>https://pragruz.ru/gelendzhik/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -949,7 +949,7 @@
       <offer id="gelendzhik_moving" available="true">
         <name>ООО "Правильные грузчики" (Геленджик)</name>
         <url>https://pragruz.ru/gelendzhik/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -973,7 +973,7 @@
       <offer id="gelendzhik_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Геленджик)</name>
         <url>https://pragruz.ru/gelendzhik/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -997,7 +997,7 @@
       <offer id="gelendzhik_rigging" available="true">
         <name>ООО "Правильные грузчики" (Геленджик)</name>
         <url>https://pragruz.ru/gelendzhik/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -1021,7 +1021,7 @@
       <offer id="gelendzhik_furniture" available="true">
         <name>ООО "Правильные грузчики" (Геленджик)</name>
         <url>https://pragruz.ru/gelendzhik/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -1045,7 +1045,7 @@
       <offer id="gelendzhik_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Геленджик)</name>
         <url>https://pragruz.ru/gelendzhik/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -1069,7 +1069,7 @@
       <offer id="gelendzhik_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Геленджик)</name>
         <url>https://pragruz.ru/gelendzhik/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -1093,7 +1093,7 @@
       <offer id="gelendzhik_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Геленджик)</name>
         <url>https://pragruz.ru/gelendzhik/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -1117,7 +1117,7 @@
       <offer id="moscow_loaders" available="true">
         <name>ООО "Правильные грузчики" (Москва)</name>
         <url>https://pragruz.ru/moscow/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_moscow</set-ids>
@@ -1141,7 +1141,7 @@
       <offer id="moscow_workers" available="true">
         <name>ООО "Правильные грузчики" (Москва)</name>
         <url>https://pragruz.ru/moscow/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_moscow</set-ids>
@@ -1165,7 +1165,7 @@
       <offer id="moscow_moving" available="true">
         <name>ООО "Правильные грузчики" (Москва)</name>
         <url>https://pragruz.ru/moscow/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_moscow</set-ids>
@@ -1189,7 +1189,7 @@
       <offer id="moscow_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Москва)</name>
         <url>https://pragruz.ru/moscow/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_moscow</set-ids>
@@ -1213,7 +1213,7 @@
       <offer id="moscow_rigging" available="true">
         <name>ООО "Правильные грузчики" (Москва)</name>
         <url>https://pragruz.ru/moscow/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_moscow</set-ids>
@@ -1237,7 +1237,7 @@
       <offer id="moscow_furniture" available="true">
         <name>ООО "Правильные грузчики" (Москва)</name>
         <url>https://pragruz.ru/moscow/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_moscow</set-ids>
@@ -1261,7 +1261,7 @@
       <offer id="moscow_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Москва)</name>
         <url>https://pragruz.ru/moscow/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_moscow</set-ids>
@@ -1285,7 +1285,7 @@
       <offer id="moscow_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Москва)</name>
         <url>https://pragruz.ru/moscow/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_moscow</set-ids>
@@ -1309,7 +1309,7 @@
       <offer id="moscow_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Москва)</name>
         <url>https://pragruz.ru/moscow/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_moscow</set-ids>
@@ -1333,7 +1333,7 @@
       <offer id="spb_loaders" available="true">
         <name>ООО "Правильные грузчики" (Санкт-Петербург)</name>
         <url>https://pragruz.ru/spb/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_spb</set-ids>
@@ -1357,7 +1357,7 @@
       <offer id="spb_workers" available="true">
         <name>ООО "Правильные грузчики" (Санкт-Петербург)</name>
         <url>https://pragruz.ru/spb/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_spb</set-ids>
@@ -1381,7 +1381,7 @@
       <offer id="spb_moving" available="true">
         <name>ООО "Правильные грузчики" (Санкт-Петербург)</name>
         <url>https://pragruz.ru/spb/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_spb</set-ids>
@@ -1405,7 +1405,7 @@
       <offer id="spb_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Санкт-Петербург)</name>
         <url>https://pragruz.ru/spb/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_spb</set-ids>
@@ -1429,7 +1429,7 @@
       <offer id="spb_rigging" available="true">
         <name>ООО "Правильные грузчики" (Санкт-Петербург)</name>
         <url>https://pragruz.ru/spb/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_spb</set-ids>
@@ -1453,7 +1453,7 @@
       <offer id="spb_furniture" available="true">
         <name>ООО "Правильные грузчики" (Санкт-Петербург)</name>
         <url>https://pragruz.ru/spb/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_spb</set-ids>
@@ -1477,7 +1477,7 @@
       <offer id="spb_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Санкт-Петербург)</name>
         <url>https://pragruz.ru/spb/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_spb</set-ids>
@@ -1501,7 +1501,7 @@
       <offer id="spb_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Санкт-Петербург)</name>
         <url>https://pragruz.ru/spb/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_spb</set-ids>
@@ -1525,7 +1525,7 @@
       <offer id="spb_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Санкт-Петербург)</name>
         <url>https://pragruz.ru/spb/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_spb</set-ids>
@@ -1549,7 +1549,7 @@
       <offer id="novosibirsk_loaders" available="true">
         <name>ООО "Правильные грузчики" (Новосибирск)</name>
         <url>https://pragruz.ru/novosibirsk/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_novosibirsk</set-ids>
@@ -1573,7 +1573,7 @@
       <offer id="novosibirsk_workers" available="true">
         <name>ООО "Правильные грузчики" (Новосибирск)</name>
         <url>https://pragruz.ru/novosibirsk/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_novosibirsk</set-ids>
@@ -1597,7 +1597,7 @@
       <offer id="novosibirsk_moving" available="true">
         <name>ООО "Правильные грузчики" (Новосибирск)</name>
         <url>https://pragruz.ru/novosibirsk/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_novosibirsk</set-ids>
@@ -1621,7 +1621,7 @@
       <offer id="novosibirsk_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Новосибирск)</name>
         <url>https://pragruz.ru/novosibirsk/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_novosibirsk</set-ids>
@@ -1645,7 +1645,7 @@
       <offer id="novosibirsk_rigging" available="true">
         <name>ООО "Правильные грузчики" (Новосибирск)</name>
         <url>https://pragruz.ru/novosibirsk/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_novosibirsk</set-ids>
@@ -1669,7 +1669,7 @@
       <offer id="novosibirsk_furniture" available="true">
         <name>ООО "Правильные грузчики" (Новосибирск)</name>
         <url>https://pragruz.ru/novosibirsk/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_novosibirsk</set-ids>
@@ -1693,7 +1693,7 @@
       <offer id="novosibirsk_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Новосибирск)</name>
         <url>https://pragruz.ru/novosibirsk/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_novosibirsk</set-ids>
@@ -1717,7 +1717,7 @@
       <offer id="novosibirsk_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Новосибирск)</name>
         <url>https://pragruz.ru/novosibirsk/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_novosibirsk</set-ids>
@@ -1741,7 +1741,7 @@
       <offer id="novosibirsk_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Новосибирск)</name>
         <url>https://pragruz.ru/novosibirsk/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_novosibirsk</set-ids>
@@ -1765,7 +1765,7 @@
       <offer id="ekaterinburg_loaders" available="true">
         <name>ООО "Правильные грузчики" (Екатеринбург)</name>
         <url>https://pragruz.ru/ekaterinburg/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_ekaterinburg</set-ids>
@@ -1789,7 +1789,7 @@
       <offer id="ekaterinburg_workers" available="true">
         <name>ООО "Правильные грузчики" (Екатеринбург)</name>
         <url>https://pragruz.ru/ekaterinburg/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_ekaterinburg</set-ids>
@@ -1813,7 +1813,7 @@
       <offer id="ekaterinburg_moving" available="true">
         <name>ООО "Правильные грузчики" (Екатеринбург)</name>
         <url>https://pragruz.ru/ekaterinburg/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_ekaterinburg</set-ids>
@@ -1837,7 +1837,7 @@
       <offer id="ekaterinburg_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Екатеринбург)</name>
         <url>https://pragruz.ru/ekaterinburg/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_ekaterinburg</set-ids>
@@ -1861,7 +1861,7 @@
       <offer id="ekaterinburg_rigging" available="true">
         <name>ООО "Правильные грузчики" (Екатеринбург)</name>
         <url>https://pragruz.ru/ekaterinburg/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_ekaterinburg</set-ids>
@@ -1885,7 +1885,7 @@
       <offer id="ekaterinburg_furniture" available="true">
         <name>ООО "Правильные грузчики" (Екатеринбург)</name>
         <url>https://pragruz.ru/ekaterinburg/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_ekaterinburg</set-ids>
@@ -1909,7 +1909,7 @@
       <offer id="ekaterinburg_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Екатеринбург)</name>
         <url>https://pragruz.ru/ekaterinburg/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_ekaterinburg</set-ids>
@@ -1933,7 +1933,7 @@
       <offer id="ekaterinburg_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Екатеринбург)</name>
         <url>https://pragruz.ru/ekaterinburg/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_ekaterinburg</set-ids>
@@ -1957,7 +1957,7 @@
       <offer id="ekaterinburg_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Екатеринбург)</name>
         <url>https://pragruz.ru/ekaterinburg/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_ekaterinburg</set-ids>
@@ -1981,7 +1981,7 @@
       <offer id="kazan_loaders" available="true">
         <name>ООО "Правильные грузчики" (Казань)</name>
         <url>https://pragruz.ru/kazan/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_kazan</set-ids>
@@ -2005,7 +2005,7 @@
       <offer id="kazan_workers" available="true">
         <name>ООО "Правильные грузчики" (Казань)</name>
         <url>https://pragruz.ru/kazan/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_kazan</set-ids>
@@ -2029,7 +2029,7 @@
       <offer id="kazan_moving" available="true">
         <name>ООО "Правильные грузчики" (Казань)</name>
         <url>https://pragruz.ru/kazan/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_kazan</set-ids>
@@ -2053,7 +2053,7 @@
       <offer id="kazan_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Казань)</name>
         <url>https://pragruz.ru/kazan/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_kazan</set-ids>
@@ -2077,7 +2077,7 @@
       <offer id="kazan_rigging" available="true">
         <name>ООО "Правильные грузчики" (Казань)</name>
         <url>https://pragruz.ru/kazan/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_kazan</set-ids>
@@ -2101,7 +2101,7 @@
       <offer id="kazan_furniture" available="true">
         <name>ООО "Правильные грузчики" (Казань)</name>
         <url>https://pragruz.ru/kazan/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_kazan</set-ids>
@@ -2125,7 +2125,7 @@
       <offer id="kazan_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Казань)</name>
         <url>https://pragruz.ru/kazan/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_kazan</set-ids>
@@ -2149,7 +2149,7 @@
       <offer id="kazan_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Казань)</name>
         <url>https://pragruz.ru/kazan/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_kazan</set-ids>
@@ -2173,7 +2173,7 @@
       <offer id="kazan_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Казань)</name>
         <url>https://pragruz.ru/kazan/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_kazan</set-ids>
@@ -2197,7 +2197,7 @@
       <offer id="nn_loaders" available="true">
         <name>ООО "Правильные грузчики" (Нижний Новгород)</name>
         <url>https://pragruz.ru/nn/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_nn</set-ids>
@@ -2221,7 +2221,7 @@
       <offer id="nn_workers" available="true">
         <name>ООО "Правильные грузчики" (Нижний Новгород)</name>
         <url>https://pragruz.ru/nn/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_nn</set-ids>
@@ -2245,7 +2245,7 @@
       <offer id="nn_moving" available="true">
         <name>ООО "Правильные грузчики" (Нижний Новгород)</name>
         <url>https://pragruz.ru/nn/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_nn</set-ids>
@@ -2269,7 +2269,7 @@
       <offer id="nn_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Нижний Новгород)</name>
         <url>https://pragruz.ru/nn/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_nn</set-ids>
@@ -2293,7 +2293,7 @@
       <offer id="nn_rigging" available="true">
         <name>ООО "Правильные грузчики" (Нижний Новгород)</name>
         <url>https://pragruz.ru/nn/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_nn</set-ids>
@@ -2317,7 +2317,7 @@
       <offer id="nn_furniture" available="true">
         <name>ООО "Правильные грузчики" (Нижний Новгород)</name>
         <url>https://pragruz.ru/nn/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_nn</set-ids>
@@ -2341,7 +2341,7 @@
       <offer id="nn_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Нижний Новгород)</name>
         <url>https://pragruz.ru/nn/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_nn</set-ids>
@@ -2365,7 +2365,7 @@
       <offer id="nn_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Нижний Новгород)</name>
         <url>https://pragruz.ru/nn/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_nn</set-ids>
@@ -2389,7 +2389,7 @@
       <offer id="nn_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Нижний Новгород)</name>
         <url>https://pragruz.ru/nn/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_nn</set-ids>
@@ -2413,7 +2413,7 @@
       <offer id="chelyabinsk_loaders" available="true">
         <name>ООО "Правильные грузчики" (Челябинск)</name>
         <url>https://pragruz.ru/chelyabinsk/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_chelyabinsk</set-ids>
@@ -2437,7 +2437,7 @@
       <offer id="chelyabinsk_workers" available="true">
         <name>ООО "Правильные грузчики" (Челябинск)</name>
         <url>https://pragruz.ru/chelyabinsk/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_chelyabinsk</set-ids>
@@ -2461,7 +2461,7 @@
       <offer id="chelyabinsk_moving" available="true">
         <name>ООО "Правильные грузчики" (Челябинск)</name>
         <url>https://pragruz.ru/chelyabinsk/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_chelyabinsk</set-ids>
@@ -2485,7 +2485,7 @@
       <offer id="chelyabinsk_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Челябинск)</name>
         <url>https://pragruz.ru/chelyabinsk/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_chelyabinsk</set-ids>
@@ -2509,7 +2509,7 @@
       <offer id="chelyabinsk_rigging" available="true">
         <name>ООО "Правильные грузчики" (Челябинск)</name>
         <url>https://pragruz.ru/chelyabinsk/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_chelyabinsk</set-ids>
@@ -2533,7 +2533,7 @@
       <offer id="chelyabinsk_furniture" available="true">
         <name>ООО "Правильные грузчики" (Челябинск)</name>
         <url>https://pragruz.ru/chelyabinsk/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_chelyabinsk</set-ids>
@@ -2557,7 +2557,7 @@
       <offer id="chelyabinsk_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Челябинск)</name>
         <url>https://pragruz.ru/chelyabinsk/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_chelyabinsk</set-ids>
@@ -2581,7 +2581,7 @@
       <offer id="chelyabinsk_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Челябинск)</name>
         <url>https://pragruz.ru/chelyabinsk/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_chelyabinsk</set-ids>
@@ -2605,7 +2605,7 @@
       <offer id="chelyabinsk_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Челябинск)</name>
         <url>https://pragruz.ru/chelyabinsk/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_chelyabinsk</set-ids>
@@ -2629,7 +2629,7 @@
       <offer id="samara_loaders" available="true">
         <name>ООО "Правильные грузчики" (Самара)</name>
         <url>https://pragruz.ru/samara/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_samara</set-ids>
@@ -2653,7 +2653,7 @@
       <offer id="samara_workers" available="true">
         <name>ООО "Правильные грузчики" (Самара)</name>
         <url>https://pragruz.ru/samara/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_samara</set-ids>
@@ -2677,7 +2677,7 @@
       <offer id="samara_moving" available="true">
         <name>ООО "Правильные грузчики" (Самара)</name>
         <url>https://pragruz.ru/samara/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_samara</set-ids>
@@ -2701,7 +2701,7 @@
       <offer id="samara_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Самара)</name>
         <url>https://pragruz.ru/samara/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_samara</set-ids>
@@ -2725,7 +2725,7 @@
       <offer id="samara_rigging" available="true">
         <name>ООО "Правильные грузчики" (Самара)</name>
         <url>https://pragruz.ru/samara/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_samara</set-ids>
@@ -2749,7 +2749,7 @@
       <offer id="samara_furniture" available="true">
         <name>ООО "Правильные грузчики" (Самара)</name>
         <url>https://pragruz.ru/samara/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_samara</set-ids>
@@ -2773,7 +2773,7 @@
       <offer id="samara_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Самара)</name>
         <url>https://pragruz.ru/samara/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_samara</set-ids>
@@ -2797,7 +2797,7 @@
       <offer id="samara_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Самара)</name>
         <url>https://pragruz.ru/samara/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_samara</set-ids>
@@ -2821,7 +2821,7 @@
       <offer id="samara_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Самара)</name>
         <url>https://pragruz.ru/samara/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_samara</set-ids>
@@ -2845,7 +2845,7 @@
       <offer id="rostov_loaders" available="true">
         <name>ООО "Правильные грузчики" (Ростов-на-Дону)</name>
         <url>https://pragruz.ru/rostov/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_rostov</set-ids>
@@ -2869,7 +2869,7 @@
       <offer id="rostov_workers" available="true">
         <name>ООО "Правильные грузчики" (Ростов-на-Дону)</name>
         <url>https://pragruz.ru/rostov/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_rostov</set-ids>
@@ -2893,7 +2893,7 @@
       <offer id="rostov_moving" available="true">
         <name>ООО "Правильные грузчики" (Ростов-на-Дону)</name>
         <url>https://pragruz.ru/rostov/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_rostov</set-ids>
@@ -2917,7 +2917,7 @@
       <offer id="rostov_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Ростов-на-Дону)</name>
         <url>https://pragruz.ru/rostov/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_rostov</set-ids>
@@ -2941,7 +2941,7 @@
       <offer id="rostov_rigging" available="true">
         <name>ООО "Правильные грузчики" (Ростов-на-Дону)</name>
         <url>https://pragruz.ru/rostov/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_rostov</set-ids>
@@ -2965,7 +2965,7 @@
       <offer id="rostov_furniture" available="true">
         <name>ООО "Правильные грузчики" (Ростов-на-Дону)</name>
         <url>https://pragruz.ru/rostov/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_rostov</set-ids>
@@ -2989,7 +2989,7 @@
       <offer id="rostov_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Ростов-на-Дону)</name>
         <url>https://pragruz.ru/rostov/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_rostov</set-ids>
@@ -3013,7 +3013,7 @@
       <offer id="rostov_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Ростов-на-Дону)</name>
         <url>https://pragruz.ru/rostov/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_rostov</set-ids>
@@ -3037,7 +3037,7 @@
       <offer id="rostov_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Ростов-на-Дону)</name>
         <url>https://pragruz.ru/rostov/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_rostov</set-ids>
@@ -3061,7 +3061,7 @@
       <offer id="ufa_loaders" available="true">
         <name>ООО "Правильные грузчики" (Уфа)</name>
         <url>https://pragruz.ru/ufa/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_ufa</set-ids>
@@ -3085,7 +3085,7 @@
       <offer id="ufa_workers" available="true">
         <name>ООО "Правильные грузчики" (Уфа)</name>
         <url>https://pragruz.ru/ufa/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_ufa</set-ids>
@@ -3109,7 +3109,7 @@
       <offer id="ufa_moving" available="true">
         <name>ООО "Правильные грузчики" (Уфа)</name>
         <url>https://pragruz.ru/ufa/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_ufa</set-ids>
@@ -3133,7 +3133,7 @@
       <offer id="ufa_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Уфа)</name>
         <url>https://pragruz.ru/ufa/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_ufa</set-ids>
@@ -3157,7 +3157,7 @@
       <offer id="ufa_rigging" available="true">
         <name>ООО "Правильные грузчики" (Уфа)</name>
         <url>https://pragruz.ru/ufa/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_ufa</set-ids>
@@ -3181,7 +3181,7 @@
       <offer id="ufa_furniture" available="true">
         <name>ООО "Правильные грузчики" (Уфа)</name>
         <url>https://pragruz.ru/ufa/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_ufa</set-ids>
@@ -3205,7 +3205,7 @@
       <offer id="ufa_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Уфа)</name>
         <url>https://pragruz.ru/ufa/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_ufa</set-ids>
@@ -3229,7 +3229,7 @@
       <offer id="ufa_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Уфа)</name>
         <url>https://pragruz.ru/ufa/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_ufa</set-ids>
@@ -3253,7 +3253,7 @@
       <offer id="ufa_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Уфа)</name>
         <url>https://pragruz.ru/ufa/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_ufa</set-ids>
@@ -3277,7 +3277,7 @@
       <offer id="voronezh_loaders" available="true">
         <name>ООО "Правильные грузчики" (Воронеж)</name>
         <url>https://pragruz.ru/voronezh/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_voronezh</set-ids>
@@ -3301,7 +3301,7 @@
       <offer id="voronezh_workers" available="true">
         <name>ООО "Правильные грузчики" (Воронеж)</name>
         <url>https://pragruz.ru/voronezh/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_voronezh</set-ids>
@@ -3325,7 +3325,7 @@
       <offer id="voronezh_moving" available="true">
         <name>ООО "Правильные грузчики" (Воронеж)</name>
         <url>https://pragruz.ru/voronezh/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_voronezh</set-ids>
@@ -3349,7 +3349,7 @@
       <offer id="voronezh_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Воронеж)</name>
         <url>https://pragruz.ru/voronezh/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_voronezh</set-ids>
@@ -3373,7 +3373,7 @@
       <offer id="voronezh_rigging" available="true">
         <name>ООО "Правильные грузчики" (Воронеж)</name>
         <url>https://pragruz.ru/voronezh/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_voronezh</set-ids>
@@ -3397,7 +3397,7 @@
       <offer id="voronezh_furniture" available="true">
         <name>ООО "Правильные грузчики" (Воронеж)</name>
         <url>https://pragruz.ru/voronezh/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_voronezh</set-ids>
@@ -3421,7 +3421,7 @@
       <offer id="voronezh_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Воронеж)</name>
         <url>https://pragruz.ru/voronezh/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_voronezh</set-ids>
@@ -3445,7 +3445,7 @@
       <offer id="voronezh_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Воронеж)</name>
         <url>https://pragruz.ru/voronezh/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_voronezh</set-ids>
@@ -3469,7 +3469,7 @@
       <offer id="voronezh_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Воронеж)</name>
         <url>https://pragruz.ru/voronezh/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_voronezh</set-ids>
@@ -3493,7 +3493,7 @@
       <offer id="volgograd_loaders" available="true">
         <name>ООО "Правильные грузчики" (Волгоград)</name>
         <url>https://pragruz.ru/volgograd/loaders.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_volgograd</set-ids>
@@ -3517,7 +3517,7 @@
       <offer id="volgograd_workers" available="true">
         <name>ООО "Правильные грузчики" (Волгоград)</name>
         <url>https://pragruz.ru/volgograd/workers.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
         <set-ids>set_volgograd</set-ids>
@@ -3541,7 +3541,7 @@
       <offer id="volgograd_moving" available="true">
         <name>ООО "Правильные грузчики" (Волгоград)</name>
         <url>https://pragruz.ru/volgograd/moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_volgograd</set-ids>
@@ -3565,7 +3565,7 @@
       <offer id="volgograd_office-moving" available="true">
         <name>ООО "Правильные грузчики" (Волгоград)</name>
         <url>https://pragruz.ru/volgograd/office-moving.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
         <set-ids>set_volgograd</set-ids>
@@ -3589,7 +3589,7 @@
       <offer id="volgograd_rigging" available="true">
         <name>ООО "Правильные грузчики" (Волгоград)</name>
         <url>https://pragruz.ru/volgograd/rigging.html</url>
-        <price from="true">1200</price>
+        <price>1200</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_volgograd</set-ids>
@@ -3613,7 +3613,7 @@
       <offer id="volgograd_furniture" available="true">
         <name>ООО "Правильные грузчики" (Волгоград)</name>
         <url>https://pragruz.ru/volgograd/furniture.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_volgograd</set-ids>
@@ -3637,7 +3637,7 @@
       <offer id="volgograd_gazel-3m" available="true">
         <name>ООО "Правильные грузчики" (Волгоград)</name>
         <url>https://pragruz.ru/volgograd/arenda-gazeli-3m.html</url>
-        <price from="true">2000</price>
+        <price>2000</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_volgograd</set-ids>
@@ -3661,7 +3661,7 @@
       <offer id="volgograd_gazel-42m" available="true">
         <name>ООО "Правильные грузчики" (Волгоград)</name>
         <url>https://pragruz.ru/volgograd/arenda-gazeli-udlinennoj.html</url>
-        <price from="true">2500</price>
+        <price>2500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_volgograd</set-ids>
@@ -3685,7 +3685,7 @@
       <offer id="volgograd_outsourcing" available="true">
         <name>ООО "Правильные грузчики" (Волгоград)</name>
         <url>https://pragruz.ru/volgograd/autsorsing.html</url>
-        <price from="true">800</price>
+        <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>5</categoryId>
         <set-ids>set_volgograd</set-ids>

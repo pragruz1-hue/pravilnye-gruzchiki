@@ -655,6 +655,20 @@ function buildCityPage(city, pageName, base = "../") {
     return;
   }
 
+  // Premium city landing pages (full design with calculator/fleet/FAQ)
+  // are self-contained — re-wrapping them breaks nested <main>/header.
+  if (pageName === "index.html") {
+    const existing = fs.readFileSync(srcPath, "utf-8");
+    if (
+      existing.includes('class="calculator-section"') ||
+      existing.includes('id="calculator"') ||
+      existing.includes("city-seo-detail")
+    ) {
+      console.log(`  ✓ Kept premium city index: ${city}/index.html`);
+      return;
+    }
+  }
+
   const originalHtml = fs.readFileSync(srcPath, "utf-8");
   let headMeta = extractHeadMeta(originalHtml);
 
