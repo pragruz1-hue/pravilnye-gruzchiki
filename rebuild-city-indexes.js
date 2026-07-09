@@ -165,7 +165,7 @@ function buildCityIndex(code, city, rootHtml, oldHtml) {
   // где якоря уже локальные. Отлично.
 
   // 4. Служебные ссылки на страницы (thank-you.html) — они лежат в корне, но формы
-  // используют same-origin action="/api/submit-lead"
+  // имеют безопасный action="about:blank"; JS отправляет только после проверки `/api/health`
   // (абсолютные URL), поэтому трогать не надо.
 
   // 5. Meta / title / canonical

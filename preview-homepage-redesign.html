@@ -156,7 +156,7 @@
                 <span class="visual-status"><span class="pulse-dot"></span> Принимаем заявки сейчас</span>
                 <h3>Быстрый расчёт за 2 минуты</h3>
               </div>
-              <form class="hero-quick-form" id="hero-quick-form" action="/api/submit-lead" method="post">
+              <form class="hero-quick-form" id="hero-quick-form" action="about:blank" method="post">
                 <div class="form-group-custom">
                   <label for="quick-service">Что нужно сделать?</label>
                   <select id="quick-service" class="form-select-custom">
@@ -889,7 +889,7 @@
               <form
                 id="main-booking-form"
                 class="main-form"
-               action="/api/submit-lead" method="POST">
+               action="about:blank" method="POST">
                 <input
                   type="hidden"
                   name="_next"
@@ -1325,7 +1325,7 @@
       <h3>Оформление заказа</h3>
       <p id="modal-subtitle">Вы заказываете: <strong id="modal-service-name">Грузчики</strong></p>
     </div>
-    <form id="modal-booking-form" action="/api/submit-lead" method="POST">
+    <form id="modal-booking-form" action="about:blank" method="POST">
       <input type="hidden" name="_next" value="https://pragruz.ru/thank-you.html" />
       <div class="form-hp-field" aria-hidden="true">
         <label>Не заполняйте это поле</label>
@@ -1368,7 +1368,7 @@
       <h3>Поделитесь впечатлениями</h3>
       <p>Ваш отзыв поможет нам стать лучше</p>
     </div>
-    <form id="review-form" onsubmit="submitReview(event)" action="/api/submit-lead" method="POST">
+    <form id="review-form" onsubmit="submitReview(event)" action="about:blank" method="POST">
       <div class="form-hp-field" aria-hidden="true">
         <label>Не заполняйте это поле</label>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />

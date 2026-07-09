@@ -12,6 +12,7 @@ const METRIKA_ID = 110161606;
 const COOKIE_CONSENT_KEY = "pg_cookie_consent";
 const COOKIE_CONSENT_VERSION = "2026-07-09-1";
 const COOKIE_CONSENT_MAX_AGE_MS = 180 * 24 * 60 * 60 * 1000;
+let leadBackendCheck = null;
 
 /** Russian phone input masking. */
 export function setupPhoneMask(input) {
@@ -151,6 +152,28 @@ function isLikelyBot(form) {
   return Boolean(hp?.value) || !token?.value || Date.now() - startedAt < MIN_FORM_TIME_MS;
 }
 
+async function ensureLeadBackendAvailable() {
+  if (!leadBackendCheck) {
+    leadBackendCheck = fetch("/api/health", {
+      method: "GET",
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    }).then(async (response) => {
+      let result = null;
+      try { result = await response.json(); } catch (_) { /* static hosting returns HTML */ }
+      if (!response.ok || result?.status !== "ok" || result?.storage !== "local-rf-required") {
+        throw new Error("Сервис онлайн-заявок ещё не подключён. Позвоните нам по номеру +7 (928) 333-32-81.");
+      }
+      return true;
+    }).catch((error) => {
+      leadBackendCheck = null;
+      throw error;
+    });
+  }
+  return leadBackendCheck;
+}
+
 /** Submit a lead to the same-origin endpoint. No foreign form processor is used. */
 export async function submitLead(payload, form) {
   preparePersonalDataForm(form);
@@ -161,6 +184,10 @@ export async function submitLead(payload, form) {
   if (isLikelyBot(form)) {
     throw new Error("Проверка формы не пройдена. Пожалуйста, попробуйте ещё раз через несколько секунд.");
   }
+
+  // Verify a compatible RF-hosted backend before creating or transmitting the payload.
+  // On static GitHub Pages this harmless GET fails and personal data never leaves the form.
+  await ensureLeadBackendAvailable();
 
   const formValues = Object.fromEntries(new FormData(form).entries());
   const data = {

@@ -4,7 +4,7 @@
 - Removed all unconditional Yandex.Metrika snippets and 345 noscript tracking pixels from baked HTML.
 - Analytics loads only after explicit opt-in; Webvisor and clickmap are disabled.
 - Added versioned cookie choice (180 days), permanent settings/withdrawal button and `cookies.html`.
-- Removed Formspree and its unpkg client from every page; all forms use `/api/submit-lead`.
+- Removed Formspree and its unpkg client from every page; all forms submit through JS to `/api/submit-lead` after `/api/health` validation.
 - Added separate form consent and separate review-publication consent with version/timestamp logging.
 - Replaced `server.js`: same-origin API, local NDJSON, 90-day cleanup, rate/body/origin controls, no Telegram/foreign forwarding.
 - Removed IP geolocation (`ipapi.co`) and switched to URL/saved explicit city selection.
