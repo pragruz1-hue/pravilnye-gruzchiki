@@ -1,5 +1,6 @@
 /**
  * Phone mask, Formspree integration, and form submission handling
+ * with spinner support and cookie consent
  */
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xeebjwkn";
@@ -160,4 +161,75 @@ export function showToast(message, type = "error") {
     toast.style.transition = "opacity 0.3s";
     setTimeout(() => toast.remove(), 300);
   }, 4000);
+}
+
+/**
+ * Add loading spinner to a submit button
+ */
+export function showButtonSpinner(btn) {
+  if (!btn || btn.classList.contains("btn-loading")) return;
+  btn.classList.add("btn-loading");
+  const originalText = btn.textContent || btn.innerHTML;
+  btn.dataset.originalText = originalText;
+  btn.innerHTML = `<span class="btn-text" style="visibility:hidden">${originalText}</span><span class="btn-spinner"></span>`;
+}
+
+/**
+ * Remove loading spinner from a submit button
+ */
+export function hideButtonSpinner(btn) {
+  if (!btn) return;
+  btn.classList.remove("btn-loading");
+  if (btn.dataset.originalText) {
+    btn.innerHTML = btn.dataset.originalText;
+  }
+}
+
+/**
+ * Initialize cookie consent banner
+ */
+export function initCookieBanner() {
+  const banner = document.getElementById("cookie-banner");
+  if (!banner) return;
+
+  const consent = localStorage.getItem("cookie_consent");
+  if (consent === "accepted" || consent === "declined") {
+    banner.remove();
+    return;
+  }
+
+  // Show banner after a short delay
+  setTimeout(() => {
+    banner.classList.add("active");
+  }, 500);
+
+  const acceptBtn = document.getElementById("cookie-accept-btn");
+  const declineBtn = document.getElementById("cookie-decline-btn");
+
+  if (acceptBtn) {
+    acceptBtn.addEventListener("click", () => {
+      localStorage.setItem("cookie_consent", "accepted");
+      banner.classList.remove("active");
+      // Enable Yandex.Metrika if it was disabled
+      if (window.ym) {
+        window.ym(110161606, 'init', {
+          ssr: true, webvisor: true, clickmap: true,
+          ecommerce: "dataLayer", accurateTrackBounce: true, trackLinks: true
+        });
+      }
+      setTimeout(() => banner.remove(), 500);
+    });
+  }
+
+  if (declineBtn) {
+    declineBtn.addEventListener("click", () => {
+      localStorage.setItem("cookie_consent", "declined");
+      banner.classList.remove("active");
+      // Disable Yandex.Metrika
+      if (window.ym) {
+        window.ym(110161606, 'stop');
+      }
+      setTimeout(() => banner.remove(), 500);
+    });
+  }
 }

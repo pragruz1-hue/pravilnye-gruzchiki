@@ -448,3 +448,226 @@ picture {
     bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
   }
 }
+
+/* ===== COOKIE CONSENT BANNER ===== */
+.cookie-consent-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background: rgba(7, 9, 14, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 20px;
+  transform: translateY(100%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
+}
+.cookie-consent-banner.active {
+  transform: translateY(0);
+}
+.cookie-consent-content {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.cookie-consent-content p {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 780px;
+}
+.cookie-consent-content a {
+  color: #ff8f00;
+  text-decoration: underline;
+}
+.cookie-consent-btns {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.cookie-consent-btns .btn {
+  min-width: 110px;
+  padding: 10px 20px;
+  font-size: 0.85rem;
+}
+@media (max-width: 768px) {
+  .cookie-consent-content {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .cookie-consent-content p {
+    max-width: 100%;
+  }
+  .cookie-consent-btns {
+    justify-content: center;
+  }
+}
+
+/* ===== FORM SUBMISSION SPINNER ===== */
+.btn-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: pg-spin 0.6s linear infinite;
+}
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+}
+@keyframes pg-spin {
+  to { transform: rotate(360deg); }
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* ===== TOAST NOTIFICATION IMPROVEMENTS ===== */
+.pg-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  z-index: 100000;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  animation: toastSlideUp 0.35s ease;
+  font-weight: 500;
+  max-width: 90vw;
+  text-align: center;
+}
+@keyframes toastSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ===== MOBILE IMAGE FIXES ===== */
+@media (max-width: 768px) {
+  .service-image-box {
+    aspect-ratio: 16 / 10;
+    height: auto;
+    overflow: hidden;
+  }
+  .service-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .fleet-img-box {
+    height: 200px;
+    min-height: 200px;
+    overflow: hidden;
+  }
+  .fleet-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Fix hero feature icons alignment */
+  .hero-features-grid {
+    gap: 12px;
+  }
+  .hero-feature-item {
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+  }
+  .hero-feature-item .feature-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 115, 0, 0.12);
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+  /* Fix stats grid on very small screens */
+  .stat-card {
+    padding: 16px 10px !important;
+  }
+  .stat-num {
+    font-size: 2rem !important;
+  }
+}
+
+/* ===== ASPECT-RATIO для всех изображений (CLS fix, без width/height на каждой странице) ===== */
+.service-image-box {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.service-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fleet-img-box {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+.fleet-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pg-team-photo-wrapper {
+  aspect-ratio: 3 / 1;
+  overflow: hidden;
+  border-radius: 16px;
+}
+.pg-team-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+.hero-section img {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+}
+.hero-glass-card {
+  aspect-ratio: auto;
+}
+.review-avatar-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+@media (max-width: 768px) {
+  .pg-team-photo-wrapper {
+    aspect-ratio: 16 / 9;
+  }
+  .service-image-box {
+    aspect-ratio: 16 / 10;
+  }
+  .fleet-img-box {
+    aspect-ratio: 4 / 3;
+  }
+}

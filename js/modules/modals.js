@@ -2,7 +2,7 @@
  * Modal windows: Order modal, Review modal, Exit-intent popup
  */
 
-import { setupPhoneMask, submitLeadToFormspree, showToast } from "./forms.js";
+import { setupPhoneMask, submitLeadToFormspree, showToast, showButtonSpinner, hideButtonSpinner } from "./forms.js";
 import { CITIES_DATA } from "./geotargeting.js";
 
 // ==========================================
@@ -56,11 +56,14 @@ export function initOrderModal() {
   if (modalBookingForm && modalSuccessConfirm) {
     modalBookingForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const submitBtn = document.getElementById("modal-submit-btn");
+      if (submitBtn) showButtonSpinner(submitBtn);
       const nameVal = document.getElementById("modal-name").value.trim();
       const phoneVal = document.getElementById("modal-phone").value.trim();
       const serviceVal = modalServiceInput ? modalServiceInput.value : (modalServiceName ? modalServiceName.textContent : "Заявка из модального окна");
       const detailsVal = modalDetailsInput ? modalDetailsInput.value : "";
       if (!nameVal || phoneVal.length < 10) {
+        if (submitBtn) hideButtonSpinner(submitBtn);
         showToast("Пожалуйста, введите имя и номер телефона.", "error");
         return;
       }
@@ -68,7 +71,9 @@ export function initOrderModal() {
         await submitLeadToFormspree({ name: nameVal, phone: phoneVal, service: serviceVal, details: detailsVal, source: "Order Modal" }, modalBookingForm);
         modalBookingForm.style.display = "none";
         modalSuccessConfirm.classList.add("active");
+        if (submitBtn) hideButtonSpinner(submitBtn);
       } catch (error) {
+        if (submitBtn) hideButtonSpinner(submitBtn);
         showToast(error.message || "Не удалось отправить заявку.", "error");
       }
     });
@@ -144,11 +149,14 @@ export function initOrderModal() {
   if (mainForm && successConfirm) {
     mainForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const submitBtn = document.getElementById("form-submit-btn");
+      if (submitBtn) showButtonSpinner(submitBtn);
       const nameVal = document.getElementById("form-name").value.trim();
       const phoneVal = document.getElementById("form-phone").value.trim();
       const serviceEl = document.getElementById("form-service");
       const commentEl = document.getElementById("form-comment");
       if (!nameVal || phoneVal.length < 10) {
+        if (submitBtn) hideButtonSpinner(submitBtn);
         showToast("Пожалуйста, введите корректное имя и номер телефона.", "error");
         return;
       }
@@ -159,9 +167,11 @@ export function initOrderModal() {
           comment: commentEl ? commentEl.value.trim() : "",
           source: "Main Booking Form",
         }, mainForm);
+        if (submitBtn) hideButtonSpinner(submitBtn);
         mainForm.style.display = "none";
         successConfirm.classList.add("active");
       } catch (error) {
+        if (submitBtn) hideButtonSpinner(submitBtn);
         showToast(error.message || "Не удалось отправить заявку.", "error");
       }
     });
@@ -239,6 +249,8 @@ export function initReviewModal() {
   // Submit review handler (exposed globally for inline onsubmit)
   window.submitReview = async function(e) {
     e.preventDefault();
+    const submitBtn = document.querySelector('#review-form button[type="submit"]');
+    if (submitBtn) showButtonSpinner(submitBtn);
     const name = document.getElementById("review-name").value.trim();
     const phone = document.getElementById("review-phone").value.trim();
     const service = document.getElementById("review-service").value;
@@ -246,14 +258,17 @@ export function initReviewModal() {
     const rating = document.getElementById("review-rating").value;
     const city = document.getElementById("review-city").value;
     if (!name || phone.length < 10 || !service || !text) {
+      if (submitBtn) hideButtonSpinner(submitBtn);
       showToast("Пожалуйста, заполните все поля корректно.", "error");
       return;
     }
     try {
       await submitLeadToFormspree({ name, phone, service, text, rating, city, source: "Review Modal", timestamp: new Date().toISOString() }, document.getElementById("review-form"));
+      if (submitBtn) hideButtonSpinner(submitBtn);
       document.getElementById("review-form").style.display = "none";
       document.getElementById("review-success").classList.add("active");
     } catch (error) {
+      if (submitBtn) hideButtonSpinner(submitBtn);
       showToast(error.message || "Не удалось отправить отзыв.", "error");
     }
   };
@@ -332,17 +347,22 @@ export function initExitIntentPopup() {
   if (exitForm && exitSuccessConfirm) {
     exitForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const submitBtn = document.getElementById("exit-submit-btn");
+      if (submitBtn) showButtonSpinner(submitBtn);
       const phoneVal = phoneInput.value.trim();
       if (phoneVal.length < 10) {
+        if (submitBtn) hideButtonSpinner(submitBtn);
         showToast("Пожалуйста, введите корректный номер телефона.", "error");
         return;
       }
       try {
         await submitLeadToFormspree({ phone: phoneVal, service: "Скидка 10%", promo: "OFFER10", source: "Exit Intent Popup" }, exitForm);
+        if (submitBtn) hideButtonSpinner(submitBtn);
         exitForm.style.display = "none";
         exitSuccessConfirm.classList.add("active");
         localStorage.setItem("exit_popup_shown", "true");
       } catch (error) {
+        if (submitBtn) hideButtonSpinner(submitBtn);
         showToast(error.message || "Не удалось отправить заявку.", "error");
       }
     });

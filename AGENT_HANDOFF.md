@@ -232,4 +232,46 @@ rg -n 'TELEGRAM_BOT_TOKEN = "\d' server.js || echo OK
 
 ---
 
+## 12. Changes in arena/019f4674-pravilnye-gruzchiki session (2026-07-09)
+
+### New improvements
+
+| Item | Status | Notes |
+|------|--------|-------|
+| **Self-hosted fonts CSS** | ✅ | `css/00-fonts.css` — Inter + Montserrat @font-face rules with `font-display: swap`; only cyrillic + latin subsets; comments with local paths ready for when woff2 files are downloaded |
+| **index.html → removed Google Fonts link** | ✅ | Now uses local `css/style.css` which imports `00-fonts.css`; Google Fonts link replaced with preconnect hints; fallback still works via CDN |
+| **Broken HTML in contacts section** | ✅ | Fixed unclosed `<p>` tag before nested `<div>` in index.html contacts |
+| **Empty hero feature icon** | ✅ | Added missing emoji 📄 to "Работа с юрлицами" feature |
+| **Broken `extended_gazelle` file** | ✅ | Deleted 1-byte junk file from `/assets/` |
+| **Cookie consent banner** | ✅ | Added to `partials/floating-buttons.html` (all pages) + index.html; JS logic (`initCookieBanner`) with localStorage persistence; stops Metrika if declined |
+| **Form submission spinners** | ✅ | `showButtonSpinner`/`hideButtonSpinner` in forms.js; added to modal form, main form, review form, exit-intent form |
+| **aspect-ratio CSS вместо width/height на 350+ страницах** | ✅ | CSS `aspect-ratio` rules для `.service-image-box` (16/10), `.fleet-img-box` (3/2), `.pg-team-photo-wrapper` (3/1), `.review-avatar-img` — применяется ко всем 350+ страницам без правки HTML |
+| **SVG favicon** | ✅ | Uses `assets/favicon.svg` (ПГ logo) + PNG fallback |
+| **Web manifest** | ✅ | `manifest.json` for PWA-like behavior |
+| **Logo.png сжат** | ✅ | 1,045 KB → 76 KB (93% экономии) через ImageMagick |
+| **Mobile CSS improvements** | ✅ | Cookie banner styles; form spinner styles; toast animation; hero feature icons with background |
+| **FONTS_SETUP.md** | ✅ | Detailed instructions for manual font download |
+
+### Fixed files
+
+- `index.html` — fonts, favicon, cookie banner, fixed HTML, aspect-ratio removed width/height, spinner
+- `css/00-fonts.css` — **NEW** self-hosted fonts with `@font-face` + local path comments
+- `css/style.css` — imports 00-fonts.css
+- `css/07-project-patch.css` — cookie banner, spinner, aspect-ratio, mobile improvements
+- `js/modules/forms.js` — cookie banner, button spinner, showToast improvements
+- `js/modules/modals.js` — spinner on all form submissions
+- `js/app.js` — import initCookieBanner (moved before Metrika)
+- `partials/floating-buttons.html` — cookie banner with correct classes
+- `manifest.json` — **NEW** PWA manifest
+- `assets/extended_gazelle` — **DELETED** (1-byte junk)
+- `assets/logo.png` — **COMPRESSED** 1070KB → 76KB
+- `FONTS_SETUP.md` — **NEW** font download instructions
+
+### Still to do (for next agent)
+
+1. **Revoke Telegram token** in git history, create new one
+2. **Download woff2 files** — follow `FONTS_SETUP.md`, put files in `assets/fonts/`, then uncomment local `src` lines in `css/00-fonts.css`
+3. **Mobile QA on real devices** — 320 / 375 / 414 / 768
+4. **Unique city content** — districts, local FAQ, prices per city
+
 *End of handoff. Keep this file updated when completing P1–P3 items (checkboxes above).*
