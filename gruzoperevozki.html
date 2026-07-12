@@ -151,7 +151,24 @@
                 <div class="cargo-bay" id="cargo-bay"></div>
                 <span class="cargo-bay-measure-x">длина кузова</span>
               </div>
-              <div class="cargo-progress-wrap"><div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-fill"></div></div></div>
+              <div class="cargo-progress-wrap">
+                <div class="cargo-progress-labels">
+                  <span>Объём</span>
+                  <span id="cargo-progress-volume-text">0%</span>
+                </div>
+                <div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-volume"></div></div>
+                <div class="cargo-progress-labels">
+                  <span>Площадь пола</span>
+                  <span id="cargo-progress-area-text">0%</span>
+                </div>
+                <div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-area"></div></div>
+                <div class="cargo-progress-labels">
+                  <span>Вес</span>
+                  <span id="cargo-progress-weight-text">0%</span>
+                </div>
+                <div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-weight"></div></div>
+              </div>
+              <div class="cargo-height-alert" id="cargo-height-alert"></div>
               <p class="cargo-disclaimer">Расчет является предварительным и не является публичной офертой. Реальная загрузка зависит от упаковки, формы предметов, возможности штабелирования и распределения веса.</p>
             </section>
 
@@ -166,7 +183,7 @@
               <div class="cargo-recommendation" id="cargo-recommendation"></div>
               <div class="cargo-selected-list" id="cargo-selected-list"></div>
               <div class="cargo-actions-col">
-                <button type="submit" class="btn btn-primary btn-block" id="cargo-request-btn">Оставить заявку с этим списком</button>
+                <button type="button" class="btn btn-primary btn-block" id="cargo-request-btn">Оставить заявку с этим списком</button>
                 <button type="button" class="btn btn-secondary btn-block" id="cargo-clear-btn">Очистить кузов</button>
               </div>
             </aside>
