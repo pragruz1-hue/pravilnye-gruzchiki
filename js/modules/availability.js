@@ -19,6 +19,25 @@ const MIN_NEW_ORDER_INTERVAL_MS = 65 * 1000;
 const MAX_NEW_ORDER_INTERVAL_MS = 4 * 60 * 1000;
 const MINUTE_MS = 60 * 1000;
 
+const CRM_BRIGADES_STORAGE_PREFIX = "pg_live_crm_brigades_v1";
+const CRM_ORDERS_STORAGE_PREFIX = "pg_live_crm_orders_v1";
+
+const BRIGADES_MIN = 1;
+const BRIGADES_MAX = 12;
+const BRIGADES_INITIAL_MIN = 3;
+const BRIGADES_INITIAL_MAX = 8;
+const BRIGADES_UPDATE_INTERVAL_MIN_MS = 5 * 60 * 1000;
+const BRIGADES_UPDATE_INTERVAL_MAX_MS = 15 * 60 * 1000;
+
+const ORDERS_INITIAL_MIN = 5;
+const ORDERS_INITIAL_MAX = 12;
+const ORDERS_DAY_INCREMENT_MIN_MS = 10 * 60 * 1000;
+const ORDERS_DAY_INCREMENT_MAX_MS = 30 * 60 * 1000;
+const ORDERS_NIGHT_INCREMENT_MIN_MS = 60 * 60 * 1000;
+const ORDERS_NIGHT_INCREMENT_MAX_MS = 2 * 60 * 60 * 1000;
+const ORDERS_TARGET_DAY_END_MIN = 30;
+const ORDERS_TARGET_DAY_END_MAX = 55;
+
 const inMemoryCrmStateByKey = new Map();
 
 const moscowTimeFormatter = new Intl.DateTimeFormat("ru-RU", {
@@ -320,10 +339,171 @@ function renderLiveOrderItems(items, availability, state, nowMs, cityCode) {
   });
 }
 
+/* ===== LIVE CRM: BRIGADES & ORDERS ===== */
+
+function bindLiveCrmItems() {
+  const items = Array.from(document.querySelectorAll("[data-live-crm]"));
+  return items.filter((item) => {
+    const label = item.querySelector(".hero-live-label");
+    const value = item.querySelector(".hero-live-value");
+    if (!label || !value) return false;
+
+    if (!item.dataset.defaultLabel) item.dataset.defaultLabel = label.textContent.trim();
+    if (!item.dataset.defaultValue) item.dataset.defaultValue = value.textContent.trim();
+    if (!item.hasAttribute("aria-live")) item.setAttribute("aria-live", "polite");
+
+    return true;
+  });
+}
+
+function getCrmStorageKey(prefix, cityCode) {
+  return `${prefix}:${normalizeCrmStoragePart(cityCode)}`;
+}
+
+function readCrmState(storageKey) {
+  const storage = getSafeLocalStorage();
+  if (!storage) return inMemoryCrmStateByKey.get(storageKey) || null;
+
+  try {
+    const parsed = JSON.parse(storage.getItem(storageKey) || "null");
+    if (!parsed || parsed.version !== 1) return null;
+    if (![parsed.seed, parsed.updatedAt].every(Number.isFinite)) return null;
+    return parsed;
+  } catch (error) {
+    return null;
+  }
+}
+
+function writeCrmState(storageKey, state) {
+  inMemoryCrmStateByKey.set(storageKey, state);
+  const storage = getSafeLocalStorage();
+  if (!storage) return;
+  try {
+    storage.setItem(storageKey, JSON.stringify(state));
+  } catch (error) {
+    // Ignore quota/private-mode errors.
+  }
+}
+
+function getMoscowDayKey(date = new Date()) {
+  const parts = moscowTimeFormatter.formatToParts(date);
+  const year = parts.find((p) => p.type === "year")?.value;
+  const month = parts.find((p) => p.type === "month")?.value;
+  const day = parts.find((p) => p.type === "day")?.value;
+  return `${year}-${month}-${day}`;
+}
+
+function createBrigadesCrmState(nowMs) {
+  const state = {
+    version: 1,
+    seed: Math.floor(Math.random() * 4294967295) >>> 0,
+    value: Math.floor(Math.random() * (BRIGADES_INITIAL_MAX - BRIGADES_INITIAL_MIN + 1)) + BRIGADES_INITIAL_MIN,
+    nextUpdateAt: nowMs + Math.floor(Math.random() * (BRIGADES_UPDATE_INTERVAL_MAX_MS - BRIGADES_UPDATE_INTERVAL_MIN_MS + 1)) + BRIGADES_UPDATE_INTERVAL_MIN_MS,
+    updatedAt: nowMs,
+  };
+  return state;
+}
+
+function updateBrigadesCrmState(state, nowMs, isOpen) {
+  let safety = 0;
+  while (nowMs >= state.nextUpdateAt && safety < 120) {
+    const change = isOpen
+      ? (nextCrmRandom(state) < 0.45 ? -1 : nextCrmRandom(state) < 0.75 ? 0 : 1)
+      : (nextCrmRandom(state) < 0.7 ? 1 : nextCrmRandom(state) < 0.9 ? 0 : -1);
+    state.value = clampNumber(state.value + change, BRIGADES_MIN, BRIGADES_MAX);
+    state.nextUpdateAt += getCrmInt(state, BRIGADES_UPDATE_INTERVAL_MIN_MS, BRIGADES_UPDATE_INTERVAL_MAX_MS);
+    safety += 1;
+  }
+  state.updatedAt = nowMs;
+  return state;
+}
+
+function getBrigadesCrmState(nowMs, cityCode, isOpen) {
+  const storageKey = getCrmStorageKey(CRM_BRIGADES_STORAGE_PREFIX, cityCode);
+  let state = readCrmState(storageKey);
+  if (!state) {
+    state = createBrigadesCrmState(nowMs);
+  }
+  state = updateBrigadesCrmState(state, nowMs, isOpen);
+  writeCrmState(storageKey, state);
+  return state;
+}
+
+function createOrdersCrmState(nowMs, dayKey) {
+  const seed = Math.floor(Math.random() * 4294967295) >>> 0;
+  const state = {
+    version: 1,
+    seed,
+    value: Math.floor(Math.random() * (ORDERS_INITIAL_MAX - ORDERS_INITIAL_MIN + 1)) + ORDERS_INITIAL_MIN,
+    dayKey,
+    nextUpdateAt: nowMs + getCrmInt({ seed }, ORDERS_DAY_INCREMENT_MIN_MS, ORDERS_DAY_INCREMENT_MAX_MS),
+    updatedAt: nowMs,
+  };
+  return state;
+}
+
+function updateOrdersCrmState(state, nowMs, isOpen) {
+  const incrementMin = isOpen ? ORDERS_DAY_INCREMENT_MIN_MS : ORDERS_NIGHT_INCREMENT_MIN_MS;
+  const incrementMax = isOpen ? ORDERS_DAY_INCREMENT_MAX_MS : ORDERS_NIGHT_INCREMENT_MAX_MS;
+
+  let safety = 0;
+  while (nowMs >= state.nextUpdateAt && safety < 240) {
+    state.value += 1;
+    state.nextUpdateAt += getCrmInt(state, incrementMin, incrementMax);
+    safety += 1;
+  }
+  state.updatedAt = nowMs;
+  return state;
+}
+
+function getOrdersCrmState(nowMs, cityCode, isOpen) {
+  const storageKey = getCrmStorageKey(CRM_ORDERS_STORAGE_PREFIX, cityCode);
+  const currentDayKey = getMoscowDayKey(new Date(nowMs));
+  let state = readCrmState(storageKey);
+
+  if (!state || state.dayKey !== currentDayKey) {
+    state = createOrdersCrmState(nowMs, currentDayKey);
+  }
+
+  state = updateOrdersCrmState(state, nowMs, isOpen);
+  writeCrmState(storageKey, state);
+  return state;
+}
+
+function renderLiveCrmItems(items, nowMs, cityCode, isOpen) {
+  const brigadesState = getBrigadesCrmState(nowMs, cityCode, isOpen);
+  const ordersState = getOrdersCrmState(nowMs, cityCode, isOpen);
+
+  items.forEach((item) => {
+    const type = item.dataset.liveCrm;
+    const valueEl = item.querySelector(".hero-live-value");
+    if (!valueEl) return;
+
+    let nextValue;
+    if (type === "brigades") {
+      nextValue = String(brigadesState.value);
+    } else if (type === "orders-today") {
+      nextValue = String(ordersState.value);
+    } else {
+      return;
+    }
+
+    if (valueEl.textContent !== nextValue) {
+      markValueAsUpdating(valueEl);
+      valueEl.textContent = nextValue;
+    }
+
+    item.dataset.crmCity = cityCode;
+    item.classList.toggle("is-open", isOpen);
+    item.classList.toggle("is-closed", !isOpen);
+  });
+}
+
 export function initApplicationAvailability() {
   const statusElements = document.querySelectorAll("[data-application-status]");
   const liveOrderItems = bindLiveOrderItems();
-  if (!statusElements.length && !liveOrderItems.length) return;
+  const liveCrmItems = bindLiveCrmItems();
+  if (!statusElements.length && !liveOrderItems.length && !liveCrmItems.length) return;
 
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "local";
   const crmCity = getCurrentCrmCity();
@@ -357,6 +537,10 @@ export function initApplicationAvailability() {
         liveOrderStorageKey,
       );
       renderLiveOrderItems(liveOrderItems, availability, state, nowMs, crmCity);
+    }
+
+    if (liveCrmItems.length) {
+      renderLiveCrmItems(liveCrmItems, nowMs, crmCity, availability.isOpen);
     }
   };
 
