@@ -118,15 +118,19 @@
               <div class="cargo-panel-title"><h3>1. Машина</h3></div>
               <div class="cargo-car-options">
                 <button type="button" class="cargo-car-btn active" data-vehicle="gazel3"><strong>Газель 3 м</strong><span>300×190×180 см · около 10 м³</span></button>
-                <button type="button" class="cargo-car-btn" data-vehicle="gazel42"><strong>Газель 4.2 м</strong><span>420×200×210 см · около 17 м³</span></button>
-                <button type="button" class="cargo-car-btn" data-vehicle="truck5"><strong>Фургон 5 м</strong><span>500×210×220 см · около 23 м³</span></button>
-                <button type="button" class="cargo-car-btn" data-vehicle="truck6"><strong>Машина 6 м</strong><span>600×220×230 см · около 30 м³</span></button>
+                <button type="button" class="cargo-car-btn" data-vehicle="gazel42"><strong>Газель 4.2 м</strong><span>420×200×210 см · около 18 м³</span></button>
+                <button type="button" class="cargo-car-btn" data-vehicle="truck5"><strong>Фургон 5 м</strong><span>500×210×210 см · около 22 м³</span></button>
+                <button type="button" class="cargo-car-btn" data-vehicle="truck6"><strong>Машина 6 м</strong><span>600×220×210 см · около 28 м³</span></button>
               </div>
               <div class="cargo-panel-title"><h3>2. Добавьте вещи</h3></div>
+              <button type="button" class="cargo-quick-fill-btn" id="cargo-quick-fill-btn">Заполнить данные</button>
               <div class="cargo-items-grid">
-                <button type="button" class="cargo-item-btn" data-item="box"><strong>Коробка</strong><span>60×40×40</span></button>
-                <button type="button" class="cargo-item-btn" data-item="bigbox"><strong>Большая коробка</strong><span>80×60×50</span></button>
-                <button type="button" class="cargo-item-btn" data-item="bags"><strong>Мешки / баулы</strong><span>75×45×45</span></button>
+                <button type="button" class="cargo-item-btn" data-item="box"><strong>Картонная стандартная</strong><span>60×40×40 · до 20 кг</span></button>
+                <button type="button" class="cargo-item-btn" data-item="bigbox"><strong>Картонная усиленная</strong><span>80×60×50 · до 35 кг</span></button>
+                <button type="button" class="cargo-item-btn" data-item="plastic"><strong>Пластиковый контейнер</strong><span>60×40×35 · до 40 кг</span></button>
+                <button type="button" class="cargo-item-btn" data-item="bags"><strong>Баулы / мешки</strong><span>75×45×45 · до 25 кг</span></button>
+                <button type="button" class="cargo-item-btn" data-item="woodbox"><strong>Деревянный ящик</strong><span>80×60×50 · до 80 кг</span></button>
+                <button type="button" class="cargo-item-btn" data-item="glassbox"><strong>Коробка со стеклом</strong><span>50×50×40 · до 15 кг</span></button>
                 <button type="button" class="cargo-item-btn" data-item="sofa"><strong>Диван</strong><span>210×90×85</span></button>
                 <button type="button" class="cargo-item-btn" data-item="armchair"><strong>Кресло</strong><span>95×85×90</span></button>
                 <button type="button" class="cargo-item-btn" data-item="wardrobe"><strong>Шкаф</strong><span>120×60×210</span></button>
@@ -143,7 +147,11 @@
 
             <section class="cargo-panel cargo-visual-wrap">
               <div class="cargo-stage-head">
-                <div><h3 id="cargo-current-vehicle">Газель 3 м</h3><p class="cargo-disclaimer" id="cargo-current-dims">300×190×180 см</p></div>
+                <div>
+                  <h3 id="cargo-current-vehicle">Газель 3 м</h3>
+                  <p class="cargo-disclaimer" id="cargo-current-dims">300×190×180 см</p>
+                  <p class="cargo-height-note" id="cargo-height-note"></p>
+                </div>
                 <span class="cargo-dims-badge">вид сверху</span>
               </div>
               <div class="cargo-bay-outer">
@@ -151,7 +159,29 @@
                 <div class="cargo-bay" id="cargo-bay"></div>
                 <span class="cargo-bay-measure-x">длина кузова</span>
               </div>
-              <div class="cargo-progress-wrap"><div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-fill"></div></div></div>
+              <div class="cargo-bay-side-outer">
+                <span class="cargo-bay-side-measure-y">высота кузова</span>
+                <div class="cargo-bay-side" id="cargo-bay-side"></div>
+                <span class="cargo-bay-side-measure-x">длина кузова</span>
+              </div>
+              <div class="cargo-progress-wrap">
+                <div class="cargo-progress-labels">
+                  <span>Объём</span>
+                  <span id="cargo-progress-volume-text">0%</span>
+                </div>
+                <div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-volume"></div></div>
+                <div class="cargo-progress-labels">
+                  <span>Площадь пола</span>
+                  <span id="cargo-progress-area-text">0%</span>
+                </div>
+                <div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-area"></div></div>
+                <div class="cargo-progress-labels">
+                  <span>Вес</span>
+                  <span id="cargo-progress-weight-text">0%</span>
+                </div>
+                <div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-weight"></div></div>
+              </div>
+              <div class="cargo-height-alert" id="cargo-height-alert"></div>
               <p class="cargo-disclaimer">Расчет является предварительным и не является публичной офертой. Реальная загрузка зависит от упаковки, формы предметов, возможности штабелирования и распределения веса.</p>
             </section>
 
@@ -166,7 +196,7 @@
               <div class="cargo-recommendation" id="cargo-recommendation"></div>
               <div class="cargo-selected-list" id="cargo-selected-list"></div>
               <div class="cargo-actions-col">
-                <button type="submit" class="btn btn-primary btn-block" id="cargo-request-btn">Оставить заявку с этим списком</button>
+                <button type="button" class="btn btn-primary btn-block" id="cargo-request-btn">Оставить заявку с этим списком</button>
                 <button type="button" class="btn btn-secondary btn-block" id="cargo-clear-btn">Очистить кузов</button>
               </div>
             </aside>
@@ -299,6 +329,51 @@
     <path d="M18 15l-6-6-6 6"/>
   </svg>
 </button>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО БЫСТРОГО ЗАПОЛНЕНИЯ ===== -->
+<div class="modal-overlay" id="cargo-quick-fill-modal">
+  <div class="modal-box cargo-modal-box">
+    <button type="button" class="modal-close" id="cargo-modal-close" aria-label="Закрыть модальное окно">×</button>
+    <div class="modal-header">
+      <h3>Быстрое заполнение груза</h3>
+      <p>Укажите количество — система подберёт оптимальный транспорт и визуально разместит груз.</p>
+    </div>
+    <div class="cargo-quick-form">
+      <div class="cargo-quick-section">
+        <h4>Упаковочные материалы</h4>
+        <div class="cargo-quick-grid">
+          <label><span>Картонная стандартная</span><input type="number" min="0" value="0" data-item="box"></label>
+          <label><span>Картонная усиленная</span><input type="number" min="0" value="0" data-item="bigbox"></label>
+          <label><span>Пластиковый контейнер</span><input type="number" min="0" value="0" data-item="plastic"></label>
+          <label><span>Баулы / мешки</span><input type="number" min="0" value="0" data-item="bags"></label>
+          <label><span>Деревянный ящик</span><input type="number" min="0" value="0" data-item="woodbox"></label>
+          <label><span>Коробка со стеклом</span><input type="number" min="0" value="0" data-item="glassbox"></label>
+        </div>
+      </div>
+      <div class="cargo-quick-section">
+        <h4>Мебель и техника</h4>
+        <div class="cargo-quick-grid">
+          <label><span>Диван</span><input type="number" min="0" value="0" data-item="sofa"></label>
+          <label><span>Кресло</span><input type="number" min="0" value="0" data-item="armchair"></label>
+          <label><span>Шкаф</span><input type="number" min="0" value="0" data-item="wardrobe"></label>
+          <label><span>Комод</span><input type="number" min="0" value="0" data-item="dresser"></label>
+          <label><span>Кровать</span><input type="number" min="0" value="0" data-item="bed"></label>
+          <label><span>Матрас</span><input type="number" min="0" value="0" data-item="mattress"></label>
+          <label><span>Холодильник</span><input type="number" min="0" value="0" data-item="fridge"></label>
+          <label><span>Стиральная машина</span><input type="number" min="0" value="0" data-item="washer"></label>
+          <label><span>Телевизор</span><input type="number" min="0" value="0" data-item="tv"></label>
+          <label><span>Стол</span><input type="number" min="0" value="0" data-item="table"></label>
+          <label><span>4 стула</span><input type="number" min="0" value="0" data-item="chairs"></label>
+        </div>
+      </div>
+      <label class="cargo-quick-fragile">
+        <input type="checkbox" id="cargo-quick-fragile">
+        <span>Хрупкий груз — требуется защитная упаковка (+15% к объёму)</span>
+      </label>
+      <button type="button" class="btn btn-primary btn-block" id="cargo-quick-confirm">Подтвердить</button>
+    </div>
+  </div>
+</div>
 
 <!-- ===== СКРИПТЫ ПОДКЛЮЧЕНИЯ ===== -->
 <script type="module" src="js/app.js"></script>
