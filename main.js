@@ -449,62 +449,13 @@ function renderReviews(cityCode) {
     renderReviews(cityCode);
   }
 
-  // Geotargeting IP Auto-Detect Logic
+  // Privacy-safe city selection: no third-party IP geolocation.
   async function detectUserCity() {
     const defaultCity = "krasnodar";
     const savedCity = localStorage.getItem("selected_city");
     if (savedCity && CITIES_DATA[savedCity]) {
-      return { cityCode: savedCity, isConfirmed: true };
+      return { cityCode: savedCity, isConfirmed: localStorage.getItem("city_confirmed") === "true" };
     }
-
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2500);
-      const response = await fetch("https://ipapi.co/json/", {
-        signal: controller.signal,
-      });
-      clearTimeout(timeoutId);
-
-      if (!response.ok) throw new Error("Response error");
-      const data = await response.json();
-
-      const geoCityName = data.city;
-      if (geoCityName) {
-        const lowerGeoCity = geoCityName.toLowerCase();
-        if (lowerGeoCity.includes("moscow"))
-          return { cityCode: "moscow", isConfirmed: false };
-        if (lowerGeoCity.includes("petersburg"))
-          return { cityCode: "spb", isConfirmed: false };
-        if (lowerGeoCity.includes("krasnodar"))
-          return { cityCode: "krasnodar", isConfirmed: false };
-        if (lowerGeoCity.includes("novosibirsk"))
-          return { cityCode: "novosibirsk", isConfirmed: false };
-        if (lowerGeoCity.includes("ekaterinburg"))
-          return { cityCode: "ekaterinburg", isConfirmed: false };
-        if (lowerGeoCity.includes("kazan"))
-          return { cityCode: "kazan", isConfirmed: false };
-        if (lowerGeoCity.includes("novgorod"))
-          return { cityCode: "nn", isConfirmed: false };
-        if (lowerGeoCity.includes("chelyabinsk"))
-          return { cityCode: "chelyabinsk", isConfirmed: false };
-        if (lowerGeoCity.includes("samara"))
-          return { cityCode: "samara", isConfirmed: false };
-        if (lowerGeoCity.includes("rostov"))
-          return { cityCode: "rostov", isConfirmed: false };
-        if (lowerGeoCity.includes("ufa"))
-          return { cityCode: "ufa", isConfirmed: false };
-        if (lowerGeoCity.includes("voronezh"))
-          return { cityCode: "voronezh", isConfirmed: false };
-        if (lowerGeoCity.includes("volgograd"))
-          return { cityCode: "volgograd", isConfirmed: false };
-      }
-    } catch (e) {
-      console.warn(
-        "Geotargeting auto-detect failed or timed out. Defaulting to Краснодар.",
-        e,
-      );
-    }
-
     return { cityCode: defaultCity, isConfirmed: false };
   }
 

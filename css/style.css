@@ -1,4 +1,5 @@
 /* Main stylesheet assembled from focused partials. */
+@import url("00-fonts.css");
 @import url("01-base.css");
 @import url("02-header-nav.css");
 @import url("03-sections.css");
@@ -11,3 +12,4 @@
 @import url("08-thank-you.css");
 @import url("09-inline-extracted.css");
 @import url("10-cargo-visual-calculator.css");
+@import url("12-legal.css");

@@ -1,85 +1,1628 @@
 <!doctype html>
 <html lang="ru">
-<head>
-    <!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    if (window.location.protocol === "http:" || window.location.protocol === "https:") {
-        (function(m,e,t,r,i,k,a){
-            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();
-            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110161606', 'ym');
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07090e" />
+    
+    <title>Грузчики и переезды в Анапе | Правильные Грузчики</title>
+    <meta name="description" content="Грузчики и переезды в Анапе и районе: Витязево, Джемете, Сукко. Звонки 8:00–20:00, работы 24/7." />
+    <link rel="icon" type="image/png" href="../assets/logo.png" />
+    <link rel="preload" as="style" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/11-homepage-redesign.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    </head>
+  <body data-page="city" data-city="anapa" data-page="city" data-city="anapa">
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a href="REDESIGN_HOMEPAGE_MOCKUP.md">Тексты (MD)</a>
+        <a class="ghost" href="../index.html">Текущая главная</a>
+      </div>
+    </div>
 
-        ym(110161606, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-    }
+    <div class="glow-bg">
+      <div class="glow-orb orb-1"></div>
+      <div class="glow-orb orb-2"></div>
+    </div>
+
+    <header class="main-header" id="site-header">
+      <div class="container header-container">
+        <a href="../index.html" class="logo-area">
+          <img src="../assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64" />
+          <div class="logo-text">
+            <span class="logo-title">ПРАВИЛЬНЫЕ</span>
+            <span class="logo-subtitle">ГРУЗЧИКИ</span>
+          </div>
+        </a>
+        <nav class="desktop-nav" aria-label="Основная навигация">
+          <ul>
+            <li><a href="#hero" class="nav-link">Главная</a></li>
+            <li><a href="../about.html" class="nav-link">О нас</a></li>
+            <li><a href="#services" class="nav-link">Услуги</a></li>
+            <li><a href="#reviews" class="nav-link">Отзывы</a></li>
+            <li><a href="#faq" class="nav-link">Вопросы</a></li>
+            <li><a href="../blog/" class="nav-link">Блог</a></li>
+          </ul>
+        </nav>
+        <div class="header-right">
+          <div class="city-selector-wrap">
+            <button class="city-selector-btn" type="button" id="current-selected-city" aria-label="Выбрать город" aria-haspopup="true" aria-expanded="false" aria-controls="city-dropdown-menu">
+              <span class="city-icon-pin">📍</span>
+              <span class="city-selector-current" id="city-btn-text">Анапа</span>
+              <span class="city-selector-arrow">▼</span>
+            </button>
+            <div class="city-dropdown" id="city-dropdown-menu" aria-hidden="true">
+              <div class="city-dropdown-list">
+                <button type="button" class="city-item" data-city="krasnodar">Краснодар</button>
+                <button type="button" class="city-item" data-city="anapa">Анапа</button>
+                <button type="button" class="city-item" data-city="novorossiysk">Новороссийск</button>
+                <button type="button" class="city-item" data-city="sochi">Сочи / Адлер / Сириус</button>
+                <button type="button" class="city-item" data-city="gelendzhik">Геленджик</button>
+              </div>
+            </div>
+            <div class="city-confirm-banner" id="city-confirm-banner">
+              <p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p>
+              <div class="city-confirm-btns">
+                <button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button>
+              </div>
+            </div>
+          </div>
+          <div class="header-phone-box">
+            <a href="tel:+79283333281" class="phone-link">+7 (928) 333-32-81</a>
+            <span class="work-hours-badge">Звонки 8:00–20:00 · работы 24/7</span>
+          </div>
+          <a href="#order-form-section" class="btn btn-primary btn-sm header-cta">Заказать звонок</a>
+          <button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню" type="button">
+            <span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="mobile-nav-overlay" id="mobile-menu-overlay">
+      <div class="mobile-nav-content">
+        <button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню"><span></span><span></span></button>
+        <ul class="mobile-nav-links">
+          <li><a href="#hero" class="mobile-link">Главная</a></li>
+          <li><a href="../about.html" class="mobile-link">О нас</a></li>
+          <li><a href="#services" class="mobile-link">Услуги</a></li>
+          <li><a href="#reviews" class="mobile-link">Отзывы</a></li>
+          <li><a href="#faq" class="mobile-link">Вопросы</a></li>
+          <li><a href="../blog/" class="mobile-link">Блог</a></li>
+        </ul>
+        <div class="mobile-nav-footer">
+          <a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 333-32-81</a>
+          <p class="mobile-hours">Звонки 8:00–20:00 · исполнители работают 24/7</p>
+          <a href="#order-form-section" class="btn btn-primary">Быстрый заказ</a>
+        </div>
+      </div>
+    </div>
+
+    <main id="main">
+      <!-- 1 HERO -->
+      <section class="hero-section" id="hero">
+        <div class="container hero-container">
+          <div class="hero-text-content">
+            <div class="hero-badge-wrap">
+              <span class="hero-badge">⭐ Более 12 лет на рынке грузчиков и переездов</span>
+            </div>
+            <h1 class="hero-title">
+              Грузчики и переезды
+              <span class="text-gradient">в Анапе</span>
+              — аккуратно, быстро, без лишних хлопот
+            </h1>
+            <p class="hero-subtitle">
+              Квартирные переезды, погрузка и разгрузка, работа с частным сектором и отелями. Звонки с 8:00 до 20:00. Исполнители работают 24/7. Учитываем курортный сезон и парковку у пляжной зоны.
+            </p>
+            <div class="hero-cta-group">
+              <a href="#calculator" class="btn btn-primary btn-lg">Рассчитать стоимость</a>
+              <a href="tel:+79283333281" class="btn btn-secondary btn-lg">Позвонить сейчас</a>
+            </div>
+            <div class="hero-live-bar">
+              <div class="hero-live-bar-inner">
+                <div class="hero-live-item">
+                  <span class="hero-live-dot"></span>
+                  <span class="hero-live-label">Последний заказ:</span>
+                  <span class="hero-live-value">12 минут назад</span>
+                </div>
+                <div class="hero-live-item" data-live-crm="brigades">
+                  <span class="hero-live-dot"></span>
+                  <span class="hero-live-label">Свободных бригад:</span>
+                  <span class="hero-live-value">4</span>
+                </div>
+                <div class="hero-live-item" data-live-crm="orders-today">
+                  <span class="hero-live-dot"></span>
+                  <span class="hero-live-label">Заказов сегодня:</span>
+                  <span class="hero-live-value">19</span>
+                </div>
+              </div>
+            </div>
+<div class="hero-features-grid">
+              <div class="hero-feature-item">
+                <span class="feature-icon">⚡</span>
+                <div><strong>Срочный выезд</strong><p>от 30 минут по Краснодару</p></div>
+              </div>
+              <div class="hero-feature-item">
+                <span class="feature-icon">⏱</span>
+                <div><strong>Мин. заказ</strong><p>от 2 часов</p></div>
+              </div>
+              <div class="hero-feature-item">
+                <span class="feature-icon">📄</span>
+                <div><strong>Для юрлиц</strong><p>договор, счёт, акт, ЭДО</p></div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="premium-card hero-glass-card">
+              <div class="card-glow"></div>
+              <div class="visual-header">
+                <span class="visual-status" data-application-status aria-live="polite"><span class="pulse-dot"></span><span data-application-status-text>Принимаем заявки сейчас</span></span>
+                <h3>Быстрый расчёт за 2 минуты</h3>
+              </div>
+              <form class="hero-quick-form" id="hero-quick-form" action="about:blank" method="post">
+                <div class="form-group-custom">
+                  <label for="quick-service">Что нужно сделать?</label>
+                  <select id="quick-service" class="form-select-custom">
+                    <option>Грузчики на час (от 800 ₽/час)</option>
+                    <option>Квартирный переезд</option>
+                    <option>Офисный переезд</option>
+                    <option>Разгрузка / погрузка</option>
+                    <option>Такелаж</option>
+                    <option>Междугородний переезд</option>
+                  </select>
+                </div>
+                <div class="form-group-custom">
+                  <label for="quick-phone">Ваш номер телефона</label>
+                  <input type="tel" id="quick-phone" class="form-input-custom" placeholder="+7 (___) ___-__-__" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-icon"><span>Получить расчёт</span></button>
+                <p class="hero-form-hint">
+                  Менеджер уточнит объём, этаж, адрес и подскажет точную стоимость.
+                  Звонки: 8:00–20:00. Работы выполняем 24/7. Заявку можно оставить в любое время.
+                </p>
+                <div class="form-badges-row">
+                  <span class="form-badge-chip">Без скрытых доплат</span>
+                  <span class="form-badge-chip">Нал и безнал</span>
+                  <span class="form-badge-chip">Отбор сотрудников</span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-section" id="about">
+        <div class="container">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-num" data-target="12">0</div>
+              <p class="stat-label">лет успешной работы</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num" data-target="9001">0</div>
+              <p class="stat-label">выполненных заказов</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num" data-target="120">0</div>
+              <p class="stat-label">человек на смене ежедневно</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num" data-target="8000">0</div>
+              <p class="stat-label">часов работы ежемесячно</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+<!-- БЛОК: НАША КОМАНДА -->
+      <section id="team" class="pg-team-section">
+        <div class="pg-container">
+          <div class="pg-section-label">НАША КОМАНДА</div>
+          <h2 class="pg-section-title">Более 100 человек на смене ежедневно</h2>
+          <p class="pg-section-subtitle">
+            Не «случайные люди с объявления», а организованная подача персонала:
+            отбор, инструктаж и понятная ответственность за заказ.
+          </p>
+
+          <div class="pg-team-photo-wrapper">
+            <picture>
+              <source
+                srcset="../assets/brigada-gruzchikov-krasnodar.webp"
+                type="image/webp"
+              />
+              <img
+                src="../assets/brigada-gruzchikov-krasnodar.webp"
+                alt="Команда грузчиков компании Правильные Грузчики на объекте в Краснодаре"
+                title="Команда Правильных Грузчиков — выезд за 30 минут"
+                class="pg-team-photo"
+                loading="lazy"
+                width="1920"
+                height="640"
+              />
+            </picture>
+          </div>
+
+          
+          <div class="team-quality-grid">
+            <article class="premium-card team-quality-card">
+              <div class="team-quality-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+              </div>
+              <h3>Трезвые и собранные</h3>
+              <p>На объект выходят исполнители после отбора. Без срывов смены и «случайных» людей с улицы.</p>
+            </article>
+            <article class="premium-card team-quality-card">
+              <div class="team-quality-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h6"/></svg>
+              </div>
+              <h3>Инструктаж перед заказом</h3>
+              <p>Адрес, этаж, лифт, хрупкое и тяжёлое — бригада знает задачу до выезда, а не «на месте разберёмся».</p>
+            </article>
+            <article class="premium-card team-quality-card">
+              <div class="team-quality-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h3>Вежливо и по делу</h3>
+              <p>Спокойная коммуникация с клиентом, аккуратность к имуществу, понятные ответы по ходу работ.</p>
+            </article>
+            <article class="premium-card team-quality-card">
+              <div class="team-quality-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </div>
+              <h3>Опыт на реальных заказах</h3>
+              <p>Переезды, разгрузки и подъёмы — не «в теории». Подбираем состав бригады под объём и сложность.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      
+
+      
+      <section class="advantages-section" id="advantages">
+        <div class="container">
+          <div class="section-header text-center">
+            <span class="sub-title-gradient">Преимущества</span>
+            <h2 class="section-title">Почему выбирают «Правильные Грузчики»</h2>
+            <p class="section-desc">
+              Организованная служба грузчиков и переездов: прозрачные условия,
+              аккуратная работа и понятная цена до выхода на объект.
+            </p>
+          </div>
+
+          <div class="advantages-grid advantages-premium">
+            <article class="premium-card adv-card adv-premium-card">
+              <div class="adv-premium-top">
+                <span class="adv-premium-num">01</span>
+                <div class="adv-premium-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+              </div>
+              <h3>Проверенные сотрудники</h3>
+              <p>Опрятные, вежливые и трезвые исполнители. Отбор и инструктаж перед выходом на заказ.</p>
+            </article>
+
+            <article class="premium-card adv-card adv-premium-card">
+              <div class="adv-premium-top">
+                <span class="adv-premium-num">02</span>
+                <div class="adv-premium-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                </div>
+              </div>
+              <h3>Нал и безнал</h3>
+              <p>Цены на сайте — за наличный расчёт. Для ООО и ИП — счёт, акт, ЭДО, с НДС и без.</p>
+            </article>
+
+            <article class="premium-card adv-card adv-premium-card">
+              <div class="adv-premium-top">
+                <span class="adv-premium-num">03</span>
+                <div class="adv-premium-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+              </div>
+              <h3>Работы 24/7</h3>
+              <p>Звонки с 8:00 до 20:00. Исполнители выходят днём и ночью — согласуем удобное время.</p>
+            </article>
+
+            <article class="premium-card adv-card adv-premium-card">
+              <div class="adv-premium-top">
+                <span class="adv-premium-num">04</span>
+                <div class="adv-premium-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+              </div>
+              <h3>Аккуратность</h3>
+              <p>Упаковка, крепёж в кузове, бережный перенос. Согласовываем нюансы до начала работ.</p>
+            </article>
+
+            <article class="premium-card adv-card adv-premium-card">
+              <div class="adv-premium-top">
+                <span class="adv-premium-num">05</span>
+                <div class="adv-premium-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+              </div>
+              <h3>Машина + бригада</h3>
+              <p>Газели 3 м и 4,2 м. Крупный транспорт — по запросу. Можно заказать только грузчиков.</p>
+            </article>
+
+            <article class="premium-card adv-card adv-premium-card">
+              <div class="adv-premium-top">
+                <span class="adv-premium-num">06</span>
+                <div class="adv-premium-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+              </div>
+              <h3>Честная цена</h3>
+              <p>От 800 ₽/час, минимум 2 часа. Без скрытых доплат: этаж и сложные условия — до старта.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+
+
+      <!-- CALCULATOR -->
+      <section class="calculator-section" id="calculator">
+        <div class="container calculator-container">
+          <div class="calc-info">
+            <span class="sub-title-gradient">Интерактивный расчёт</span>
+            <h2>Рассчитайте примерную стоимость работ</h2>
+            <p class="calc-intro-text">
+              Укажите тип услуги, количество грузчиков, часы и условия — покажем
+              предварительную цену. Итоговую стоимость подтвердит менеджер.
+            </p>
+            <div class="calc-benefits">
+              <div class="calc-benefit-item"><span class="calc-benefit-check">✓</span><span>Фиксация тарифа перед работой</span></div>
+              <div class="calc-benefit-item"><span class="calc-benefit-check">✓</span><span>Подъёмы на этаж — индивидуально</span></div>
+              <div class="calc-benefit-item"><span class="calc-benefit-check">✓</span><span>Минимальный заказ от 2 часов</span></div>
+            </div>
+          </div>
+          <div class="premium-card calc-card">
+            <div class="card-glow"></div>
+            <div class="calc-step">
+              <label class="calc-label">1. Выберите тип услуг</label>
+              <div class="service-tabs">
+                <button type="button" class="calc-tab active">Грузчики</button>
+                <button type="button" class="calc-tab">Разнорабочие</button>
+                <button type="button" class="calc-tab">Переезд</button>
+                <button type="button" class="calc-tab">Такелаж / Сборка</button>
+              </div>
+            </div>
+            <div class="calc-step">
+              <div class="calc-range-header">
+                <label class="calc-label">2. Сколько человек нужно?</label>
+                <span class="range-val">2 человека</span>
+              </div>
+              <input type="range" min="1" max="30" value="2" class="calc-slider" disabled />
+            </div>
+            <div class="calc-step">
+              <div class="calc-range-header">
+                <label class="calc-label">3. Время работы (часов)</label>
+                <span class="range-val">4 часа</span>
+              </div>
+              <input type="range" min="2" max="24" value="4" class="calc-slider" disabled />
+            </div>
+            <div class="calc-result-box">
+              <div class="result-pricing">
+                <span class="result-rate-info">Предварительно</span>
+                <div class="result-total-price"><span>6 400</span><span class="currency">₽</span></div>
+              </div>
+              <p style="color:var(--text-muted);font-size:.85rem;margin:0 0 14px">2 грузчика × 4 часа · Краснодар · Без транспорта</p>
+              <button type="button" class="btn btn-primary btn-block">Оформить заказ по этой цене</button>
+              <p class="calc-disclaimer price-disclaimer">
+                * Цена предварительная и не является публичной офертой.
+                Этажность, тяжёлые предметы, транспорт и расстояние рассчитываются отдельно.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- HOWTO -->
+      <section class="howto-section" id="how">
+        <div class="container">
+          <div class="section-header text-center">
+            <span class="sub-title-gradient">Процесс</span>
+            <h2 class="section-title">Как проходит заказ</h2>
+            <p class="section-desc">Пять понятных шагов — от заявки до оплаты и документов.</p>
+          </div>
+          <div class="howto-timeline howto-animated">
+            <div class="howto-step howto-step-reveal"><div class="howto-num">1</div><div><h3>Оставляете заявку</h3><p>Через сайт, WhatsApp, Telegram или звонок.</p></div></div>
+            <div class="howto-step howto-step-reveal"><div class="howto-num">2</div><div><h3>Уточняем детали</h3><p>Адрес, этаж, лифт, объём вещей, тяжёлые предметы.</p></div></div>
+            <div class="howto-step howto-step-reveal"><div class="howto-num">3</div><div><h3>Назначаем бригаду</h3><p>Подбираем грузчиков, транспорт и время подачи.</p></div></div>
+            <div class="howto-step howto-step-reveal"><div class="howto-num">4</div><div><h3>Выполняем работу</h3><p>Аккуратно грузим, переносим, перевозим и разгружаем.</p></div></div>
+            <div class="howto-step howto-step-reveal"><div class="howto-num">5</div><div><h3>Оплата и документы</h3><p>Наличные, перевод, безнал для юрлиц.</p></div></div>
+          </div>
+        </div>
+      </section>
+<section class="services-section" id="services">
+        <div class="container">
+          <div class="section-header text-center">
+            <span class="sub-title-gradient">Услуги</span>
+            <h2 class="section-title">Услуги грузчиков и переездов</h2>
+            <p class="section-desc">
+              От разовых грузчиков на час до переезда под ключ и такелажа —
+              с прозрачной ценой и понятным составом работ.
+            </p>
+          </div>
+
+          <div class="services-grid">
+            <div class="premium-card service-card">
+              <div class="service-image-box">
+                <a href="../loaders.html">
+                  <img
+                    src="../assets/service-pogruzka-razgruzka.webp"
+                    alt="Услуги грузчиков"
+                    loading="lazy"
+                    width="600"
+                    height="375"
+                    class="service-img"
+                  />
+                </a>
+                <span class="service-price-tag" data-service-type="loaders"
+                  >от <span class="price-value">800</span> ₽/час</span
+                >
+              </div>
+              <div class="service-card-body">
+                <h3>Погрузка и разгрузка</h3>
+                <p>
+                  Разгрузка фур, контейнеров, вагонов, грузовых автомобилей.
+                  Работа с любыми видами товаров, материалов и тары.
+                </p>
+                <div class="service-card-actions">
+                  <button type="button"
+                    class="btn btn-secondary service-order-btn"
+                    data-service="Разгрузка фур и погрузка"
+                  >
+                    Заказать
+                  </button>
+                  <a href="../loaders.html" class="btn btn-primary">Подробнее</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="premium-card service-card">
+              <div class="service-image-box">
+                <a href="../workers.html">
+                  <img
+                    src="../assets/service-raznorabochie.webp"
+                    alt="Разнорабочие на склады"
+                    loading="lazy"
+                    width="600"
+                    height="375"
+                    class="service-img"
+                  />
+                </a>
+                <span class="service-price-tag" data-service-type="workers"
+                  >от <span class="price-value">800</span> ₽/час</span
+                >
+              </div>
+              <div class="service-card-body">
+                <h3>Разнорабочие</h3>
+                <p>
+                  Универсальные рабочие на строительные площадки, торговые базы,
+                  уборку территорий, подсобные и фасовочные работы.
+                </p>
+                <div class="service-card-actions">
+                  <button type="button"
+                    class="btn btn-secondary service-order-btn"
+                    data-service="Разнорабочие"
+                  >
+                    Заказать
+                  </button>
+                  <a href="../workers.html" class="btn btn-primary">Подробнее</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="premium-card service-card">
+              <div class="service-image-box">
+                <a href="../moving.html">
+                  <img
+                    src="../assets/service-kvartirniy-pereezd.webp"
+                    alt="Квартирные переезды"
+                    loading="lazy"
+                    width="600"
+                    height="375"
+                    class="service-img"
+                  />
+                </a>
+                <span class="service-price-tag" data-service-type="moving"
+                  >от <span class="price-value">800</span> ₽/час</span
+                >
+              </div>
+              <div class="service-card-body">
+                <h3>Квартирный переезд</h3>
+                <p>
+                  Быстрый и бережный переезд. Аккуратно разберем мебель, упакуем
+                  технику, перенесем, перевезем и соберем на новом месте.
+                </p>
+                <div class="service-card-actions">
+                  <button type="button"
+                    class="btn btn-secondary service-order-btn"
+                    data-service="Квартирный переезд"
+                  >
+                    Заказать
+                  </button>
+                  <a href="../moving.html" class="btn btn-primary">Подробнее</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="premium-card service-card">
+              <div class="service-image-box">
+                <a href="../office-moving.html">
+                  <img
+                    src="../assets/service-ofisniy-pereezd.webp"
+                    alt="Офисный переезд"
+                    loading="lazy"
+                    width="600"
+                    height="375"
+                    class="service-img"
+                  />
+                </a>
+                <span class="service-price-tag" data-service-type="moving"
+                  >от <span class="price-value">800</span> ₽/час</span
+                >
+              </div>
+              <div class="service-card-body">
+                <h3>Офисный переезд</h3>
+                <p>
+                  Срочный переезд офиса за 1 день. Перевозка оргтехники,
+                  документов, сейфов. Работаем по безналу и в выходные дни.
+                </p>
+                <div class="service-card-actions">
+                  <button type="button"
+                    class="btn btn-secondary service-order-btn"
+                    data-service="Офисный переезд"
+                  >
+                    Заказать
+                  </button>
+                  <a href="../office-moving.html" class="btn btn-primary"
+                    >Подробнее</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="premium-card service-card">
+              <div class="service-image-box">
+                <a href="../rigging.html">
+                  <img
+                    src="../assets/service-takelag.webp"
+                    alt="Такелажные работы"
+                    loading="lazy"
+                    width="600"
+                    height="375"
+                    class="service-img"
+                  />
+                </a>
+                <span class="service-price-tag" data-base-price="0"
+                  >Договорная</span
+                >
+              </div>
+              <div class="service-card-body">
+                <h3>Такелаж любой сложности</h3>
+                <p>
+                  Перемещение банкоматов, сейфов, станков, промышленного
+                  оборудования. Профессиональное оборудование и тросы.
+                </p>
+                <div class="service-card-actions">
+                  <button type="button"
+                    class="btn btn-secondary service-order-btn"
+                    data-service="Такелажные работы"
+                  >
+                    Заказать
+                  </button>
+                  <a href="../rigging.html" class="btn btn-primary">Подробнее</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="premium-card service-card">
+              <div class="service-image-box">
+                <a href="../furniture.html">
+                  <img
+                    src="../assets/service-sborka-mebeli.webp"
+                    alt="Сборка мебели"
+                    loading="lazy"
+                    width="600"
+                    height="375"
+                    class="service-img"
+                  />
+                </a>
+                <span class="service-price-tag" data-base-price="0"
+                  >Договорная</span
+                >
+              </div>
+              <div class="service-card-body">
+                <h3>Сборка мебели и стеллажей</h3>
+                <p>
+                  Монтаж и демонтаж складских стеллажей, торгового оборудования,
+                  офисной и домашней мебели. Свои инструменты.
+                </p>
+                <div class="service-card-actions">
+                  <button type="button"
+                    class="btn btn-secondary service-order-btn"
+                    data-service="Сборка мебели и стеллажей"
+                  >
+                    Заказать
+                  </button>
+                  <a href="../furniture.html" class="btn btn-primary">Подробнее</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- REVIEWS — карусель + JS как на сайте -->
+      <section class="reviews-section" id="reviews">
+        <div class="container">
+          <div class="section-header text-center">
+            <span class="sub-title-gradient">Отзывы клиентов</span>
+            <h2 class="section-title">Что говорят клиенты</h2>
+            <p class="section-desc">Реальные заказы из Краснодара и края</p>
+          </div>
+          <div class="reviews-carousel-wrapper">
+            <div class="reviews-carousel-track" id="reviewsTrack">
+              <!-- JS -->
+            </div>
+          </div>
+          <div class="reviews-footer-block">
+            <p class="reviews-stat">
+              Более <strong>2 847</strong> выполненных заказов в Анапе и по краю</p>
+            <button type="button" id="open-review-btn" class="btn btn-primary review-cta-btn">
+              <svg class="u-style-021" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              Оставить отзыв
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="outsourcing-section b2b-premium" id="b2b">
+        <div class="container">
+          <div class="section-header text-center">
+            <span class="sub-title-gradient">Для бизнеса</span>
+            <h2 class="section-title">Грузчики и разнорабочие для бизнеса</h2>
+            <p class="section-desc">
+              Магазины, склады, стройки, офисы и УК. Закрывающие документы, ЭДО и понятные сроки подачи.
+            </p>
+          </div>
+
+          <div class="b2b-premium-layout">
+            <div class="premium-card outsourcing-glass b2b-lead-card">
+              <div class="outsourcing-tag">ООО «Правильные грузчики»</div>
+              <h3>Подрядчик, а не «бригада с объявлений»</h3>
+              <p>
+                Берём на себя линейный персонал: разовые разгрузки, смены на складе,
+                офисные переезды и такелаж оборудования. Можно стартовать с одного заказа
+                и масштабировать до регулярных поставок людей.
+              </p>
+              <ul class="out-list">
+                <li><span>✓</span> Разгрузка фур, паллет, контейнеров</li>
+                <li><span>✓</span> Склад: комплектовка, перенос, подсобные работы</li>
+                <li><span>✓</span> Офисные переезды без остановки бизнеса</li>
+                <li><span>✓</span> Такелаж сейфов, станков, торгового оборудования</li>
+              </ul>
+              <div class="b2b-cta-row">
+                <a href="#order-form-section" class="btn btn-primary">Получить предложение</a>
+                <a href="tel:+79283333281" class="btn btn-secondary">Позвонить</a>
+              </div>
+            </div>
+
+            <div class="b2b-side-stack">
+              <div class="premium-card b2b-metric-card">
+                <span class="b2b-metric-label">Документы</span>
+                <strong>Договор · счёт · акт · ЭДО</strong>
+                <p>С НДС и без. Бухгалтерия: 10:00–18:00 (Пн–Пт).</p>
+              </div>
+              <div class="premium-card b2b-metric-card">
+                <span class="b2b-metric-label">Масштаб</span>
+                <strong>От 1 до 50 человек</strong>
+                <p>Разовые заказы, смены и долгосрочный аутсорсинг.</p>
+              </div>
+              <div class="premium-card b2b-metric-card">
+                <span class="b2b-metric-label">Срок реакции</span>
+                <strong>Подача в течение суток</strong>
+                <p>Срочные разгрузки — по согласованию в день обращения.</p>
+              </div>
+              <div class="b2b-mini-tags">
+                <span>Безнал</span><span>НДС</span><span>ЭДО</span><span>Склад</span><span>Стройка</span><span>Ритейл</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="b2b-cases-grid">
+            <article class="premium-card b2b-case">
+              <span class="b2b-case-num">01</span>
+              <h4>Ритейл и ТЦ</h4>
+              <p>Разгрузка поставок, ночные работы, перестановка торгового оборудования.</p>
+            </article>
+            <article class="premium-card b2b-case">
+              <span class="b2b-case-num">02</span>
+              <h4>Склад и логистика</h4>
+              <p>Паллеты, комплектовка, подсобные работы, пиковые сезоны.</p>
+            </article>
+            <article class="premium-card b2b-case">
+              <span class="b2b-case-num">03</span>
+              <h4>Офис и производство</h4>
+              <p>Переезд отдела, перенос станков, сейфов, серверных шкафов.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="fleet-section" id="fleet">
+        <div class="container">
+          <div class="section-header text-center">
+            <span class="sub-title-gradient">Наш Автопарк</span>
+            <h2 class="section-title">Аренда грузового транспорта</h2>
+            <p class="section-desc">
+              Подберём машину под ваш переезд: чистые Газели с крепежом в кузове —
+              отдельно или вместе с бригадой. Нужен крупный транспорт для дома,
+              офиса или междугороднего переезда — подберём по запросу.
+            </p>
+          </div>
+
+          <div class="fleet-grid">
+            <div class="premium-card fleet-card">
+              <div class="fleet-img-box">
+                <img
+                  src="../assets/fleet-gazel-3m.webp"
+                  alt="Газель стандартная 3 метра"
+                  loading="lazy"
+                  width="600"
+                  height="400"
+                  class="fleet-img"
+                />
+              </div>
+              <div class="fleet-info">
+                <h3>Газель стандартная (3 метра)</h3>
+                <ul class="fleet-specs">
+                  <li><span>Грузоподъемность:</span> 1.5 тонны</li>
+                  <li><span>Объем кузова:</span> 10 м³</li>
+                  <li>
+                    <span>Назначение:</span> Перевозка мебели, бытовой техники,
+                    стройматериалов
+                  </li>
+                </ul>
+                <div class="fleet-price-box">
+                  <span class="fleet-price" data-truck-type="truckStd"
+                    >от 2000 ₽/час</span
+                  >
+                  <button type="button"
+                    class="btn btn-secondary btn-sm fleet-order-btn"
+                    data-truck="Газель Стандарт 3м"
+                  >
+                    Заказать машину
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="premium-card fleet-card">
+              <div class="fleet-img-box">
+                <img
+                  src="../assets/fleet-gazel-4.2m.webp"
+                  alt="Газель удлиненная 4.2 метра"
+                  loading="lazy"
+                  width="600"
+                  height="400"
+                  class="fleet-img"
+                />
+              </div>
+              <div class="fleet-info">
+                <h3>Газель удлиненная (4.2 метра)</h3>
+                <ul class="fleet-specs">
+                  <li><span>Грузоподъемность:</span> 1.5 - 2 тонны</li>
+                  <li><span>Объем кузова:</span> 16 м³</li>
+                  <li>
+                    <span>Назначение:</span> Квартирный переезд (до 2 комнат),
+                    офисный переезд
+                  </li>
+                </ul>
+                <div class="fleet-price-box">
+                  <span class="fleet-price" data-truck-type="truckExt"
+                    >от 2500 ₽/час</span
+                  >
+                  <button type="button"
+                    class="btn btn-secondary btn-sm fleet-order-btn"
+                    data-truck="Газель Удлиненная 4.2м"
+                  >
+                    Заказать машину
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="fleet-extra-note">
+            Также по запросу подбираем <strong>крупный транспорт</strong> для дома, офиса и междугородних переездов.
+          </p>
+        </div>
+      </section>
+
+<section class="partners-section">
+        <div class="container">
+          <h4 class="partners-title">
+            Нам доверяют крупные компании
+            <span class="city-name" data-case="gen">Краснодара</span>
+          </h4>
+          <div class="partners-marquee">
+            <div class="marquee-track" id="marquee-track">
+              <span class="partner-logo">🏗️ СпецСтройКубань</span>
+              <span class="partner-logo">📦 Склад-Логистика</span>
+              <span class="partner-logo">🏬 ТРЦ «Красная Площадь»</span>
+              <span class="partner-logo">🧱 Кнауф Гипс Краснодар</span>
+              <span class="partner-logo">🏭 Южная Индустриальная Компания</span>
+              <span class="partner-logo">📦 Велес-Трейд</span>
+              <span class="partner-logo">🏗️ СпецСтройКубань</span>
+              <span class="partner-logo">📦 Склад-Логистика</span>
+              <span class="partner-logo"> ТРЦ «Красная Площадь»</span>
+              <span class="partner-logo">🧱 Кнауф Гипс Краснодар</span>
+              <span class="partner-logo">🏭 Южная Индустриальная Компания</span>
+              <span class="partner-logo">📦 Велес-Трейд</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+<section class="order-section" id="order-form-section">
+        <div class="container order-container">
+          <div class="order-form-wrap">
+            <div class="premium-card order-glass-card">
+              <div class="card-glow"></div>
+              <div class="form-header">
+                <h2>Оставить заявку на персонал</h2>
+                <p>
+                  Заполните форму ниже. Наш менеджер перезвонит вам в течение 5
+                  минут для обсуждения деталей и назначения бригады.
+                </p>
+              </div>
+
+              <form
+                id="main-booking-form"
+                class="main-form"
+               action="about:blank" method="POST">
+                <input
+                  type="hidden"
+                  name="_next"
+                  value="https://pragruz.ru/thank-you.html"
+                />
+          <div class="form-hp-field" aria-hidden="true">
+            <label>Не заполняйте это поле</label>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+                <div class="form-row">
+                  <div class="form-group-custom">
+                    <label for="form-name">Ваше имя</label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="form-name"
+                      placeholder="Иван Иванов"
+                      required
+                      class="form-input-custom"
+                    />
+                  </div>
+                  <div class="form-group-custom">
+                    <label for="form-phone">Номер телефона</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      id="form-phone"
+                      placeholder="+7 (928) 333-32-81"
+                      required
+                      class="form-input-custom"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group-custom">
+                  <label for="form-service">Тип необходимых услуг</label>
+                  <select
+                    name="service"
+                    id="form-service"
+                    class="form-select-custom"
+                  >
+                    <option value="loaders_general">
+                      Грузчики на склад / разгрузку
+                    </option>
+                    <option value="workers">
+                      Разнорабочие на стройку / производство
+                    </option>
+                    <option value="apartment_move">
+                      Квартирный переезд с машиной
+                    </option>
+                    <option value="office_move">Офисный переезд</option>
+                    <option value="rigging_hard">
+                      Такелажные тяжелые работы
+                    </option>
+                    <option value="outsourcing">
+                      Аутсорсинг персонала (долгосрочно)
+                    </option>
+                    <option value="other">
+                      Другое (укажите в комментарии)
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group-custom">
+                  <label for="form-comment"
+                    >Детали заказа (объем работ, адрес, дата, время)</label
+                  >
+                  <textarea
+                    name="message"
+                    id="form-comment"
+                    rows="3"
+                    placeholder="Например: Нужно 4 грузчика на разгрузку фуры со стройматериалами 25 июня в 10:00 по адресу ул. Северная 120"
+                    class="form-input-custom textarea-custom"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block btn-lg"
+                  id="form-submit-btn"
+                >
+                  Отправить заявку
+                </button>
+                <p class="form-privacy-note">Условия обработки описаны в <a href="../privacy.html">политике персональных данных</a>. Отдельное согласие запрашивается перед отправкой.</p>
+              </form>
+
+              <div class="success-screen" id="success-confirm">
+                <div class="success-icon-box">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="success-svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    />
+                    <path
+                      d="M8 12L11 15L16 9"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <h3>Заявка успешно принята!</h3>
+                <p>
+                  Менеджер уже обрабатывает вашу информацию и перезвонит вам на
+                  указанный номер в течение 5 минут.
+                </p>
+                <button type="button" class="btn btn-secondary btn-sm" id="success-back-btn">
+                  Отправить еще одну заявку
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-text-content">
+            <span class="sub-title-gradient">Контакты</span>
+            <h2>ООО «Правильные грузчики»</h2>
+            <p class="order-desc-paragraph">
+              Мы находимся в самом центре
+              <span class="city-name" data-case="gen">Краснодара</span>. Вы
+              можете связаться с нами напрямую, приехать в наш офис или оформить
+              заказ онлайн.
+            </p>
+
+            <div class="direct-contacts">
+              <div class="contact-item">
+                <span class="contact-icon">📞</span>
+                <div>
+                  <strong>Телефон для заказа:</strong>
+                  <a class="u-style-020"
+                    href="tel:+79283333281"
+                   
+                    >+7 (928) 333-32-81</a
+                  >
+                  <p>Звонки с 8:00 до 20:00 ежедневно · исполнители 24/7</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon">📍</span>
+                <div>
+                  <strong>Адрес нашего офиса:</strong>
+                  <p>
+                    <span class="city-address">353440, г. Анапа, ул. Крымская, д. 177, офис 12</span>
+                  </p>
+                  <div>
+                    <strong>Бухгалтерия и документы:</strong>
+                    <p>Работа с юрлицами с 10:00 до 18:00 (Пн-Пт)</p>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- GEO -->
+
+      <section class="geo-section" id="geo">
+        <div class="container">
+          <div class="section-header text-center">
+            <span class="sub-title-gradient">География</span>
+            <h2 class="section-title">Работаем в Анапе и по городам края</h2>
+            <p class="section-desc">Нажмите на город — откроется, что делаем и как заказать.</p>
+          </div>
+          <div class="geo-premium-grid">
+            <button type="button" class="premium-card geo-premium-card" data-geo-modal="anapa">
+              <span class="geo-premium-pin" aria-hidden="true">📍</span>
+              <strong>Анапа</strong>
+              <span class="geo-premium-meta">город и район</span>
+              <span class="geo-premium-more">Подробнее →</span>
+            </button>
+            <button type="button" class="premium-card geo-premium-card" data-geo-modal="krasnodar">
+              <span class="geo-premium-pin" aria-hidden="true">📍</span>
+              <strong>Краснодар</strong>
+              <span class="geo-premium-meta">от 30 минут</span>
+              <span class="geo-premium-more">Подробнее →</span>
+            </button>
+            <button type="button" class="premium-card geo-premium-card" data-geo-modal="novorossiysk">
+              <span class="geo-premium-pin" aria-hidden="true">📍</span>
+              <strong>Новороссийск</strong>
+              <span class="geo-premium-meta">порт и склады</span>
+              <span class="geo-premium-more">Подробнее →</span>
+            </button>
+            <button type="button" class="premium-card geo-premium-card" data-geo-modal="gelendzhik">
+              <span class="geo-premium-pin" aria-hidden="true">📍</span>
+              <strong>Геленджик</strong>
+              <span class="geo-premium-meta">побережье</span>
+              <span class="geo-premium-more">Подробнее →</span>
+            </button>
+            <button type="button" class="premium-card geo-premium-card" data-geo-modal="sochi">
+              <span class="geo-premium-pin" aria-hidden="true">📍</span>
+              <strong>Сочи</strong>
+              <span class="geo-premium-meta">Адлер / Сириус</span>
+              <span class="geo-premium-more">Подробнее →</span>
+            </button>
+          </div>
+          <div class="geo-premium-note">
+            <div>
+              <strong>Основная зона — Краснодарский край</strong>
+              <p>Локальная подача в Анапе. Междугородние маршруты — по отдельному расчёту.</p>
+            </div>
+            <a href="#order-form-section" class="btn btn-secondary btn-sm">Уточнить по адресу</a>
+          </div>
+        </div>
+      </section>
+
+<!-- FAQ -->
+
+      <section class="krd-seo-section" id="local-seo-info">
+        <div class="container">
+          <div class="krd-seo-head">
+            <div class="krd-seo-head-text">
+              <span class="sub-title-gradient">Локальный сервис</span>
+              <h2 class="section-title">Грузчики в Анапе — сезон, пляжная зона и частный сектор</h2>
+              <p class="section-desc krd-seo-lead">В курортный сезон закладываем время на Крымскую, Шевченко, Горького и Пионерский проспект. Зимой работаем в штатном режиме по городу и станицам.</p>
+            </div>
+            <div class="krd-seo-metrics">
+              <div class="krd-metric"><strong>от 30 мин</strong><span>ориентир по городу*</span></div>
+              <div class="krd-metric"><strong>24/7</strong><span>работы исполнителей</span></div>
+              <div class="krd-metric"><strong>8–20</strong><span>звонки менеджера</span></div>
+            </div>
+          </div>
+          <div class="krd-district-strip" aria-label="Районы">
+            <div class="krd-district-label">Районы и направления · Анапа</div>
+            <div class="krd-district-track"><span>Центр</span><span>Крымская</span><span>Пионерский пр.</span><span>Анапа-1</span><span>Анапа-2</span><span>Высокий берег</span><span>Алексеевка</span><span>Витязево</span><span>Джемете</span><span>Супсех</span><span>Сукко</span><span>Варваровка</span><span>Цибанобалка</span><span>Большой Утриш</span></div>
+          </div>
+          <div class="krd-bento">
+            <article class="premium-card krd-bento-card krd-bento-main">
+              <div class="krd-bento-icon" aria-hidden="true">🛣</div>
+              <span class="krd-seo-kicker">Дороги и сроки</span>
+              <h3>Сезон, пробки и парковка у моря</h3>
+              <p>С мая по октябрь центр и подъезды к пляжам загружены. Крупный транспорт и Газели планируем с запасом, особенно у отелей и санаториев. Вниз по сезону — проще с парковкой и подачей.</p>
+              <ul class="krd-bento-points"><li>Подача по городу — по согласованному окну</li><li>Учитываем заторы на Пионерском проспекте</li><li>Частный сектор: подъезд и разворот Газели</li></ul>
+            </article>
+            <article class="premium-card krd-bento-card">
+              <div class="krd-bento-icon" aria-hidden="true">🏢</div>
+              <span class="krd-seo-kicker">Новостройки</span>
+              <h3>Лифт, этаж, двор</h3>
+              <p>В новых ЖК и таунхаусах уточняем въезд, шлагбаум и этажность. Для посуды и техники — упаковка по запросу.</p>
+            </article>
+            <article class="premium-card krd-bento-card">
+              <div class="krd-bento-icon" aria-hidden="true">🌉</div>
+              <span class="krd-seo-kicker">Пригород</span>
+              <h3>Анапа и посёлки</h3>
+              <p>Витязево, Джемете, Супсех, Сукко, Варваровка, Цибанобалка, Большой Утриш, Анапская. Время и цена — от адреса и сезона.</p>
+            </article>
+            <article class="premium-card krd-bento-card krd-bento-tasks">
+              <div class="krd-bento-icon" aria-hidden="true">📦</div>
+              <span class="krd-seo-kicker">Частые заказы</span>
+              <h3>Что заказывают в Анапе</h3>
+              <div class="krd-task-grid"><div class="krd-task"><span>01</span>Переезд квартиры у Южного рынка / центра</div><div class="krd-task"><span>02</span>Разгрузка стройматериалов в частный дом</div><div class="krd-task"><span>03</span>Занос техники на этаж без грузового лифта</div><div class="krd-task"><span>04</span>Вынос мебели перед сдачей жилья</div><div class="krd-task"><span>05</span>Газель + грузчики на переезд</div><div class="krd-task"><span>06</span>Сборка мебели после доставки</div></div>
+            </article>
+          </div>
+          <div class="krd-seo-footer-bar">
+            <div>
+              <strong>Нужны грузчики в Анапе?</strong>
+              <p>Назовите адрес — скажем время подачи, состав бригады и ориентир по цене. Звонки 8:00–20:00, работы 24/7.</p>
+            </div>
+            <div class="krd-seo-footer-actions">
+              <a href="#order-form-section" class="btn btn-primary">Оставить заявку</a>
+              <a href="tel:+79283333281" class="btn btn-secondary">Позвонить</a>
+            </div>
+          </div>
+          <p class="section-desc" style="margin-top:12px;font-size:12px;opacity:.75">* «от 30 минут» — ориентир для Краснодара; в других городах края окно подтверждаем по адресу и загрузке.</p>
+        </div>
+      </section>
+
+<section class="faq-section faq-premium-section" id="faq">
+        <div class="container faq-container">
+          <div class="section-header text-center">
+            <span class="sub-title-gradient">F.A.Q</span>
+            <h2 class="section-title">Часто задаваемые вопросы</h2>
+            <p class="section-desc">
+              Коротко о цене, сроках, оплате и машине. Нажмите вопрос — откроется полный ответ.
+            </p>
+          </div>
+          <div class="faq-premium-list">
+            <div class="faq-premium-item is-open">
+              <button type="button" class="faq-premium-trigger" aria-expanded="true">
+                <span class="faq-premium-q">Сколько стоит заказать грузчиков?</span>
+                <span class="faq-premium-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-premium-panel">
+                <p>От <strong>800 ₽/час</strong> за наличный расчёт, минимум 2 часа. Подъём на этаж, тяжёлые предметы и аренда машины считаются отдельно и согласуются до начала работ.</p>
+              </div>
+            </div>
+            <div class="faq-premium-item">
+              <button type="button" class="faq-premium-trigger" aria-expanded="false">
+                <span class="faq-premium-q">Как быстро приезжает бригада?</span>
+                <span class="faq-premium-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-premium-panel">
+                <p>По Анапе и ближним посёлкам окно подачи согласуем с учётом сезона и пробок на Пионерском проспекте. В высокий сезон лучше бронировать заранее.</p>
+              </div>
+            </div>
+            <div class="faq-premium-item">
+              <button type="button" class="faq-premium-trigger" aria-expanded="false">
+                <span class="faq-premium-q">Можно ли заказать машину вместе с грузчиками?</span>
+                <span class="faq-premium-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-premium-panel">
+                <p>Да. Газель <strong>3 м</strong> или <strong>4,2 м</strong> + бригада: погрузка, перевозка, разгрузка, крепёж в кузове. Крупный транспорт — по запросу.</p>
+              </div>
+            </div>
+            <div class="faq-premium-item">
+              <button type="button" class="faq-premium-trigger" aria-expanded="false">
+                <span class="faq-premium-q">Работаете ли ночью?</span>
+                <span class="faq-premium-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-premium-panel">
+                <p><strong>Звонки</strong> принимаем с <strong>8:00 до 20:00</strong>. <strong>Исполнители работают 24/7</strong> — выезд и работы можно согласовать на ночь и выходные. Заявку на сайте оставляйте в любое время.</p>
+              </div>
+            </div>
+            <div class="faq-premium-item">
+              <button type="button" class="faq-premium-trigger" aria-expanded="false">
+                <span class="faq-premium-q">Можно ли оплатить по безналу?</span>
+                <span class="faq-premium-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-premium-panel">
+                <p>Да, для ООО и ИП: договор, счёт, акт, ЭДО — с НДС и без. Наличный расчёт и перевод для физлиц.</p>
+              </div>
+            </div>
+            <div class="faq-premium-item">
+              <button type="button" class="faq-premium-trigger" aria-expanded="false">
+                <span class="faq-premium-q">Упаковываете ли мебель?</span>
+                <span class="faq-premium-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-premium-panel">
+                <p>Да: плёнка, картон, разборка и сборка — по запросу. Объём упаковки и материалов согласуем заранее.</p>
+              </div>
+            </div>
+            <div class="faq-premium-item">
+              <button type="button" class="faq-premium-trigger" aria-expanded="false">
+                <span class="faq-premium-q">Есть ли минимальный заказ?</span>
+                <span class="faq-premium-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-premium-panel">
+                <p>Да, минимальный заказ — <strong>от 2 часов</strong>.</p>
+              </div>
+            </div>
+            <div class="faq-premium-item">
+              <button type="button" class="faq-premium-trigger" aria-expanded="false">
+                <span class="faq-premium-q">Делаете ли междугородние переезды?</span>
+                <span class="faq-premium-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-premium-panel">
+                <p>Да, из Краснодарского края по маршруту. Это не «филиал в каждом городе», а честный расчёт маршрута, машины и бригады.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+<!-- FINAL CTA -->
+      <section class="final-cta-section" id="final-cta">
+        <div class="container">
+          <div class="final-cta-card">
+            <h2>Нужно перевезти вещи или заказать грузчиков?</h2>
+            <p>Оставьте заявку — уточним детали, рассчитаем стоимость и подберём бригаду под вашу задачу.</p>
+            <div class="final-cta-actions">
+              <a href="#calculator" class="btn btn-primary btn-lg">Рассчитать стоимость</a>
+              <a href="tel:+79283333281" class="btn btn-secondary btn-lg">Позвонить</a>
+            </div>
+            <p class="final-cta-note">Звонки: 8:00–20:00. Исполнители: 24/7. Заявку можно оставить в любое время.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="../index.html" class="logo-area"><img src="../assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64"><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="../loaders.html">Услуги грузчиков</a></li><li><a href="../workers.html">Разнорабочие</a></li><li><a href="../moving.html">Квартирные переезды</a></li><li><a href="../office-moving.html">Офисные переезды</a></li><li><a href="../rigging.html">Такелажные работы</a></li><li><a href="../furniture.html">Сборка мебели</a></li><li><a href="../gruzoperevozki.html">Грузоперевозки</a></li><li><a href="../mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li></ul></div><div class="footer-col"><h4>Для бизнеса</h4><ul class="footer-links"><li><a href="krasnodar/autsorsing.html">Аутсорсинг персонала</a></li><li><a href="../gruzchiki-na-smenu.html">Грузчики на смену</a></li><li><a href="../workers.html">Разнорабочие</a></li><li><a href="../rigging.html">Такелаж</a></li><li><a href="krasnodar/arenda-gazeli-3m.html">Аренда Газели</a></li><li><a href="index.html#order-form-section">Работа с юрлицами / безнал</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">353440, г. Анапа, ул. Крымская, д. 177, офис 12</span></li><li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li><li><span class="f-contact-icon">🕒</span> Звонки 8:00–20:00 · исполнители 24/7</li></ul><div class="social-links-stub"><a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a><a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div></footer>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== -->
+<div class="modal-overlay" id="order-modal">
+  <div class="modal-box">
+    <button type="button" class="modal-close" id="modal-close-btn" aria-label="Закрыть модальное окно">×</button>
+    <div class="modal-header">
+      <h3>Оформление заказа</h3>
+      <p id="modal-subtitle">Вы заказываете: <strong id="modal-service-name">Грузчики</strong></p>
+    </div>
+    <form id="modal-booking-form" action="about:blank" method="POST">
+      <input type="hidden" name="_next" value="https://pragruz.ru/thank-you.html" />
+      <div class="form-hp-field" aria-hidden="true">
+        <label>Не заполняйте это поле</label>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+      </div>
+      <input type="hidden" name="service" id="modal-service-input" />
+      <input type="hidden" name="details" id="modal-details-input" />
+      <div class="form-group-custom">
+        <label for="modal-name">Ваше имя</label>
+        <input type="text" name="name" id="modal-name" placeholder="Дмитрий" required class="form-input-custom" />
+      </div>
+      <div class="form-group-custom">
+        <label for="modal-phone">Номер телефона</label>
+        <input type="tel" name="phone" id="modal-phone" placeholder="+7 (928) 333-32-81" required class="form-input-custom" />
+      </div>
+      <div class="modal-summary-badge" id="modal-summary-badge">Сумма расчета: <span>6400</span> ₽</div>
+      <p class="price-disclaimer modal-price-disclaimer">* Расчет является предварительным и не является публичной офертой. Итоговая стоимость подтверждается менеджером после уточнения деталей.</p>
+      <button type="submit" class="btn btn-primary btn-block btn-lg" id="modal-submit-btn">Подтвердить заказ</button>
+    </form>
+    <div class="success-screen" id="modal-success-confirm">
+      <div class="success-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="success-svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+          <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <h3>Заказ оформлен!</h3>
+      <p>Менеджер перезвонит вам в течение 5 минут для подтверждения времени и места выезда бригады.</p>
+      <button type="button" class="btn btn-secondary btn-sm" id="modal-success-close-btn">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО СБОРА ОТЗЫВОВ ===== -->
+<div class="modal-overlay" id="review-modal">
+  <div class="modal-box premium-card">
+    <div class="card-glow"></div>
+    <button type="button" class="modal-close" id="review-modal-close" aria-label="Закрыть">×</button>
+    <div class="modal-header">
+      <h3>Поделитесь впечатлениями</h3>
+      <p>Ваш отзыв поможет нам стать лучше</p>
+    </div>
+    <form id="review-form" onsubmit="submitReview(event)" action="about:blank" method="POST">
+      <div class="form-hp-field" aria-hidden="true">
+        <label>Не заполняйте это поле</label>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+      </div>
+      <div class="form-group-custom u-style-022">
+        <label class="u-style-023">Оцените качество услуг</label>
+        <div class="star-rating" id="star-rating">
+          <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
+        </div>
+        <input type="hidden" id="review-rating" value="5" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group-custom">
+          <label for="review-name">Ваше имя</label>
+          <input type="text" id="review-name" class="form-input-custom" placeholder="Иван Иванов" required>
+        </div>
+        <div class="form-group-custom">
+          <label for="review-phone">Телефон</label>
+          <input type="tel" id="review-phone" class="form-input-custom" placeholder="+7 (___) ___-__-__" required>
+        </div>
+      </div>
+      <div class="form-group-custom">
+        <label for="review-service">Тип услуги</label>
+        <select id="review-service" class="form-select-custom" required>
+          <option value="" disabled selected>Выберите услугу...</option>
+          <option value="Грузчики">Грузчики / Разгрузка</option>
+          <option value="Квартирный переезд">Квартирный переезд</option>
+          <option value="Офисный переезд">Офисный переезд</option>
+          <option value="Разнорабочие">Разнорабочие</option>
+          <option value="Такелаж">Такелажные работы</option>
+          <option value="Сборка мебели">Сборка мебели</option>
+          <option value="Аренда Газели">Аренда Газели</option>
+          <option value="Аутсорсинг">Аутсорсинг персонала</option>
+        </select>
+      </div>
+      <div class="form-group-custom">
+        <label for="review-text">Ваш отзыв</label>
+        <textarea id="review-text" class="form-input-custom textarea-custom" rows="4" placeholder="Что вам понравилось? Как быстро приехали? Аккуратность?" required></textarea>
+      </div>
+      <input type="hidden" id="review-city" value="">
+      <button type="submit" class="btn btn-primary btn-block btn-lg u-style-024">Отправить отзыв</button>
+      <p class="u-style-025">Условия обработки описаны в <a href="../privacy.html">политике персональных данных</a>. Отдельное согласие запрашивается перед отправкой.</p>
+    </form>
+    <div class="success-screen" id="review-success">
+      <div class="success-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="success-svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3>Спасибо за отзыв!</h3>
+      <p>Мы проверим его и опубликуем в ближайшее время.</p>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="closeReviewModal()">Закрыть</button>
+    </div>
+  </div>
+</div>
+<!-- ===== МОБИЛЬНАЯ КНОПКА ПОЗВОНИТЬ ===== -->
+<div class="glass-float-btn mobile-call-button">
+  <a href="tel:+79283333281" class="call-btn" aria-label="Позвонить">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="retro-phone-svg" aria-hidden="true">
+      <path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.28-.28.69-.37 1.06-.25 1.16.38 2.42.59 3.68.59.57 0 1.03.46 1.03 1.03v3.49c0 .57-.46 1.03-1.03 1.03C10.61 21.07 2.93 13.39 2.93 3.85c0-.57.46-1.03 1.03-1.03h3.5c.57 0 1.03.46 1.03 1.03 0 1.27.2 2.52.59 3.68.11.37.03.78-.26 1.06l-2.2 2.2z" fill="currentColor"/>
+    </svg>
+  </a>
+</div>
+
+<!-- ===== КНОПКА НАВЕРХ ===== -->
+<button type="button" class="scroll-to-top" id="scrollTopBtn" aria-label="Вернуться наверх">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 15l-6-6-6 6"/>
+  </svg>
+</button>
+
+
+
+    
+    <!-- GEO MODAL -->
+    <div class="geo-modal-overlay" id="geo-modal-overlay" aria-hidden="true">
+      <div class="geo-modal" role="dialog" aria-modal="true" aria-labelledby="geo-modal-title">
+        <div class="geo-modal-handle" aria-hidden="true"></div>
+        <div class="geo-modal-head">
+          <div>
+            <h3 id="geo-modal-title">Город</h3>
+            <p id="geo-modal-sub">Кратко о работах</p>
+          </div>
+          <button type="button" class="geo-modal-close" id="geo-modal-close" aria-label="Закрыть">×</button>
+        </div>
+        <div class="geo-modal-body" id="geo-modal-body"></div>
+        <div class="geo-modal-actions">
+          <a class="btn btn-primary" href="#order-form-section" id="geo-modal-order">Оставить заявку</a>
+          <a class="btn btn-secondary" href="tel:+79283333281">Позвонить</a>
+        </div>
+      </div>
+    </div>
+
+    
+    <script>
+      try {
+        localStorage.setItem('selected_city', 'anapa');
+        localStorage.setItem('city_confirmed', 'true');
+      } catch (e) {}
+    </script>
+    <script type="module" src="../js/app.js"></script>
+  
+    <script>
+      // Premium FAQ
+      document.querySelectorAll('.faq-premium-trigger').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var item = btn.closest('.faq-premium-item');
+          var open = item.classList.contains('is-open');
+          document.querySelectorAll('.faq-premium-item').forEach(function (el) {
+            el.classList.remove('is-open');
+            el.querySelector('.faq-premium-trigger').setAttribute('aria-expanded', 'false');
+          });
+          if (!open) {
+            item.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      // Geo modals (desktop centered / mobile bottom sheet)
+      var GEO_DATA = {
+        krasnodar: {
+          title: 'Краснодар',
+          sub: 'Выезд от 30 минут по городу',
+          html: '<p>Работаем по всем районам: ЦМР, ЧМР, ФМР, ЮМР, Энка, Гидрострой, Метальникова и др.</p><ul><li><strong>Что делаем:</strong> грузчики, переезды, разгрузка, такелаж</li><li><strong>Срочность:</strong> от 30 минут</li><li><strong>Оплата:</strong> нал, перевод, безнал</li></ul>'
+        },
+        anapa: {
+          title: 'Анапа',
+          sub: 'Город, Витязево, Джемете, Сукко',
+          html: '<p>Учитываем курортный сезон и парковку у пляжной зоны.</p><ul><li><strong>Частые задачи:</strong> переезд, разгрузка, занос на этаж</li><li><strong>Посёлки:</strong> Витязево, Джемете, Сукко, Варваровка</li><li><strong>Звонки:</strong> 8:00–20:00, работы 24/7</li></ul>'
+        },
+        novorossiysk: {
+          title: 'Новороссийск',
+          sub: 'Склады, порт, переезды',
+          html: '<p>Разгрузка фур, переезды, такелаж.</p><ul><li><strong>Районы:</strong> центр, Южный, Цемдолина, Мысхако</li><li><strong>Для бизнеса:</strong> безнал, документы</li></ul>'
+        },
+        sochi: {
+          title: 'Сочи / Адлер / Сириус',
+          sub: 'Рельеф, серпантин, побережье',
+          html: '<p>Переезды по Большому Сочи с учётом парковки и подъезда.</p><ul><li><strong>Зоны:</strong> центр, Хоста, Адлер, Сириус, Красная Поляна</li><li><strong>Важно:</strong> габариты Газели и пропуск в ЖК</li></ul>'
+        },
+        gelendzhik: {
+          title: 'Геленджик',
+          sub: 'Город, мысы, посёлки',
+          html: '<p>Квартиры, дома, частный сектор.</p><ul><li><strong>Посёлки:</strong> Кабардинка, Дивноморское, Архипо-Осиповка</li><li><strong>Мин. заказ:</strong> от 2 часов</li></ul>'
+        },
+      };
+
+      var overlay = document.getElementById('geo-modal-overlay');
+      var titleEl = document.getElementById('geo-modal-title');
+      var subEl = document.getElementById('geo-modal-sub');
+      var bodyEl = document.getElementById('geo-modal-body');
+      var closeBtn = document.getElementById('geo-modal-close');
+
+      function openGeo(key) {
+        var data = GEO_DATA[key];
+        if (!data || !overlay) return;
+        titleEl.textContent = data.title;
+        subEl.textContent = data.sub;
+        bodyEl.innerHTML = data.html;
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('no-scroll');
+      }
+      function closeGeo() {
+        if (!overlay) return;
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('no-scroll');
+      }
+
+      document.querySelectorAll('[data-geo-modal]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          openGeo(btn.getAttribute('data-geo-modal'));
+        });
+      });
+      if (closeBtn) closeBtn.addEventListener('click', closeGeo);
+      if (overlay) {
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeGeo();
+        });
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeGeo();
+      });
+      var orderBtn = document.getElementById('geo-modal-order');
+      if (orderBtn) {
+        orderBtn.addEventListener('click', function () { closeGeo(); });
+      }
+
+      // Burger already may be handled by app.js; keep minimal fallback
+      var burger = document.getElementById('burger-btn');
+      var menu = document.getElementById('mobile-menu-overlay');
+      var menuClose = document.getElementById('mobile-menu-close');
+      if (burger && menu) {
+        burger.addEventListener('click', function () {
+          menu.classList.add('active');
+          document.body.classList.add('no-scroll');
+        });
+      }
+      if (menuClose && menu) {
+        menuClose.addEventListener('click', function () {
+          menu.classList.remove('active');
+          document.body.classList.remove('no-scroll');
+        });
+      }
+    </script>
+
+  
+    <script>
+      // Stats counter fallback (works even if module path fails in preview)
+      (function () {
+        function countUp(el) {
+          var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+          var duration = 1500;
+          var start = performance.now();
+          function frame(now) {
+            var p = Math.min((now - start) / duration, 1);
+            var ease = p * (2 - p);
+            el.textContent = Math.floor(ease * target).toLocaleString('ru-RU');
+            if (p < 1) requestAnimationFrame(frame);
+            else el.textContent = target.toLocaleString('ru-RU');
+          }
+          requestAnimationFrame(frame);
+        }
+        function run() {
+          var nums = document.querySelectorAll('.stat-num');
+          if (!nums.length) return;
+          var grid = document.querySelector('.stats-grid');
+          var started = false;
+          var startAll = function () {
+            if (started) return;
+            started = true;
+            nums.forEach(countUp);
+          };
+          if ('IntersectionObserver' in window && grid) {
+            var obs = new IntersectionObserver(function (entries) {
+              if (entries[0].isIntersecting) {
+                startAll();
+                obs.disconnect();
+              }
+            }, { threshold: 0.15 });
+            obs.observe(grid);
+          } else {
+            startAll();
+          }
+          // safety: if still 0 after 2.5s in view area, force
+          setTimeout(function () {
+            var first = document.querySelector('.stat-num');
+            if (first && first.textContent.trim() === '0') startAll();
+          }, 2500);
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', run);
+        } else run();
+      })();
 </script>
-<noscript><div><img class="u-style-001" src="https://mc.yandex.ru/watch/110161606" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
 
-<meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Услуги грузчиков в Анапе | Правильные грузчики</title>
-  <meta name="description" content="Услуги грузчиков, разнорабочих, переезды, такелаж и аренда Газели в Анапе. Единый номер +7 (928) 333-32-81." />
-  <link rel="canonical" href="https://pragruz.ru/anapa/" />
-  <link rel="stylesheet" href="../css/style.css" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://pragruz.ru/"},{"@type":"ListItem","position":2,"name":"Анапа","item":"https://pragruz.ru/anapa/"}]}</script>
-</head>
-<body data-page="city">
-<header class="main-header" id="site-header">
-  <div class="container header-container">
-    <a href="../index.html" class="logo-area" id="header-logo-link">
-      <img src="../assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" />
-      <div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div>
-    </a>
-    <nav class="desktop-nav" aria-label="Основная навигация"><ul>
-      <li><a href="../index.html" class="nav-link">Главная</a></li><li><a href="../about.html" class="nav-link">О нас</a></li><li><a href="../index.html#services" class="nav-link">Услуги</a></li><li><a href="../index.html#reviews" class="nav-link">Отзывы</a></li><li><a href="../index.html#faq" class="nav-link">Вопросы</a></li><li><a href="../blog/" class="nav-link">Блог</a></li>
-    </ul></nav>
-    <div class="header-right">
-      <div class="city-selector-wrap"><button class="city-selector-btn" id="current-selected-city" type="button" aria-label="Выбрать город"><span class="city-icon-pin">📍</span><span class="city-selector-current" id="city-btn-text">Краснодар</span><span class="city-selector-arrow">▼</span></button><div class="city-dropdown" id="city-dropdown-menu"><div class="city-dropdown-list">
-        <button type="button" class="city-item" data-city="krasnodar">Краснодар</button><button type="button" class="city-item" data-city="anapa">Анапа</button><button type="button" class="city-item" data-city="novorossiysk">Новороссийск</button><button type="button" class="city-item" data-city="sochi">Сочи / Адлер / Сириус</button><button type="button" class="city-item" data-city="gelendzhik">Геленджик</button><button type="button" class="city-item" data-city="moscow">Москва</button><button type="button" class="city-item" data-city="spb">Санкт-Петербург</button><button type="button" class="city-item" data-city="novosibirsk">Новосибирск</button><button type="button" class="city-item" data-city="ekaterinburg">Екатеринбург</button><button type="button" class="city-item" data-city="kazan">Казань</button><button type="button" class="city-item" data-city="nn">Нижний Новгород</button><button type="button" class="city-item" data-city="chelyabinsk">Челябинск</button><button type="button" class="city-item" data-city="samara">Самара</button><button type="button" class="city-item" data-city="rostov">Ростов-на-Дону</button><button type="button" class="city-item" data-city="ufa">Уфа</button><button type="button" class="city-item" data-city="voronezh">Воронеж</button><button type="button" class="city-item" data-city="volgograd">Волгоград</button>
-      </div></div><div class="city-confirm-banner" id="city-confirm-banner"><p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p><div class="city-confirm-btns"><button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button><button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button></div></div></div>
-      <div class="header-phone-box"><a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a><span class="work-hours-badge">Круглосуточно 24/7</span></div><a href="../index.html#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn">Заказать звонок</a><button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню" type="button"><span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span></button>
-    </div>
-  </div>
-</header>
-<div class="mobile-nav-overlay" id="mobile-menu-overlay"><div class="mobile-nav-content"><button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню"><span></span><span></span></button><ul class="mobile-nav-links"><li><a href="../index.html" class="mobile-link">Главная</a></li><li><a href="../about.html" class="mobile-link">О нас</a></li><li><a href="../index.html#services" class="mobile-link">Услуги</a></li><li><a href="../index.html#reviews" class="mobile-link">Отзывы</a></li><li><a href="../index.html#faq" class="mobile-link">Вопросы</a></li><li><a href="../blog/" class="mobile-link">Блог</a></li></ul><div class="mobile-nav-footer"><a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 333-32-81</a><p class="mobile-hours">Прием заказов 24/7</p><a href="../index.html#order-form-section" class="btn btn-primary" id="mobile-menu-cta">Быстрый заказ</a></div></div></div>
-<main>
-  <section class="hero-section"><div class="container hero-container"><div class="hero-text-content"><span class="sub-title-gradient">Анапа</span><h1 class="hero-title">Услуги грузчиков и рабочего персонала в Анапе</h1><p class="hero-subtitle">Закажите грузчиков, разнорабочих, переезд, такелаж или Газель в Анапе по единому номеру +7 (928) 333-32-81. Расчет является предварительным и уточняется менеджером.</p><div class="hero-cta-group"><a href="../index.html#order-form-section" class="btn btn-primary btn-lg">Оставить заявку</a><a href="tel:+79283333281" class="btn btn-secondary btn-lg">Позвонить</a></div></div></div></section>
-  <section class="city-services-section"><div class="container"><div class="section-header text-center"><span class="sub-title-gradient">Услуги</span><h2 class="section-title">Выберите услугу Анапы</h2><p class="section-desc">Все направления собраны в одном разделе города, чтобы пользователь мог быстро перейти к нужной услуге.</p></div><div class="city-services-grid"><a href="loaders.html" class="city-service-card"><strong>Грузчики</strong><span>Грузчики в Анапе</span></a>
-<a href="workers.html" class="city-service-card"><strong>Разнорабочие</strong><span>Разнорабочие в Анапе</span></a>
-<a href="moving.html" class="city-service-card"><strong>Переезды</strong><span>Переезды в Анапе</span></a>
-<a href="office-moving.html" class="city-service-card"><strong>Офисный переезд</strong><span>Офисный переезд в Анапе</span></a>
-<a href="rigging.html" class="city-service-card"><strong>Такелаж</strong><span>Такелаж в Анапе</span></a>
-<a href="furniture.html" class="city-service-card"><strong>Сборка мебели</strong><span>Сборка мебели в Анапе</span></a>
-<a href="kvartirnyj-pereezd.html" class="city-service-card"><strong>Квартирный переезд</strong><span>Квартирный переезд в Анапе</span></a>
-<a href="ofisnyj-pereezd.html" class="city-service-card"><strong>Офисный переезд</strong><span>Офисный переезд в Анапе</span></a>
-<a href="raznorabochie.html" class="city-service-card"><strong>Разнорабочие</strong><span>Разнорабочие в Анапе</span></a>
-<a href="arenda-gazeli-3m.html" class="city-service-card"><strong>Аренда Газели 3 м</strong><span>Аренда Газели 3 м в Анапе</span></a>
-<a href="arenda-gazeli-udlinennoj.html" class="city-service-card"><strong>Аренда удлиненной Газели</strong><span>Аренда удлиненной Газели в Анапе</span></a>
-<a href="autsorsing.html" class="city-service-card"><strong>Аутсорсинг персонала</strong><span>Аутсорсинг персонала в Анапе</span></a></div></div></section>
+  <script>
 
-<section class="city-seo-detail" id="local-seo-info">
-  <div class="container city-seo-detail-grid">
-    <div class="city-seo-detail-card">
-      <span class="sub-title-gradient">Локальные условия</span>
-      <h2>Как мы работаем в Анапе</h2>
-      <p>В Анапе много сезонных переездов, доставок мебели в апартаменты, частный сектор и курортные квартиры. Заранее уточняем подъезд к дому, возможность парковки и время, когда удобнее выполнять шумные работы.</p>
-      <p>На странице города собраны основные направления: грузчики, разнорабочие, переезды, такелаж, сборка мебели и аренда Газели. Выберите нужную услугу или оставьте заявку на расчет.</p>
-    </div>
-    <div class="city-seo-detail-card">
-      <span class="sub-title-gradient">География</span>
-      <h3>Выезд по городу и рядом</h3>
-      <p>Выезжаем по Анапе, Витязево, Джемете, Супсеху и ближайшим поселкам.</p>
-      <p>Итоговая цена всегда уточняется менеджером после адреса, объема, этажа, лифта, расстояния переноски и необходимости транспорта. Расчет на сайте является предварительным и не является публичной офертой.</p>
-    </div>
-  </div>
-</section>
+      // How-to: mobile scroll highlight; desktop uses CSS hover
+      (function () {
+        function init() {
+          var steps = document.querySelectorAll('.howto-step-reveal');
+          if (!steps.length) return;
+          var isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+          if (!isTouch) {
+            // desktop: ensure fully visible, no scroll class needed
+            steps.forEach(function (s) {
+              s.classList.remove('is-inview');
+              s.classList.remove('is-visible');
+            });
+            return;
+          }
+          if (!('IntersectionObserver' in window)) {
+            steps.forEach(function (s) { s.classList.add('is-inview'); });
+            return;
+          }
+          var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-inview');
+              } else {
+                // optional: re-trigger when scrolling back
+                entry.target.classList.remove('is-inview');
+              }
+            });
+          }, { threshold: 0.35, rootMargin: '0px 0px -12% 0px' });
+          steps.forEach(function (s) { obs.observe(s); });
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else init();
+        window.addEventListener('resize', function () {
+          // re-eval on rotate
+          clearTimeout(window.__howtoResizeT);
+          window.__howtoResizeT = setTimeout(init, 150);
+        });
+      })();
 
-</main>
-<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="../index.html" class="logo-area"><img src="../assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" /><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="../loaders.html">Услуги грузчиков</a></li><li><a href="../workers.html">Разнорабочие</a></li><li><a href="../moving.html">Квартирные переезды</a></li><li><a href="../office-moving.html">Офисные переезды</a></li><li><a href="../rigging.html">Такелажные работы</a></li><li><a href="../furniture.html">Сборка мебели</a></li><li><a href="../gruzoperevozki.html">Грузоперевозки</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">353440, г. Анапа, ул. Крымская, д. 177, офис 12</span></li><li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li></ul><div class="social-links-stub"><span class="social-icon">Telegram</span><span class="social-icon">WhatsApp</span></div></div></div></footer>
-<div class="glass-float-btn mobile-call-button"><a href="tel:+79283333281" class="call-btn" aria-label="Позвонить"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="retro-phone-svg" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.28-.28.69-.37 1.06-.25 1.16.38 2.42.59 3.68.59.57 0 1.03.46 1.03 1.03v3.49c0 .57-.46 1.03-1.03 1.03C10.61 21.07 2.93 13.39 2.93 3.85c0-.57.46-1.03 1.03-1.03h3.5c.57 0 1.03.46 1.03 1.03 0 1.27.2 2.52.59 3.68.11.37.03.78-.26 1.06l-2.2 2.2z" fill="currentColor"/></svg></a></div><button class="scroll-to-top" id="scrollTopBtn" aria-label="Вернуться наверх"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button>
-<script>localStorage.setItem("selected_city", "anapa"); localStorage.setItem("city_confirmed", "true");</script>
-<script src="../js/app.js"></script>
-</body>
+    </script>
+  </body>
 </html>

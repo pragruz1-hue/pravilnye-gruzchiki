@@ -1,79 +1,91 @@
-# Telegram Bot Integration
+# Production: сайт и приём заявок на сервере в РФ
 
-## Как запустить сервер
+`server.js` раздаёт статические файлы и принимает `POST /api/submit-lead`, после чего сохраняет заявку локально в NDJSON. Пока этот endpoint не развёрнут, frontend использует явно обозначенный временный Formspree fallback только после отдельного подтверждения пользователя. После запуска сервера fallback необходимо удалить.
 
-### 1. Установите Node.js (если не установлен)
+## Важно перед публикацией
 
-- Скачайте с https://nodejs.org/
+Текущий GitHub Pages умеет раздавать только статические файлы и не выполняет `/api/submit-lead`. Для работающих форм необходимо перенести домен `pragruz.ru` на VPS/хостинг, физически расположенный в Российской Федерации, и запускать сайт через `server.js` либо реализовать совместимый same-origin endpoint на российской инфраструктуре.
 
-### 2. Откройте PowerShell в папке проекта
+Целевое состояние — первичная запись заявки в базе/файле на территории РФ без временного fallback.
 
-```powershell
-cd "c:\Users\Info\Desktop\на сайт\pragruz\pravilnye-gruzchiki"
+## Запуск
+
+Требуется Node.js 20+.
+
+```bash
+npm install
+HOST=127.0.0.1 PORT=3000 LEADS_DATA_DIR=/var/lib/pragruz npm start
 ```
 
-### 3. Запустите сервер
+Проверка:
 
-```powershell
-node server.js
+```bash
+curl http://127.0.0.1:3000/api/health
 ```
 
-Вы должны увидеть:
-
-```
-✓ Server running on http://localhost:3000
-✓ Telegram Bot: @pragruz_bot
-✓ POST /api/submit-lead - submit lead form
-```
-
-### 4. Откройте сайт локально
-
-- Откройте `index.html` в браузере или используйте Live Server
-
----
-
-## Как это работает
-
-1. **Пользователь заполняет форму** на сайте
-2. **Выбирает канал** (WhatsApp/Telegram/Email)
-3. **Если выбран Telegram** → данные отправляются на `localhost:3000/api/submit-lead`
-4. **Сервер отправляет** сообщение в Telegram через бота `@pragruz_bot`
-5. **Вы получаете** заявку в личные сообщения с полной информацией
-
----
-
-## Конфигурация
-
-Токен бота и другие параметры находятся в начале `server.js`:
-
-```javascript
-const TELEGRAM_BOT_TOKEN = "8133133212:AAHa3rr88Oa3QlUDIHkE7xXLLgCRRi2pT1Q";
-const TELEGRAM_CHAT_ID = "@flashpointmusik";
-const PORT = 3000;
-```
-
----
-
-## Если сервер не запускается
-
-### Ошибка: "command not found: node"
-
-- Переустановите Node.js и добавьте в PATH
-
-### Ошибка: "EADDRINUSE: address already in use :::3000"
-
-- Порт 3000 занят другим приложением
-- Используйте другой порт или закройте приложение
-
-### Тестирование
-
-```powershell
-# Проверьте, что сервер работает
-curl http://localhost:3000/api/health
-```
-
-Должны увидеть:
+Ответ:
 
 ```json
-{ "status": "ok", "bot": "@pragruz_bot" }
+{"status":"ok","storage":"local-rf-required"}
 ```
+
+## Хранение заявок
+
+По умолчанию файл создаётся в `data/leads.ndjson`. В production обязательно задайте отдельный каталог:
+
+```bash
+LEADS_DATA_DIR=/var/lib/pragruz
+LEAD_RETENTION_DAYS=90
+```
+
+Требования:
+
+- каталог находится на диске сервера в РФ;
+- доступ только у отдельного системного пользователя приложения;
+- файл создаётся с правами `0600`;
+- резервные копии также остаются в РФ;
+- записи старше срока хранения автоматически удаляются раз в сутки;
+- запрещено синхронизировать каталог с Google Drive, Dropbox и другими зарубежными облаками.
+
+## Reverse proxy
+
+Внешний Nginx должен проксировать весь домен на Node.js, чтобы HTML и API имели один origin:
+
+```nginx
+server {
+    listen 443 ssl http2;
+    server_name pragruz.ru www.pragruz.ru;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+```
+
+TLS-сертификат и журналы Nginx необходимо настраивать на том же российском сервере. Срок хранения access-логов следует ограничить внутренним регламентом.
+
+## Защита endpoint
+
+Встроено:
+
+- только same-origin запросы;
+- лимит 10 попыток за 15 минут с одного адреса;
+- ограничение тела запроса 48 КБ;
+- обязательная фиксация версии и времени согласия;
+- отдельное согласие на публикацию отзыва;
+- honeypot-проверка;
+- белый список сохраняемых полей;
+- автоматическое удаление заявок через 90 дней;
+- данные IP и User-Agent в файл заявок не записываются.
+
+## После переноса
+
+1. Изменить DNS `pragruz.ru` с GitHub Pages на российский сервер.
+2. Проверить `/api/health` через HTTPS.
+3. Отправить тестовую заявку.
+4. Убедиться, что запись появилась в `/var/lib/pragruz/leads.ndjson`.
+5. Проверить отказ и согласие на Метрику в чистом профиле браузера.
+6. Отключить GitHub Pages как production-хостинг после успешного переключения DNS.

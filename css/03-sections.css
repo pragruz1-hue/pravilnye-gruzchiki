@@ -5,6 +5,13 @@
   position: relative;
 }
 
+@media (max-width: 768px) {
+  .hero-section {
+    padding-top: 108px;
+    padding-bottom: 64px;
+  }
+}
+
 .hero-container {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -109,6 +116,21 @@
   background-color: var(--success);
   border-radius: 50%;
   animation: pulse 1.8s infinite;
+}
+
+.visual-status[data-application-status] {
+  line-height: 1.35;
+}
+
+.visual-status[data-application-status].is-closed {
+  color: #ffad66;
+  background-color: rgba(255, 115, 0, 0.08);
+  border-color: rgba(255, 115, 0, 0.2);
+}
+
+.visual-status[data-application-status].is-closed .pulse-dot {
+  background-color: currentcolor;
+  animation: none;
 }
 
 #active-workers-count {
@@ -450,7 +472,8 @@
 
 .service-image-box {
   position: relative;
-  height: 200px;
+  height: auto;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
 }
 
@@ -458,6 +481,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   transition: var(--transition-smooth);
 }
 
@@ -569,12 +593,25 @@
   display: flex;
   gap: 24px;
   width: max-content;
-  animation: reviewsScroll 35s linear infinite;
+  --reviews-count: 10;
+  animation: reviewsScroll 50s linear infinite;
   padding-left: 20px;
 }
 
 .reviews-carousel-track:hover {
   animation-play-state: paused;
+}
+
+.review-service-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 115, 0, 0.1);
+  color: #ffc48a;
+  margin-bottom: 8px;
+  width: fit-content;
 }
 
 .review-card {
@@ -681,7 +718,10 @@
 
 @keyframes reviewsScroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-350px * 4 - 24px * 4)); }
+  /* Сдвиг ровно на половину трека (уникальные карточки): card 350 + gap 24 */
+  100% {
+    transform: translateX(calc(-1 * var(--reviews-count, 10) * (350px + 24px)));
+  }
 }
 
 /* ===== АУТСОРСИНГ ===== */
@@ -814,12 +854,15 @@
 .fleet-img-box {
   position: relative;
   height: 100%;
+  min-height: 180px;
+  overflow: hidden;
 }
 
 .fleet-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .fleet-info {
@@ -1211,6 +1254,13 @@
   border-radius: 50px;
   font-weight: 600;
   cursor: pointer;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+a.social-icon:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .social-icon:hover {
