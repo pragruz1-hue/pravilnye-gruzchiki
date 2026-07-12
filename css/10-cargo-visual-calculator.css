@@ -552,3 +552,176 @@
   filter: grayscale(0.8);
   border-style: dashed;
 }
+
+/* ===== Height note ===== */
+.cargo-height-note {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.55);
+  margin-top: 6px;
+  max-width: 420px;
+  line-height: 1.45;
+}
+
+/* ===== Side view bay ===== */
+.cargo-bay-side-outer {
+  position: relative;
+  margin-top: 14px;
+  padding: 18px 18px 36px 46px;
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.04), transparent),
+    rgba(5, 8, 14, 0.86);
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: auto;
+}
+.cargo-bay-side {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 16px;
+  background:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(180deg, #111827, #080b12);
+  background-size: 40px 40px;
+  border: 3px solid rgba(255, 143, 0, 0.5);
+  box-shadow: inset 0 0 30px rgba(255,115,0,0.06), 0 14px 40px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.cargo-bay-side-measure-x,
+.cargo-bay-side-measure-y {
+  position: absolute;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.cargo-bay-side-measure-x { left: 46px; right: 18px; bottom: 10px; text-align: center; }
+.cargo-bay-side-measure-y { left: 8px; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: center; }
+
+/* ===== Side load items ===== */
+.cargo-load-item-side {
+  position: absolute;
+  border-radius: 6px;
+  padding: 0;
+  font-size: 0;
+  opacity: 0.85;
+}
+
+/* ===== Rotated badge ===== */
+.cargo-rotated-badge {
+  display: inline-block;
+  margin-left: 4px;
+  color: #ff9f2f;
+  font-weight: 800;
+  cursor: help;
+}
+
+/* ===== Row rotated ===== */
+.cargo-row-rotated {
+  display: inline-block;
+  margin-left: 4px;
+  color: #ff9f2f;
+  font-weight: 800;
+  cursor: help;
+}
+
+/* ===== Quick fill button ===== */
+.cargo-quick-fill-btn {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,115,0,0.45);
+  background: linear-gradient(135deg, rgba(255,115,0,0.22), rgba(19,25,38,0.86));
+  color: #fff;
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+.cargo-quick-fill-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,115,0,0.7);
+  background: linear-gradient(135deg, rgba(255,115,0,0.32), rgba(19,25,38,0.92));
+}
+
+/* ===== Modal box for cargo ===== */
+.cargo-modal-box {
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* ===== Quick form sections ===== */
+.cargo-quick-form {
+  display: grid;
+  gap: 18px;
+}
+.cargo-quick-section h4 {
+  font-size: 1rem;
+  color: #ffb35c;
+  margin-bottom: 10px;
+  font-family: var(--font-title);
+}
+.cargo-quick-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.cargo-quick-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(19,25,38,0.72);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #dbe3ee;
+  font-size: 0.82rem;
+}
+.cargo-quick-grid label span {
+  font-weight: 700;
+}
+.cargo-quick-grid input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(7,9,14,0.72);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  outline: none;
+}
+.cargo-quick-grid input[type="number"]:focus {
+  border-color: rgba(255,115,0,0.52);
+}
+
+/* ===== Fragile checkbox ===== */
+.cargo-quick-fragile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #dbe3ee;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.cargo-quick-fragile input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #ff8f00;
+  flex-shrink: 0;
+}
+
+@media (max-width: 560px) {
+  .cargo-quick-grid { grid-template-columns: 1fr; }
+  .cargo-bay-side { height: 90px; }
+  .cargo-height-note { font-size: 0.72rem; }
+}
