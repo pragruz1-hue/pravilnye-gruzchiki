@@ -173,6 +173,34 @@ function renderReviews(cityCode) {
       region: "Краснодарского края",
       phone: "+7 (928) 333-32-81",
     },
+    anapa: {
+      name: "Анапа",
+      cases: { nom: "Анапа", prep: "в Анапе", gen: "Анапы" },
+      address: "353440, г. Анапа, ул. Крымская, д. 177, офис 12",
+      region: "Краснодарского края",
+      phone: "+7 (928) 333-32-81",
+    },
+    sochi: {
+      name: "Сочи",
+      cases: { nom: "Сочи", prep: "в Сочи", gen: "Сочи" },
+      address: "354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7",
+      region: "Краснодарского края",
+      phone: "+7 (928) 333-32-81",
+    },
+    novorossiysk: {
+      name: "Новороссийск",
+      cases: { nom: "Новороссийск", prep: "в Новороссийске", gen: "Новороссийска" },
+      address: "353900, г. Новороссийск, ул. Советов, д. 42, офис 18",
+      region: "Краснодарского края",
+      phone: "+7 (928) 333-32-81",
+    },
+    gelendzhik: {
+      name: "Геленджик",
+      cases: { nom: "Геленджик", prep: "в Геленджике", gen: "Геленджика" },
+      address: "353460, г. Геленджик, ул. Луначарского, д. 6, офис 21",
+      region: "Краснодарского края",
+      phone: "+7 (928) 333-32-81",
+    },
     };
 
   // Render city specific content
@@ -280,6 +308,11 @@ function renderReviews(cityCode) {
   // Privacy-safe city selection: no third-party IP geolocation.
   async function detectUserCity() {
     const defaultCity = "krasnodar";
+    // Detect city from URL path: /anapa/... /sochi/... etc.
+    const pathCity = window.location.pathname.split("/")[1];
+    if (pathCity && CITIES_DATA[pathCity]) {
+      return { cityCode: pathCity, isConfirmed: true };
+    }
     const savedCity = localStorage.getItem("selected_city");
     if (savedCity && CITIES_DATA[savedCity]) {
       return { cityCode: savedCity, isConfirmed: localStorage.getItem("city_confirmed") === "true" };
