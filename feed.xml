@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<yml_catalog date="2026-07-12T12:00:00+03:00">
+<?xml version='1.0' encoding='UTF-8'?>
+<yml_catalog date="2026-07-13T12:00:00+03:00">
   <shop>
     <name>Правильные грузчики</name>
     <company>ООО "Правильные грузчики"</company>
@@ -37,7 +37,6 @@
       </set>
     </sets>
     <offers>
-      <!-- Краснодар -->
       <offer id="krasnodar_loaders" available="true">
         <name>Грузчики в Краснодаре — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/krasnodar/loaders.html</url>
@@ -51,7 +50,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="krasnodar_workers" available="true">
@@ -67,7 +67,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="krasnodar_moving" available="true">
@@ -83,7 +84,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="krasnodar_office-moving" available="true">
@@ -99,13 +101,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="krasnodar_rigging" available="true">
         <name>Такелажные работы в Краснодаре — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/krasnodar/rigging.html</url>
-        <price>1200</price>
+        <price>1000</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -115,7 +118,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="krasnodar_furniture" available="true">
@@ -131,13 +135,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 1 час</sales_notes>
       </offer>
       <offer id="krasnodar_gazel-3m" available="true">
         <name>Газель 3 метра в Краснодаре — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/krasnodar/arenda-gazeli-3m.html</url>
-        <price>2000</price>
+        <price>1500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -147,13 +152,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="krasnodar_gazel-42m" available="true">
         <name>Газель 4.2 метра в Краснодаре — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/krasnodar/arenda-gazeli-udlinennoj.html</url>
-        <price>2500</price>
+        <price>1800</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_krasnodar</set-ids>
@@ -163,27 +169,10 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
-      <offer id="krasnodar_outsourcing" available="true">
-        <name>Аутсорсинг персонала в Краснодаре — ООО «Правильные грузчики»</name>
-        <url>https://pragruz.ru/krasnodar/autsorsing.html</url>
-        <price>800</price>
-        <currencyId>RUR</currencyId>
-        <categoryId>5</categoryId>
-        <set-ids>set_krasnodar</set-ids>
-        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
-        <description>Аутсорсинг линейного персонала в Краснодаре — от 800 ₽/час. Предоставляем грузчиков, комплектовщиков, упаковщиков и подсобных рабочих для склада, производства, логистического центра, торговой точки. Работаем по договору, предоставляем закрывающие документы. Минимальный заказ — от 4 часов. Бригада от 2 человек, опыт от 12 лет. Оставьте заявку — подберём персонал под ваш объект.</description>
-        <param name="Рейтинг">4.9</param>
-        <param name="Число отзывов">150</param>
-        <param name="Годы опыта">12</param>
-        <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
-        <sales_notes>Минимальный заказ 4 часа</sales_notes>
-      </offer>
-
-      <!-- Анапа -->
       <offer id="anapa_loaders" available="true">
         <name>Грузчики в Анапе — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/anapa/loaders.html</url>
@@ -197,7 +186,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="anapa_workers" available="true">
@@ -213,7 +203,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="anapa_moving" available="true">
@@ -229,7 +220,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="anapa_office-moving" available="true">
@@ -245,13 +237,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="anapa_rigging" available="true">
         <name>Такелажные работы в Анапе — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/anapa/rigging.html</url>
-        <price>1200</price>
+        <price>1000</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -261,7 +254,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="anapa_furniture" available="true">
@@ -277,13 +271,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 1 час</sales_notes>
       </offer>
       <offer id="anapa_gazel-3m" available="true">
         <name>Газель 3 метра в Анапе — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/anapa/arenda-gazeli-3m.html</url>
-        <price>2000</price>
+        <price>1500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -293,13 +288,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="anapa_gazel-42m" available="true">
         <name>Газель 4.2 метра в Анапе — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/anapa/arenda-gazeli-udlinennoj.html</url>
-        <price>2500</price>
+        <price>1800</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_anapa</set-ids>
@@ -309,27 +305,10 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
-      <offer id="anapa_outsourcing" available="true">
-        <name>Аутсорсинг персонала в Анапе — ООО «Правильные грузчики»</name>
-        <url>https://pragruz.ru/anapa/autsorsing.html</url>
-        <price>800</price>
-        <currencyId>RUR</currencyId>
-        <categoryId>5</categoryId>
-        <set-ids>set_anapa</set-ids>
-        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
-        <description>Аутсорсинг линейного персонала в Анапе — от 800 ₽/час. Предоставляем грузчиков, комплектовщиков, упаковщиков и подсобных рабочих для склада, производства, логистического центра, торговой точки. Работаем по договору, предоставляем закрывающие документы. Минимальный заказ — от 4 часов. Бригада от 2 человек, опыт от 12 лет. Оставьте заявку — подберём персонал под ваш объект.</description>
-        <param name="Рейтинг">4.9</param>
-        <param name="Число отзывов">150</param>
-        <param name="Годы опыта">12</param>
-        <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
-        <sales_notes>Минимальный заказ 4 часа</sales_notes>
-      </offer>
-
-      <!-- Новороссийск -->
       <offer id="novorossiysk_loaders" available="true">
         <name>Грузчики в Новороссийске — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/novorossiysk/loaders.html</url>
@@ -343,7 +322,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_workers" available="true">
@@ -359,7 +339,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_moving" available="true">
@@ -375,7 +356,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_office-moving" available="true">
@@ -391,13 +373,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_rigging" available="true">
         <name>Такелажные работы в Новороссийске — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/novorossiysk/rigging.html</url>
-        <price>1200</price>
+        <price>1000</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -407,7 +390,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_furniture" available="true">
@@ -423,13 +407,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 1 час</sales_notes>
       </offer>
       <offer id="novorossiysk_gazel-3m" available="true">
         <name>Газель 3 метра в Новороссийске — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/novorossiysk/arenda-gazeli-3m.html</url>
-        <price>2000</price>
+        <price>1500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -439,13 +424,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_gazel-42m" available="true">
         <name>Газель 4.2 метра в Новороссийске — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/novorossiysk/arenda-gazeli-udlinennoj.html</url>
-        <price>2500</price>
+        <price>1800</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_novorossiysk</set-ids>
@@ -455,27 +441,10 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
-      <offer id="novorossiysk_outsourcing" available="true">
-        <name>Аутсорсинг персонала в Новороссийске — ООО «Правильные грузчики»</name>
-        <url>https://pragruz.ru/novorossiysk/autsorsing.html</url>
-        <price>800</price>
-        <currencyId>RUR</currencyId>
-        <categoryId>5</categoryId>
-        <set-ids>set_novorossiysk</set-ids>
-        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
-        <description>Аутсорсинг линейного персонала в Новороссийске — от 800 ₽/час. Предоставляем грузчиков, комплектовщиков, упаковщиков и подсобных рабочих для склада, производства, логистического центра, торговой точки. Работаем по договору, предоставляем закрывающие документы. Минимальный заказ — от 4 часов. Бригада от 2 человек, опыт от 12 лет. Оставьте заявку — подберём персонал под ваш объект.</description>
-        <param name="Рейтинг">4.9</param>
-        <param name="Число отзывов">150</param>
-        <param name="Годы опыта">12</param>
-        <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
-        <sales_notes>Минимальный заказ 4 часа</sales_notes>
-      </offer>
-
-      <!-- Сочи -->
       <offer id="sochi_loaders" available="true">
         <name>Грузчики в Сочи, Адлере, Сириусе — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/sochi/loaders.html</url>
@@ -489,7 +458,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="sochi_workers" available="true">
@@ -505,7 +475,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="sochi_moving" available="true">
@@ -521,7 +492,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="sochi_office-moving" available="true">
@@ -537,13 +509,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="sochi_rigging" available="true">
         <name>Такелажные работы в Сочи, Адлере, Сириусе — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/sochi/rigging.html</url>
-        <price>1200</price>
+        <price>1000</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -553,7 +526,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="sochi_furniture" available="true">
@@ -569,13 +543,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 1 час</sales_notes>
       </offer>
       <offer id="sochi_gazel-3m" available="true">
         <name>Газель 3 метра в Сочи, Адлере, Сириусе — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/sochi/arenda-gazeli-3m.html</url>
-        <price>2000</price>
+        <price>1500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -585,13 +560,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="sochi_gazel-42m" available="true">
         <name>Газель 4.2 метра в Сочи, Адлере, Сириусе — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/sochi/arenda-gazeli-udlinennoj.html</url>
-        <price>2500</price>
+        <price>1800</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_sochi</set-ids>
@@ -601,27 +577,10 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
-      <offer id="sochi_outsourcing" available="true">
-        <name>Аутсорсинг персонала в Сочи, Адлере, Сириусе — ООО «Правильные грузчики»</name>
-        <url>https://pragruz.ru/sochi/autsorsing.html</url>
-        <price>800</price>
-        <currencyId>RUR</currencyId>
-        <categoryId>5</categoryId>
-        <set-ids>set_sochi</set-ids>
-        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
-        <description>Аутсорсинг линейного персонала в Сочи, Адлере и Сириусе — от 800 ₽/час. Предоставляем грузчиков, комплектовщиков, упаковщиков и подсобных рабочих для склада, производства, логистического центра, торговой точки. Работаем по договору, предоставляем закрывающие документы. Минимальный заказ — от 4 часов. Бригада от 2 человек, опыт от 12 лет. Оставьте заявку — подберём персонал под ваш объект.</description>
-        <param name="Рейтинг">4.9</param>
-        <param name="Число отзывов">150</param>
-        <param name="Годы опыта">12</param>
-        <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
-        <sales_notes>Минимальный заказ 4 часа</sales_notes>
-      </offer>
-
-      <!-- Геленджик -->
       <offer id="gelendzhik_loaders" available="true">
         <name>Грузчики в Геленджике — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/gelendzhik/loaders.html</url>
@@ -635,7 +594,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_workers" available="true">
@@ -651,7 +611,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_moving" available="true">
@@ -667,7 +628,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_office-moving" available="true">
@@ -683,13 +645,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_rigging" available="true">
         <name>Такелажные работы в Геленджике — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/gelendzhik/rigging.html</url>
-        <price>1200</price>
+        <price>1000</price>
         <currencyId>RUR</currencyId>
         <categoryId>3</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -699,7 +662,8 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_furniture" available="true">
@@ -715,13 +679,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 1 час</sales_notes>
       </offer>
       <offer id="gelendzhik_gazel-3m" available="true">
         <name>Газель 3 метра в Геленджике — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/gelendzhik/arenda-gazeli-3m.html</url>
-        <price>2000</price>
+        <price>1500</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -731,13 +696,14 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_gazel-42m" available="true">
         <name>Газель 4.2 метра в Геленджике — ООО «Правильные грузчики»</name>
         <url>https://pragruz.ru/gelendzhik/arenda-gazeli-udlinennoj.html</url>
-        <price>2500</price>
+        <price>1800</price>
         <currencyId>RUR</currencyId>
         <categoryId>4</categoryId>
         <set-ids>set_gelendzhik</set-ids>
@@ -747,25 +713,10 @@
         <param name="Число отзывов">150</param>
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
+        <param name="Конверсия">100</param>
+        <param name="Ссылка на телефон">tel:+79283333281</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
-      <offer id="gelendzhik_outsourcing" available="true">
-        <name>Аутсорсинг персонала в Геленджике — ООО «Правильные грузчики»</name>
-        <url>https://pragruz.ru/gelendzhik/autsorsing.html</url>
-        <price>800</price>
-        <currencyId>RUR</currencyId>
-        <categoryId>5</categoryId>
-        <set-ids>set_gelendzhik</set-ids>
-        <picture>https://pragruz.ru/assets/service-autsorsing.webp</picture>
-        <description>Аутсорсинг линейного персонала в Геленджике — от 800 ₽/час. Предоставляем грузчиков, комплектовщиков, упаковщиков и подсобных рабочих для склада, производства, логистического центра, торговой точки. Работаем по договору, предоставляем закрывающие документы. Минимальный заказ — от 4 часов. Бригада от 2 человек, опыт от 12 лет. Оставьте заявку — подберём персонал под ваш объект.</description>
-        <param name="Рейтинг">4.9</param>
-        <param name="Число отзывов">150</param>
-        <param name="Годы опыта">12</param>
-        <param name="Регион">Краснодарский край</param>
-        <param name="ссылка на телефон" type="URL">tel:+79283333281</param>
-        <sales_notes>Минимальный заказ 4 часа</sales_notes>
-      </offer>
-    </offers>
+      </offers>
   </shop>
 </yml_catalog>
