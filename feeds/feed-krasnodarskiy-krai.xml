@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='utf-8'?>
-<yml_catalog date="2026-07-09T12:00:00+03:00">
+<?xml version='1.0' encoding='UTF-8'?>
+<yml_catalog date="2026-07-14T21:00:00+03:00">
   <shop>
     <name>Правильные грузчики — Краснодарский край</name>
     <company>ООО "Правильные грузчики"</company>
@@ -34,7 +34,7 @@
       </offer>
       <offer id="krasnodar_workers" available="true">
         <name>Разнорабочие в Краснодаре, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/krasnodar/workers.html</url>
+        <url>https://pragruz.ru/krasnodar/raznorabochie.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
@@ -51,7 +51,7 @@
       </offer>
       <offer id="krasnodar_moving" available="true">
         <name>Квартирный переезд в Краснодаре, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/krasnodar/moving.html</url>
+        <url>https://pragruz.ru/krasnodar/kvartirnyj-pereezd.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
@@ -68,7 +68,7 @@
       </offer>
       <offer id="krasnodar_office-moving" available="true">
         <name>Офисный переезд в Краснодаре, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/krasnodar/office-moving.html</url>
+        <url>https://pragruz.ru/krasnodar/ofisnyj-pereezd.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
@@ -187,7 +187,7 @@
       </offer>
       <offer id="anapa_workers" available="true">
         <name>Разнорабочие в Анапе, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/anapa/workers.html</url>
+        <url>https://pragruz.ru/anapa/raznorabochie.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
@@ -204,7 +204,7 @@
       </offer>
       <offer id="anapa_moving" available="true">
         <name>Квартирный переезд в Анапе, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/anapa/moving.html</url>
+        <url>https://pragruz.ru/anapa/kvartirnyj-pereezd.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
@@ -221,7 +221,7 @@
       </offer>
       <offer id="anapa_office-moving" available="true">
         <name>Офисный переезд в Анапе, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/anapa/office-moving.html</url>
+        <url>https://pragruz.ru/anapa/ofisnyj-pereezd.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
@@ -340,7 +340,7 @@
       </offer>
       <offer id="novorossiysk_workers" available="true">
         <name>Разнорабочие в Новороссийске, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/novorossiysk/workers.html</url>
+        <url>https://pragruz.ru/novorossiysk/raznorabochie.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
@@ -357,7 +357,7 @@
       </offer>
       <offer id="novorossiysk_moving" available="true">
         <name>Квартирный переезд в Новороссийске, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/novorossiysk/moving.html</url>
+        <url>https://pragruz.ru/novorossiysk/kvartirnyj-pereezd.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
@@ -374,7 +374,7 @@
       </offer>
       <offer id="novorossiysk_office-moving" available="true">
         <name>Офисный переезд в Новороссийске, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/novorossiysk/office-moving.html</url>
+        <url>https://pragruz.ru/novorossiysk/ofisnyj-pereezd.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
@@ -493,7 +493,7 @@
       </offer>
       <offer id="sochi_workers" available="true">
         <name>Разнорабочие в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/sochi/workers.html</url>
+        <url>https://pragruz.ru/sochi/raznorabochie.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
@@ -510,7 +510,7 @@
       </offer>
       <offer id="sochi_moving" available="true">
         <name>Квартирный переезд в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/sochi/moving.html</url>
+        <url>https://pragruz.ru/sochi/kvartirnyj-pereezd.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
@@ -527,7 +527,7 @@
       </offer>
       <offer id="sochi_office-moving" available="true">
         <name>Офисный переезд в Сочи, Адлере и Сириусе, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/sochi/office-moving.html</url>
+        <url>https://pragruz.ru/sochi/ofisnyj-pereezd.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
@@ -646,7 +646,7 @@
       </offer>
       <offer id="gelendzhik_workers" available="true">
         <name>Разнорабочие в Геленджике, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/gelendzhik/workers.html</url>
+        <url>https://pragruz.ru/gelendzhik/raznorabochie.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>1</categoryId>
@@ -663,7 +663,7 @@
       </offer>
       <offer id="gelendzhik_moving" available="true">
         <name>Квартирный переезд в Геленджике, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/gelendzhik/moving.html</url>
+        <url>https://pragruz.ru/gelendzhik/kvartirnyj-pereezd.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
@@ -680,7 +680,7 @@
       </offer>
       <offer id="gelendzhik_office-moving" available="true">
         <name>Офисный переезд в Геленджике, ООО "Правильные грузчики"</name>
-        <url>https://pragruz.ru/gelendzhik/office-moving.html</url>
+        <url>https://pragruz.ru/gelendzhik/ofisnyj-pereezd.html</url>
         <price>800</price>
         <currencyId>RUR</currencyId>
         <categoryId>2</categoryId>
