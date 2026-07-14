@@ -1432,3 +1432,27 @@ a.social-icon:hover {
   .city-local-details { grid-template-columns: 1fr; }
   .city-local-header h2 { font-size: 1.5rem; }
 }
+
+/* ===== PRICE TABLE ===== */
+.price-table-section { padding: 80px 0; background: var(--bg-secondary); }
+.price-table-wrap { max-width: 800px; margin: 0 auto; }
+.price-table { width: 100%; border-collapse: collapse; }
+.price-table thead th {
+  text-align: left; padding: 16px 20px; color: var(--text-muted); font-size: 0.85rem;
+  font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.price-table tbody td {
+  padding: 16px 20px; color: #fff; font-size: 0.95rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.price-table tbody tr:hover { background: rgba(255,115,0,0.04); }
+.price-table .price-col {
+  font-family: var(--font-title); font-weight: 700; color: var(--primary);
+  white-space: nowrap;
+}
+.price-table .note-col { color: var(--text-muted); font-size: 0.85rem; }
+@media (max-width: 600px) {
+  .price-table thead th, .price-table tbody td { padding: 12px 10px; font-size: 0.85rem; }
+  .price-table .note-col { display: none; }
+}
