@@ -80,73 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
         avatar: "assets/avatar-male.webp",
       },
     ],
-    moscow: [
-      {
-        name: "Иван П.",
-        city: "Москва",
-        rating: 5,
-        text: "Перевозили небольшой офис на Дмитровском шоссе. Столы промаркировали, мониторы упаковали отдельно, в понедельник сотрудники уже работали на новом месте. Бригада была на связи весь день.",
-        date: "20 июня 2026",
-        initials: "ИП",
-        avatar: "assets/avatar-male.webp",
-      },
-      {
-        name: "Сергей Л.",
-        city: "Москва",
-        rating: 4,
-        text: "Нужны были разнорабочие на демонтаж перегородок. Приехали не мгновенно, около двух часов ожидания, но предупредили заранее. Работу сделали чисто, мешки вынесли к месту погрузки.",
-        date: "17 июня 2026",
-        initials: "СЛ",
-        avatar: "assets/avatar-male.webp",
-      },
-      {
-        name: "Анна К.",
-        city: "Москва",
-        rating: 5,
-        text: "Перевозили тяжелый сейф из офиса. Очень переживали за плитку и стены, но такелажники привезли ремни и настил, прошли аккуратно. Видно, что не первый раз делают такую работу.",
-        date: "13 июня 2026",
-        initials: "АК",
-        avatar: "assets/avatar-female.webp",
-      },
-      {
-        name: "Наталья Р.",
-        city: "Москва",
-        rating: 5,
-        text: "Заказывала грузчиков для доставки мебели после ремонта. Позвонили за 20 минут до приезда, обувь сняли в квартире, упаковку сложили в одну кучу. Редко пишу отзывы, но тут действительно аккуратно.",
-        date: "9 июня 2026",
-        initials: "НР",
-        avatar: "assets/avatar-female.webp",
-      },
-    ],
-    spb: [
-      {
-        name: "Михаил Д.",
-        city: "Санкт-Петербург",
-        rating: 5,
-        text: "Поднимали пианино на пятый этаж в старом доме. Лестница узкая, но ребята заранее всё промерили, сняли перила где можно и занесли без повреждений. Работой доволен.",
-        date: "22 июня 2026",
-        initials: "МД",
-        avatar: "assets/avatar-male.webp",
-      },
-      {
-        name: "Татьяна В.",
-        city: "Санкт-Петербург",
-        rating: 4,
-        text: "Берем персонал на подработку в магазин уже несколько месяцев. Обычно всё отлично, один раз была замена сотрудника в середине смены. Вопрос решили быстро, поэтому оценка 4 с плюсом.",
-        date: "19 июня 2026",
-        initials: "ТВ",
-        avatar: "assets/avatar-female.webp",
-      },
-      {
-        name: "Роман А.",
-        city: "Санкт-Петербург",
-        rating: 5,
-        text: "Помогали с переездом с Васильевского острова. Машина подъехала в согласованное окно, коробки закрепили ремнями, стеклянный стол довезли целым. Цена совпала с расчетом.",
-        date: "11 июня 2026",
-        initials: "РА",
-        avatar: "assets/avatar-male.webp",
-      },
-    ],
     default: [
       {
         name: "Алексей Р.",
@@ -240,112 +173,35 @@ function renderReviews(cityCode) {
       region: "Краснодарского края",
       phone: "+7 (928) 333-32-81",
     },
-    moscow: {
-      name: "Москва",
-      cases: { nom: "Москва", prep: "в Москве", gen: "Москвы" },
-      address: "101000, г. Москва, ул. Мясницкая д.24, оф. 102",
-      region: "Московской области",
-      phone: "+7 (495) 123-45-67",
+    anapa: {
+      name: "Анапа",
+      cases: { nom: "Анапа", prep: "в Анапе", gen: "Анапы" },
+      address: "353440, г. Анапа, ул. Крымская, д. 177, офис 12",
+      region: "Краснодарского края",
+      phone: "+7 (928) 333-32-81",
     },
-    spb: {
-      name: "Санкт-Петербург",
-      cases: {
-        nom: "Санкт-Петербург",
-        prep: "в Санкт-Петербурге",
-        gen: "Санкт-Петербурга",
-      },
-      address: "190000, г. Санкт-Петербург, Невский проспект д.42, оф. 15",
-      region: "Ленинградской области",
-      phone: "+7 (812) 987-65-43",
+    sochi: {
+      name: "Сочи",
+      cases: { nom: "Сочи", prep: "в Сочи", gen: "Сочи" },
+      address: "354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7",
+      region: "Краснодарского края",
+      phone: "+7 (928) 333-32-81",
     },
-    novosibirsk: {
-      name: "Новосибирск",
-      cases: {
-        nom: "Новосибирск",
-        prep: "в Новосибирске",
-        gen: "Новосибирска",
-      },
-      address: "630000, г. Новосибирск, Красный проспект д.28, оф. 412",
-      region: "Новосибирской области",
-      phone: "+7 (383) 222-33-44",
+    novorossiysk: {
+      name: "Новороссийск",
+      cases: { nom: "Новороссийск", prep: "в Новороссийске", gen: "Новороссийска" },
+      address: "353900, г. Новороссийск, ул. Советов, д. 42, офис 18",
+      region: "Краснодарского края",
+      phone: "+7 (928) 333-32-81",
     },
-    ekaterinburg: {
-      name: "Екатеринбург",
-      cases: {
-        nom: "Екатеринбург",
-        prep: "в Екатеринбурге",
-        gen: "Екатеринбурга",
-      },
-      address: "620000, г. Екатеринбург, ул. Малышева д.51, оф. 805",
-      region: "Свердловской области",
-      phone: "+7 (343) 333-44-55",
+    gelendzhik: {
+      name: "Геленджик",
+      cases: { nom: "Геленджик", prep: "в Геленджике", gen: "Геленджика" },
+      address: "353460, г. Геленджик, ул. Луначарского, д. 6, офис 21",
+      region: "Краснодарского края",
+      phone: "+7 (928) 333-32-81",
     },
-    kazan: {
-      name: "Казань",
-      cases: { nom: "Казань", prep: "в Казани", gen: "Казани" },
-      address: "420000, г. Казань, ул. Баумана д.12, оф. 301",
-      region: "Республики Татарстан",
-      phone: "+7 (843) 444-55-66",
-    },
-    nn: {
-      name: "Нижний Новгород",
-      cases: {
-        nom: "Нижний Новгород",
-        prep: "в Нижнем Новгороде",
-        gen: "Нижнего Новгорода",
-      },
-      address:
-        "603000, г. Нижний Новгород, ул. Большая Покровская д.15, оф. 204",
-      region: "Нижегородской области",
-      phone: "+7 (831) 555-66-77",
-    },
-    chelyabinsk: {
-      name: "Челябинск",
-      cases: { nom: "Челябинск", prep: "в Челябинске", gen: "Челябинска" },
-      address: "454000, г. Челябинск, проспект Ленина д.64, оф. 512",
-      region: "Челябинской области",
-      phone: "+7 (351) 666-77-88",
-    },
-    samara: {
-      name: "Самара",
-      cases: { nom: "Самара", prep: "в Самаре", gen: "Самары" },
-      address: "443000, г. Самара, ул. Ленинградская д.45, оф. 311",
-      region: "Самарской области",
-      phone: "+7 (846) 777-88-99",
-    },
-    rostov: {
-      name: "Ростов-на-Дону",
-      cases: {
-        nom: "Ростов-на-Дону",
-        prep: "в Ростове-на-Дону",
-        gen: "Ростова-на-Дону",
-      },
-      address: "344000, г. Ростов-на-Дону, Большая Садовая ул. д.82, оф. 219",
-      region: "Ростовской области",
-      phone: "+7 (863) 888-99-00",
-    },
-    ufa: {
-      name: "Уфа",
-      cases: { nom: "Уфа", prep: "в Уфе", gen: "Уфы" },
-      address: "450000, г. Уфа, ул. Ленина д.32, оф. 104",
-      region: "Республики Башкортостан",
-      phone: "+7 (347) 999-00-11",
-    },
-    voronezh: {
-      name: "Воронеж",
-      cases: { nom: "Воронеж", prep: "в Воронеже", gen: "Воронежа" },
-      address: "394000, г. Воронеж, проспект Революции д.18, оф. 302",
-      region: "Воронежской области",
-      phone: "+7 (473) 111-22-33",
-    },
-    volgograd: {
-      name: "Волгоград",
-      cases: { nom: "Волгоград", prep: "в Волгограде", gen: "Волгограда" },
-      address: "400000, г. Волгоград, проспект Ленина д.12, оф. 410",
-      region: "Волгоградской области",
-      phone: "+7 (844) 222-33-44",
-    },
-  };
+    };
 
   // Render city specific content
   function renderCity(cityCode) {
@@ -452,6 +308,11 @@ function renderReviews(cityCode) {
   // Privacy-safe city selection: no third-party IP geolocation.
   async function detectUserCity() {
     const defaultCity = "krasnodar";
+    // Detect city from URL path: /anapa/... /sochi/... etc.
+    const pathCity = window.location.pathname.split("/")[1];
+    if (pathCity && CITIES_DATA[pathCity]) {
+      return { cityCode: pathCity, isConfirmed: true };
+    }
     const savedCity = localStorage.getItem("selected_city");
     if (savedCity && CITIES_DATA[savedCity]) {
       return { cityCode: savedCity, isConfirmed: localStorage.getItem("city_confirmed") === "true" };
@@ -1055,13 +916,13 @@ function renderReviews(cityCode) {
                <div class="exit-modal-content">
                  <div class="exit-gift-icon">🎁</div>
                  <h2>Подождите, не уходите!</h2>
-                 <p class="exit-modal-promo">Получите гарантированную <span class="text-gradient">скидку 10%</span> на ваш первый заказ!</p>
-                 <p class="exit-modal-desc">Закрепите за своим номером скидку. Мы перезвоним, проконсультируем и зафиксируем спецтариф.</p>
+                 <p class="exit-modal-promo">Рассчитайте стоимость с <span class="text-gradient">фиксированным тарифом для новых клиентов</span></p>
+                 <p class="exit-modal-desc">Закрепите за своим номером фиксированный тариф. Мы перезвоним, проконсультируем и зафиксируем спецтариф.</p>
                  <form id="exit-booking-form" class="exit-form">
                    <div class="form-group-custom">
                      <input type="tel" id="exit-phone" placeholder="+7 (999) 000-00-00" required class="form-input-custom">
                    </div>
-                   <button type="submit" class="btn btn-primary btn-block btn-lg" id="exit-submit-btn">Получить скидку 10%</button>
+                   <button type="submit" class="btn btn-primary btn-block btn-lg" id="exit-submit-btn">Получить фиксированный тариф для новых клиентов</button>
                  </form>
                  <div class="success-screen" id="exit-success-confirm">
                    <div class="success-icon-box">
@@ -1070,9 +931,9 @@ function renderReviews(cityCode) {
                        <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                      </svg>
                    </div>
-                   <h3>Скидка 10% забронирована!</h3>
-                   <p>Ваш промокод: <strong style="color: var(--primary);">OFFER10</strong></p>
-                   <p>Мы перезвоним вам в течение 5 минут для подтверждения и расчета стоимости со скидкой.</p>
+                   <h3>Спецтариф закреплён за вашим номером!</h3>
+                   <p>Ваш номер закреплён за спецтарифом — менеджер применит его при расчёте.</p>
+                   <p>Мы перезвоним вам в течение 5 минут для подтверждения и расчета стоимости по спецтарифу.</p>
                    <button type="button" class="btn btn-secondary btn-sm" id="exit-success-close-btn">Отлично</button>
                  </div>
                </div>

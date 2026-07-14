@@ -118,7 +118,41 @@
       }
     </script>
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Сборка мебели в Новороссийске","description":"Профессиональные сборщики мебели: разборка и сборка шкафов, кухонных гарнитуров, диванов, монтаж стеллажей.","provider":{"@type":"LocalBusiness","name":"Правильные Грузчики","telephone":"+7 (928) 333-32-81","image":"https://pragruz.ru/assets/logo.png"},"areaServed":{"@type":"State","name":"Краснодарского края"},"offers":{"@type":"Offer","priceCurrency":"RUB","price":"800","priceSpecification":{"@type":"UnitPriceSpecification","priceCurrency":"RUB","price":800,"unitText":"час"}}}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Сборка мебели в Новороссийске",
+  "description": "Профессиональные сборщики мебели: разборка и сборка шкафов, кухонных гарнитуров, диванов, монтаж стеллажей.",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Правильные Грузчики",
+    "telephone": "+7 (928) 333-32-81",
+    "image": "https://pragruz.ru/assets/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Новороссийск",
+      "streetAddress": "ул. Советов, д. 42, офис 18",
+      "postalCode": "353900",
+      "addressRegion": "Краснодарский край",
+      "addressCountry": "RU"
+    }
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Новороссийска и окрестностей"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "RUB",
+    "price": "800",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "priceCurrency": "RUB",
+      "price": 800,
+      "unitText": "час"
+    }
+  }
+}</script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -159,9 +193,9 @@
       <li><a href="../index.html" class="nav-link">Главная</a></li><li><a href="../about.html" class="nav-link">О нас</a></li><li><a href="../index.html#services" class="nav-link">Услуги</a></li><li><a href="../mezhdugorodnie-pereezdy.html" class="nav-link">Междугородние</a></li><li><a href="../index.html#reviews" class="nav-link">Отзывы</a></li><li><a href="../index.html#faq" class="nav-link">Вопросы</a></li><li><a href="../blog/" class="nav-link">Блог</a></li>
     </ul></nav>
     <div class="header-right">
-      <div class="city-selector-wrap"><button class="city-selector-btn" id="current-selected-city" type="button" aria-label="Выбрать город"><span class="city-icon-pin">📍</span><span class="city-selector-current" id="city-btn-text">Краснодар</span><span class="city-selector-arrow">▼</span></button><div class="city-dropdown" id="city-dropdown-menu"><div class="city-dropdown-list">
+      <div class="city-selector-wrap"><button class="city-selector-btn" id="current-selected-city" type="button" aria-label="Выбрать город"><span class="city-icon-pin">📍</span><span class="city-selector-current" id="city-btn-text">Новороссийск</span><span class="city-selector-arrow">▼</span></button><div class="city-dropdown" id="city-dropdown-menu"><div class="city-dropdown-list">
         <button type="button" class="city-item" data-city="krasnodar">Краснодар</button><button type="button" class="city-item" data-city="anapa">Анапа</button><button type="button" class="city-item" data-city="novorossiysk">Новороссийск</button><button type="button" class="city-item" data-city="sochi">Сочи / Адлер / Сириус</button><button type="button" class="city-item" data-city="gelendzhik">Геленджик</button>
-      </div></div><div class="city-confirm-banner" id="city-confirm-banner"><p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p><div class="city-confirm-btns"><button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button><button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button></div></div></div>
+      </div></div><div class="city-confirm-banner" id="city-confirm-banner"><p>Ваш город — <strong id="detected-city-name">Новороссийск</strong>?</p><div class="city-confirm-btns"><button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button><button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button></div></div></div>
       <div class="header-phone-box"><a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a><span class="work-hours-badge">Круглосуточно 24/7</span></div><a href="../index.html#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn">Заказать звонок</a><button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню" type="button"><span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span></button>
     </div>
   </div>
@@ -593,6 +627,11 @@
               <div class="service-image-box">
                 <img
                   src="../assets/service-sborka-mebeli.webp"
+                  alt="Сборка мебели в Новороссийске"
+                  loading="lazy"
+                  width="1672" height="941" title="Сборка мебели в Новороссийске" class="service-img"
+                />
+                  src="../assets/service-sborka-mebeli.webp"
                   alt="Сборка кухонной мебели"
                   loading="lazy"
                   class="service-img"
@@ -626,6 +665,11 @@
               <div class="service-image-box">
                 <img
                   src="../assets/service-sborka-mebeli.webp"
+                  alt="Сборка мебели в Новороссийске"
+                  loading="lazy"
+                  width="1672" height="941" title="Сборка мебели в Новороссийске" class="service-img"
+                />
+                  src="../assets/service-sborka-mebeli.webp"
                   alt="Сборка шкафов-купе и гардеробных"
                   loading="lazy"
                   class="service-img"
@@ -657,6 +701,11 @@
             <div class="premium-card service-card">
               <div class="service-image-box">
                 <img
+                  src="../assets/service-ofisniy-pereezd.webp"
+                  alt="Офисный переезд в Новороссийске"
+                  loading="lazy"
+                  width="1672" height="941" title="Офисный переезд в Новороссийске" class="service-img"
+                />
                   src="../assets/service-ofisniy-pereezd.webp"
                   alt="Сборка офисной мебели"
                   loading="lazy"
@@ -690,6 +739,11 @@
             <div class="premium-card service-card">
               <div class="service-image-box">
                 <img
+                  src="../assets/service-sborka-stellazhey.webp"
+                  alt="Сборка стеллажей в Новороссийске"
+                  loading="lazy"
+                  width="1672" height="941" title="Сборка стеллажей в Новороссийске" class="service-img"
+                />
                   src="../assets/service-sborka-stellazhey.webp"
                   alt="Торговые и складские стеллажи"
                   loading="lazy"
@@ -815,6 +869,11 @@
               <div class="fleet-img-box">
                 <img
                   src="../assets/fleet-gazel-3m.webp"
+                  alt="Газель стандартная 3 метра в Новороссийске"
+                  loading="lazy"
+                  width="1672" height="941" title="Газель стандартная 3 метра в Новороссийске" class="fleet-img"
+                />
+                  src="../assets/fleet-gazel-3m.webp"
                   alt="Газель стандартная"
                   loading="lazy"
                   class="fleet-img"
@@ -846,6 +905,11 @@
             <div class="premium-card fleet-card">
               <div class="fleet-img-box">
                 <img
+                  src="../assets/fleet-gazel-4.2m.webp"
+                  alt="Газель удлинённая 4.2 метра в Новороссийске"
+                  loading="lazy"
+                  width="1672" height="941" title="Газель удлинённая 4.2 метра в Новороссийске" class="fleet-img"
+                />
                   src="../assets/fleet-gazel-4.2m.webp"
                   alt="Газель удлиненная"
                   loading="lazy"
@@ -1075,7 +1139,53 @@
       </section>
 
       <!-- FAQ SECTION (ACCORDION - FURNITURE SPECIFIC) -->
-      <section class="faq-section" id="faq">
+      
+<section class="price-table-section" id="prices">
+  <div class="container">
+    <div class="city-local-header">
+      <span class="sub-title-gradient">Цены</span>
+      <h2>Цены на сборку мебели</h2>
+      <p class="city-local-intro">Фиксированные тарифы без скрытых доплат. Для точного расчёта оставьте заявку — менеджер перезвонит за 5 минут.</p>
+    </div>
+    <div class="price-table-wrap">
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>Услуга</th>
+            <th>Цена</th>
+            <th>Примечание</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>Сборка кровати</td>
+              <td class="price-col">от 800 ₽</td>
+              <td class="note-col">30–60 минут</td>
+            </tr>            <tr>
+              <td>Сборка шкафа-купе</td>
+              <td class="price-col">от 1 500 ₽</td>
+              <td class="note-col">2–4 часа</td>
+            </tr>            <tr>
+              <td>Сборка кухонного гарнитура</td>
+              <td class="price-col">от 4 000 ₽</td>
+              <td class="note-col">4–8 часов</td>
+            </tr>            <tr>
+              <td>Сборка офисного стола</td>
+              <td class="price-col">от 500 ₽</td>
+              <td class="note-col">20–40 минут</td>
+            </tr>            <tr>
+              <td>Выезд сборщика</td>
+              <td class="price-col">бесплатно</td>
+              <td class="note-col">при заказе от 2 000 ₽</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="city-local-disclaimer">Итоговая цена всегда уточняется менеджером после адреса, объёма, этажа, лифта, расстояния переноски и необходимости транспорта. Расчёт на сайте предварительный и не является публичной офертой.</p>
+  </div>
+</section>
+
+<section class="faq-section" id="faq">
         <div class="container faq-container">
           <div class="section-header text-center">
             <span class="sub-title-gradient">F.A.Q</span>
@@ -1163,24 +1273,46 @@
         </div>
       </section>
     
+
 <section class="city-seo-detail" id="local-seo-info">
   <div class="container city-seo-detail-grid">
     <div class="city-seo-detail-card">
       <span class="sub-title-gradient">Локальные условия</span>
-      <h2>Особенности сборки мебели в Новороссийске</h2>
-      <p>В Новороссийске востребованы разгрузки фур, складские работы, переезды офисов и доставка крупной мебели. При планировании учитываем рельеф, узкие подъезды, складские графики и загруженность городских дорог.</p>
-      <p>Сборка мебели и стеллажей выполняется со своим инструментом. Перед заказом стоит уточнить тип мебели, наличие инструкции, состояние крепежа и необходимость демонтажа.</p>
+      <h2>Сборка мебели в Новороссийске: квартиры, офисы и портовая зона</h2>
+      <p>Новороссийск — город, где сборка мебели востребована в жилых и коммерческих объектах. Жилые заказы: шкафы-купе, кухни, кровати, стенки. Коммерческие: офисная мебель, стеллажи для складов, прилавки для магазинов. Для каждого типа мебели свои тонкости сборки.</p>
+      <p>Кухонные гарнитуры — самый сложный заказ: установка столешниц с вырезом под мойку, монтаж фасадов, регулировка петель и доводчиков, установка встраиваемой техники. На кухню уходит 4–8 часов. Гарантируем качество монтажа.</p>
+      <p>Офисная мебель в Новороссийске — заказы от портовых компаний, логистических центров и муниципальных учреждений: рабочие столы, кресла, шкафы для документов, переговорные зоны. Сборка офисного рабочего места занимает 30–40 минут, полного офиса — 1–2 дня.</p>
+      <p>Выезд по Новороссийску, Мысхако, Цемдолине. Тариф от 800 руб./час. Для юрлиц — договор и полный пакет документов.</p>
     </div>
     <div class="city-seo-detail-card">
       <span class="sub-title-gradient">География</span>
       <h3>Выезд по городу и рядом</h3>
-      <p>Работаем по центру, Южному району, Мысхако, Цемдолине и промышленным зонам.</p>
+      <p>Выезжаем по Новороссийску, Восточному, Мысхако, Рыбачьему и пригородам.</p>
       <p>Итоговая цена всегда уточняется менеджером после адреса, объема, этажа, лифта, расстояния переноски и необходимости транспорта. Расчет на сайте является предварительным и не является публичной офертой.</p>
     </div>
   </div>
 </section>
+
+
+    <section class="internal-links-section" style="padding:2.5rem 0;background:#f8f9fa">
+      <div class="container">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;color:#1a1a2e">Полезные услуги</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem">
+        <a href="perevozka-mebeli.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Перевозка мебели</a>
+        <a href="kvartirnyj-pereezd.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Квартирный переезд</a>
+        <a href="gruzchiki-na-chas.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Грузчики на час</a>
+        </div>
+        <h3 style="font-size:1.25rem;margin:1.5rem 0 0.75rem;color:#1a1a2e">Работаем по всему краю</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.75rem">
+        <a href="../krasnodar/furniture.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Краснодар</a>
+        <a href="../anapa/furniture.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Анапа</a>
+        <a href="../sochi/furniture.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Сочи, Адлер и Сириус</a>
+        <a href="../gelendzhik/furniture.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Геленджик</a>
+        </div>
+      </div>
+    </section>
 </main>
-<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="../index.html" class="logo-area"><img src="../assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64"><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="loaders.html">Услуги грузчиков</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="moving.html">Квартирные переезды</a></li><li><a href="office-moving.html">Офисные переезды</a></li><li><a href="rigging.html">Такелажные работы</a></li><li><a href="furniture.html">Сборка мебели</a></li><li><a href="../gruzoperevozki.html">Грузоперевозки</a></li><li><a href="../mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li></ul></div><div class="footer-col"><h4>Для бизнеса</h4><ul class="footer-links"><li><a href="autsorsing.html">Аутсорсинг персонала</a></li><li><a href="gruzchiki-na-smenu.html">Грузчики на смену</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="rigging.html">Такелаж</a></li><li><a href="arenda-gazeli-3m.html">Аренда Газели</a></li><li><a href="index.html#order-form-section">Работа с юрлицами / безнал</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</span></li><li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li></ul><div class="social-links-stub"><a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a><a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div></footer>
+<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="../index.html" class="logo-area"><img src="../assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64"><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="loaders.html">Услуги грузчиков</a></li><li><a href="raznorabochie.html">Разнорабочие</a></li><li><a href="kvartirnyj-pereezd.html">Квартирный переезд</a></li><li><a href="ofisnyj-pereezd.html">Офисный переезд</a></li><li><a href="rigging.html">Такелажные работы</a></li><li><a href="furniture.html">Сборка мебели</a></li><li><a href="../gruzoperevozki.html">Грузоперевозки</a></li><li><a href="../mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li></ul></div><div class="footer-col"><h4>Для бизнеса</h4><ul class="footer-links"><li><a href="autsorsing.html">Аутсорсинг персонала</a></li><li><a href="gruzchiki-na-smenu.html">Грузчики на смену</a></li><li><a href="raznorabochie.html">Разнорабочие</a></li><li><a href="rigging.html">Такелаж</a></li><li><a href="arenda-gazeli-3m.html">Аренда Газели</a></li><li><a href="index.html#order-form-section">Работа с юрлицами / безнал</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">353900, г. Новороссийск, ул. Советов, д. 42, офис 18</span></li><li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li></ul><div class="social-links-stub"><a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a><a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div></footer>
 <!-- ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== -->
 <div class="modal-overlay" id="order-modal">
   <div class="modal-box">
