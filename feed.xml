@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<yml_catalog date="2026-07-14T21:30:00+03:00">
+<yml_catalog date="2026-07-14T21:45:00+03:00">
   <shop>
     <name>Правильные грузчики</name>
     <company>ООО "Правильные грузчики"</company>
@@ -28,7 +28,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="krasnodar_workers" available="true">
@@ -44,7 +44,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="krasnodar_moving" available="true">
@@ -60,7 +60,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="krasnodar_office-moving" available="true">
@@ -76,7 +76,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="krasnodar_rigging" available="true">
@@ -92,7 +92,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="krasnodar_furniture" available="true">
@@ -108,7 +108,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 1 час</sales_notes>
       </offer>
       <offer id="krasnodar_gazel-3m" available="true">
@@ -124,7 +124,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="krasnodar_gazel-42m" available="true">
@@ -140,7 +140,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="anapa_loaders" available="true">
@@ -156,7 +156,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="anapa_workers" available="true">
@@ -172,7 +172,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="anapa_moving" available="true">
@@ -188,7 +188,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="anapa_office-moving" available="true">
@@ -204,7 +204,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="anapa_rigging" available="true">
@@ -220,7 +220,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="anapa_furniture" available="true">
@@ -236,7 +236,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 1 час</sales_notes>
       </offer>
       <offer id="anapa_gazel-3m" available="true">
@@ -252,7 +252,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="anapa_gazel-42m" available="true">
@@ -268,7 +268,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_loaders" available="true">
@@ -284,7 +284,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_workers" available="true">
@@ -300,7 +300,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_moving" available="true">
@@ -316,7 +316,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_office-moving" available="true">
@@ -332,7 +332,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_rigging" available="true">
@@ -348,7 +348,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_furniture" available="true">
@@ -364,7 +364,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 1 час</sales_notes>
       </offer>
       <offer id="novorossiysk_gazel-3m" available="true">
@@ -380,7 +380,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="novorossiysk_gazel-42m" available="true">
@@ -396,7 +396,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="sochi_loaders" available="true">
@@ -412,7 +412,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="sochi_workers" available="true">
@@ -428,7 +428,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="sochi_moving" available="true">
@@ -444,7 +444,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="sochi_office-moving" available="true">
@@ -460,7 +460,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="sochi_rigging" available="true">
@@ -476,7 +476,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="sochi_furniture" available="true">
@@ -492,7 +492,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 1 час</sales_notes>
       </offer>
       <offer id="sochi_gazel-3m" available="true">
@@ -508,7 +508,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="sochi_gazel-42m" available="true">
@@ -524,7 +524,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_loaders" available="true">
@@ -540,7 +540,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_workers" available="true">
@@ -556,7 +556,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_moving" available="true">
@@ -572,7 +572,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_office-moving" available="true">
@@ -588,7 +588,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_rigging" available="true">
@@ -604,7 +604,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 3 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_furniture" available="true">
@@ -620,7 +620,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 1 час</sales_notes>
       </offer>
       <offer id="gelendzhik_gazel-3m" available="true">
@@ -636,7 +636,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
       <offer id="gelendzhik_gazel-42m" available="true">
@@ -652,7 +652,7 @@
         <param name="Годы опыта">12</param>
         <param name="Регион">Краснодарский край</param>
         <param name="Конверсия">100</param>
-        <param name="Ссылка на телефон">tel:+79283333281</param>
+        <param name="Телефон">+7 (928) 333-32-81</param>
         <sales_notes>Минимальный заказ 2 часа</sales_notes>
       </offer>
     </offers>
