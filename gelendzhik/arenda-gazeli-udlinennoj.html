@@ -105,7 +105,41 @@
       }
     </script>
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Аренда удлиненной Газели в Геленджике","description":"Аренда грузовой Газели длиной 4.2 метра для перевозки негабаритных грузов и крупных объемов вещей.","provider":{"@type":"LocalBusiness","name":"Правильные Грузчики","telephone":"+7 (928) 333-32-81","image":"https://pragruz.ru/assets/logo.png"},"areaServed":{"@type":"State","name":"Краснодарского края"},"offers":{"@type":"Offer","priceCurrency":"RUB","price":"1800","priceSpecification":{"@type":"UnitPriceSpecification","priceCurrency":"RUB","price":1800,"unitText":"выезд"}}}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Аренда удлиненной Газели в Геленджике",
+  "description": "Аренда грузовой Газели длиной 4.2 метра для перевозки негабаритных грузов и крупных объемов вещей.",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Правильные Грузчики",
+    "telephone": "+7 (928) 333-32-81",
+    "image": "https://pragruz.ru/assets/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Геленджик",
+      "streetAddress": "ул. Луначарского, д. 6, офис 21",
+      "postalCode": "353460",
+      "addressRegion": "Краснодарский край",
+      "addressCountry": "RU"
+    }
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Геленджика и ближайших посёлков"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "RUB",
+    "price": "1800",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "priceCurrency": "RUB",
+      "price": 1800,
+      "unitText": "выезд"
+    }
+  }
+}</script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -146,9 +180,9 @@
       <li><a href="../index.html" class="nav-link">Главная</a></li><li><a href="../about.html" class="nav-link">О нас</a></li><li><a href="../index.html#services" class="nav-link">Услуги</a></li><li><a href="../mezhdugorodnie-pereezdy.html" class="nav-link">Междугородние</a></li><li><a href="../index.html#reviews" class="nav-link">Отзывы</a></li><li><a href="../index.html#faq" class="nav-link">Вопросы</a></li><li><a href="../blog/" class="nav-link">Блог</a></li>
     </ul></nav>
     <div class="header-right">
-      <div class="city-selector-wrap"><button class="city-selector-btn" id="current-selected-city" type="button" aria-label="Выбрать город"><span class="city-icon-pin">📍</span><span class="city-selector-current" id="city-btn-text">Краснодар</span><span class="city-selector-arrow">▼</span></button><div class="city-dropdown" id="city-dropdown-menu"><div class="city-dropdown-list">
+      <div class="city-selector-wrap"><button class="city-selector-btn" id="current-selected-city" type="button" aria-label="Выбрать город"><span class="city-icon-pin">📍</span><span class="city-selector-current" id="city-btn-text">Геленджик</span><span class="city-selector-arrow">▼</span></button><div class="city-dropdown" id="city-dropdown-menu"><div class="city-dropdown-list">
         <button type="button" class="city-item" data-city="krasnodar">Краснодар</button><button type="button" class="city-item" data-city="anapa">Анапа</button><button type="button" class="city-item" data-city="novorossiysk">Новороссийск</button><button type="button" class="city-item" data-city="sochi">Сочи / Адлер / Сириус</button><button type="button" class="city-item" data-city="gelendzhik">Геленджик</button>
-      </div></div><div class="city-confirm-banner" id="city-confirm-banner"><p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p><div class="city-confirm-btns"><button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button><button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button></div></div></div>
+      </div></div><div class="city-confirm-banner" id="city-confirm-banner"><p>Ваш город — <strong id="detected-city-name">Геленджик</strong>?</p><div class="city-confirm-btns"><button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button><button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button></div></div></div>
       <div class="header-phone-box"><a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a><span class="work-hours-badge">Круглосуточно 24/7</span></div><a href="../index.html#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn">Заказать звонок</a><button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню" type="button"><span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span></button>
     </div>
   </div>
@@ -238,7 +272,11 @@
               </div>
             </div>
             <div>
-              <img class="u-style-041"
+              <img width="1672" height="941" loading="lazy" title="Газель удлинённая 4.2 метра в Геленджике" class="u-style-041"
+                src="../assets/fleet-gazel-4.2m.webp"
+                alt="Газель удлинённая 4.2 метра в Геленджике"
+               
+              /> class="u-style-041"
                 src="../assets/fleet-gazel-4.2m.webp"
                 alt="Аренда Газели 4.2 метра в Геленджике с водителем — удлиненный кузов 25 м³"
                
@@ -452,7 +490,7 @@
               </h3>
               <p class="u-style-054">
                 Перевозка товаров для магазинов, ресторанов, складов. Регулярные
-                рейсы для постоянных клиентов со скидкой. Большой объем кузова.
+                рейсы для постоянных клиентов на особых условиях. Большой объем кузова.
               </p>
               <ul class="u-style-055"
                
@@ -704,24 +742,95 @@
         </div>
       </section>
     
+
+
+<section class="price-table-section" id="prices">
+  <div class="container">
+    <div class="city-local-header">
+      <span class="sub-title-gradient">Цены</span>
+      <h2>Цены на аренду Газели 4,2 м</h2>
+      <p class="city-local-intro">Фиксированные тарифы без скрытых доплат. Для точного расчёта оставьте заявку — менеджер перезвонит за 5 минут.</p>
+    </div>
+    <div class="price-table-wrap">
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>Услуга</th>
+            <th>Цена</th>
+            <th>Примечание</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>Газель 4,2 м + водитель</td>
+              <td class="price-col">1 100 ₽/час</td>
+              <td class="note-col">минимум 2 часа</td>
+            </tr>            <tr>
+              <td>Газель 4,2 м + 2 грузчика</td>
+              <td class="price-col">2 700 ₽/час</td>
+              <td class="note-col">минимум 2 часа</td>
+            </tr>            <tr>
+              <td>Объём кузова</td>
+              <td class="price-col">18 м³</td>
+              <td class="note-col">420×200×210 см</td>
+            </tr>            <tr>
+              <td>Грузоподъёмность</td>
+              <td class="price-col">1 500 кг</td>
+              <td class="note-col">до 1,5 тонн</td>
+            </tr>            <tr>
+              <td>Междугородний рейс</td>
+              <td class="price-col">от 35 ₽/км</td>
+              <td class="note-col">расчёт по маршруту</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="city-local-disclaimer">Итоговая цена всегда уточняется менеджером после адреса, объёма, этажа, лифта, расстояния переноски и необходимости транспорта. Расчёт на сайте предварительный и не является публичной офертой.</p>
+  </div>
+</section>
+
 <section class="city-seo-detail" id="local-seo-info">
   <div class="container city-seo-detail-grid">
     <div class="city-seo-detail-card">
       <span class="sub-title-gradient">Локальные условия</span>
-      <h2>Особенности аренды удлиненной Газели в Геленджике</h2>
-      <p>В Геленджике часто заказывают помощь для частных домов, апартаментов, сезонных переездов и разгрузки строительных материалов. В расчете учитываем подъезд к участку, уклон, этажность и расстояние переноски.</p>
-      <p>Удлиненная Газель подходит для переездов с большим количеством мебели, офисного имущества и объемных грузов. Важно заранее уточнить адреса и возможность подъезда.</p>
+      <h2>Аренда Газели 4.2м в Геленджике: просторный кузов для горного города</h2>
+      <p>Газель 4.2 м в Геленджике — транспорт для объёмных перевозок с учётом горного рельефа. 18 м³ для двух-трёхкомнатной квартиры или доставки в гостевой дом. Газель проходит по основным серпантинам, но для самых узких участков (Толстый мыс, Сосновка) Газель 3 м надёжнее.</p>
+      <p>Переезды из квартир и гостевых домов — основной заказ. Газель 4.2 м позволяет перевезти всё за один рейс: мебель, технику, коробки, личные вещи. Для квартир на склонах рекомендуем Газель с грузчиками — подъём по лестницам добавляет время, но экономит на втором рейсе.</p>
+      <p>В сезон на набережной движение ограничено. Газель 4.2 м проезжает, но парковка — проблема. Планируйте загрузку и разгрузку на утро. Для адресов на склонах подъезд может быть затруднён — уточняйте при заказе.</p>
+      <p>Тариф от 1100 руб./час. Междугородние маршруты (Геленджик → Краснодар, Геленджик → Новороссийск) — отдельный расчёт. Возможна аренда с 2 грузчиками.</p>
     </div>
     <div class="city-seo-detail-card">
       <span class="sub-title-gradient">География</span>
       <h3>Выезд по городу и рядом</h3>
-      <p>Выезжаем по Геленджику, Кабардинке, Дивноморскому и ближайшим населенным пунктам.</p>
+      <p>Выезжаем по Геленджику, Толстому мысу, Сосновке, Кабардинке и Дивноморскому.</p>
       <p>Итоговая цена всегда уточняется менеджером после адреса, объема, этажа, лифта, расстояния переноски и необходимости транспорта. Расчет на сайте является предварительным и не является публичной офертой.</p>
     </div>
   </div>
 </section>
+
+    <section class="internal-links-section" aria-labelledby="internal-links-gelendzhik-arenda-gazeli-udlinennoj" style="padding:2.5rem 0;background:#f8f9fa">
+      <div class="container">
+        <h2 id="internal-links-gelendzhik-arenda-gazeli-udlinennoj" style="font-size:1.5rem;margin-bottom:1rem;color:#1a1a2e">Похожие услуги в Геленджике</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0.75rem">
+          <a href="index.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Все услуги в Геленджике</a>
+          <a href="arenda-gazeli-3m.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Аренда Газели 3 м в Геленджике</a>
+          <a href="loaders.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Грузчики в Геленджике</a>
+          <a href="perevozka-mebeli.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Перевозка мебели в Геленджике</a>
+          <a href="ofisnyj-pereezd.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Офисный переезд в Геленджике</a>
+          <a href="rigging.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Такелажные работы в Геленджике</a>
+        </div>
+        <h3 style="font-size:1.25rem;margin:1.5rem 0 0.75rem;color:#1a1a2e">Аренда удлинённой Газели в других городах</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0.75rem">
+
+        </div>
+        <h3 style="font-size:1.25rem;margin:1.5rem 0 0.75rem;color:#1a1a2e">Дополнительно</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0.75rem">
+          <a href="../gruzoperevozki.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Грузоперевозки по Краснодарскому краю</a>
+        </div>
+      </div>
+    </section>
 </main>
-<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="../index.html" class="logo-area"><img src="../assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64"><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="loaders.html">Услуги грузчиков</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="moving.html">Квартирные переезды</a></li><li><a href="office-moving.html">Офисные переезды</a></li><li><a href="rigging.html">Такелажные работы</a></li><li><a href="furniture.html">Сборка мебели</a></li><li><a href="../gruzoperevozki.html">Грузоперевозки</a></li><li><a href="../mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li></ul></div><div class="footer-col"><h4>Для бизнеса</h4><ul class="footer-links"><li><a href="autsorsing.html">Аутсорсинг персонала</a></li><li><a href="gruzchiki-na-smenu.html">Грузчики на смену</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="rigging.html">Такелаж</a></li><li><a href="arenda-gazeli-3m.html">Аренда Газели</a></li><li><a href="index.html#order-form-section">Работа с юрлицами / безнал</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</span></li><li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li></ul><div class="social-links-stub"><a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a><a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div></footer>
+<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="../index.html" class="logo-area"><img src="../assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64"><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="loaders.html">Услуги грузчиков</a></li><li><a href="raznorabochie.html">Разнорабочие</a></li><li><a href="kvartirnyj-pereezd.html">Квартирный переезд</a></li><li><a href="ofisnyj-pereezd.html">Офисный переезд</a></li><li><a href="rigging.html">Такелажные работы</a></li><li><a href="furniture.html">Сборка мебели</a></li><li><a href="../gruzoperevozki.html">Грузоперевозки</a></li><li><a href="../mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li></ul></div><div class="footer-col"><h4>Для бизнеса</h4><ul class="footer-links"><li><a href="autsorsing.html">Аутсорсинг персонала</a></li><li><a href="gruzchiki-na-smenu.html">Грузчики на смену</a></li><li><a href="raznorabochie.html">Разнорабочие</a></li><li><a href="rigging.html">Такелаж</a></li><li><a href="arenda-gazeli-3m.html">Аренда Газели</a></li><li><a href="index.html#order-form-section">Работа с юрлицами / безнал</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">353460, г. Геленджик, ул. Луначарского, д. 6, офис 21</span></li><li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li></ul><div class="social-links-stub"><a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a><a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div></footer>
 <!-- ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== -->
 <div class="modal-overlay" id="order-modal">
   <div class="modal-box">

@@ -289,13 +289,13 @@ export function initExitIntentPopup() {
         <div class="exit-modal-content">
           <div class="exit-gift-icon">🎁</div>
           <h2>Подождите, не уходите!</h2>
-          <p class="exit-modal-promo">Получите гарантированную <span class="text-gradient">скидку 10%</span> на ваш первый заказ!</p>
-          <p class="exit-modal-desc">Закрепите за своим номером скидку. Мы перезвоним, проконсультируем и зафиксируем спецтариф.</p>
+          <p class="exit-modal-promo">Рассчитайте стоимость с <span class="text-gradient">фиксированным тарифом для новых клиентов</span></p>
+          <p class="exit-modal-desc">Закрепите за своим номером фиксированный тариф. Мы перезвоним, проконсультируем и зафиксируем спецтариф.</p>
           <form id="exit-booking-form" class="exit-form" action="/api/submit-lead" method="post">
             <div class="form-group-custom">
               <input type="tel" id="exit-phone" placeholder="+7 (999) 000-00-00" required class="form-input-custom">
             </div>
-            <button type="submit" class="btn btn-primary btn-block btn-lg" id="exit-submit-btn">Получить скидку 10%</button>
+            <button type="submit" class="btn btn-primary btn-block btn-lg" id="exit-submit-btn">Получить фиксированный тариф для новых клиентов</button>
           </form>
           <div class="success-screen" id="exit-success-confirm">
             <div class="success-icon-box">
@@ -304,9 +304,9 @@ export function initExitIntentPopup() {
                 <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <h3>Скидка 10% забронирована!</h3>
-            <p>Ваш промокод: <strong style="color: var(--primary);">OFFER10</strong></p>
-            <p>Мы перезвоним вам в течение 5 минут для подтверждения и расчета стоимости со скидкой.</p>
+            <h3>Спецтариф закреплён за вашим номером!</h3>
+            <p>Ваш номер закреплён за спецтарифом — менеджер применит его при расчёте.</p>
+            <p>Мы перезвоним вам в течение 5 минут для подтверждения и расчета стоимости по спецтарифу.</p>
             <button type="button" class="btn btn-secondary btn-sm" id="exit-success-close-btn">Отлично</button>
           </div>
         </div>
@@ -357,7 +357,7 @@ export function initExitIntentPopup() {
         return;
       }
       try {
-        await submitLead({ phone: phoneVal, service: "Скидка 10%", promo: "OFFER10", source: "Exit Intent Popup" }, exitForm);
+        await submitLead({ phone: phoneVal, service: "Спецтариф для новых клиентов", source: "Exit Intent Popup" }, exitForm);
         if (submitBtn) hideButtonSpinner(submitBtn);
         exitForm.style.display = "none";
         exitSuccessConfirm.classList.add("active");
