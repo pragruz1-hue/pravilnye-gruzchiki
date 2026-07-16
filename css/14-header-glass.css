@@ -224,6 +224,116 @@
   font-size: 0.85rem !important;
 }
 
+/* ===== ВЫПАДАЮЩИЙ СПИСОК ГОРОДОВ ===== */
+.city-selector-wrap {
+  position: relative;
+}
+
+.city-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: rgba(13, 17, 27, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  z-index: 200;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.city-dropdown.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.city-dropdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.city-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.city-item:hover,
+.city-item:focus-visible {
+  background: rgba(255, 115, 0, 0.1);
+  color: #fff;
+}
+
+.city-item.active {
+  color: var(--primary);
+  background: rgba(255, 115, 0, 0.12);
+}
+
+/* ===== БАННЕР ПОДТВЕРЖДЕНИЯ ГОРОДА ===== */
+.city-confirm-banner {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 260px;
+  background: rgba(13, 17, 27, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 115, 0, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  z-index: 200;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.city-confirm-banner.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.city-confirm-banner p {
+  color: #fff;
+  font-size: 0.9rem;
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+
+.city-confirm-banner strong {
+  color: var(--primary);
+}
+
+.city-confirm-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.city-confirm-btns .btn {
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
 /* Бургер */
 .burger-menu-btn {
   display: none;
@@ -360,7 +470,7 @@
   .city-selector-btn { padding: 5px 10px; font-size: 0.72rem; }
   .city-selector-current { max-width: 90px; }
   .city-confirm-banner,
-  .city-dropdown { right: -20px; }
+  .city-dropdown { left: auto; right: -8px; }
   .mobile-link { font-size: 1.5rem; }
   .mobile-phone-link { font-size: 1.3rem; }
 }
