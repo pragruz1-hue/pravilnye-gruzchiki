@@ -1,10 +1,7 @@
 /* =========================================================
    PROJECT-WIDE UNIFIED PATCH — legal notes, header, mobile UX
    ========================================================= */
-/* .main-header styles moved to 14-header-footer-glass.css */
-.main-header-glass-moved {}
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32) !important;
-}
+/* .main-header styles moved to 14-header-glass.css */
 
 .price-disclaimer {
   margin-top: 12px;
