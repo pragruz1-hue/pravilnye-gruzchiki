@@ -16,6 +16,7 @@ import { initFaqAccordion } from "./modules/faq.js";
 import { initCargoCalculator } from "./modules/cargo.js";
 import { renderReviews, initReviewsCarouselControls } from "./modules/reviews.js";
 import { initApplicationAvailability } from "./modules/availability.js";
+import { initBlogCityLinks } from "./modules/blogCityLinks.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // 0. Cookie consent banner (before Metrika loads)
@@ -32,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 2. Geotargeting + city management
   initGeotargeting();
+
+  // 2.5. Blog city links (dynamic city prefix in article service links)
+  initBlogCityLinks();
 
   // 2.5. Reviews carousel (city-specific; also listens to cityChanged)
   const cityCode = localStorage.getItem("selected_city") || "krasnodar";
