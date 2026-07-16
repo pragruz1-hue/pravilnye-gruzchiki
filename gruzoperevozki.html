@@ -202,101 +202,207 @@
         </div>
       </section>
 
-      <section class="cargo-section cargo-section-muted" id="cargo-visual-calculator">
+      <section class="ultra-cargo-section" id="cargo-visual-calculator">
         <div class="container">
-          <div class="section-header text-center">
-            <span class="sub-title-gradient">Визуальный калькулятор</span>
-            <h2 class="section-title">Соберите свой груз в кузове</h2>
-            <p class="section-desc">Выберите машину и добавьте предметы. Размеры показаны условно в сантиметрах, чтобы вы понимали, что примерно войдет в кузов.</p>
-          </div>
+          <div class="ultra-calc-shell ultra-cargo-calc" data-calc-root>
+            <div class="ultra-calc-hero">
+              <span class="sub-title-gradient">3D калькулятор грузоперевозок</span>
+              <h2>Конфигуратор переезда, поддонов и загрузки кузова</h2>
+              <p>Соберите квартирный, офисный или коммерческий груз, настройте маршрут, паллетирование и транспорт. Сцена справа пересчитывает объём, вес, места под паллеты и предварительную стоимость в реальном времени.</p>
+            </div>
 
-          <div class="cargo-calculator-shell">
-            <aside class="cargo-panel">
-              <div class="cargo-panel-title"><h3>1. Машина</h3></div>
-              <div class="cargo-car-options">
-                <button type="button" class="cargo-car-btn active" data-vehicle="gazel3"><strong>Газель 3 м</strong><span>300×190×180 см · около 10 м³</span></button>
-                <button type="button" class="cargo-car-btn" data-vehicle="gazel42"><strong>Газель 4.2 м</strong><span>420×200×210 см · около 18 м³</span></button>
-                <button type="button" class="cargo-car-btn" data-vehicle="truck5"><strong>Фургон 5 м</strong><span>500×210×210 см · около 22 м³</span></button>
-                <button type="button" class="cargo-car-btn" data-vehicle="truck6"><strong>Машина 6 м</strong><span>600×220×210 см · около 28 м³</span></button>
-              </div>
-              <div class="cargo-panel-title"><h3>2. Добавьте вещи</h3></div>
-              <button type="button" class="cargo-quick-fill-btn" id="cargo-quick-fill-btn">Заполнить данные</button>
-              <div class="cargo-items-grid">
-                <button type="button" class="cargo-item-btn" data-item="box"><strong>Картонная стандартная</strong><span>60×40×40 · до 20 кг</span></button>
-                <button type="button" class="cargo-item-btn" data-item="bigbox"><strong>Картонная усиленная</strong><span>80×60×50 · до 35 кг</span></button>
-                <button type="button" class="cargo-item-btn" data-item="plastic"><strong>Пластиковый контейнер</strong><span>60×40×35 · до 40 кг</span></button>
-                <button type="button" class="cargo-item-btn" data-item="bags"><strong>Баулы / мешки</strong><span>75×45×45 · до 25 кг</span></button>
-                <button type="button" class="cargo-item-btn" data-item="woodbox"><strong>Деревянный ящик</strong><span>80×60×50 · до 80 кг</span></button>
-                <button type="button" class="cargo-item-btn" data-item="glassbox"><strong>Коробка со стеклом</strong><span>50×50×40 · до 15 кг</span></button>
-                <button type="button" class="cargo-item-btn" data-item="sofa"><strong>Диван</strong><span>210×90×85</span></button>
-                <button type="button" class="cargo-item-btn" data-item="armchair"><strong>Кресло</strong><span>95×85×90</span></button>
-                <button type="button" class="cargo-item-btn" data-item="wardrobe"><strong>Шкаф</strong><span>120×60×210</span></button>
-                <button type="button" class="cargo-item-btn" data-item="dresser"><strong>Комод</strong><span>100×50×85</span></button>
-                <button type="button" class="cargo-item-btn" data-item="bed"><strong>Кровать</strong><span>205×95×45</span></button>
-                <button type="button" class="cargo-item-btn" data-item="mattress"><strong>Матрас</strong><span>200×90×25</span></button>
-                <button type="button" class="cargo-item-btn" data-item="fridge"><strong>Холодильник</strong><span>70×70×190</span></button>
-                <button type="button" class="cargo-item-btn" data-item="washer"><strong>Стиральная машина</strong><span>60×60×85</span></button>
-                <button type="button" class="cargo-item-btn" data-item="tv"><strong>Телевизор</strong><span>120×18×75</span></button>
-                <button type="button" class="cargo-item-btn" data-item="table"><strong>Стол</strong><span>130×80×75</span></button>
-                <button type="button" class="cargo-item-btn" data-item="chairs"><strong>4 стула</strong><span>80×80×95</span></button>
-              </div>
-            </aside>
+            <div class="ultra-calc-grid">
+              <aside class="ultra-glass-panel ultra-control-panel" aria-label="Параметры перевозки">
+                <div class="ultra-panel-block">
+                  <div class="ultra-block-title"><span>01</span><h3>Тип переезда</h3></div>
+                  <div class="ultra-choice-grid" role="radiogroup" aria-label="Тип переезда">
+                    <button type="button" class="ultra-choice is-active" data-move-type="home">🏠 <strong>Квартирный</strong><small>комнаты и личные вещи</small></button>
+                    <button type="button" class="ultra-choice" data-move-type="office">🏢 <strong>Офисный</strong><small>рабочие места и IT</small></button>
+                    <button type="button" class="ultra-choice" data-move-type="commercial">📦 <strong>Коммерческий</strong><small>склад, товар, паллеты</small></button>
+                    <button type="button" class="ultra-choice" data-move-type="industrial">🏭 <strong>Промышленный</strong><small>оборудование и такелаж</small></button>
+                  </div>
 
-            <section class="cargo-panel cargo-visual-wrap">
-              <div class="cargo-stage-head">
-                <div>
-                  <h3 id="cargo-current-vehicle">Газель 3 м</h3>
-                  <p class="cargo-disclaimer" id="cargo-current-dims">300×190×180 см</p>
-                  <p class="cargo-height-note" id="cargo-height-note"></p>
-                </div>
-                <span class="cargo-dims-badge">вид сверху</span>
-              </div>
-              <div class="cargo-bay-outer">
-                <span class="cargo-bay-measure-y">ширина кузова</span>
-                <div class="cargo-bay" id="cargo-bay"></div>
-                <span class="cargo-bay-measure-x">длина кузова</span>
-              </div>
-              <div class="cargo-bay-side-outer">
-                <span class="cargo-bay-side-measure-y">высота кузова</span>
-                <div class="cargo-bay-side" id="cargo-bay-side"></div>
-                <span class="cargo-bay-side-measure-x">длина кузова</span>
-              </div>
-              <div class="cargo-progress-wrap">
-                <div class="cargo-progress-labels">
-                  <span>Объём</span>
-                  <span id="cargo-progress-volume-text">0%</span>
-                </div>
-                <div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-volume"></div></div>
-                <div class="cargo-progress-labels">
-                  <span>Площадь пола</span>
-                  <span id="cargo-progress-area-text">0%</span>
-                </div>
-                <div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-area"></div></div>
-                <div class="cargo-progress-labels">
-                  <span>Вес</span>
-                  <span id="cargo-progress-weight-text">0%</span>
-                </div>
-                <div class="cargo-progress-line"><div class="cargo-progress-fill" id="cargo-progress-weight"></div></div>
-              </div>
-              <div class="cargo-height-alert" id="cargo-height-alert"></div>
-              <p class="cargo-disclaimer">Расчет является предварительным и не является публичной офертой. Реальная загрузка зависит от упаковки, формы предметов, возможности штабелирования и распределения веса.</p>
-            </section>
+                  <div class="ultra-tabs-content" data-type-content="home">
+                    <label class="ultra-label">Формат жилья
+                      <select id="ultra-home-size">
+                        <option value="studio">Студия 20–40 м²</option>
+                        <option value="one" selected>1-комнатная 40–60 м²</option>
+                        <option value="two">2-комнатная 60–80 м²</option>
+                        <option value="three">3-комнатная 80–120 м²</option>
+                        <option value="four">4+ комнат / коттедж</option>
+                      </select>
+                    </label>
+                    <div class="ultra-chip-cloud" aria-label="Комнаты">
+                      <button type="button" class="ultra-chip is-active" data-room="living">Гостиная</button>
+                      <button type="button" class="ultra-chip is-active" data-room="bedroom">Спальня</button>
+                      <button type="button" class="ultra-chip" data-room="kitchen">Кухня</button>
+                      <button type="button" class="ultra-chip" data-room="hall">Прихожая</button>
+                      <button type="button" class="ultra-chip" data-room="cabinet">Кабинет</button>
+                      <button type="button" class="ultra-chip" data-room="balcony">Балкон</button>
+                    </div>
+                  </div>
 
-            <aside class="cargo-panel cargo-summary-panel">
-              <div class="cargo-panel-title"><h3>3. Итог</h3></div>
-              <div class="cargo-summary-grid">
-                <div class="cargo-summary-card"><strong id="cargo-volume-used">0 м³</strong><span>объем вещей</span></div>
-                <div class="cargo-summary-card"><strong id="cargo-area-used">0%</strong><span>пол кузова</span></div>
-                <div class="cargo-summary-card"><strong id="cargo-weight-used">0 кг</strong><span>примерный вес</span></div>
-                <div class="cargo-summary-card"><strong>3–6 м</strong><span>подбор диспетчером</span></div>
+                  <div class="ultra-tabs-content" data-type-content="office" hidden>
+                    <label class="ultra-label">Размер офиса
+                      <select id="ultra-office-size">
+                        <option value="small">Малый офис до 5 мест</option>
+                        <option value="medium" selected>Средний офис 5–20 мест</option>
+                        <option value="large">Крупный офис 20–50 мест</option>
+                        <option value="corp">Корпоративный 50+ мест</option>
+                      </select>
+                    </label>
+                    <div class="ultra-counter-row"><span>Рабочие места</span><button type="button" data-step="workplaces" data-dir="-1">−</button><output id="ultra-workplaces">8</output><button type="button" data-step="workplaces" data-dir="1">+</button></div>
+                    <div class="ultra-chip-cloud">
+                      <button type="button" class="ultra-chip is-active" data-office-zone="open">Open space</button>
+                      <button type="button" class="ultra-chip" data-office-zone="meeting">Переговорная</button>
+                      <button type="button" class="ultra-chip" data-office-zone="it">Серверная</button>
+                      <button type="button" class="ultra-chip" data-office-zone="archive">Архив</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ultra-panel-block">
+                  <div class="ultra-block-title"><span>02</span><h3>Маршрут</h3></div>
+                  <div class="ultra-route-grid">
+                    <label class="ultra-label">📍 Откуда<input id="ultra-from" type="text" value="Краснодар" placeholder="Введите город отправления"></label>
+                    <button type="button" class="ultra-swap" id="ultra-swap-route" aria-label="Поменять местами">⇄</button>
+                    <label class="ultra-label">📍 Куда<input id="ultra-to" type="text" value="Сочи" placeholder="Введите город назначения"></label>
+                  </div>
+                  <label class="ultra-label">Расстояние, км<input id="ultra-distance" type="number" min="1" value="286"></label>
+                </div>
+
+                <div class="ultra-panel-block">
+                  <div class="ultra-block-title"><span>03</span><h3>Параметры груза</h3></div>
+                  <div class="ultra-input-grid">
+                    <label class="ultra-label">⚖️ Вес, кг<input id="ultra-weight" type="number" min="0" value="420"></label>
+                    <label class="ultra-label">◼ Объём, м³<input id="ultra-volume" type="number" min="0" step="0.1" value="7.5"></label>
+                    <label class="ultra-label">Длина, см<input id="ultra-l" type="number" min="1" value="210"></label>
+                    <label class="ultra-label">Ширина, см<input id="ultra-w" type="number" min="1" value="90"></label>
+                    <label class="ultra-label">Высота, см<input id="ultra-h" type="number" min="1" value="190"></label>
+                    <label class="ultra-label">Тип груза<select id="ultra-cargo-kind"><option value="standard">Стандартная коробка</option><option value="pallet">Паллета евро/фин</option><option value="oversize">Крупногабарит</option><option value="fragile">Хрупкий груз</option><option value="cold">Рефрижератор</option><option value="danger">Опасный груз</option></select></label>
+                  </div>
+                  <div class="ultra-check-grid">
+                    <label><input type="checkbox" id="ultra-temp"> Температурный режим +2…+8°C</label>
+                    <label><input type="checkbox" id="ultra-fragile"> Хрупкое / бокал</label>
+                    <label><input type="checkbox" id="ultra-top"> Верхняя сторона</label>
+                    <label><input type="checkbox" id="ultra-moisture"> Беречь от влаги</label>
+                  </div>
+                </div>
+
+                <div class="ultra-panel-block">
+                  <div class="ultra-block-title"><span>04</span><h3>Поддоны с грузом</h3></div>
+                  <div class="ultra-pallet-toolbar">
+                    <button type="button" class="ultra-accent-mini" id="ultra-add-pallet">+ Добавить поддон</button>
+                    <button type="button" class="ultra-ghost-mini" id="ultra-autofill">Автозаполнение</button>
+                  </div>
+                  <div class="ultra-input-grid">
+                    <label class="ultra-label">Тип поддона<select id="ultra-pallet-type"><option value="eur">EUR 120×80</option><option value="fin">FIN 120×100</option><option value="std">Стандарт 120×120</option></select></label>
+                    <label class="ultra-label">Материал<select id="ultra-pallet-material"><option value="wood">Дерево</option><option value="blue">Пластик синий</option><option value="green">Пластик зелёный</option><option value="metal">Металл</option></select></label>
+                    <label class="ultra-label">Коробок<input id="ultra-box-count" type="number" min="1" max="20" value="8"></label>
+                    <label class="ultra-label">Слоёв плёнки<select id="ultra-wrap"><option value="0">Без плёнки</option><option value="2">2 слоя</option><option value="3" selected>3 слоя</option><option value="5">5 слоёв</option><option value="7">7 слоёв</option></select></label>
+                  </div>
+                  <div class="ultra-check-grid">
+                    <label><input type="checkbox" id="ultra-corners" checked> Угловые профили</label>
+                    <label><input type="checkbox" id="ultra-lid"> Крышка</label>
+                    <label><input type="checkbox" id="ultra-straps" checked> Обвязка ремнями</label>
+                    <label><input type="checkbox" id="ultra-labels" checked> Маркировка</label>
+                  </div>
+                </div>
+
+                <div class="ultra-panel-block">
+                  <div class="ultra-block-title"><span>05</span><h3>Транспорт и услуги</h3></div>
+                  <div class="ultra-transport-grid" role="radiogroup" aria-label="Тип транспорта">
+                    <button type="button" class="ultra-transport is-active" data-truck="van">🚚<strong>Фургон 1.5т</strong><small>4–6 паллет</small></button>
+                    <button type="button" class="ultra-transport" data-truck="five">🚛<strong>5 тонн</strong><small>10–15 паллет</small></button>
+                    <button type="button" class="ultra-transport" data-truck="semi">🚛<strong>Фура 20т</strong><small>33 паллеты</small></button>
+                    <button type="button" class="ultra-transport" data-truck="cold">❄️<strong>Рефрижератор</strong><small>26–30 паллет</small></button>
+                  </div>
+                  <label class="ultra-label">Количество машин<select id="ultra-cars"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+                  <label class="ultra-label">Срочность доставки <output id="ultra-urgency-label">Стандарт</output><input id="ultra-urgency" type="range" min="1" max="3" value="2"></label>
+                  <div class="ultra-check-grid">
+                    <label><input type="checkbox" data-service="packing" checked> Упаковка вещей</label>
+                    <label><input type="checkbox" data-service="disassembly"> Разборка мебели</label>
+                    <label><input type="checkbox" data-service="assembly"> Сборка мебели</label>
+                    <label><input type="checkbox" data-service="loaders" checked> Грузчики 2–4 чел.</label>
+                    <label><input type="checkbox" data-service="night"> Ночной переезд +30%</label>
+                    <label><input type="checkbox" data-service="insurance" checked> Страхование +5%</label>
+                  </div>
+                </div>
+              </aside>
+
+              <section class="ultra-glass-panel ultra-scene-panel" aria-label="3D конфигуратор">
+                <div class="ultra-scene-topbar">
+                  <div>
+                    <h3>Интерактивная 3D сцена</h3>
+                    <p id="ultra-scene-caption">Разрез кузова · изометрия · snap-to-grid 10 см</p>
+                  </div>
+                  <div class="ultra-view-buttons">
+                    <button type="button" class="is-active" data-view="iso">Изометрия</button>
+                    <button type="button" data-view="top">Сверху</button>
+                    <button type="button" data-view="xray">Рентген</button>
+                  </div>
+                </div>
+
+                <div class="ultra-3d-stage" id="ultra-stage">
+                  <div class="ultra-orbit-hint">ЛКМ — вращение (имитация) · колесо — масштаб · двойной клик — фокус</div>
+                  <div class="ultra-truck-model" id="ultra-truck-model">
+                    <div class="ultra-truck-cabin"><span></span></div>
+                    <div class="ultra-truck-body">
+                      <div class="ultra-cargo-floor" id="ultra-cargo-floor"></div>
+                      <div class="ultra-body-grid"></div>
+                    </div>
+                    <i class="wheel w1"></i><i class="wheel w2"></i><i class="wheel w3"></i>
+                  </div>
+                </div>
+
+                <div class="ultra-scene-meters">
+                  <div><span>Заполненность по объёму</span><strong id="ultra-vol-pct">0%</strong><em><b id="ultra-vol-bar"></b></em></div>
+                  <div><span>Заполненность по весу</span><strong id="ultra-weight-pct">0%</strong><em><b id="ultra-weight-bar"></b></em></div>
+                  <div><span>Паллеты</span><strong id="ultra-pallet-pct">0/6</strong><em><b id="ultra-pallet-bar"></b></em></div>
+                </div>
+
+                <div class="ultra-pallet-builder">
+                  <div class="ultra-pallet-preview" id="ultra-pallet-preview" aria-label="Визуальный поддон"></div>
+                  <div class="ultra-plan-wrap">
+                    <div class="ultra-plan-head"><strong>План кузова</strong><span>перетащите паллету мышью, R — поворот</span></div>
+                    <div class="ultra-load-plan" id="ultra-load-plan"></div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div class="ultra-results-panel">
+              <div class="ultra-price-card">
+                <span>💰 Стоимость перевозки</span>
+                <strong id="ultra-price">12 850 ₽</strong>
+                <small>включая НДС 20% · предварительно</small>
               </div>
-              <div class="cargo-recommendation" id="cargo-recommendation"></div>
-              <div class="cargo-selected-list" id="cargo-selected-list"></div>
-              <div class="cargo-actions-col">
-                <button type="button" class="btn btn-primary btn-block" id="cargo-request-btn">Оставить заявку с этим списком</button>
-                <button type="button" class="btn btn-secondary btn-block" id="cargo-clear-btn">Очистить кузов</button>
+              <div class="ultra-result-card"><span>⏱ Время доставки</span><strong id="ultra-days">3–5 дней</strong><small id="ultra-route-summary">Расстояние: 286 км</small></div>
+              <div class="ultra-detail-card">
+                <strong>📊 Детализация</strong>
+                <dl>
+                  <dt>Базовый тариф</dt><dd id="ultra-base">8 500 ₽</dd>
+                  <dt>Топливный сбор</dt><dd id="ultra-fuel">2 100 ₽</dd>
+                  <dt>Страховка</dt><dd id="ultra-insurance-cost">850 ₽</dd>
+                  <dt>Погрузка/разгрузка</dt><dd id="ultra-loaders-cost">1 400 ₽</dd>
+                  <dt>Доп. услуги</dt><dd id="ultra-extra">0 ₽</dd>
+                </dl>
               </div>
-            </aside>
+              <div class="ultra-actions">
+                <button type="button" class="btn btn-primary btn-lg" id="ultra-submit-calc">Рассчитать точную стоимость</button>
+                <button type="button" class="btn btn-secondary" id="ultra-save-json">Сохранить расчет</button>
+                <button type="button" class="btn btn-secondary" id="ultra-email">Отправить на email</button>
+                <button type="button" class="btn btn-secondary" id="ultra-pdf">Скачать PDF</button>
+                <button type="button" class="ultra-reset" id="ultra-reset">Сбросить все</button>
+              </div>
+              <div class="ultra-checklist" id="ultra-checklist">
+                <strong>Чек-лист переезда</strong>
+                <label><input type="checkbox"> Разобрать вещи по комнатам</label>
+                <label><input type="checkbox"> Упаковать хрупкие вещи</label>
+                <label><input type="checkbox"> Подготовить документы для пропусков</label>
+                <label><input type="checkbox"> Предупредить соседей</label>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -519,51 +625,6 @@
     <path d="M18 15l-6-6-6 6"/>
   </svg>
 </button>
-
-<!-- ===== МОДАЛЬНОЕ ОКНО БЫСТРОГО ЗАПОЛНЕНИЯ ===== -->
-<div class="modal-overlay" id="cargo-quick-fill-modal">
-  <div class="modal-box cargo-modal-box">
-    <button type="button" class="modal-close" id="cargo-modal-close" aria-label="Закрыть модальное окно">×</button>
-    <div class="modal-header">
-      <h3>Быстрое заполнение груза</h3>
-      <p>Укажите количество — система подберёт оптимальный транспорт и визуально разместит груз.</p>
-    </div>
-    <div class="cargo-quick-form">
-      <div class="cargo-quick-section">
-        <h4>Упаковочные материалы</h4>
-        <div class="cargo-quick-grid">
-          <label><span>Картонная стандартная</span><input type="number" min="0" value="0" data-item="box"></label>
-          <label><span>Картонная усиленная</span><input type="number" min="0" value="0" data-item="bigbox"></label>
-          <label><span>Пластиковый контейнер</span><input type="number" min="0" value="0" data-item="plastic"></label>
-          <label><span>Баулы / мешки</span><input type="number" min="0" value="0" data-item="bags"></label>
-          <label><span>Деревянный ящик</span><input type="number" min="0" value="0" data-item="woodbox"></label>
-          <label><span>Коробка со стеклом</span><input type="number" min="0" value="0" data-item="glassbox"></label>
-        </div>
-      </div>
-      <div class="cargo-quick-section">
-        <h4>Мебель и техника</h4>
-        <div class="cargo-quick-grid">
-          <label><span>Диван</span><input type="number" min="0" value="0" data-item="sofa"></label>
-          <label><span>Кресло</span><input type="number" min="0" value="0" data-item="armchair"></label>
-          <label><span>Шкаф</span><input type="number" min="0" value="0" data-item="wardrobe"></label>
-          <label><span>Комод</span><input type="number" min="0" value="0" data-item="dresser"></label>
-          <label><span>Кровать</span><input type="number" min="0" value="0" data-item="bed"></label>
-          <label><span>Матрас</span><input type="number" min="0" value="0" data-item="mattress"></label>
-          <label><span>Холодильник</span><input type="number" min="0" value="0" data-item="fridge"></label>
-          <label><span>Стиральная машина</span><input type="number" min="0" value="0" data-item="washer"></label>
-          <label><span>Телевизор</span><input type="number" min="0" value="0" data-item="tv"></label>
-          <label><span>Стол</span><input type="number" min="0" value="0" data-item="table"></label>
-          <label><span>4 стула</span><input type="number" min="0" value="0" data-item="chairs"></label>
-        </div>
-      </div>
-      <label class="cargo-quick-fragile">
-        <input type="checkbox" id="cargo-quick-fragile">
-        <span>Хрупкий груз — требуется защитная упаковка (+15% к объёму)</span>
-      </label>
-      <button type="button" class="btn btn-primary btn-block" id="cargo-quick-confirm">Подтвердить</button>
-    </div>
-  </div>
-</div>
 
 <!-- ===== СКРИПТЫ ПОДКЛЮЧЕНИЯ ===== -->
 <footer class="site-footer">

@@ -4,9 +4,343 @@
  */
 import { setupPhoneMask, submitLead, showToast, initFormsAntiSpam } from "./forms.js";
 
+
+function initUltraCargoCalculator(root) {
+  const $ = (sel) => root.querySelector(sel) || document.querySelector(sel);
+  const $$ = (sel) => Array.from(root.querySelectorAll(sel));
+  const fmt = (n) => `${Math.round(n).toLocaleString("ru-RU")} ₽`;
+
+  const trucks = {
+    van: { name: "Фургон 1.5т", volume: 18, weight: 1500, pallets: 6, km: 36, base: 4200, days: "1–2 дня" },
+    five: { name: "Среднетоннажный 5т", volume: 42, weight: 5000, pallets: 15, km: 58, base: 7200, days: "2–4 дня" },
+    semi: { name: "Фура 20т", volume: 86, weight: 20000, pallets: 33, km: 96, base: 14500, days: "3–7 дней" },
+    cold: { name: "Рефрижератор", volume: 76, weight: 18000, pallets: 30, km: 112, base: 17000, days: "2–5 дней" },
+  };
+  const palletTypes = {
+    eur: { name: "EUR", w: 120, h: 80, weight: 25 },
+    fin: { name: "FIN", w: 120, h: 100, weight: 28 },
+    std: { name: "STD", w: 120, h: 120, weight: 32 },
+  };
+  const servicePrice = { packing: 1200, disassembly: 1500, assembly: 2000, loaders: 2800, night: 0, insurance: 0 };
+
+  const state = { moveType: "home", truck: "van", pallets: [], selectedPallet: null, rotated: new Set(), workplaces: 8, zoom: 1, drag: null };
+
+  const floor = $("#ultra-cargo-floor");
+  const plan = $("#ultra-load-plan");
+  const preview = $("#ultra-pallet-preview");
+  const stage = $("#ultra-stage");
+  const model = $("#ultra-truck-model");
+  const checklist = $("#ultra-checklist");
+
+  function val(id, fallback = 0) {
+    const el = $(id);
+    return el ? (parseFloat(el.value) || fallback) : fallback;
+  }
+  function activeKind() { return $("#ultra-cargo-kind")?.value || "standard"; }
+  function palletDims() { return palletTypes[$("#ultra-pallet-type")?.value || "eur"]; }
+  function currentTruck() { return trucks[state.truck]; }
+
+  function estimateManualInventory() {
+    let volume = val("#ultra-volume", 0);
+    let weight = val("#ultra-weight", 0);
+    const l = val("#ultra-l", 0), w = val("#ultra-w", 0), h = val("#ultra-h", 0);
+    if (l && w && h) volume = Math.max(volume, (l * w * h) / 1000000);
+
+    if (state.moveType === "home") {
+      const homeSize = $("#ultra-home-size")?.value || "one";
+      const presets = { studio: [6, 350], one: [10, 650], two: [18, 1100], three: [28, 1700], four: [42, 2600] };
+      const [v, kg] = presets[homeSize] || presets.one;
+      volume += v;
+      weight += kg;
+      volume += $$(".ultra-chip[data-room].is-active").length * 1.4;
+    }
+    if (state.moveType === "office") {
+      volume += state.workplaces * 1.2;
+      weight += state.workplaces * 85;
+      if ($$(".ultra-chip[data-office-zone].is-active").some((el) => el.dataset.officeZone === "it")) { volume += 2; weight += 180; }
+      if ($$(".ultra-chip[data-office-zone].is-active").some((el) => el.dataset.officeZone === "archive")) { volume += 3; weight += 260; }
+    }
+    if (state.moveType === "commercial") { volume += 4; weight += 350; }
+    if (state.moveType === "industrial") { volume += 6; weight += 900; }
+    return { volume, weight };
+  }
+
+  function palletStats() {
+    const boxCount = Math.min(20, Math.max(1, val("#ultra-box-count", 8)));
+    const dims = palletDims();
+    const cargoPerPalletWeight = boxCount * 18;
+    const height = 15 + Math.ceil(boxCount / 4) * 32;
+    return {
+      count: state.pallets.length,
+      volume: state.pallets.length * (dims.w * dims.h * height / 1000000),
+      weight: state.pallets.length * (dims.weight + cargoPerPalletWeight),
+      height,
+      boxCount,
+      dims,
+    };
+  }
+
+  function allStats() {
+    const manual = estimateManualInventory();
+    const pal = palletStats();
+    let volume = manual.volume + pal.volume;
+    let weight = manual.weight + pal.weight;
+    const kind = activeKind();
+    if ($("#ultra-fragile")?.checked || kind === "fragile") volume *= 1.08;
+    if ($("#ultra-temp")?.checked || kind === "cold") volume *= 1.03;
+    return { volume, weight, pallets: pal.count, pal };
+  }
+
+  function chooseSmallestTruck() {
+    const stats = allStats();
+    const key = Object.entries(trucks).find(([, t]) => stats.volume <= t.volume * .92 && stats.weight <= t.weight * .92 && stats.pallets <= t.pallets)?.[0] || "semi";
+    state.truck = key;
+    $$(".ultra-transport").forEach((btn) => btn.classList.toggle("is-active", btn.dataset.truck === key));
+  }
+
+  function renderPalletPreview() {
+    if (!preview) return;
+    const stats = palletStats();
+    const material = $("#ultra-pallet-material")?.value || "wood";
+    preview.classList.toggle("is-wrapped", val("#ultra-wrap", 0) > 0);
+    preview.querySelectorAll(".pbox").forEach((el) => el.remove());
+    preview.style.setProperty("--pallet-material", material);
+    const colors = { wood: "linear-gradient(135deg,#8B7355,#b89466)", blue: "linear-gradient(135deg,#3b82f6,#1d4ed8)", green: "linear-gradient(135deg,#10b981,#047857)", metal: "linear-gradient(135deg,#cbd5e1,#64748b)" };
+    for (let i = 0; i < stats.boxCount; i += 1) {
+      const box = document.createElement("span");
+      box.className = "pbox";
+      box.style.width = "38px";
+      box.style.height = "28px";
+      box.style.left = `${42 + (i % 4) * 42}px`;
+      box.style.bottom = `${72 + Math.floor(i / 4) * 22}px`;
+      box.style.background = activeKind() === "fragile" ? "repeating-linear-gradient(135deg,#f59e0b 0 8px,#111827 8px 12px)" : colors[material] || colors.wood;
+      preview.appendChild(box);
+    }
+  }
+
+  function ensureInitialPallets() {
+    if (!state.pallets.length) {
+      state.pallets.push({ id: globalThis.crypto?.randomUUID ? globalThis.crypto.randomUUID() : `p${Date.now()}`, x: 16, y: 18 });
+      state.pallets.push({ id: globalThis.crypto?.randomUUID ? globalThis.crypto.randomUUID() : `p${Date.now()+1}`, x: 126, y: 18 });
+    }
+  }
+
+  function renderPlanAndScene() {
+    if (!floor || !plan) return;
+    floor.innerHTML = "";
+    plan.innerHTML = "";
+    const truck = currentTruck();
+    const kind = activeKind();
+    const palCap = Math.max(1, truck.pallets);
+    state.pallets.forEach((p, index) => {
+      const rotated = state.rotated.has(p.id);
+      const wPct = state.truck === "van" ? 26 : state.truck === "five" ? 18 : 12;
+      const hPct = rotated ? 34 : 24;
+      const xPct = Math.min(86, (index % Math.ceil(palCap / 2)) * (wPct + 2) + 2);
+      const yPct = Math.min(66, Math.floor(index / Math.ceil(palCap / 2)) * 36 + 6);
+      const box = document.createElement("div");
+      box.className = `ultra-scene-box ${kind}`;
+      if (p.id === state.selectedPallet) box.classList.add("selected");
+      if (palletStats().weight / Math.max(1, state.pallets.length) > 1000) box.classList.add("heavy");
+      box.style.left = `${xPct}%`;
+      box.style.top = `${yPct}%`;
+      box.style.width = `${Math.max(9, wPct)}%`;
+      box.style.height = `${hPct}%`;
+      box.textContent = `P${index + 1}`;
+      box.dataset.id = p.id;
+      floor.appendChild(box);
+
+      const pe = document.createElement("div");
+      pe.className = `ultra-plan-pallet ${rotated ? "is-rotated" : ""}`;
+      pe.style.left = `${p.x}px`;
+      pe.style.top = `${p.y}px`;
+      pe.style.width = rotated ? "74px" : "104px";
+      pe.style.height = rotated ? "104px" : "74px";
+      pe.textContent = `P${index + 1}`;
+      pe.dataset.id = p.id;
+      pe.addEventListener("pointerdown", startDrag);
+      pe.addEventListener("click", () => { state.selectedPallet = p.id; renderPlanAndScene(); });
+      plan.appendChild(pe);
+    });
+  }
+
+  function updateChecklist() {
+    if (!checklist) return;
+    if (state.moveType === "office") {
+      checklist.innerHTML = `<strong>Чек-лист офисного переезда</strong><label><input type="checkbox"> Провести инвентаризацию</label><label><input type="checkbox"> Составить план рассадки</label><label><input type="checkbox"> Уведомить сотрудников</label><label><input type="checkbox"> Подготовить IT-инфраструктуру</label>`;
+    } else {
+      checklist.innerHTML = `<strong>Чек-лист квартирного переезда</strong><label><input type="checkbox"> Разобрать вещи по комнатам</label><label><input type="checkbox"> Упаковать хрупкие вещи</label><label><input type="checkbox"> Подготовить документы для пропусков</label><label><input type="checkbox"> Предупредить соседей</label>`;
+    }
+  }
+
+  function calculateCost() {
+    const stats = allStats();
+    const truck = currentTruck();
+    const distance = Math.max(1, val("#ultra-distance", 1));
+    const cars = Math.max(1, val("#ultra-cars", 1));
+    const urgency = val("#ultra-urgency", 2);
+    const urgencyCoef = urgency === 1 ? .88 : urgency === 3 ? 1.32 : 1;
+    let base = (truck.base + distance * truck.km) * cars * urgencyCoef;
+    if (activeKind() === "cold" || $("#ultra-temp")?.checked) base *= 1.18;
+    if (activeKind() === "danger") base *= 1.22;
+    if (activeKind() === "oversize") base *= 1.12;
+    const fuel = Math.max(900, distance * (state.truck === "semi" ? 18 : 9) * cars);
+    let extra = 0;
+    root.querySelectorAll("[data-service]:checked").forEach((el) => { extra += servicePrice[el.dataset.service] || 0; });
+    const loaders = root.querySelector('[data-service="loaders"]')?.checked ? 1400 + Math.min(5600, stats.volume * 120) : 0;
+    const beforeInsurance = base + fuel + extra + loaders;
+    const insurance = root.querySelector('[data-service="insurance"]')?.checked ? beforeInsurance * .05 : 0;
+    let total = beforeInsurance + insurance;
+    if (root.querySelector('[data-service="night"]')?.checked) total *= 1.3;
+    return { base, fuel, extra, loaders, insurance, total };
+  }
+
+  function updateUI() {
+    const stats = allStats();
+    const truck = currentTruck();
+    const cost = calculateCost();
+    const volumePct = Math.round(stats.volume / truck.volume * 100);
+    const weightPct = Math.round(stats.weight / truck.weight * 100);
+    const palletPct = Math.round(stats.pallets / truck.pallets * 100);
+    $("#ultra-vol-pct").textContent = `${volumePct}%`;
+    $("#ultra-weight-pct").textContent = `${weightPct}%`;
+    $("#ultra-pallet-pct").textContent = `${stats.pallets}/${truck.pallets}`;
+    $("#ultra-vol-bar").style.width = `${Math.min(100, volumePct)}%`;
+    $("#ultra-weight-bar").style.width = `${Math.min(100, weightPct)}%`;
+    $("#ultra-pallet-bar").style.width = `${Math.min(100, palletPct)}%`;
+    $("#ultra-price").textContent = fmt(cost.total);
+    $("#ultra-base").textContent = fmt(cost.base);
+    $("#ultra-fuel").textContent = fmt(cost.fuel);
+    $("#ultra-insurance-cost").textContent = fmt(cost.insurance);
+    $("#ultra-loaders-cost").textContent = fmt(cost.loaders);
+    $("#ultra-extra").textContent = fmt(cost.extra);
+    const distance = val("#ultra-distance", 1);
+    $("#ultra-route-summary").textContent = `Расстояние: ${distance.toLocaleString("ru-RU")} км · ${truck.name}`;
+    $("#ultra-days").textContent = val("#ultra-urgency", 2) === 3 ? "1–2 дня" : val("#ultra-urgency", 2) === 1 ? "7–14 дней" : truck.days;
+    $("#ultra-urgency-label").textContent = val("#ultra-urgency", 2) === 3 ? "Экспресс" : val("#ultra-urgency", 2) === 1 ? "Эконом" : "Стандарт";
+    const hidden = document.getElementById("cargo-hidden-summary");
+    if (hidden) hidden.value = buildSummary();
+    const vehicleHidden = document.getElementById("cargo-hidden-vehicle");
+    if (vehicleHidden) vehicleHidden.value = truck.name;
+    renderPalletPreview();
+    renderPlanAndScene();
+  }
+
+  function buildSummary() {
+    const stats = allStats();
+    const from = $("#ultra-from")?.value || "";
+    const to = $("#ultra-to")?.value || "";
+    return `${currentTruck().name}; ${from} → ${to}; ${Math.round(stats.volume * 10) / 10} м³; ${Math.round(stats.weight)} кг; паллет ${stats.pallets}; предварительно ${$("#ultra-price")?.textContent || ""}`;
+  }
+
+  function startDrag(e) {
+    const el = e.currentTarget;
+    const id = el.dataset.id;
+    state.selectedPallet = id;
+    const p = state.pallets.find((x) => x.id === id);
+    if (!p) return;
+    state.drag = { id, ox: e.clientX - p.x, oy: e.clientY - p.y };
+    el.setPointerCapture(e.pointerId);
+  }
+  function onDrag(e) {
+    if (!state.drag || !plan) return;
+    const rect = plan.getBoundingClientRect();
+    const p = state.pallets.find((x) => x.id === state.drag.id);
+    if (!p) return;
+    const grid = 14;
+    p.x = Math.max(0, Math.min(rect.width - 74, Math.round((e.clientX - rect.left - state.drag.ox) / grid) * grid));
+    p.y = Math.max(0, Math.min(rect.height - 74, Math.round((e.clientY - rect.top - state.drag.oy) / grid) * grid));
+    renderPlanAndScene();
+  }
+  function stopDrag() { state.drag = null; }
+
+  $$(".ultra-choice").forEach((btn) => btn.addEventListener("click", () => {
+    state.moveType = btn.dataset.moveType;
+    $$(".ultra-choice").forEach((b) => b.classList.toggle("is-active", b === btn));
+    root.querySelectorAll("[data-type-content]").forEach((el) => {
+      const visibleType = state.moveType === "office" ? "office" : "home";
+      el.hidden = el.dataset.typeContent !== visibleType;
+    });
+    updateChecklist(); updateUI();
+  }));
+  $$(".ultra-chip").forEach((chip) => chip.addEventListener("click", () => { chip.classList.toggle("is-active"); updateUI(); }));
+  $$(".ultra-transport").forEach((btn) => btn.addEventListener("click", () => { state.truck = btn.dataset.truck; $$(".ultra-transport").forEach((b) => b.classList.toggle("is-active", b === btn)); updateUI(); }));
+  root.addEventListener("input", updateUI);
+  root.addEventListener("change", updateUI);
+  plan?.addEventListener("pointermove", onDrag);
+  plan?.addEventListener("pointerup", stopDrag);
+  plan?.addEventListener("pointercancel", stopDrag);
+  document.addEventListener("keydown", (e) => {
+    if (e.key.toLowerCase() === "r" && state.selectedPallet) { state.rotated.has(state.selectedPallet) ? state.rotated.delete(state.selectedPallet) : state.rotated.add(state.selectedPallet); updateUI(); }
+    if (e.key === "Delete" && state.selectedPallet) { state.pallets = state.pallets.filter((p) => p.id !== state.selectedPallet); state.selectedPallet = null; updateUI(); }
+  });
+  $("#ultra-add-pallet")?.addEventListener("click", () => {
+    const id = globalThis.crypto?.randomUUID ? globalThis.crypto.randomUUID() : `p${Date.now()}`;
+    const i = state.pallets.length;
+    state.pallets.push({ id, x: 16 + (i % 4) * 84, y: 18 + Math.floor(i / 4) * 84 });
+    state.selectedPallet = id;
+    updateUI();
+  });
+  $("#ultra-autofill")?.addEventListener("click", () => { chooseSmallestTruck(); showToast("Подобрали минимальный подходящий транспорт и разложили паллеты по сетке.", "success"); updateUI(); });
+  $("#ultra-swap-route")?.addEventListener("click", () => { const a = $("#ultra-from"), b = $("#ultra-to"); if (a && b) [a.value, b.value] = [b.value, a.value]; updateUI(); });
+  root.querySelectorAll("[data-step]").forEach((btn) => btn.addEventListener("click", () => { state.workplaces = Math.max(1, state.workplaces + Number(btn.dataset.dir)); $("#ultra-workplaces").textContent = state.workplaces; updateUI(); }));
+  $$(".ultra-view-buttons button").forEach((btn) => btn.addEventListener("click", () => { $$(".ultra-view-buttons button").forEach((b) => b.classList.toggle("is-active", b === btn)); stage.classList.toggle("view-top", btn.dataset.view === "top"); stage.classList.toggle("view-xray", btn.dataset.view === "xray"); }));
+  stage?.addEventListener("wheel", (e) => { e.preventDefault(); state.zoom = Math.min(1.2, Math.max(.78, state.zoom + (e.deltaY > 0 ? -.04 : .04))); model.style.scale = state.zoom; }, { passive: false });
+  stage?.addEventListener("dblclick", () => { state.zoom = 1; if (model) model.style.scale = 1; });
+  $("#ultra-reset")?.addEventListener("click", () => { state.pallets = []; state.selectedPallet = null; state.rotated.clear(); ensureInitialPallets(); updateUI(); });
+  $("#ultra-submit-calc")?.addEventListener("click", () => { document.getElementById("cargo-order")?.scrollIntoView({ behavior: "smooth", block: "start" }); const comment = document.getElementById("cargo-comment"); if (comment) comment.value = buildSummary(); });
+  $("#ultra-save-json")?.addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify({ summary: buildSummary(), pallets: state.pallets, truck: currentTruck(), generated: new Date().toISOString() }, null, 2)], { type: "application/json" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "cargo-calculation.json"; a.click(); URL.revokeObjectURL(a.href);
+  });
+  $("#ultra-pdf")?.addEventListener("click", () => window.print());
+  $("#ultra-email")?.addEventListener("click", () => { location.href = `mailto:?subject=${encodeURIComponent("Расчет грузоперевозки")}&body=${encodeURIComponent(buildSummary())}`; });
+
+  const cargoPhone = document.getElementById("cargo-phone");
+  if (cargoPhone) setupPhoneMask(cargoPhone);
+  const cargoForm = document.getElementById("cargo-order-form");
+  if (cargoForm) {
+    initFormsAntiSpam();
+    cargoForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      updateUI();
+      const btn = cargoForm.querySelector('button[type="submit"]');
+      const originalText = btn ? btn.textContent : "";
+      try {
+        if (btn) { btn.disabled = true; btn.textContent = "Отправляем..."; }
+        await submitLead({
+          name: document.getElementById("cargo-name")?.value || "",
+          phone: document.getElementById("cargo-phone")?.value || "",
+          route: document.getElementById("cargo-route")?.value || `${$("#ultra-from")?.value || ""} → ${$("#ultra-to")?.value || ""}`,
+          direction: document.getElementById("cargo-direction")?.value || "Грузоперевозка",
+          comment: document.getElementById("cargo-comment")?.value || "",
+          vehicle: document.getElementById("cargo-hidden-vehicle")?.value || currentTruck().name,
+          cargo_summary: document.getElementById("cargo-hidden-summary")?.value || buildSummary(),
+          source: "Ultra 3D Cargo Calculator",
+          timestamp: new Date().toISOString(),
+        }, cargoForm);
+        cargoForm.reset();
+        showToast("Заявка отправлена. Диспетчер свяжется с вами.", "success");
+      } catch (error) {
+        showToast(error.message || "Не удалось отправить заявку.", "error");
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = originalText; }
+      }
+    });
+  }
+
+  ensureInitialPallets();
+  updateChecklist();
+  updateUI();
+}
+
 export function initCargoCalculator() {
   const cargoRoot = document.getElementById("cargo-visual-calculator");
   if (!cargoRoot) return;
+  if (cargoRoot.querySelector(".ultra-cargo-calc")) {
+    initUltraCargoCalculator(cargoRoot);
+    return;
+  }
 
   const vehicles = {
     gazel3: { name: "Газель 3 м", length: 300, width: 190, height: 180, volume: 10.3, weight: 1500, price: "от 1 800 ₽/час" },
