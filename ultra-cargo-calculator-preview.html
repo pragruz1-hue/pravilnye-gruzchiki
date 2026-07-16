@@ -313,5 +313,61 @@
   update();
 })();
 </script>
+
+<script type="module">
+import * as THREE from 'https://unpkg.com/three@0.166.1/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.166.1/examples/jsm/controls/OrbitControls.js';
+const stage = document.querySelector('#ultra-stage');
+if (stage) {
+  stage.classList.add('ultra-webgl-ready');
+  const canvas = document.createElement('canvas');
+  canvas.className = 'ultra-webgl-canvas';
+  stage.prepend(canvas);
+  const note = document.createElement('div');
+  note.className = 'ultra-webgl-note';
+  note.textContent = 'Standalone preview: настоящая Three.js/WebGL 3D-сцена. Вращайте мышью и зумьте колесом.';
+  stage.appendChild(note);
+
+  const scene = new THREE.Scene();
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.shadowMap.enabled = true;
+  const camera = new THREE.PerspectiveCamera(42, 1, .1, 100);
+  camera.position.set(7, 5, 7);
+  const controls = new OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+  controls.target.set(.6, 1, 0);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x94a3b8, 1.7));
+  const light = new THREE.DirectionalLight(0xffffff, 2.2); light.position.set(-4,8,6); light.castShadow = true; scene.add(light);
+  const blue = new THREE.MeshPhysicalMaterial({color:0x2563eb, metalness:.35, roughness:.28, clearcoat:.8});
+  const wall = new THREE.MeshPhysicalMaterial({color:0xffffff, transparent:true, opacity:.22, roughness:.1, side:THREE.DoubleSide});
+  const floorMat = new THREE.MeshStandardMaterial({color:0xd1d5db, roughness:.62});
+  const palletMat = new THREE.MeshStandardMaterial({color:0x8b7355, roughness:.88});
+  const boxMat = new THREE.MeshStandardMaterial({color:0x3b82f6, roughness:.55});
+  const fragileMat = new THREE.MeshStandardMaterial({color:0xf59e0b, roughness:.55});
+  const tireMat = new THREE.MeshStandardMaterial({color:0x05070c, roughness:.78});
+  const metalMat = new THREE.MeshStandardMaterial({color:0x94a3b8, metalness:.65, roughness:.25});
+  function mesh(w,h,d,mat,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;return m;}
+  const g = new THREE.Group(); scene.add(g);
+  const L=5.2,W=2.15,H=2.2;
+  g.add(mesh(L,.08,W,floorMat,0,0,0));
+  g.add(mesh(.06,H,W,wall,L/2,H/2,0));
+  g.add(mesh(L,H,.045,wall,0,H/2,-W/2));
+  g.add(mesh(L,H,.045,wall,0,H/2,W/2));
+  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(L,H,W)), new THREE.LineBasicMaterial({color:0x2563eb, transparent:true, opacity:.5})); edges.position.set(0,H/2,0); g.add(edges);
+  const grid = new THREE.GridHelper(Math.max(L,W), 22, 0x2563eb, 0x93c5fd); grid.position.y=.06; grid.scale.x=L/Math.max(L,W); grid.scale.z=W/Math.max(L,W); g.add(grid);
+  g.add(mesh(1.35,1.85,W*.95,blue,-L/2-0.9,.75,0));
+  g.add(mesh(.42,.5,W*.7,new THREE.MeshPhysicalMaterial({color:0xdbeafe, transparent:true, opacity:.44}),-L/2-1.45,1.28,0));
+  function wheel(x,z){const t=new THREE.Mesh(new THREE.CylinderGeometry(.34,.34,.22,42),tireMat);t.rotation.x=Math.PI/2;t.position.set(x,-.16,z);const d=new THREE.Mesh(new THREE.CylinderGeometry(.15,.15,.235,32),metalMat);d.rotation.x=Math.PI/2;t.add(d);g.add(t)}
+  [-3.2,-1.7,2.0].forEach(x=>{wheel(x,W/2+.12);wheel(x,-W/2-.12)});
+  function pallet(x,z,fragile=false){const pg=new THREE.Group();pg.position.set(x,.05,z);for(let i=0;i<4;i++)pg.add(mesh(1.2,.08,.11,palletMat,0,.04,-.4+i*.27));for(let i=0;i<3;i++)pg.add(mesh(.12,.07,.8,palletMat,-.42+i*.42,.14,0));for(let i=0;i<8;i++){pg.add(mesh(.25,.25,.24,fragile?fragileMat:boxMat,-.45+(i%4)*.3,.32+Math.floor(i/4)*.22,-.14+Math.floor((i%8)/4)*.32));}g.add(pg)}
+  pallet(-1.5,-.45); pallet(.05,-.45,true); pallet(1.6,-.45); pallet(-1.5,.55);
+  const ground = new THREE.Mesh(new THREE.CircleGeometry(5.8,80), new THREE.MeshStandardMaterial({color:0xffffff, transparent:true, opacity:.34})); ground.rotation.x=-Math.PI/2; ground.position.y=-.23; scene.add(ground);
+  function resize(){const r=stage.getBoundingClientRect();renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(r.width, r.height, false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
+  addEventListener('resize', resize); resize();
+  renderer.setAnimationLoop(()=>{controls.update();renderer.render(scene,camera);});
+}
+</script>
+
 </body>
 </html>
