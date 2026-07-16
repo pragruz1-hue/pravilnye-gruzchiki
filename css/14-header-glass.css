@@ -1,0 +1,382 @@
+/* =========================================================
+   «СТЕКЛЯННАЯ ПОЛОСА» — единый стиль шапки и подвала
+   ========================================================= */
+
+/* ===== ШАПКА: Стеклянная полоса ===== */
+.main-header {
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  z-index: 100;
+  padding: 0;
+  background: rgba(7, 9, 14, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: var(--transition-smooth);
+}
+
+.main-header.sticky {
+  padding: 0;
+  background: rgba(7, 9, 14, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255, 115, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+/* Лого */
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.u-logo-size {
+  height: 64px;
+  width: auto;
+}
+
+.logo-text {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  min-width: 132px;
+  width: max-content;
+}
+
+.logo-title {
+  display: block !important;
+  width: 100% !important;
+  font-weight: 900 !important;
+  font-size: 1.15rem !important;
+  letter-spacing: 0.01em !important;
+  color: #fff !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  font-family: var(--font-title) !important;
+}
+
+.logo-subtitle {
+  display: block !important;
+  width: 100% !important;
+  font-weight: 900 !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.205em !important;
+  color: #ff8f00 !important;
+  line-height: 1 !important;
+  margin-top: 4px !important;
+  white-space: nowrap !important;
+  text-align: justify !important;
+  text-align-last: justify !important;
+  text-shadow: 0 0 18px rgba(255, 115, 0, 0.28);
+  font-family: var(--font-title) !important;
+}
+
+/* Навигация — pill-стиль */
+.desktop-nav ul {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-link {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 50px;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-link.active,
+.nav-link[aria-current="page"] {
+  color: var(--primary);
+  background: rgba(255, 115, 0, 0.08);
+}
+
+.logo-area:focus-visible,
+.nav-link:focus-visible,
+.city-selector-btn:focus-visible,
+.header-cta:focus-visible,
+.burger-menu-btn:focus-visible,
+.mobile-link:focus-visible,
+.mobile-menu-close:focus-visible,
+.mobile-phone-link:focus-visible {
+  outline: 2px solid rgba(255, 143, 0, 0.9);
+  outline-offset: 3px;
+}
+
+/* Правая часть шапки */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Город — pill-пилюля */
+.city-selector-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.city-selector-btn:hover {
+  background: rgba(255, 115, 0, 0.08);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.city-icon-pin {
+  font-size: 0.9rem;
+}
+
+.city-selector-current {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.city-selector-arrow {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  transition: var(--transition-smooth);
+}
+
+.city-selector-btn:hover .city-selector-arrow {
+  color: var(--primary);
+  transform: translateY(1px);
+}
+
+.city-selector-btn[aria-expanded="true"] .city-selector-arrow {
+  color: var(--primary);
+  transform: rotate(180deg);
+}
+
+/* Телефон */
+.header-phone-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.phone-link {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.phone-link:hover {
+  color: var(--primary);
+}
+
+.work-hours-badge {
+  font-size: 0.7rem;
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.work-hours-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background-color: var(--success);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px var(--success);
+}
+
+/* CTA кнопка */
+.header-cta {
+  border-radius: 50px !important;
+  padding: 8px 22px !important;
+  font-size: 0.85rem !important;
+}
+
+/* Бургер */
+.burger-menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  position: relative;
+}
+
+.burger-bar {
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+}
+
+.burger-menu-btn.active .burger-bar:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.burger-menu-btn.active .burger-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.burger-menu-btn.active .burger-bar:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* ===== МОБИЛЬНОЕ МЕНЮ ===== */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100vh;
+  background-color: rgba(7, 9, 14, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-20px);
+}
+
+.mobile-nav-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mobile-nav-content {
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.mobile-link {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #fff;
+  display: block;
+  transition: color 0.3s ease;
+}
+
+.mobile-link:hover,
+.mobile-link.active,
+.mobile-link[aria-current="page"] {
+  color: var(--primary);
+}
+
+.mobile-nav-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.mobile-phone-link {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.mobile-hours {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ===== АДАПТИВНОСТЬ ШАПКИ ===== */
+@media (max-width: 1300px) {
+  .desktop-nav ul { gap: 2px; }
+  .nav-link { padding: 8px 12px; font-size: 0.82rem; }
+  .header-right { gap: 12px; }
+  .city-selector-btn { padding: 6px 12px; font-size: 0.78rem; }
+}
+
+@media (max-width: 1200px) {
+  .header-cta { display: none !important; }
+}
+
+@media (max-width: 1120px) {
+  .desktop-nav { display: none !important; }
+  .burger-menu-btn { display: flex !important; }
+}
+
+@media (max-width: 768px) {
+  .header-container { height: 64px; }
+  .header-phone-box { display: none; }
+  .header-right { gap: 10px; }
+  .logo-area { gap: 8px; }
+  .u-logo-size { height: 52px; }
+  .logo-title { font-size: 1rem !important; }
+  .logo-subtitle { font-size: 0.68rem !important; letter-spacing: 0.18em !important; transform: none !important; }
+  .city-selector-btn { padding: 5px 10px; font-size: 0.72rem; }
+  .city-selector-current { max-width: 90px; }
+  .city-confirm-banner,
+  .city-dropdown { right: -20px; }
+  .mobile-link { font-size: 1.5rem; }
+  .mobile-phone-link { font-size: 1.3rem; }
+}
+
+@media (max-width: 480px) {
+  .header-container { height: 58px; }
+  .u-logo-size { height: 48px; }
+  .logo-title { font-size: 0.92rem !important; }
+  .logo-subtitle { font-size: 0.62rem !important; }
+  .city-selector-current { max-width: 70px; }
+  .city-selector-btn { padding: 4px 8px; gap: 4px; }
+  .mobile-link { font-size: 1.3rem; }
+  .mobile-nav-links { gap: 20px; }
+}
+
+@media (max-width: 380px) {
+  .logo-title { font-size: 0.88rem !important; }
+  .logo-subtitle { font-size: 0.58rem !important; letter-spacing: 0.16em !important; }
+}

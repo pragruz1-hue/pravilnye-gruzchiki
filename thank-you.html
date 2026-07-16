@@ -37,26 +37,75 @@
   <body data-page="thank-you">
 <a class="skip-link" href="#main">К содержанию</a>
     <div class="glow-bg"><div class="glow-orb orb-1"></div><div class="glow-orb orb-2"></div></div>
-
 <header class="main-header" id="site-header">
   <div class="container header-container">
-    <a href="index.html" class="logo-area" id="header-logo-link">
-      <img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64">
+    <a href="index.html" class="logo-area" id="header-logo-link" data-city-home-link="true">
+      <img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64" />
       <div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div>
     </a>
-    <nav class="desktop-nav" aria-label="Основная навигация"><ul>
-      <li><a href="index.html" class="nav-link">Главная</a></li><li><a href="about.html" class="nav-link">О нас</a></li><li><a href="index.html#services" class="nav-link">Услуги</a></li><li><a href="index.html#reviews" class="nav-link">Отзывы</a></li><li><a href="index.html#faq" class="nav-link">Вопросы</a></li><li><a href="blog/" class="nav-link">Блог</a></li>
-    </ul></nav>
+    <nav class="desktop-nav" aria-label="Основная навигация">
+      <ul>
+        <li><a href="index.html" class="nav-link" data-city-home-link="true">Главная</a></li>
+            <li><a href="about.html" class="nav-link">О нас</a></li>
+            <li><a href="index.html#services" class="nav-link" data-city-anchor-link="services">Услуги</a></li>
+            <li><a href="index.html#reviews" class="nav-link" data-city-anchor-link="reviews">Отзывы</a></li>
+            <li><a href="index.html#faq" class="nav-link" data-city-anchor-link="faq">Вопросы</a></li>
+            <li><a href="blog/" class="nav-link">Блог</a></li>
+      </ul>
+    </nav>
     <div class="header-right">
-      <div class="city-selector-wrap"><button class="city-selector-btn" id="current-selected-city" type="button" aria-label="Выбрать город"><span class="city-icon-pin">📍</span><span class="city-selector-current" id="city-btn-text">Краснодар</span><span class="city-selector-arrow">▼</span></button><div class="city-dropdown" id="city-dropdown-menu"><div class="city-dropdown-list">
-        <button type="button" class="city-item" data-city="krasnodar">Краснодар</button><button type="button" class="city-item" data-city="anapa">Анапа</button><button type="button" class="city-item" data-city="novorossiysk">Новороссийск</button><button type="button" class="city-item" data-city="sochi">Сочи / Адлер / Сириус</button><button type="button" class="city-item" data-city="gelendzhik">Геленджик</button>
-      </div></div><div class="city-confirm-banner" id="city-confirm-banner"><p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p><div class="city-confirm-btns"><button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button><button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button></div></div></div>
-      <div class="header-phone-box"><a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a><span class="work-hours-badge">Звонки 8:00–20:00 · работы 24/7</span></div><a href="index.html#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn">Заказать звонок</a><button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню" type="button"><span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span></button>
+      <div class="city-selector-wrap">
+        <button class="city-selector-btn" id="current-selected-city" type="button" aria-label="Выбрать город" aria-haspopup="true" aria-expanded="false" aria-controls="city-dropdown-menu">
+          <span class="city-icon-pin">📍</span>
+          <span class="city-selector-current" id="city-btn-text">Краснодар</span>
+          <span class="city-selector-arrow">▼</span>
+        </button>
+        <div class="city-dropdown" id="city-dropdown-menu" aria-hidden="true">
+          <div class="city-dropdown-list">
+            <button type="button" class="city-item" data-city="krasnodar">Краснодар</button>
+            <button type="button" class="city-item" data-city="anapa">Анапа</button>
+            <button type="button" class="city-item" data-city="novorossiysk">Новороссийск</button>
+            <button type="button" class="city-item" data-city="sochi">Сочи / Адлер / Сириус</button>
+            <button type="button" class="city-item" data-city="gelendzhik">Геленджик</button>
+          </div>
+        </div>
+        <div class="city-confirm-banner" id="city-confirm-banner">
+          <p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p>
+          <div class="city-confirm-btns">
+            <button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button>
+          </div>
+        </div>
+      </div>
+      <div class="header-phone-box">
+        <a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a>
+        <span class="work-hours-badge">Звонки 8:00–20:00 · выезды 24/7</span>
+      </div>
+      <a href="index.html#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn" data-city-order-link="true">Заказать звонок</a>
+      <button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu-overlay" type="button">
+        <span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span>
+      </button>
     </div>
   </div>
 </header>
-<div class="mobile-nav-overlay" id="mobile-menu-overlay"><div class="mobile-nav-content"><button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню"><span></span><span></span></button><ul class="mobile-nav-links"><li><a href="index.html" class="mobile-link">Главная</a></li><li><a href="about.html" class="mobile-link">О нас</a></li><li><a href="index.html#services" class="mobile-link">Услуги</a></li><li><a href="index.html#reviews" class="mobile-link">Отзывы</a></li><li><a href="index.html#faq" class="mobile-link">Вопросы</a></li><li><a href="blog/" class="mobile-link">Блог</a></li></ul><div class="mobile-nav-footer"><a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 333-32-81</a><p class="mobile-hours">Звонки 8:00–20:00 · работы 24/7</p><a href="index.html#order-form-section" class="btn btn-primary" id="mobile-menu-cta">Быстрый заказ</a></div></div></div>
-
+<div class="mobile-nav-overlay" id="mobile-menu-overlay" aria-hidden="true">
+  <div class="mobile-nav-content">
+    <button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню"><span></span><span></span></button>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="mobile-link" data-city-home-link="true">Главная</a></li>
+          <li><a href="about.html" class="mobile-link">О нас</a></li>
+          <li><a href="index.html#services" class="mobile-link" data-city-anchor-link="services">Услуги</a></li>
+          <li><a href="index.html#reviews" class="mobile-link" data-city-anchor-link="reviews">Отзывы</a></li>
+          <li><a href="index.html#faq" class="mobile-link" data-city-anchor-link="faq">Вопросы</a></li>
+          <li><a href="blog/" class="mobile-link">Блог</a></li>
+    </ul>
+    <div class="mobile-nav-footer">
+      <a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 333-32-81</a>
+      <p class="mobile-hours">Звонки 8:00–20:00 · выезды 24/7</p>
+      <a href="index.html#order-form-section" class="btn btn-primary" id="mobile-menu-cta" data-city-order-link="true">Быстрый заказ</a>
+    </div>
+  </div>
+</div>
 <main id="main">
   <section class="thank-you-section" style="min-height: 76vh; display: grid; align-items: center; padding: 130px 0 80px;">
     <div class="container">
@@ -81,12 +130,60 @@
   </section>
 </main>
 
-<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="index.html" class="logo-area"><img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64"><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="loaders.html">Услуги грузчиков</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="moving.html">Квартирные переезды</a></li><li><a href="office-moving.html">Офисные переезды</a></li><li><a href="rigging.html">Такелажные работы</a></li><li><a href="furniture.html">Сборка мебели</a></li><li><a href="gruzoperevozki.html">Грузоперевозки</a></li><li><a href="mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li></ul></div><div class="footer-col"><h4>Для бизнеса</h4><ul class="footer-links"><li><a href="krasnodar/autsorsing.html">Аутсорсинг персонала</a></li><li><a href="gruzchiki-na-smenu.html">Грузчики на смену</a></li><li><a href="workers.html">Разнорабочие</a></li><li><a href="rigging.html">Такелаж</a></li><li><a href="krasnodar/arenda-gazeli-3m.html">Аренда Газели</a></li><li><a href="index.html#order-form-section">Работа с юрлицами / безнал</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</span></li></ul><div class="social-links-stub"><a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a><a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div></footer>
-
 <div class="glass-float-btn mobile-call-button">
   <a href="tel:+79283333281" class="call-btn" aria-label="Позвонить"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="retro-phone-svg" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.28-.28.69-.37 1.06-.25 1.16.38 2.42.59 3.68.59.57 0 1.03.46 1.03 1.03v3.49c0 .57-.46 1.03-1.03 1.03C10.61 21.07 2.93 13.39 2.93 3.85c0-.57.46-1.03 1.03-1.03h3.5c.57 0 1.03.46 1.03 1.03 0 1.27.2 2.52.59 3.68.11.37.03.78-.26 1.06l-2.2 2.2z" fill="currentColor"/></svg></a>
 </div>
 <button type="button" class="scroll-to-top" id="scrollTopBtn" aria-label="Вернуться наверх"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-col brand-col">
+      <a href="index.html" class="logo-area" data-city-home-link="true">
+        <img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64" />
+        <div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div>
+      </a>
+      <p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p>
+      <span class="footer-copy">© 2014–2026 ООО «Правильные грузчики».<br />Все права защищены.</span>
+      <p class="footer-copy footer-legal-links"><a href="privacy.html">Персональные данные</a> · <a href="cookies.html">Cookies</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Услуги</h4>
+      <ul class="footer-links">
+        <li><a href="krasnodar/loaders.html" data-city-service-link="loaders">Услуги грузчиков</a></li>
+        <li><a href="krasnodar/raznorabochie.html" data-city-service-link="workers">Разнорабочие</a></li>
+        <li><a href="krasnodar/kvartirnyj-pereezd.html" data-city-service-link="moving">Квартирные переезды</a></li>
+        <li><a href="krasnodar/ofisnyj-pereezd.html" data-city-service-link="office-moving">Офисные переезды</a></li>
+        <li><a href="krasnodar/rigging.html" data-city-service-link="rigging">Такелажные работы</a></li>
+        <li><a href="krasnodar/furniture.html" data-city-service-link="furniture">Сборка мебели</a></li>
+        <li><a href="gruzoperevozki.html">Грузоперевозки</a></li>
+        <li><a href="mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Для бизнеса</h4>
+      <ul class="footer-links">
+        <li><a href="krasnodar/autsorsing.html" data-city-service-link="autsorsing">Аутсорсинг персонала</a></li>
+        <li><a href="krasnodar/gruzchiki-na-smenu.html" data-city-service-link="shift">Грузчики на смену</a></li>
+        <li><a href="krasnodar/raznorabochie.html" data-city-service-link="workers">Разнорабочие</a></li>
+        <li><a href="krasnodar/rigging.html" data-city-service-link="rigging">Такелаж</a></li>
+        <li><a href="krasnodar/arenda-gazeli-3m.html" data-city-service-link="gazel-3m">Аренда Газели</a></li>
+        <li><a href="index.html#order-form-section" data-city-order-link="true">Работа с юрлицами / безнал</a></li>
+      </ul>
+    </div>
+    <div class="footer-col contact-col">
+      <h4>Контакты</h4>
+      <ul class="footer-contacts">
+        <li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li>
+        <li><span class="f-contact-icon">📍</span><span class="city-address">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</span></li>
+        <li><span class="f-contact-icon">🕒</span><span>Звонки 8:00–20:00 · выезды 24/7</span></li>
+      </ul>
+      <div class="social-links-stub">
+        <a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 <script>
   (function() {
     const container = document.getElementById('confetti');
