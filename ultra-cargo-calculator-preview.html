@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview — 3D калькулятор грузоперевозок</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { margin:0; background:#eef2f7; }
+    .preview-top { position:sticky; top:0; z-index:50; padding:10px 16px; background:#0f172a; color:#fff; font:600 14px system-ui; }
+    .preview-top a { color:#93c5fd; }
+  </style>
+</head>
+<body>
+  <div class="preview-top">Превью калькулятора. Файл работает без Vite/server: можно открыть, нажать Ctrl+S после правок и обновить. Основная страница: <code>gruzoperevozki.html#cargo-visual-calculator</code></div>
+<section class="ultra-cargo-section" id="cargo-visual-calculator">
+        <div class="container">
+          <div class="ultra-calc-shell ultra-cargo-calc" data-calc-root>
+            <div class="ultra-calc-hero">
+              <span class="sub-title-gradient">3D калькулятор грузоперевозок</span>
+              <h2>Конфигуратор переезда, поддонов и загрузки кузова</h2>
+              <p>Соберите квартирный, офисный или коммерческий груз, настройте маршрут, паллетирование и транспорт. Сцена справа пересчитывает объём, вес, места под паллеты и предварительную стоимость в реальном времени.</p>
+            </div>
+
+            <div class="ultra-calc-grid">
+              <aside class="ultra-glass-panel ultra-control-panel" aria-label="Параметры перевозки">
+                <div class="ultra-panel-block">
+                  <div class="ultra-block-title"><span>01</span><h3>Тип переезда</h3></div>
+                  <div class="ultra-choice-grid" role="radiogroup" aria-label="Тип переезда">
+                    <button type="button" class="ultra-choice is-active" data-move-type="home">🏠 <strong>Квартирный</strong><small>комнаты и личные вещи</small></button>
+                    <button type="button" class="ultra-choice" data-move-type="office">🏢 <strong>Офисный</strong><small>рабочие места и IT</small></button>
+                    <button type="button" class="ultra-choice" data-move-type="commercial">📦 <strong>Коммерческий</strong><small>склад, товар, паллеты</small></button>
+                    <button type="button" class="ultra-choice" data-move-type="industrial">🏭 <strong>Промышленный</strong><small>оборудование и такелаж</small></button>
+                  </div>
+
+                  <div class="ultra-tabs-content" data-type-content="home">
+                    <label class="ultra-label">Формат жилья
+                      <select id="ultra-home-size">
+                        <option value="studio">Студия 20–40 м²</option>
+                        <option value="one" selected>1-комнатная 40–60 м²</option>
+                        <option value="two">2-комнатная 60–80 м²</option>
+                        <option value="three">3-комнатная 80–120 м²</option>
+                        <option value="four">4+ комнат / коттедж</option>
+                      </select>
+                    </label>
+                    <div class="ultra-chip-cloud" aria-label="Комнаты">
+                      <button type="button" class="ultra-chip is-active" data-room="living">Гостиная</button>
+                      <button type="button" class="ultra-chip is-active" data-room="bedroom">Спальня</button>
+                      <button type="button" class="ultra-chip" data-room="kitchen">Кухня</button>
+                      <button type="button" class="ultra-chip" data-room="hall">Прихожая</button>
+                      <button type="button" class="ultra-chip" data-room="cabinet">Кабинет</button>
+                      <button type="button" class="ultra-chip" data-room="balcony">Балкон</button>
+                    </div>
+                  </div>
+
+                  <div class="ultra-tabs-content" data-type-content="office" hidden>
+                    <label class="ultra-label">Размер офиса
+                      <select id="ultra-office-size">
+                        <option value="small">Малый офис до 5 мест</option>
+                        <option value="medium" selected>Средний офис 5–20 мест</option>
+                        <option value="large">Крупный офис 20–50 мест</option>
+                        <option value="corp">Корпоративный 50+ мест</option>
+                      </select>
+                    </label>
+                    <div class="ultra-counter-row"><span>Рабочие места</span><button type="button" data-step="workplaces" data-dir="-1">−</button><output id="ultra-workplaces">8</output><button type="button" data-step="workplaces" data-dir="1">+</button></div>
+                    <div class="ultra-chip-cloud">
+                      <button type="button" class="ultra-chip is-active" data-office-zone="open">Open space</button>
+                      <button type="button" class="ultra-chip" data-office-zone="meeting">Переговорная</button>
+                      <button type="button" class="ultra-chip" data-office-zone="it">Серверная</button>
+                      <button type="button" class="ultra-chip" data-office-zone="archive">Архив</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ultra-panel-block">
+                  <div class="ultra-block-title"><span>02</span><h3>Маршрут</h3></div>
+                  <div class="ultra-route-grid">
+                    <label class="ultra-label">📍 Откуда<input id="ultra-from" type="text" value="Краснодар" placeholder="Введите город отправления"></label>
+                    <button type="button" class="ultra-swap" id="ultra-swap-route" aria-label="Поменять местами">⇄</button>
+                    <label class="ultra-label">📍 Куда<input id="ultra-to" type="text" value="Сочи" placeholder="Введите город назначения"></label>
+                  </div>
+                  <label class="ultra-label">Расстояние, км<input id="ultra-distance" type="number" min="1" value="286"></label>
+                </div>
+
+                <div class="ultra-panel-block">
+                  <div class="ultra-block-title"><span>03</span><h3>Параметры груза</h3></div>
+                  <div class="ultra-input-grid">
+                    <label class="ultra-label">⚖️ Вес, кг<input id="ultra-weight" type="number" min="0" value="420"></label>
+                    <label class="ultra-label">◼ Объём, м³<input id="ultra-volume" type="number" min="0" step="0.1" value="7.5"></label>
+                    <label class="ultra-label">Длина, см<input id="ultra-l" type="number" min="1" value="210"></label>
+                    <label class="ultra-label">Ширина, см<input id="ultra-w" type="number" min="1" value="90"></label>
+                    <label class="ultra-label">Высота, см<input id="ultra-h" type="number" min="1" value="190"></label>
+                    <label class="ultra-label">Тип груза<select id="ultra-cargo-kind"><option value="standard">Стандартная коробка</option><option value="pallet">Паллета евро/фин</option><option value="oversize">Крупногабарит</option><option value="fragile">Хрупкий груз</option><option value="cold">Рефрижератор</option><option value="danger">Опасный груз</option></select></label>
+                  </div>
+                  <div class="ultra-check-grid">
+                    <label><input type="checkbox" id="ultra-temp"> Температурный режим +2…+8°C</label>
+                    <label><input type="checkbox" id="ultra-fragile"> Хрупкое / бокал</label>
+                    <label><input type="checkbox" id="ultra-top"> Верхняя сторона</label>
+                    <label><input type="checkbox" id="ultra-moisture"> Беречь от влаги</label>
+                  </div>
+                </div>
+
+                <div class="ultra-panel-block">
+                  <div class="ultra-block-title"><span>04</span><h3>Поддоны с грузом</h3></div>
+                  <div class="ultra-pallet-toolbar">
+                    <button type="button" class="ultra-accent-mini" id="ultra-add-pallet">+ Добавить поддон</button>
+                    <button type="button" class="ultra-ghost-mini" id="ultra-autofill">Автозаполнение</button>
+                  </div>
+                  <div class="ultra-input-grid">
+                    <label class="ultra-label">Тип поддона<select id="ultra-pallet-type"><option value="eur">EUR 120×80</option><option value="fin">FIN 120×100</option><option value="std">Стандарт 120×120</option></select></label>
+                    <label class="ultra-label">Материал<select id="ultra-pallet-material"><option value="wood">Дерево</option><option value="blue">Пластик синий</option><option value="green">Пластик зелёный</option><option value="metal">Металл</option></select></label>
+                    <label class="ultra-label">Коробок<input id="ultra-box-count" type="number" min="1" max="20" value="8"></label>
+                    <label class="ultra-label">Слоёв плёнки<select id="ultra-wrap"><option value="0">Без плёнки</option><option value="2">2 слоя</option><option value="3" selected>3 слоя</option><option value="5">5 слоёв</option><option value="7">7 слоёв</option></select></label>
+                  </div>
+                  <div class="ultra-check-grid">
+                    <label><input type="checkbox" id="ultra-corners" checked> Угловые профили</label>
+                    <label><input type="checkbox" id="ultra-lid"> Крышка</label>
+                    <label><input type="checkbox" id="ultra-straps" checked> Обвязка ремнями</label>
+                    <label><input type="checkbox" id="ultra-labels" checked> Маркировка</label>
+                  </div>
+                </div>
+
+                <div class="ultra-panel-block">
+                  <div class="ultra-block-title"><span>05</span><h3>Транспорт и услуги</h3></div>
+                  <div class="ultra-transport-grid" role="radiogroup" aria-label="Тип транспорта">
+                    <button type="button" class="ultra-transport is-active" data-truck="van">🚚<strong>Фургон 1.5т</strong><small>4–6 паллет</small></button>
+                    <button type="button" class="ultra-transport" data-truck="five">🚛<strong>5 тонн</strong><small>10–15 паллет</small></button>
+                    <button type="button" class="ultra-transport" data-truck="semi">🚛<strong>Фура 20т</strong><small>33 паллеты</small></button>
+                    <button type="button" class="ultra-transport" data-truck="cold">❄️<strong>Рефрижератор</strong><small>26–30 паллет</small></button>
+                  </div>
+                  <label class="ultra-label">Количество машин<select id="ultra-cars"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+                  <label class="ultra-label">Срочность доставки <output id="ultra-urgency-label">Стандарт</output><input id="ultra-urgency" type="range" min="1" max="3" value="2"></label>
+                  <div class="ultra-check-grid">
+                    <label><input type="checkbox" data-service="packing" checked> Упаковка вещей</label>
+                    <label><input type="checkbox" data-service="disassembly"> Разборка мебели</label>
+                    <label><input type="checkbox" data-service="assembly"> Сборка мебели</label>
+                    <label><input type="checkbox" data-service="loaders" checked> Грузчики 2–4 чел.</label>
+                    <label><input type="checkbox" data-service="night"> Ночной переезд +30%</label>
+                    <label><input type="checkbox" data-service="insurance" checked> Страхование +5%</label>
+                  </div>
+                </div>
+              </aside>
+
+              <section class="ultra-glass-panel ultra-scene-panel" aria-label="3D конфигуратор">
+                <div class="ultra-scene-topbar">
+                  <div>
+                    <h3>Интерактивная 3D сцена</h3>
+                    <p id="ultra-scene-caption">Разрез кузова · изометрия · snap-to-grid 10 см</p>
+                  </div>
+                  <div class="ultra-view-buttons">
+                    <button type="button" class="is-active" data-view="iso">Изометрия</button>
+                    <button type="button" data-view="top">Сверху</button>
+                    <button type="button" data-view="xray">Рентген</button>
+                  </div>
+                </div>
+
+                <div class="ultra-3d-stage" id="ultra-stage">
+                  <div class="ultra-orbit-hint">ЛКМ — вращение (имитация) · колесо — масштаб · двойной клик — фокус</div>
+                  <div class="ultra-truck-model" id="ultra-truck-model">
+                    <div class="ultra-truck-cabin"><span></span></div>
+                    <div class="ultra-truck-body">
+                      <div class="ultra-cargo-floor" id="ultra-cargo-floor"></div>
+                      <div class="ultra-body-grid"></div>
+                    </div>
+                    <i class="wheel w1"></i><i class="wheel w2"></i><i class="wheel w3"></i>
+                  </div>
+                </div>
+
+                <div class="ultra-scene-meters">
+                  <div><span>Заполненность по объёму</span><strong id="ultra-vol-pct">0%</strong><em><b id="ultra-vol-bar"></b></em></div>
+                  <div><span>Заполненность по весу</span><strong id="ultra-weight-pct">0%</strong><em><b id="ultra-weight-bar"></b></em></div>
+                  <div><span>Паллеты</span><strong id="ultra-pallet-pct">0/6</strong><em><b id="ultra-pallet-bar"></b></em></div>
+                </div>
+
+                <div class="ultra-pallet-builder">
+                  <div class="ultra-pallet-preview" id="ultra-pallet-preview" aria-label="Визуальный поддон"></div>
+                  <div class="ultra-plan-wrap">
+                    <div class="ultra-plan-head"><strong>План кузова</strong><span>перетащите паллету мышью, R — поворот</span></div>
+                    <div class="ultra-load-plan" id="ultra-load-plan"></div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div class="ultra-results-panel">
+              <div class="ultra-price-card">
+                <span>💰 Стоимость перевозки</span>
+                <strong id="ultra-price">12 850 ₽</strong>
+                <small>включая НДС 20% · предварительно</small>
+              </div>
+              <div class="ultra-result-card"><span>⏱ Время доставки</span><strong id="ultra-days">3–5 дней</strong><small id="ultra-route-summary">Расстояние: 286 км</small></div>
+              <div class="ultra-detail-card">
+                <strong>📊 Детализация</strong>
+                <dl>
+                  <dt>Базовый тариф</dt><dd id="ultra-base">8 500 ₽</dd>
+                  <dt>Топливный сбор</dt><dd id="ultra-fuel">2 100 ₽</dd>
+                  <dt>Страховка</dt><dd id="ultra-insurance-cost">850 ₽</dd>
+                  <dt>Погрузка/разгрузка</dt><dd id="ultra-loaders-cost">1 400 ₽</dd>
+                  <dt>Доп. услуги</dt><dd id="ultra-extra">0 ₽</dd>
+                </dl>
+              </div>
+              <div class="ultra-actions">
+                <button type="button" class="btn btn-primary btn-lg" id="ultra-submit-calc">Рассчитать точную стоимость</button>
+                <button type="button" class="btn btn-secondary" id="ultra-save-json">Сохранить расчет</button>
+                <button type="button" class="btn btn-secondary" id="ultra-email">Отправить на email</button>
+                <button type="button" class="btn btn-secondary" id="ultra-pdf">Скачать PDF</button>
+                <button type="button" class="ultra-reset" id="ultra-reset">Сбросить все</button>
+              </div>
+              <div class="ultra-checklist" id="ultra-checklist">
+                <strong>Чек-лист переезда</strong>
+                <label><input type="checkbox"> Разобрать вещи по комнатам</label>
+                <label><input type="checkbox"> Упаковать хрупкие вещи</label>
+                <label><input type="checkbox"> Подготовить документы для пропусков</label>
+                <label><input type="checkbox"> Предупредить соседей</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<script>
+(() => {
+  const root = document.querySelector('#cargo-visual-calculator');
+  if (!root) return;
+  const $ = (s) => root.querySelector(s);
+  const $$ = (s) => Array.from(root.querySelectorAll(s));
+  const fmt = (n) => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+  const trucks = {
+    van: { name:'Фургон 1.5т', volume:18, weight:1500, pallets:6, km:36, base:4200, days:'1–2 дня' },
+    five: { name:'Среднетоннажный 5т', volume:42, weight:5000, pallets:15, km:58, base:7200, days:'2–4 дня' },
+    semi: { name:'Фура 20т', volume:86, weight:20000, pallets:33, km:96, base:14500, days:'3–7 дней' },
+    cold: { name:'Рефрижератор', volume:76, weight:18000, pallets:30, km:112, base:17000, days:'2–5 дней' }
+  };
+  const state = { moveType:'home', truck:'van', pallets:[{id:'p1',x:16,y:18},{id:'p2',x:126,y:18}], selected:null, rotated:new Set(), workplaces:8, drag:null };
+  const val = (id, f=0) => parseFloat($(id)?.value) || f;
+  const truck = () => trucks[state.truck];
+  const kind = () => $('#ultra-cargo-kind')?.value || 'standard';
+  function stats() {
+    let volume = val('#ultra-volume', 0), weight = val('#ultra-weight', 0);
+    const l=val('#ultra-l'), w=val('#ultra-w'), h=val('#ultra-h');
+    if (l&&w&&h) volume=Math.max(volume,(l*w*h)/1000000);
+    if (state.moveType==='home') {
+      const presets={studio:[6,350],one:[10,650],two:[18,1100],three:[28,1700],four:[42,2600]};
+      const p=presets[$('#ultra-home-size')?.value||'one']||presets.one; volume+=p[0]; weight+=p[1];
+      volume += $$('.ultra-chip[data-room].is-active').length*1.4;
+    }
+    if (state.moveType==='office') { volume+=state.workplaces*1.2; weight+=state.workplaces*85; }
+    if (state.moveType==='commercial') { volume+=4; weight+=350; }
+    if (state.moveType==='industrial') { volume+=6; weight+=900; }
+    const boxes=Math.min(20,Math.max(1,val('#ultra-box-count',8)));
+    const palVol=state.pallets.length*(1.2*.8*(.15+Math.ceil(boxes/4)*.32));
+    const palWeight=state.pallets.length*(25+boxes*18);
+    volume+=palVol; weight+=palWeight;
+    if ($('#ultra-fragile')?.checked || kind()==='fragile') volume*=1.08;
+    return {volume,weight,pallets:state.pallets.length,boxes};
+  }
+  function cost(st) {
+    const t=truck(), distance=Math.max(1,val('#ultra-distance',1)), cars=Math.max(1,val('#ultra-cars',1));
+    const urgency=val('#ultra-urgency',2), coef=urgency===1?.88:urgency===3?1.32:1;
+    let base=(t.base+distance*t.km)*cars*coef;
+    if (kind()==='cold' || $('#ultra-temp')?.checked) base*=1.18;
+    if (kind()==='danger') base*=1.22;
+    const fuel=Math.max(900,distance*(state.truck==='semi'?18:9)*cars);
+    let extra=0; root.querySelectorAll('[data-service]:checked').forEach(el=>{ extra += {packing:1200,disassembly:1500,assembly:2000,loaders:2800}[el.dataset.service]||0; });
+    const loaders=root.querySelector('[data-service="loaders"]')?.checked ? 1400+Math.min(5600,st.volume*120) : 0;
+    const insurance=root.querySelector('[data-service="insurance"]')?.checked ? (base+fuel+extra+loaders)*.05 : 0;
+    let total=base+fuel+extra+loaders+insurance; if (root.querySelector('[data-service="night"]')?.checked) total*=1.3;
+    return {base,fuel,extra,loaders,insurance,total};
+  }
+  function renderPreview(st) {
+    const prev=$('#ultra-pallet-preview'); if(!prev) return;
+    prev.classList.toggle('is-wrapped', val('#ultra-wrap',0)>0);
+    prev.querySelectorAll('.pbox').forEach(e=>e.remove());
+    for(let i=0;i<st.boxes;i++) { const b=document.createElement('span'); b.className='pbox'; b.style.width='38px'; b.style.height='28px'; b.style.left=(42+(i%4)*42)+'px'; b.style.bottom=(72+Math.floor(i/4)*22)+'px'; if(kind()==='fragile') b.style.background='repeating-linear-gradient(135deg,#f59e0b 0 8px,#111827 8px 12px)'; prev.appendChild(b); }
+  }
+  function renderScene(st) {
+    const floor=$('#ultra-cargo-floor'), plan=$('#ultra-load-plan'); if(!floor||!plan) return;
+    floor.innerHTML=''; plan.innerHTML=''; const cap=Math.max(1,truck().pallets);
+    state.pallets.forEach((p,i)=>{
+      const rot=state.rotated.has(p.id), wPct=state.truck==='van'?26:state.truck==='five'?18:12, hPct=rot?34:24;
+      const box=document.createElement('div'); box.className='ultra-scene-box '+kind(); if(p.id===state.selected) box.classList.add('selected');
+      box.style.left=(Math.min(86,(i%Math.ceil(cap/2))*(wPct+2)+2))+'%'; box.style.top=(Math.min(66,Math.floor(i/Math.ceil(cap/2))*36+6))+'%'; box.style.width=wPct+'%'; box.style.height=hPct+'%'; box.textContent='P'+(i+1); floor.appendChild(box);
+      const pe=document.createElement('div'); pe.className='ultra-plan-pallet '+(rot?'is-rotated':''); pe.style.left=p.x+'px'; pe.style.top=p.y+'px'; pe.style.width=rot?'74px':'104px'; pe.style.height=rot?'104px':'74px'; pe.textContent='P'+(i+1); pe.dataset.id=p.id;
+      pe.onpointerdown=(e)=>{ state.selected=p.id; state.drag={id:p.id, ox:e.clientX-p.x, oy:e.clientY-p.y}; pe.setPointerCapture(e.pointerId); update(); };
+      pe.onclick=()=>{ state.selected=p.id; update(); }; plan.appendChild(pe);
+    });
+  }
+  function summary() { const st=stats(); return `${truck().name}; ${$('#ultra-from')?.value||''} → ${$('#ultra-to')?.value||''}; ${st.volume.toFixed(1)} м³; ${Math.round(st.weight)} кг; паллет ${st.pallets}; ${$('#ultra-price')?.textContent||''}`; }
+  function update() {
+    const st=stats(), t=truck(), c=cost(st); const vp=Math.round(st.volume/t.volume*100), wp=Math.round(st.weight/t.weight*100), pp=Math.round(st.pallets/t.pallets*100);
+    $('#ultra-vol-pct').textContent=vp+'%'; $('#ultra-weight-pct').textContent=wp+'%'; $('#ultra-pallet-pct').textContent=st.pallets+'/'+t.pallets;
+    $('#ultra-vol-bar').style.width=Math.min(100,vp)+'%'; $('#ultra-weight-bar').style.width=Math.min(100,wp)+'%'; $('#ultra-pallet-bar').style.width=Math.min(100,pp)+'%';
+    $('#ultra-price').textContent=fmt(c.total); $('#ultra-base').textContent=fmt(c.base); $('#ultra-fuel').textContent=fmt(c.fuel); $('#ultra-insurance-cost').textContent=fmt(c.insurance); $('#ultra-loaders-cost').textContent=fmt(c.loaders); $('#ultra-extra').textContent=fmt(c.extra);
+    $('#ultra-route-summary').textContent='Расстояние: '+val('#ultra-distance',1).toLocaleString('ru-RU')+' км · '+t.name;
+    $('#ultra-days').textContent=val('#ultra-urgency',2)===3?'1–2 дня':val('#ultra-urgency',2)===1?'7–14 дней':t.days;
+    $('#ultra-urgency-label').textContent=val('#ultra-urgency',2)===3?'Экспресс':val('#ultra-urgency',2)===1?'Эконом':'Стандарт';
+    renderPreview(st); renderScene(st);
+  }
+  root.addEventListener('input', update); root.addEventListener('change', update);
+  $$('.ultra-choice').forEach(btn=>btn.onclick=()=>{ state.moveType=btn.dataset.moveType; $$('.ultra-choice').forEach(b=>b.classList.toggle('is-active',b===btn)); root.querySelectorAll('[data-type-content]').forEach(el=>{ const vt=state.moveType==='office'?'office':'home'; el.hidden=el.dataset.typeContent!==vt; }); update(); });
+  $$('.ultra-chip').forEach(ch=>ch.onclick=()=>{ ch.classList.toggle('is-active'); update(); });
+  $$('.ultra-transport').forEach(btn=>btn.onclick=()=>{ state.truck=btn.dataset.truck; $$('.ultra-transport').forEach(b=>b.classList.toggle('is-active',b===btn)); update(); });
+  $$('.ultra-view-buttons button').forEach(btn=>btn.onclick=()=>{ $$('.ultra-view-buttons button').forEach(b=>b.classList.toggle('is-active',b===btn)); $('#ultra-stage').classList.toggle('view-top',btn.dataset.view==='top'); $('#ultra-stage').classList.toggle('view-xray',btn.dataset.view==='xray'); });
+  $('#ultra-add-pallet').onclick=()=>{ const id='p'+Date.now(); state.pallets.push({id,x:16+(state.pallets.length%4)*84,y:18+Math.floor(state.pallets.length/4)*84}); state.selected=id; update(); };
+  $('#ultra-autofill').onclick=()=>{ const st=stats(); state.truck=Object.entries(trucks).find(([k,t])=>st.volume<=t.volume*.92&&st.weight<=t.weight*.92&&st.pallets<=t.pallets)?.[0]||'semi'; $$('.ultra-transport').forEach(b=>b.classList.toggle('is-active',b.dataset.truck===state.truck)); update(); alert('Подобрали минимальный подходящий транспорт.'); };
+  $('#ultra-swap-route').onclick=()=>{ const a=$('#ultra-from'), b=$('#ultra-to'); [a.value,b.value]=[b.value,a.value]; update(); };
+  root.querySelectorAll('[data-step]').forEach(btn=>btn.onclick=()=>{ state.workplaces=Math.max(1,state.workplaces+Number(btn.dataset.dir)); $('#ultra-workplaces').textContent=state.workplaces; update(); });
+  $('#ultra-reset').onclick=()=>{ state.pallets=[{id:'p1',x:16,y:18},{id:'p2',x:126,y:18}]; state.selected=null; state.rotated.clear(); update(); };
+  $('#ultra-save-json').onclick=()=>{ const blob=new Blob([JSON.stringify({summary:summary(),pallets:state.pallets},null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='cargo-calculation.json'; a.click(); URL.revokeObjectURL(a.href); };
+  $('#ultra-pdf').onclick=()=>print(); $('#ultra-email').onclick=()=>location.href='mailto:?subject='+encodeURIComponent('Расчет грузоперевозки')+'&body='+encodeURIComponent(summary()); $('#ultra-submit-calc').onclick=()=>alert(summary());
+  $('#ultra-load-plan')?.addEventListener('pointermove',e=>{ if(!state.drag) return; const rect=$('#ultra-load-plan').getBoundingClientRect(); const p=state.pallets.find(x=>x.id===state.drag.id); if(!p)return; const grid=14; p.x=Math.max(0,Math.min(rect.width-74,Math.round((e.clientX-rect.left-state.drag.ox)/grid)*grid)); p.y=Math.max(0,Math.min(rect.height-74,Math.round((e.clientY-rect.top-state.drag.oy)/grid)*grid)); renderScene(stats()); });
+  $('#ultra-load-plan')?.addEventListener('pointerup',()=>state.drag=null);
+  document.addEventListener('keydown',e=>{ if(e.key.toLowerCase()==='r'&&state.selected){ state.rotated.has(state.selected)?state.rotated.delete(state.selected):state.rotated.add(state.selected); update(); } if(e.key==='Delete'&&state.selected){ state.pallets=state.pallets.filter(p=>p.id!==state.selected); state.selected=null; update(); } });
+  update();
+})();
+</script>
+
+<script type="module">
+import * as THREE from 'https://unpkg.com/three@0.166.1/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.166.1/examples/jsm/controls/OrbitControls.js';
+const stage = document.querySelector('#ultra-stage');
+if (stage) {
+  stage.classList.add('ultra-webgl-ready');
+  const canvas = document.createElement('canvas');
+  canvas.className = 'ultra-webgl-canvas';
+  stage.prepend(canvas);
+  const note = document.createElement('div');
+  note.className = 'ultra-webgl-note';
+  note.textContent = 'Standalone preview: настоящая Three.js/WebGL 3D-сцена. Вращайте мышью и зумьте колесом.';
+  stage.appendChild(note);
+
+  const scene = new THREE.Scene();
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.shadowMap.enabled = true;
+  const camera = new THREE.PerspectiveCamera(42, 1, .1, 100);
+  camera.position.set(7, 5, 7);
+  const controls = new OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+  controls.target.set(.6, 1, 0);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x94a3b8, 1.7));
+  const light = new THREE.DirectionalLight(0xffffff, 2.2); light.position.set(-4,8,6); light.castShadow = true; scene.add(light);
+  const blue = new THREE.MeshPhysicalMaterial({color:0x2563eb, metalness:.35, roughness:.28, clearcoat:.8});
+  const wall = new THREE.MeshPhysicalMaterial({color:0xffffff, transparent:true, opacity:.22, roughness:.1, side:THREE.DoubleSide});
+  const floorMat = new THREE.MeshStandardMaterial({color:0xd1d5db, roughness:.62});
+  const palletMat = new THREE.MeshStandardMaterial({color:0x8b7355, roughness:.88});
+  const boxMat = new THREE.MeshStandardMaterial({color:0x3b82f6, roughness:.55});
+  const fragileMat = new THREE.MeshStandardMaterial({color:0xf59e0b, roughness:.55});
+  const tireMat = new THREE.MeshStandardMaterial({color:0x05070c, roughness:.78});
+  const metalMat = new THREE.MeshStandardMaterial({color:0x94a3b8, metalness:.65, roughness:.25});
+  function mesh(w,h,d,mat,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;return m;}
+  const g = new THREE.Group(); scene.add(g);
+  const L=5.2,W=2.15,H=2.2;
+  g.add(mesh(L,.08,W,floorMat,0,0,0));
+  g.add(mesh(.06,H,W,wall,L/2,H/2,0));
+  g.add(mesh(L,H,.045,wall,0,H/2,-W/2));
+  g.add(mesh(L,H,.045,wall,0,H/2,W/2));
+  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(L,H,W)), new THREE.LineBasicMaterial({color:0x2563eb, transparent:true, opacity:.5})); edges.position.set(0,H/2,0); g.add(edges);
+  const grid = new THREE.GridHelper(Math.max(L,W), 22, 0x2563eb, 0x93c5fd); grid.position.y=.06; grid.scale.x=L/Math.max(L,W); grid.scale.z=W/Math.max(L,W); g.add(grid);
+  g.add(mesh(1.35,1.85,W*.95,blue,-L/2-0.9,.75,0));
+  g.add(mesh(.42,.5,W*.7,new THREE.MeshPhysicalMaterial({color:0xdbeafe, transparent:true, opacity:.44}),-L/2-1.45,1.28,0));
+  function wheel(x,z){const t=new THREE.Mesh(new THREE.CylinderGeometry(.34,.34,.22,42),tireMat);t.rotation.x=Math.PI/2;t.position.set(x,-.16,z);const d=new THREE.Mesh(new THREE.CylinderGeometry(.15,.15,.235,32),metalMat);d.rotation.x=Math.PI/2;t.add(d);g.add(t)}
+  [-3.2,-1.7,2.0].forEach(x=>{wheel(x,W/2+.12);wheel(x,-W/2-.12)});
+  function pallet(x,z,fragile=false){const pg=new THREE.Group();pg.position.set(x,.05,z);for(let i=0;i<4;i++)pg.add(mesh(1.2,.08,.11,palletMat,0,.04,-.4+i*.27));for(let i=0;i<3;i++)pg.add(mesh(.12,.07,.8,palletMat,-.42+i*.42,.14,0));for(let i=0;i<8;i++){pg.add(mesh(.25,.25,.24,fragile?fragileMat:boxMat,-.45+(i%4)*.3,.32+Math.floor(i/4)*.22,-.14+Math.floor((i%8)/4)*.32));}g.add(pg)}
+  pallet(-1.5,-.45); pallet(.05,-.45,true); pallet(1.6,-.45); pallet(-1.5,.55);
+  const ground = new THREE.Mesh(new THREE.CircleGeometry(5.8,80), new THREE.MeshStandardMaterial({color:0xffffff, transparent:true, opacity:.34})); ground.rotation.x=-Math.PI/2; ground.position.y=-.23; scene.add(ground);
+  function resize(){const r=stage.getBoundingClientRect();renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(r.width, r.height, false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
+  addEventListener('resize', resize); resize();
+  renderer.setAnimationLoop(()=>{controls.update();renderer.render(scene,camera);});
+}
+</script>
+
+</body>
+</html>

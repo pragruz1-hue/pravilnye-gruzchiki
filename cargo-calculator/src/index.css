@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-blue: #ff6b00;
+  --primary-hover: #ff8a2a;
+  --primary-active: #d35400;
+  --gradient-primary: linear-gradient(135deg, #ff6b00 0%, #d35400 100%);
+  --bg-gradient: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+  --surface-glass: rgba(255, 255, 255, 0.9);
+  --text-primary: #1a1a1a;
+  --text-secondary: #495057;
+  --text-placeholder: #adb5bd;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg-gradient);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@layer components {
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .input-field {
+    height: 48px;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease;
+    color: #1a1a1a;
+  }
+
+  .input-field::placeholder {
+    color: #adb5bd;
+  }
+
+  .input-field:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    border-color: #2563eb;
+  }
+
+  .button-primary {
+    min-height: 56px;
+    padding: 0 32px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ff6b00 0%, #d35400 100%);
+    color: white;
+    font-weight: 800;
+    font-size: 16px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .button-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    overflow: auto;
+  }
+
+  .glass-panel {
+    max-height: 48vh;
+  }
+}
+
+@media print {
+  canvas,
+  .button-primary,
+  button {
+    print-color-adjust: exact;
+  }
+}

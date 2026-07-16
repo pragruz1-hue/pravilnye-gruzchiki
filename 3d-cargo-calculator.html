@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+    <meta name="yandex" content="noindex, nofollow, noarchive" />
+    <meta name="theme-color" content="#10131b" />
+    <title>Тестовый 3D калькулятор грузоперевозок — Правильные Грузчики</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <style>
+      :root {
+        color-scheme: light;
+        --pg-dark: #10131b;
+        --pg-orange: #ff6b00;
+        --pg-orange-dark: #d35400;
+        --pg-text: #111827;
+        --pg-muted: #64748b;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; min-height: 100%; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: #10131b; }
+      body {
+        background:
+          radial-gradient(circle at 14% 10%, rgba(255, 107, 0, .26), transparent 34%),
+          radial-gradient(circle at 86% 12%, rgba(37, 99, 235, .20), transparent 34%),
+          linear-gradient(135deg, #07090e 0%, #10131b 45%, #e9ecef 100%);
+      }
+      .page-shell { min-height: 100vh; padding: 18px; display: grid; grid-template-rows: auto 1fr; gap: 14px; }
+      .topbar {
+        display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px;
+        border-radius: 24px; color: #fff; background: rgba(16, 19, 27, .82); border: 1px solid rgba(255,255,255,.12);
+        box-shadow: 0 20px 55px rgba(0,0,0,.24); backdrop-filter: blur(18px);
+      }
+      .brand { display: flex; align-items: center; gap: 12px; min-width: 260px; }
+      .logo-mark { width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; background: linear-gradient(135deg, var(--pg-orange), var(--pg-orange-dark)); font-weight: 950; box-shadow: 0 12px 28px rgba(255,107,0,.32); }
+      .brand-title { font-size: 12px; font-weight: 950; letter-spacing: .18em; color: #ffbd8a; line-height: 1; }
+      .brand-subtitle { font-size: 18px; font-weight: 950; line-height: 1.15; }
+      .page-note { flex: 1; color: rgba(255,255,255,.76); font-size: 14px; line-height: 1.45; }
+      .badge { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; padding: 10px 12px; border-radius: 999px; background: rgba(255, 107, 0, .16); border: 1px solid rgba(255, 107, 0, .34); color: #ffd7bd; font-weight: 900; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+      .frame-wrap { position: relative; min-height: 720px; border-radius: 30px; overflow: hidden; background: rgba(255,255,255,.68); border: 1px solid rgba(255,255,255,.55); box-shadow: 0 28px 80px rgba(0,0,0,.26); }
+      .calc-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #f8fafc; }
+      .fallback { position: absolute; inset: auto 22px 22px; z-index: 2; max-width: 760px; padding: 12px 14px; border-radius: 18px; background: rgba(16, 19, 27, .84); color: rgba(255,255,255,.82); font-size: 13px; line-height: 1.5; pointer-events: none; }
+      .fallback strong { color: #fff; }
+      @media (max-width: 840px) {
+        .page-shell { padding: 10px; }
+        .topbar { align-items: flex-start; flex-direction: column; border-radius: 20px; }
+        .brand { min-width: 0; }
+        .frame-wrap { min-height: 78vh; border-radius: 22px; }
+        .fallback { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div class="brand" aria-label="Правильные Грузчики">
+          <div class="logo-mark">ПГ</div>
+          <div>
+            <div class="brand-title">ПРАВИЛЬНЫЕ</div>
+            <div class="brand-subtitle">ГРУЗЧИКИ</div>
+          </div>
+        </div>
+        <div class="page-note">
+          Тестовая закрытая страница 3D-калькулятора. Не добавлена в меню и sitemap, закрыта от индексации meta robots и robots.txt.
+        </div>
+        <div class="badge">noindex · prototype</div>
+      </header>
+      <section class="frame-wrap" aria-label="3D калькулятор грузоперевозок">
+        <iframe class="calc-frame" src="cargo-3d-calculator/index.html" title="3D калькулятор грузоперевозок" loading="eager" allow="fullscreen; autoplay; clipboard-write"></iframe>
+        <div class="fallback"><strong>Если внутри пусто:</strong> обновите страницу без кэша Ctrl+F5. Приложение лежит в <code>/cargo-3d-calculator/</code>, исходники — в <code>/cargo-calculator/</code>.</div>
+      </section>
+    </main>
+  </body>
+</html>
