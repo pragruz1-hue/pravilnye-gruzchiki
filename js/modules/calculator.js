@@ -82,7 +82,7 @@ export function initCalculator() {
     const heavySurcharge = heavySelect ? parseInt(heavySelect.value, 10) || 0 : 0;
 
     const floorSurcharge = elevator === "no" && floor > 1 ? (floor - 1) * workers * 250 : 0;
-    const truckRate = truck === "extended" ? 2500 : truck === "standard" ? 2000 : 0;
+    const truckRate = truck === "extended" ? 2000 : truck === "standard" ? 1800 : 0;
     const truckSurcharge = truckRate ? truckRate * hours : 0;
     const extrasTotal = floorSurcharge + truckSurcharge + distanceSurcharge + heavySurcharge;
 

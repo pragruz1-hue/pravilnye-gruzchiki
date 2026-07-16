@@ -61,7 +61,7 @@ export function generateLocalBusinessSchema(cityCode) {
     "image": "https://pragruz.ru/assets/service-pogruzka-razgruzka.webp",
     "telephone": city.phone,
     "url": `https://pragruz.ru/`,
-    "priceRange": "800RUB - 2500RUB",
+    "priceRange": "800RUB - 2000RUB",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": city.address.split(",").slice(1).join(",").trim(),

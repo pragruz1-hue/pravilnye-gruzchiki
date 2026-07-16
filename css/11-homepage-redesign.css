@@ -76,6 +76,12 @@
         flex-wrap: wrap;
         gap: 12px;
       }
+      .fleet-section .fleet-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+      }
       .fleet-section .fleet-extra-note {
         margin-top: 22px;
       }

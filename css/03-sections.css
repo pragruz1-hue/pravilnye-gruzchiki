@@ -563,9 +563,86 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
   padding: 20px 0 40px;
+}
+
+.reviews-carousel-scroller {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  cursor: grab;
+  touch-action: pan-x;
+}
+
+.reviews-carousel-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.reviews-carousel-scroller.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+  scroll-snap-type: none;
+}
+
+.reviews-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  transform: translateY(-60%);
+  padding: 0 4px;
+}
+
+.reviews-nav-btn {
+  pointer-events: auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(13, 17, 27, 0.88);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  transition: transform .25s ease, border-color .25s ease, background .25s ease, color .25s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.reviews-nav-btn:hover,
+.reviews-nav-btn:focus-visible {
+  transform: scale(1.06);
+  border-color: rgba(255, 115, 0, 0.55);
+  color: #ffb060;
+  background: rgba(19, 25, 38, 0.95);
+  outline: none;
+}
+
+.reviews-nav-btn:active {
+  transform: scale(0.96);
+}
+
+.reviews-nav-btn svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.reviews-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
 }
 
 .reviews-carousel-wrapper::before,
@@ -594,12 +671,17 @@
   gap: 24px;
   width: max-content;
   --reviews-count: 10;
-  animation: reviewsScroll 50s linear infinite;
-  padding-left: 20px;
+  padding: 4px 20px 8px;
+  animation: none;
 }
 
-.reviews-carousel-track:hover {
-  animation-play-state: paused;
+/* Auto-scroll only while not interacting */
+.reviews-carousel-track.is-autoplay {
+  animation: reviewsScroll 50s linear infinite;
+}
+
+.reviews-carousel-wrapper.is-user-control .reviews-carousel-track.is-autoplay {
+  animation: none;
 }
 
 .review-service-tag {
@@ -616,6 +698,8 @@
 
 .review-card {
   flex: 0 0 350px;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
   background: rgba(19, 25, 38, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -899,12 +983,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .fleet-price {
   font-family: var(--font-title);
   font-weight: 700;
   color: var(--primary);
+}
+
+.fleet-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.fleet-actions .btn {
+  white-space: nowrap;
 }
 
 /* ===== ПАРТНЕРЫ ===== */
@@ -1175,6 +1272,9 @@
   background-color: #040508;
   border-top: 1px solid rgba(255, 255, 255, 0.04);
   padding: 80px 0 40px 0;
+  position: relative;
+  z-index: 5;
+  isolation: isolate;
 }
 
 .footer-grid {
@@ -1454,5 +1554,5 @@ a.social-icon:hover {
 .price-table .note-col { color: var(--text-muted); font-size: 0.85rem; }
 @media (max-width: 600px) {
   .price-table thead th, .price-table tbody td { padding: 12px 10px; font-size: 0.85rem; }
-  .price-table .note-col { display: none; }
+  /* note column kept — parent .price-table-wrap scrolls horizontally on mobile */
 }
