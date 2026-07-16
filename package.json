@@ -11,7 +11,10 @@
     "lint:css": "stylelint css/**/*.css"
   },
   "devDependencies": {
-    "vite": "^5.0.0",
-    "@vitejs/plugin-legacy": "^5.0.0"
+    "@vitejs/plugin-legacy": "^5.0.0",
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "three": "^0.166.1"
   }
 }

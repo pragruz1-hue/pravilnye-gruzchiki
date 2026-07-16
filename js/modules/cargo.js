@@ -2,6 +2,8 @@
  * Cargo visual 2.5D calculator (for gruzoperevozki.html)
  * Features: auto-rotation, dual-plane visualization, packaging types, fragile mode, quick-fill modal.
  */
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { setupPhoneMask, submitLead, showToast, initFormsAntiSpam } from "./forms.js";
 
 
@@ -31,6 +33,7 @@ function initUltraCargoCalculator(root) {
   const stage = $("#ultra-stage");
   const model = $("#ultra-truck-model");
   const checklist = $("#ultra-checklist");
+  let real3dScene = null;
 
   function val(id, fallback = 0) {
     const el = $(id);
@@ -224,6 +227,7 @@ function initUltraCargoCalculator(root) {
     if (vehicleHidden) vehicleHidden.value = truck.name;
     renderPalletPreview();
     renderPlanAndScene();
+    if (real3dScene) real3dScene.sync();
   }
 
   function buildSummary() {
@@ -231,6 +235,245 @@ function initUltraCargoCalculator(root) {
     const from = $("#ultra-from")?.value || "";
     const to = $("#ultra-to")?.value || "";
     return `${currentTruck().name}; ${from} → ${to}; ${Math.round(stats.volume * 10) / 10} м³; ${Math.round(stats.weight)} кг; паллет ${stats.pallets}; предварительно ${$("#ultra-price")?.textContent || ""}`;
+  }
+
+  function initReal3DScene() {
+    if (!stage || !window.WebGLRenderingContext) return null;
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "ultra-webgl-canvas";
+    stage.prepend(canvas);
+    stage.classList.add("ultra-webgl-ready");
+
+    const note = document.createElement("div");
+    note.className = "ultra-webgl-note";
+    note.textContent = "Настоящая WebGL 3D-сцена: вращайте мышью, зум колесом, паллеты можно выбирать и двигать";
+    stage.appendChild(note);
+
+    const scene = new THREE.Scene();
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 120);
+    camera.position.set(7.8, 5.4, 7.2);
+
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.minDistance = 3.2;
+    controls.maxDistance = 16;
+    controls.target.set(0.8, 1.0, 0);
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x94a3b8, 1.7));
+    const key = new THREE.DirectionalLight(0xffffff, 2.4);
+    key.position.set(-4, 8, 6);
+    key.castShadow = true;
+    key.shadow.mapSize.set(2048, 2048);
+    scene.add(key);
+    const rim = new THREE.PointLight(0x93c5fd, 1.8, 14);
+    rim.position.set(5, 3, -4);
+    scene.add(rim);
+
+    const world = new THREE.Group();
+    scene.add(world);
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    const dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const dragHit = new THREE.Vector3();
+    const clickable = [];
+    let dragId = null;
+    let lastDims = { length: 4.2, width: 2, height: 2.1 };
+
+    const mat = {
+      blue: new THREE.MeshPhysicalMaterial({ color: 0x2563eb, metalness: 0.35, roughness: 0.28, clearcoat: 0.8, clearcoatRoughness: 0.18 }),
+      dark: new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.55 }),
+      tire: new THREE.MeshStandardMaterial({ color: 0x05070c, roughness: 0.78 }),
+      metal: new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.65, roughness: 0.26 }),
+      glass: new THREE.MeshPhysicalMaterial({ color: 0xdbeafe, transparent: true, opacity: 0.42, roughness: 0.05, transmission: 0.35 }),
+      floor: new THREE.MeshStandardMaterial({ color: 0xd1d5db, roughness: 0.62, metalness: 0.12 }),
+      wall: new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.2, roughness: 0.12, metalness: 0.05, transmission: 0.18, side: THREE.DoubleSide }),
+      pallet: new THREE.MeshStandardMaterial({ color: 0x8b7355, roughness: 0.88 }),
+      wrap: new THREE.MeshPhysicalMaterial({ color: 0xe0f2fe, transparent: true, opacity: 0.2, roughness: 0.03, transmission: 0.42, side: THREE.DoubleSide }),
+    };
+
+    function dimsForTruck() {
+      return {
+        van: { length: 4.2, width: 2.0, height: 2.1, cabin: 1.35 },
+        five: { length: 6.1, width: 2.35, height: 2.35, cabin: 1.55 },
+        semi: { length: 13.6, width: 2.45, height: 2.65, cabin: 1.8 },
+        cold: { length: 12.4, width: 2.45, height: 2.55, cabin: 1.75 },
+      }[state.truck] || { length: 4.2, width: 2, height: 2.1, cabin: 1.35 };
+    }
+
+    function boxMesh(w, h, d, material, x, y, z) {
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), material);
+      mesh.position.set(x, y, z);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    }
+
+    function createWheel(x, z) {
+      const tire = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.22, 42), mat.tire);
+      tire.rotation.x = Math.PI / 2;
+      tire.position.set(x, -0.16, z);
+      tire.castShadow = true;
+      const disk = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.235, 32), mat.metal);
+      disk.rotation.x = Math.PI / 2;
+      tire.add(disk);
+      return tire;
+    }
+
+    function createPallet3D(p, index, dims) {
+      const stats = palletStats();
+      const isRotated = state.rotated.has(p.id);
+      const pallet = palletDims();
+      const pw = (isRotated ? pallet.h : pallet.w) / 100;
+      const pd = (isRotated ? pallet.w : pallet.h) / 100;
+      const maxX = Math.max(1, (plan?.clientWidth || 440) - 104);
+      const maxY = Math.max(1, (plan?.clientHeight || 180) - 74);
+      const x = -dims.length / 2 + 0.55 + (p.x / maxX) * Math.max(0.3, dims.length - 1.1);
+      const z = -dims.width / 2 + 0.25 + (p.y / maxY) * Math.max(0.3, dims.width - 0.5);
+      const group = new THREE.Group();
+      group.position.set(THREE.MathUtils.clamp(x, -dims.length / 2 + pw / 2, dims.length / 2 - pw / 2), 0.05, THREE.MathUtils.clamp(z, -dims.width / 2 + pd / 2, dims.width / 2 - pd / 2));
+      group.userData.palletId = p.id;
+
+      for (let i = 0; i < 4; i += 1) {
+        group.add(boxMesh(pw, 0.08, pd / 7, mat.pallet, 0, 0.04, -pd / 2 + (i + 0.5) * (pd / 4)));
+      }
+      for (let i = 0; i < 3; i += 1) {
+        group.add(boxMesh(pw / 7, 0.07, pd, mat.pallet, -pw / 2 + (i + 0.5) * (pw / 3), 0.14, 0));
+      }
+
+      const cargoColor = activeKind() === "fragile" ? 0xf59e0b : activeKind() === "cold" ? 0x06b6d4 : activeKind() === "danger" ? 0xf97316 : stats.weight / Math.max(1, state.pallets.length) > 1000 ? 0xef4444 : 0x3b82f6;
+      const cargoMat = new THREE.MeshStandardMaterial({ color: cargoColor, roughness: 0.58, metalness: 0.03 });
+      const boxes = Math.min(20, stats.boxCount);
+      const cols = Math.max(2, Math.min(4, Math.floor(pw / 0.28)));
+      const bw = pw / cols - 0.035;
+      const bd = Math.min(0.28, pd / 2.6);
+      for (let i = 0; i < boxes; i += 1) {
+        const layer = Math.floor(i / cols);
+        const col = i % cols;
+        const row = Math.floor((i % (cols * 2)) / cols);
+        const b = boxMesh(bw, 0.28, bd, cargoMat, -pw / 2 + bw / 2 + 0.02 + col * (bw + 0.035), 0.31 + layer * 0.19, -pd / 4 + row * (bd + 0.06));
+        b.userData.palletId = p.id;
+        group.add(b);
+      }
+      if (Number($("#ultra-wrap")?.value || 0) > 0) {
+        const wrap = boxMesh(pw + 0.04, Math.max(0.5, 0.36 + Math.ceil(boxes / cols) * 0.18), pd + 0.04, mat.wrap, 0, 0.42, 0);
+        wrap.userData.palletId = p.id;
+        group.add(wrap);
+      }
+      if (p.id === state.selectedPallet) {
+        const outline = new THREE.BoxHelper(group, 0x2563eb);
+        outline.userData.isHelper = true;
+        group.add(outline);
+      }
+      group.traverse((obj) => { if (obj.isMesh) { obj.userData.palletId = p.id; clickable.push(obj); } });
+      return group;
+    }
+
+    function rebuild() {
+      clickable.length = 0;
+      world.clear();
+      const dims = dimsForTruck();
+      lastDims = dims;
+      const floorMesh = boxMesh(dims.length, 0.08, dims.width, mat.floor, 0, 0, 0);
+      world.add(floorMesh);
+
+      const backWall = boxMesh(0.06, dims.height, dims.width, mat.wall, dims.length / 2, dims.height / 2, 0);
+      const leftWall = boxMesh(dims.length, dims.height, 0.045, mat.wall, 0, dims.height / 2, -dims.width / 2);
+      const rightWall = boxMesh(dims.length, dims.height, 0.045, mat.wall, 0, dims.height / 2, dims.width / 2);
+      world.add(backWall, leftWall, rightWall);
+      const edges = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(dims.length, dims.height, dims.width)), new THREE.LineBasicMaterial({ color: 0x2563eb, transparent: true, opacity: 0.45 }));
+      edges.position.set(0, dims.height / 2, 0);
+      world.add(edges);
+
+      const grid = new THREE.GridHelper(Math.max(dims.length, dims.width), 24, 0x2563eb, 0x93c5fd);
+      grid.position.y = 0.055;
+      grid.scale.x = dims.length / Math.max(dims.length, dims.width);
+      grid.scale.z = dims.width / Math.max(dims.length, dims.width);
+      world.add(grid);
+
+      const cabin = boxMesh(dims.cabin, Math.min(2.05, dims.height * 0.9), dims.width * 0.95, mat.blue, -dims.length / 2 - dims.cabin / 2 - 0.16, 0.78, 0);
+      world.add(cabin);
+      world.add(boxMesh(0.42, 0.5, dims.width * 0.72, mat.glass, -dims.length / 2 - dims.cabin - 0.1, 1.32, 0));
+      const wheelZ = dims.width / 2 + 0.12;
+      [-dims.length / 2 - dims.cabin * 0.8, -dims.length / 2 + 0.55, dims.length / 2 - 0.62].forEach((x) => {
+        world.add(createWheel(x, wheelZ), createWheel(x, -wheelZ));
+      });
+
+      state.pallets.forEach((p, index) => world.add(createPallet3D(p, index, dims)));
+
+      const ground = new THREE.Mesh(new THREE.CircleGeometry(Math.max(5.5, dims.length * 0.72), 80), new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.32, roughness: 1 }));
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.y = -0.23;
+      ground.receiveShadow = true;
+      world.add(ground);
+    }
+
+    function resize() {
+      const rect = stage.getBoundingClientRect();
+      const width = Math.max(320, rect.width);
+      const height = Math.max(260, rect.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    }
+
+    function setPointer(e) {
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    }
+
+    canvas.addEventListener("pointerdown", (e) => {
+      setPointer(e);
+      raycaster.setFromCamera(pointer, camera);
+      const hit = raycaster.intersectObjects(clickable, false)[0];
+      if (hit?.object?.userData?.palletId) {
+        dragId = hit.object.userData.palletId;
+        state.selectedPallet = dragId;
+        canvas.setPointerCapture(e.pointerId);
+        rebuild();
+      }
+    });
+
+    canvas.addEventListener("pointermove", (e) => {
+      if (!dragId) return;
+      setPointer(e);
+      raycaster.setFromCamera(pointer, camera);
+      if (raycaster.ray.intersectPlane(dragPlane, dragHit)) {
+        const p = state.pallets.find((item) => item.id === dragId);
+        if (p) {
+          const maxX = Math.max(1, (plan?.clientWidth || 440) - 104);
+          const maxY = Math.max(1, (plan?.clientHeight || 180) - 74);
+          const nx = THREE.MathUtils.clamp((dragHit.x + lastDims.length / 2) / lastDims.length, 0, 1);
+          const ny = THREE.MathUtils.clamp((dragHit.z + lastDims.width / 2) / lastDims.width, 0, 1);
+          p.x = Math.round((nx * maxX) / 14) * 14;
+          p.y = Math.round((ny * maxY) / 14) * 14;
+          updateUI();
+        }
+      }
+    });
+    canvas.addEventListener("pointerup", () => { dragId = null; });
+    canvas.addEventListener("pointercancel", () => { dragId = null; });
+
+    window.addEventListener("resize", resize, { passive: true });
+    const ro = new ResizeObserver(resize);
+    ro.observe(stage);
+    resize();
+    rebuild();
+
+    renderer.setAnimationLoop(() => {
+      controls.update();
+      renderer.render(scene, camera);
+    });
+
+    return { sync: rebuild, resize };
   }
 
   function startDrag(e) {
@@ -329,6 +572,7 @@ function initUltraCargoCalculator(root) {
     });
   }
 
+  real3dScene = initReal3DScene();
   ensureInitialPallets();
   updateChecklist();
   updateUI();
