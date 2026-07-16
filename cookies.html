@@ -25,23 +25,82 @@
   <link rel="canonical" href="https://pragruz.ru/cookies.html" />
 <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body data-page="legal">
   <a class="skip-link" href="#main">К содержанию</a>
-  <header class="main-header" id="site-header">
-    <div class="container header-container">
-      <a href="index.html" class="logo-area">
-        <img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64" />
-        <div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div>
-      </a>
-      <a href="index.html" class="btn btn-primary btn-sm">На главную</a>
+<header class="main-header" id="site-header">
+  <div class="container header-container">
+    <a href="index.html" class="logo-area" id="header-logo-link" data-city-home-link="true">
+      <img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64" />
+      <div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div>
+    </a>
+    <nav class="desktop-nav" aria-label="Основная навигация">
+      <ul>
+        <li><a href="index.html" class="nav-link" data-city-home-link="true">Главная</a></li>
+            <li><a href="about.html" class="nav-link">О нас</a></li>
+            <li><a href="index.html#services" class="nav-link" data-city-anchor-link="services">Услуги</a></li>
+            <li><a href="index.html#reviews" class="nav-link" data-city-anchor-link="reviews">Отзывы</a></li>
+            <li><a href="index.html#faq" class="nav-link" data-city-anchor-link="faq">Вопросы</a></li>
+            <li><a href="blog/" class="nav-link">Блог</a></li>
+      </ul>
+    </nav>
+    <div class="header-right">
+      <div class="city-selector-wrap">
+        <button class="city-selector-btn" id="current-selected-city" type="button" aria-label="Выбрать город" aria-haspopup="true" aria-expanded="false" aria-controls="city-dropdown-menu">
+          <span class="city-icon-pin">📍</span>
+          <span class="city-selector-current" id="city-btn-text">Краснодар</span>
+          <span class="city-selector-arrow">▼</span>
+        </button>
+        <div class="city-dropdown" id="city-dropdown-menu" aria-hidden="true">
+          <div class="city-dropdown-list">
+            <button type="button" class="city-item" data-city="krasnodar">Краснодар</button>
+            <button type="button" class="city-item" data-city="anapa">Анапа</button>
+            <button type="button" class="city-item" data-city="novorossiysk">Новороссийск</button>
+            <button type="button" class="city-item" data-city="sochi">Сочи / Адлер / Сириус</button>
+            <button type="button" class="city-item" data-city="gelendzhik">Геленджик</button>
+          </div>
+        </div>
+        <div class="city-confirm-banner" id="city-confirm-banner">
+          <p>Ваш город — <strong id="detected-city-name">Краснодар</strong>?</p>
+          <div class="city-confirm-btns">
+            <button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button>
+          </div>
+        </div>
+      </div>
+      <div class="header-phone-box">
+        <a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a>
+        <span class="work-hours-badge">Звонки 8:00–20:00 · выезды 24/7</span>
+      </div>
+      <a href="index.html#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn" data-city-order-link="true">Заказать звонок</a>
+      <button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu-overlay" type="button">
+        <span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span>
+      </button>
     </div>
-  </header>
-
-  <main id="main" class="legal-main">
+  </div>
+</header>
+<div class="mobile-nav-overlay" id="mobile-menu-overlay" aria-hidden="true">
+  <div class="mobile-nav-content">
+    <button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню"><span></span><span></span></button>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="mobile-link" data-city-home-link="true">Главная</a></li>
+          <li><a href="about.html" class="mobile-link">О нас</a></li>
+          <li><a href="index.html#services" class="mobile-link" data-city-anchor-link="services">Услуги</a></li>
+          <li><a href="index.html#reviews" class="mobile-link" data-city-anchor-link="reviews">Отзывы</a></li>
+          <li><a href="index.html#faq" class="mobile-link" data-city-anchor-link="faq">Вопросы</a></li>
+          <li><a href="blog/" class="mobile-link">Блог</a></li>
+    </ul>
+    <div class="mobile-nav-footer">
+      <a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 333-32-81</a>
+      <p class="mobile-hours">Звонки 8:00–20:00 · выезды 24/7</p>
+      <a href="index.html#order-form-section" class="btn btn-primary" id="mobile-menu-cta" data-city-order-link="true">Быстрый заказ</a>
+    </div>
+  </div>
+</div>
+<main id="main" class="legal-main">
     <h1>Политика использования cookies</h1>
-    <span class="legal-version">Редакция от 9 июля 2026 года</span>
+    <span class="legal-version">Редакция от 16 июля 2026 года</span>
 
-    <p>Сайт <a href="https://pragruz.ru/">pragruz.ru</a> использует локальное хранилище браузера для работы выбранных пользователем функций. Аналитические cookies Яндекс.Метрики устанавливаются только после отдельного согласия.</p>
+    <p>Сайт <a href="https://pragruz.ru/">pragruz.ru</a> использует локальное хранилище браузера для работы выбранных пользователем функций. Дополнительно сайт может запросить у браузера разрешение на геолокацию, чтобы автоматически предложить ближайший обслуживаемый город. Аналитические cookies Яндекс.Метрики устанавливаются только после отдельного согласия.</p>
 
     <h2>1. Необходимые и функциональные записи</h2>
     <div class="legal-table-wrap">
@@ -49,8 +108,12 @@
         <thead><tr><th>Название</th><th>Хранилище</th><th>Назначение</th><th>Срок</th></tr></thead>
         <tbody>
           <tr><td><code>pg_cookie_consent</code></td><td>localStorage</td><td>Хранит выбор «аналитика» или «только необходимые», версию и дату решения.</td><td>180 дней, затем выбор запрашивается повторно</td></tr>
-          <tr><td><code>selected_city</code></td><td>localStorage</td><td>Запоминает явно выбранный город.</td><td>До изменения выбора или очистки данных браузера</td></tr>
-          <tr><td><code>city_confirmed</code></td><td>localStorage</td><td>Не показывает повторно вопрос о выбранном городе.</td><td>До изменения выбора или очистки данных браузера</td></tr>
+          <tr><td><code>selected_city</code></td><td>localStorage</td><td>Запоминает выбранный или автоматически подобранный город.</td><td>До изменения выбора или очистки данных браузера</td></tr>
+          <tr><td><code>city_confirmed</code></td><td>localStorage</td><td>Не показывает повторно вопрос о выбранном городе после подтверждения пользователем.</td><td>До изменения выбора или очистки данных браузера</td></tr>
+          <tr><td><code>pg_geo_city_code</code></td><td>localStorage</td><td>Хранит последний автоматически определённый ближайший город обслуживания.</td><td>До 12 часов, затем может быть обновлён</td></tr>
+          <tr><td><code>pg_geo_checked_at</code></td><td>localStorage</td><td>Время последней успешной автоматической проверки города.</td><td>До обновления проверки или очистки данных браузера</td></tr>
+          <tr><td><code>pg_geo_status</code></td><td>localStorage</td><td>Технический статус геоопределения: доступно, отклонено, вне зоны обслуживания и т. п.</td><td>До обновления статуса или очистки данных браузера</td></tr>
+          <tr><td><code>pg_geo_prompt_snooze_until</code></td><td>localStorage</td><td>Временная пауза перед повторным запросом геолокации, если пользователь закрыл или отклонил запрос браузера.</td><td>До 7 дней</td></tr>
           <tr><td><code>pg_calculator_state</code></td><td>localStorage</td><td>Сохраняет введённые параметры локального калькулятора стоимости.</td><td>До изменения параметров или очистки данных браузера</td></tr>
           <tr><td><code>exit_popup_shown</code></td><td>localStorage</td><td>Не показывает повторно закрытое пользователем предложение.</td><td>До очистки данных браузера</td></tr>
         </tbody>
@@ -58,7 +121,11 @@
     </div>
     <p>Эти записи не отправляют введённые значения калькулятора третьим лицам. Вы можете удалить их через настройки браузера.</p>
 
-    <h2>2. Аналитические cookies</h2>
+    <h2>2. Геолокация браузера</h2>
+    <p>Если вы разрешите геолокацию в интерфейсе браузера, страница получит координаты устройства только для локального определения ближайшего города обслуживания. Координаты не записываются в localStorage, не отправляются в заявку и не передаются Яндекс.Метрике. Разрешение хранится самим браузером, а сайт запоминает только результат подбора города и технический статус проверки.</p>
+    <p>Разрешение на геолокацию можно в любой момент отозвать в настройках браузера или сайта для текущего домена.</p>
+
+    <h2>3. Аналитические cookies</h2>
     <p>Поставщик: ООО «ЯНДЕКС», сервис Яндекс.Метрика. Счётчик загружается только после нажатия «Разрешить аналитику». До этого запрос к коду Метрики не выполняется. Вебвизор и карта кликов отключены.</p>
     <div class="legal-table-wrap">
       <table class="legal-table">
@@ -73,11 +140,11 @@
     </div>
     <p>Точный состав может изменяться Яндексом. Актуальное описание размещается в документации Яндекс.Метрики.</p>
 
-    <h2>3. Как изменить решение</h2>
+    <h2>4. Как изменить решение</h2>
     <p>На каждой странице доступна кнопка «Настройки cookies» в нижнем левом углу. Через неё можно разрешить аналитику или оставить только необходимые записи. При отказе сайт блокирует дальнейшую отправку данных Метрике и удаляет доступные сайту cookies Метрики.</p>
     <p>Также можно очистить cookies и данные сайта в настройках браузера. После удаления решения сайт запросит выбор повторно.</p>
 
-    <h2>4. Контакты</h2>
+    <h2>5. Контакты</h2>
     <p>Вопросы по использованию cookies можно направить ООО «Правильные грузчики» на <a href="mailto:info@pragruz.ru">info@pragruz.ru</a> или по телефону <a href="tel:+79283333281">+7 (928) 333-32-81</a>.</p>
 
     <div class="legal-nav">
@@ -85,7 +152,57 @@
       <a href="index.html" class="btn btn-primary">Вернуться на сайт</a>
     </div>
   </main>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-col brand-col">
+      <a href="index.html" class="logo-area" data-city-home-link="true">
+        <img src="assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64" />
+        <div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div>
+      </a>
+      <p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p>
+      <span class="footer-copy">© 2014–2026 ООО «Правильные грузчики».<br />Все права защищены.</span>
+      <p class="footer-copy footer-legal-links"><a href="privacy.html">Персональные данные</a> · <a href="cookies.html">Cookies</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Услуги</h4>
+      <ul class="footer-links">
+        <li><a href="krasnodar/loaders.html" data-city-service-link="loaders">Услуги грузчиков</a></li>
+        <li><a href="krasnodar/raznorabochie.html" data-city-service-link="workers">Разнорабочие</a></li>
+        <li><a href="krasnodar/kvartirnyj-pereezd.html" data-city-service-link="moving">Квартирные переезды</a></li>
+        <li><a href="krasnodar/ofisnyj-pereezd.html" data-city-service-link="office-moving">Офисные переезды</a></li>
+        <li><a href="krasnodar/rigging.html" data-city-service-link="rigging">Такелажные работы</a></li>
+        <li><a href="krasnodar/furniture.html" data-city-service-link="furniture">Сборка мебели</a></li>
+        <li><a href="gruzoperevozki.html">Грузоперевозки</a></li>
+        <li><a href="mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Для бизнеса</h4>
+      <ul class="footer-links">
+        <li><a href="krasnodar/autsorsing.html" data-city-service-link="autsorsing">Аутсорсинг персонала</a></li>
+        <li><a href="krasnodar/gruzchiki-na-smenu.html" data-city-service-link="shift">Грузчики на смену</a></li>
+        <li><a href="krasnodar/raznorabochie.html" data-city-service-link="workers">Разнорабочие</a></li>
+        <li><a href="krasnodar/rigging.html" data-city-service-link="rigging">Такелаж</a></li>
+        <li><a href="krasnodar/arenda-gazeli-3m.html" data-city-service-link="gazel-3m">Аренда Газели</a></li>
+        <li><a href="index.html#order-form-section" data-city-order-link="true">Работа с юрлицами / безнал</a></li>
+      </ul>
+    </div>
+    <div class="footer-col contact-col">
+      <h4>Контакты</h4>
+      <ul class="footer-contacts">
+        <li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li>
+        <li><span class="f-contact-icon">📍</span><span class="city-address">350004, г. Краснодар, ул. Кропоткина, д. 50, офис 339</span></li>
+        <li><span class="f-contact-icon">🕒</span><span>Звонки 8:00–20:00 · выезды 24/7</span></li>
+      </ul>
+      <div class="social-links-stub">
+        <a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
-  <script type="module" src="js/privacy-consent.js"></script>
+<script type="module" src="js/privacy-consent.js"></script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
