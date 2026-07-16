@@ -636,13 +636,6 @@ body[data-page="blog-article"] .main-header {
   max-height: 420px;
   object-fit: cover;
 }
-.bigcover figcaption {
-  font-size: 0.78rem;
-  color: var(--bmut);
-  text-align: center;
-  padding: 10px 0 0;
-  font-style: italic;
-}
 .bigcover { overflow: visible; }
 .bigcover .imgw { border-radius: 18px; overflow: hidden; }
 

@@ -134,12 +134,10 @@ def main():
         mins_m = re.search(r"⏱\s*(\d+\s*мин)", h)
         mins_txt = mins_m.group(1) if mins_m else f"{mins} мин"
 
-        # cover image + alt + caption
+        # cover image + alt
         cover_m = re.search(r'article-featured-media[^>]*>\s*<img\s+src="([^"]+)"\s+alt="([^"]*)"', h, re.S)
         cover_src = cover_m.group(1) if cover_m else img
         cover_alt = cover_m.group(2) if cover_m else title_plain
-        cap_m = re.search(r'ai-image-caption">([^<]+)<', h)
-        caption = cap_m.group(1).strip() if cap_m else "Изображение сгенерировано нейросетью и может содержать ошибки"
 
         # canonical for sharing
         can_m = re.search(r'<link rel="canonical" href="([^"]+)"', h)
@@ -207,7 +205,6 @@ def main():
 
       <figure class="bigcover">
         <div class="imgw"><img src="{cover_src}" alt="{esc_attr(cover_alt)}" width="860" height="480" loading="eager" fetchpriority="high"></div>
-        <figcaption>{caption}</figcaption>
       </figure>
 {tldr}
 
