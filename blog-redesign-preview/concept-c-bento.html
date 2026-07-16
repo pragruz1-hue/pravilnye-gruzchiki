@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Концепт C — «Bento + Medium» | Превью</title>
+<link rel="stylesheet" href="../css/00-fonts.css">
+<style>
+/* ============ КОНЦЕПТ C · «BENTO + MEDIUM» ============ */
+:root{
+  --bg:#f1f2f4; --sheet:#fff; --ink:#101318; --ink2:#4a5261; --mut:#7b8494;
+  --line:#e3e5ea;
+  --or:#ff5c00; --or-dk:#e04e00;
+  --dark:#101318;
+  --disp:"Montserrat",sans-serif; --sans:"Inter",system-ui,sans-serif;
+  --r:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* превью-бар */
+.pvbar{position:sticky;top:0;z-index:80;display:flex;align-items:center;gap:16px;padding:10px 20px;background:#101318;color:#fff;font-size:.85rem;flex-wrap:wrap}
+.pvbar .badge{background:linear-gradient(135deg,#ff8f00,#ff5100);font-size:.66rem;font-weight:800;letter-spacing:.1em;padding:4px 9px;border-radius:7px}
+.pvbar a.back{color:#9fb0c8;font-size:.82rem}
+.pvbar a.back:hover{color:#fff}
+.pv-tabs{margin-left:auto;display:flex;background:rgba(255,255,255,.09);border-radius:99px;padding:3px}
+.pv-tabs button{border:0;background:none;color:#aab8cc;font:inherit;font-size:.8rem;font-weight:600;padding:8px 16px;border-radius:99px;cursor:pointer}
+.pv-tabs button.on{background:#fff;color:#101318}
+
+/* шапка сайта */
+.sitehead{background:#07090e;color:#fff}
+.sitehead .wrap{display:flex;align-items:center;gap:14px;padding-top:14px;padding-bottom:14px}
+.sitehead img{width:44px;height:44px;border-radius:10px}
+.sitehead .lg b{display:block;font:700 15px var(--disp)}
+.sitehead .lg span{font-size:11px;color:#ffb26b;letter-spacing:.24em}
+.sitehead nav{margin-left:auto;display:flex;gap:22px;font-size:.85rem;color:#c3cdde}
+.sitehead nav a.cur{color:#ff9d45;font-weight:600}
+.sitehead .ph{margin-left:26px;font-weight:700;font-size:.92rem}
+@media(max-width:900px){.sitehead nav{display:none}}
+
+/* ====== ОБЛОЖКА · BENTO ====== */
+.b-head{padding:58px 0 26px;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}
+.b-head .kk{display:inline-flex;align-items:center;gap:8px;font-size:.74rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--or-dk)}
+.b-head .kk::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--or)}
+.b-head h1{font:800 clamp(2.6rem,5.5vw,4.2rem) var(--disp);line-height:1;letter-spacing:-.03em;margin:14px 0 12px}
+.b-head h1 span{color:var(--or)}
+.b-head p{max-width:52ch;color:var(--ink2);font-size:1.02rem}
+.search{background:var(--sheet);border:1px solid var(--line);border-radius:99px;display:flex;align-items:center;gap:10px;padding:14px 22px;width:280px;box-shadow:0 8px 24px rgba(16,19,24,.06)}
+.search svg{width:16px;height:16px;color:var(--mut);flex:none}
+.search input{border:0;outline:0;font:inherit;font-size:.9rem;width:100%;background:none}
+@media(max-width:820px){.b-head{grid-template-columns:1fr}.search{width:100%}}
+
+.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:170px;gap:16px;padding-bottom:8px}
+.tile{border-radius:var(--r);overflow:hidden;position:relative;background:var(--sheet);box-shadow:0 10px 30px rgba(16,19,24,.07);transition:.22s;display:flex;flex-direction:column}
+.tile:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(16,19,24,.13)}
+.tile>.bgimg{position:absolute;inset:0}
+.tile>.bgimg img{width:100%;height:100%;object-fit:cover;transition:.5s}
+.tile:hover>.bgimg img{transform:scale(1.05)}
+.tile .scrim{position:absolute;inset:0;background:linear-gradient(200deg,transparent 30%,rgba(10,12,16,.86))}
+.tile .tx{position:relative;z-index:2;margin-top:auto;padding:20px;color:#fff}
+.tile .rub{display:inline-flex;font-size:.64rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:rgba(255,255,255,.16);backdrop-filter:blur(6px);padding:4px 10px;border-radius:99px;margin-bottom:9px}
+.tile h3,.tile h4{font:800 var(--disp);line-height:1.22;letter-spacing:-.01em}
+.tile .mt{font-size:.74rem;color:rgba(255,255,255,.72);margin-top:8px}
+.t-hero{grid-column:span 2;grid-row:span 2}
+.t-hero h3{font-size:clamp(1.4rem,2.4vw,1.9rem);max-width:17ch}
+.t-hero .flag{position:absolute;top:18px;left:18px;z-index:2;background:var(--or);color:#fff;font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:7px 13px;border-radius:99px}
+.t-tall{grid-row:span 2}
+.t-tall h4{font-size:1.15rem}
+.t-wide{grid-column:span 2}
+.t-wide h4{font-size:1.1rem;max-width:26ch}
+.tile h4{font-size:1.02rem}
+/* текстовые плитки без фото */
+.tile.txt{background:var(--sheet);color:var(--ink)}
+.tile.txt .tx{color:var(--ink)}
+.tile.txt .lbl{font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--or-dk);margin-bottom:8px}
+.tile.txt h4{color:var(--ink)}
+.tile.txt .mt{color:var(--mut)}
+.tile.num{background:var(--dark);color:#fff;justify-content:center;padding:22px}
+.tile.num b{font:800 3rem var(--disp);letter-spacing:-.03em;color:var(--or)}
+.tile.num span{font-size:.82rem;color:rgba(255,255,255,.7);margin-top:4px;line-height:1.4}
+.tile.num .arrow{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem}
+/* популярное */
+.tile.pop{grid-row:span 2;background:var(--sheet);padding:20px;justify-content:flex-start}
+.tile.pop .lbl{font-size:.66rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--or-dk);margin-bottom:12px}
+.pop-ol{list-style:none;counter-reset:p;width:100%}
+.pop-ol li{counter-increment:p;border-top:1px solid var(--line)}
+.pop-ol a{display:flex;gap:12px;padding:10px 2px;font-size:.84rem;font-weight:600;line-height:1.35;align-items:baseline}
+.pop-ol a::before{content:counter(p,decimal-leading-zero);font:800 .72rem var(--disp);color:var(--or)}
+.pop-ol a:hover{color:var(--or-dk)}
+.pop-ol small{display:block;color:var(--mut);font-weight:400;font-size:.72rem;margin-top:2px}
+@media(max-width:960px){
+  .bento{grid-template-columns:repeat(2,1fr);grid-auto-rows:190px}
+  .t-hero{grid-column:span 2}
+  .t-wide{grid-column:span 2}
+  .tile.pop{grid-row:span 1}
+}
+@media(max-width:560px){.bento{grid-template-columns:1fr}.t-hero,.t-wide{grid-column:span 1}.t-tall{grid-row:span 1}}
+
+.b-foot{padding:26px 0 60px;text-align:center;color:var(--mut);font-size:.85rem}
+.b-foot b{color:var(--ink)}
+.b-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.b-chips span{border:1px solid var(--line);background:var(--sheet);border-radius:99px;padding:7px 14px;font-size:.8rem;font-weight:600;color:var(--ink2)}
+
+/* ====== СТАТЬЯ · MEDIUM-STYLE ====== */
+.post-wrap{background:var(--sheet)}
+.rail-zone{display:grid;grid-template-columns:64px minmax(0,1fr);gap:20px}
+.rail{position:sticky;top:80px;height:fit-content;display:flex;flex-direction:column;gap:10px;padding-top:60px;align-items:center}
+.rail a,.rail button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--sheet);display:flex;align-items:center;justify-content:center;color:var(--ink2);cursor:pointer;transition:.18s;font-size:.85rem;font-weight:700}
+.rail a:hover,.rail button:hover{border-color:var(--or);color:var(--or)}
+.rail .ring{width:42px;height:42px;border-radius:50%;background:
+  conic-gradient(var(--or) calc(var(--p,40)*1%), var(--line) 0);
+  display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;color:var(--ink)}
+.rail .ring::before{content:attr(data-p);width:32px;height:32px;border-radius:50%;background:var(--sheet);display:flex;align-items:center;justify-content:center}
+@media(max-width:820px){.rail-zone{grid-template-columns:1fr}.rail{display:none}}
+
+.col{max-width:700px;margin:0 auto;padding:56px 24px 20px}
+.col .backlink{display:inline-flex;align-items:center;gap:8px;font-size:.84rem;font-weight:600;color:var(--ink2);margin-bottom:30px}
+.col .backlink:hover{color:var(--or-dk)}
+.col .rub{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--or-dk);margin-bottom:16px}
+.col>h1{font:800 clamp(2rem,4.6vw,2.9rem) var(--disp);line-height:1.1;letter-spacing:-.025em;margin-bottom:18px}
+.col .stand{font-size:1.22rem;color:var(--ink2);line-height:1.55;margin-bottom:26px}
+.meta-row{display:flex;align-items:center;gap:14px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.meta-row .av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#ff8f00,#ff5100);color:#fff;display:flex;align-items:center;justify-content:center;font:800 .85rem var(--disp)}
+.meta-row b{font-size:.92rem;display:block}
+.meta-row span{font-size:.78rem;color:var(--mut)}
+.meta-row .flw{margin-left:auto;border:1.5px solid var(--ink);border-radius:99px;padding:7px 16px;font-size:.8rem;font-weight:700}
+.meta-row .flw:hover{background:var(--ink);color:#fff}
+.bigcover{margin:34px 0 0;border-radius:18px;overflow:hidden}
+.bigcover img{width:100%;max-height:420px;object-fit:cover}
+.bigcover figcaption{font-size:.78rem;color:var(--mut);text-align:center;padding:10px 0 0;font-style:italic}
+
+.tldr{background:var(--dark);color:#fff;border-radius:18px;padding:26px 28px;margin:32px 0}
+.tldr h6{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#ffb26b;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.tldr h6::before{content:"⚡"}
+.tldr ul{list-style:none}
+.tldr li{padding:8px 0 8px 28px;position:relative;font-size:.95rem;color:#dde3ee;line-height:1.6}
+.tldr li::before{content:"→";position:absolute;left:0;color:var(--or)}
+
+.post{font-size:1.08rem;color:#242a35}
+.post p{margin-bottom:22px;line-height:1.82}
+.post h2{font:800 1.5rem var(--disp);line-height:1.25;letter-spacing:-.015em;margin:48px 0 18px}
+.post h2::after{content:"";display:block;width:44px;height:4px;border-radius:3px;background:var(--or);margin-top:12px}
+.post strong{color:var(--ink)}
+.post ul.plain{list-style:none;margin-bottom:24px}
+.post ul.plain li{padding:10px 0 10px 32px;position:relative;border-bottom:1px dashed var(--line);font-size:1rem;line-height:1.65}
+.post ul.plain li::before{content:"—";position:absolute;left:4px;color:var(--or);font-weight:800}
+
+.check{background:#f2faf5;border:1px solid #cdeadb;border-radius:16px;padding:20px 22px;margin:28px 0}
+.check h6{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#187a4c;margin-bottom:12px}
+.check ul{list-style:none}
+.check li{padding:7px 0 7px 32px;position:relative;font-size:.96rem;color:#234a37;line-height:1.55}
+.check li::before{content:"";position:absolute;left:0;top:9px;width:20px;height:20px;border-radius:50%;background:#187a4c url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.4" stroke-linecap="round"><path d="M4 12.5l5 5L20 6.5"/></svg>') center/11px no-repeat}
+
+.mini-tbl{margin:30px 0;border:1px solid var(--line);border-radius:16px;overflow:hidden;font-size:.94rem}
+.mini-tbl .r{display:grid;grid-template-columns:1.5fr 1fr;padding:14px 20px;border-bottom:1px solid var(--line)}
+.mini-tbl .r:last-child{border-bottom:0}
+.mini-tbl .r.hd{background:#f6f7f9;font-size:.74rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.mini-tbl b{color:var(--or-dk)}
+
+.faq{margin:34px 0}
+.faq h6{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);margin-bottom:14px}
+.faq details{border:1px solid var(--line);border-radius:14px;padding:0 18px;margin-bottom:10px;background:var(--sheet)}
+.faq summary{cursor:pointer;list-style:none;font-weight:700;font-size:.98rem;padding:16px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:400 1.4rem/1 var(--disp);color:var(--or);transition:.2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{font-size:.93rem;color:var(--ink2);padding:0 0 16px;margin:0}
+
+.done{display:flex;align-items:center;gap:14px;background:#f6f7f9;border-radius:99px;padding:10px 20px 10px 10px;margin:44px 0 0;width:fit-content}
+.done .cir{width:40px;height:40px;border-radius:50%;background:#187a4c;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+.done b{font-size:.92rem}
+.done span{display:block;font-size:.76rem;color:var(--mut);font-weight:400}
+
+.author-c{border:1px solid var(--line);border-radius:18px;padding:26px;margin:30px 0 0;display:flex;gap:20px;align-items:center}
+.author-c .av{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#ff8f00,#ff5100);color:#fff;display:flex;align-items:center;justify-content:center;font:800 1.1rem var(--disp);flex:none}
+.author-c b{font-size:1.05rem;display:block;margin-bottom:4px}
+.author-c p{font-size:.86rem;color:var(--mut);margin:0}
+
+.more{margin:40px 0 0}
+.more h5{font:800 1.3rem var(--disp);letter-spacing:-.015em;margin-bottom:18px}
+.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.more-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--sheet);transition:.2s}
+.more-card:hover{box-shadow:0 12px 30px rgba(16,19,24,.1);transform:translateY(-3px)}
+.more-card .im{aspect-ratio:16/8.4;overflow:hidden}
+.more-card img{width:100%;height:100%;object-fit:cover}
+.more-card .bd{padding:16px 18px}
+.more-card .rub{font-size:.64rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--or-dk)}
+.more-card h4{font:700 1rem var(--disp);line-height:1.3;margin-top:6px}
+@media(max-width:640px){.more-grid{grid-template-columns:1fr}}
+
+.cta-c{margin:34px 0 70px;background:linear-gradient(135deg,#171b23,#0c0f14);color:#fff;border-radius:24px;padding:44px 38px;text-align:center;position:relative;overflow:hidden}
+.cta-c::after{content:"";position:absolute;inset:auto -20% -70% -20%;height:220px;background:radial-gradient(closest-side,rgba(255,92,0,.35),transparent)}
+.cta-c h3{font:800 clamp(1.4rem,3vw,1.9rem) var(--disp);margin-bottom:12px;position:relative;z-index:2}
+.cta-c p{color:#b9c2d4;font-size:.96rem;max-width:46ch;margin:0 auto 26px;position:relative;z-index:2}
+.cta-c .row{display:flex;gap:12px;justify-content:center;position:relative;z-index:2;flex-wrap:wrap}
+.cta-c .btn{background:linear-gradient(135deg,#ff8f00,#ff5100);padding:15px 30px;border-radius:99px;font-weight:700;font-size:.95rem;box-shadow:0 10px 28px rgba(255,92,0,.4)}
+.cta-c .tel{padding:15px 30px;border-radius:99px;border:1px solid rgba(255,255,255,.25);font-weight:700;font-size:.95rem}
+
+.view{display:none}
+.view.on{display:block}
+</style>
+</head>
+<body>
+
+<div class="pvbar">
+  <span class="badge">PREVIEW</span>
+  <a class="back" href="index.html">← Все концепты</a>
+  <b style="font-size:.9rem">Концепт C — «Bento + Medium» (смелый)</b>
+  <div class="pv-tabs">
+    <button class="on" data-view="cover">Обложка блога</button>
+    <button data-view="post">Страница статьи</button>
+  </div>
+</div>
+
+<header class="sitehead"><div class="wrap">
+  <img src="../assets/logo.png" alt="Правильные Грузчики">
+  <div class="lg"><b>ПРАВИЛЬНЫЕ</b><span>ГРУЗЧИКИ</span></div>
+  <nav><a>Главная</a><a>О нас</a><a>Услуги</a><a>Отзывы</a><a class="cur">Блог</a></nav>
+  <span class="ph">+7 (928) 333-32-81</span>
+</div></header>
+
+<!-- ═══════════ VIEW 1 · ОБЛОЖКА ═══════════ -->
+<main class="view on" id="v-cover">
+  <div class="wrap b-head">
+    <div>
+      <span class="kk">Блог · обновляется каждую неделю</span>
+      <h1>блог<span>.</span></h1>
+      <p>Переезды, грузчики, упаковка и логистика по городам края. Без воды — практика из 5 000+ заказов с 2014 года.</p>
+    </div>
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input placeholder="Найти статью…" disabled>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="bento">
+
+      <a class="tile t-hero" href="#">
+        <span class="flag">Главное сейчас</span>
+        <div class="bgimg"><img src="../assets/brigada-gruzchikov-krasnodar.webp" alt=""></div>
+        <div class="scrim"></div>
+        <div class="tx"><span class="rub">Цены</span><h3>Цены на грузчиков в Краснодаре: обзор рынка 2026</h3><div class="mt">1 июля · 9 мин чтения</div></div>
+      </a>
+
+      <a class="tile t-tall" href="#">
+        <div class="bgimg"><img src="../assets/blog/pereezd-sochi.jpg" alt=""></div>
+        <div class="scrim"></div>
+        <div class="tx"><span class="rub">Города · Сочи</span><h4>Рельеф, пропуска и парковки при переезде в Сочи</h4><div class="mt">8 июля · 8 мин</div></div>
+      </a>
+
+      <div class="tile pop">
+        <div class="lbl">Популярное</div>
+        <ol class="pop-ol">
+          <li><a href="#">Как выбрать грузчиков: 5 критериев<small>1,2 тыс. просмотров</small></a></li>
+          <li><a href="#">Грузчики на час или на смену<small>980 просмотров</small></a></li>
+          <li><a href="#">Квартирный переезд: чек-лист<small>870 просмотров</small></a></li>
+          <li><a href="#">Вывоз строймусора законно<small>640 просмотров</small></a></li>
+          <li><a href="#">Газель 3 м или удлинённая<small>512 просмотров</small></a></li>
+        </ol>
+      </div>
+
+      <a class="tile num" href="#"><span class="arrow">→</span><b>12</b><span>лет опыта — статьи пишут практики, а не копирайтеры</span></a>
+
+      <a class="tile t-wide" href="#">
+        <div class="bgimg"><img src="../assets/blog/ofisnyj-pereezd.jpg" alt=""></div>
+        <div class="scrim"></div>
+        <div class="tx"><span class="rub">Кейс</span><h4>Как мы перевезли офис на 40 сотрудников за выходные</h4><div class="mt">6 июля · 10 мин</div></div>
+      </a>
+
+      <a class="tile" href="#">
+        <div class="bgimg"><img src="../assets/blog/upakovka-mebeli.jpg" alt=""></div>
+        <div class="scrim"></div>
+        <div class="tx"><span class="rub">Упаковка</span><h4>Правила упаковки мебели</h4><div class="mt">30 июня · 4 мин</div></div>
+      </a>
+
+      <a class="tile" href="#">
+        <div class="bgimg"><img src="../assets/blog/gruzchiki-chas-smena.jpg" alt=""></div>
+        <div class="scrim"></div>
+        <div class="tx"><span class="rub">Сравнение</span><h4>На час или на смену?</h4><div class="mt">10 июля · 7 мин</div></div>
+      </a>
+
+      <a class="tile txt" href="#">
+        <div class="tx"><div class="lbl">Инструкция</div><h4>Как разобрать и собрать шкаф-купе при переезде</h4><div class="mt">5 июля · 8 мин →</div></div>
+      </a>
+
+    </div>
+
+    <div class="b-foot">
+      Все рубрики одним рядом — фильтры под поиском:
+      <div class="b-chips"><span>Все 20</span><span>Города 4</span><span>Советы 2</span><span>Упаковка 2</span><span>Инструкции 2</span><span>Сравнения 2</span><span>Бизнес 2</span><span>+ ещё 5</span></div>
+    </div>
+  </div>
+</main>
+
+<!-- ═══════════ VIEW 2 · СТАТЬЯ ═══════════ -->
+<main class="view" id="v-post">
+<div class="post-wrap">
+  <div class="wrap rail-zone">
+    <aside class="rail">
+      <a href="#" title="Назад в блог">←</a>
+      <button title="Telegram">tg</button>
+      <button title="WhatsApp">wa</button>
+      <button title="Скопировать ссылку">🔗</button>
+      <div class="ring" data-p="40%" style="--p:40" title="Прогресс чтения"></div>
+    </aside>
+
+    <div class="col">
+      <a class="backlink" href="#">← Все статьи блога</a>
+      <span class="rub">Советы</span>
+      <h1>Как выбрать грузчиков в Краснодаре: 5 критериев</h1>
+      <p class="stand">Пять проверок перед заказом, которые занимают 15 минут и снимают 90% рисков.</p>
+
+      <div class="meta-row">
+        <span class="av">ПГ</span>
+        <div><b>Редакция «Правильных Грузчиков»</b><span>22 июня 2026 · 4 мин чтения · 1 234 просмотра</span></div>
+        <a class="flw" href="#">Все статьи</a>
+      </div>
+
+      <figure class="bigcover">
+        <img src="../assets/blog/kak-vybrat-gruzchikov.jpg" alt="Как выбрать профессиональных грузчиков">
+        <figcaption>Изображение сгенерировано нейросетью и может содержать ошибки</figcaption>
+      </figure>
+
+      <div class="tldr">
+        <h6>В двух словах</h6>
+        <ul>
+          <li>Честная цена — от 800 ₽/час. Меньше 700 ₽/час — ждите доплат на месте.</li>
+          <li>Проверяйте реквизиты, отзывы на картах и фиксируйте тариф письменно.</li>
+          <li>Чек-лист из 3 вопросов — в конце статьи.</li>
+        </ul>
+      </div>
+
+      <article class="post">
+        <p>Выбор грузчиков в Краснодаре — задача, к которой стоит подойти ответственно. От этого зависит сохранность вашего имущества, сроки переезда и бюджет. Мы работаем в этой сфере <strong>с 2014 года</strong> и подготовили 5 критериев, которые помогут не ошибиться.</p>
+
+        <h2>1. Цена: от чего она зависит</h2>
+        <p>Стоимость услуг грузчиков в Краснодаре начинается от 800 ₽/час за наличный расчёт. Минимальный заказ — 2 часа.</p>
+
+        <div class="mini-tbl">
+          <div class="r hd"><span>Тип работ</span><span>Тариф</span></div>
+          <div class="r"><span>Грузчики на час</span><span>от <b>800 ₽/час</b></span></div>
+          <div class="r"><span>Грузчики на смену</span><span>от <b>2 000 ₽</b></span></div>
+          <div class="r"><span>Такелаж</span><span>по смете</span></div>
+        </div>
+
+        <h2>2. Что проверить перед заказом</h2>
+        <div class="check">
+          <h6>Чек-лист: 3 вопроса по телефону</h6>
+          <ul>
+            <li>Какая цена и что в неё входит? Просите назвать итоговую сумму сразу.</li>
+            <li>Сколько человек в бригаде и есть ли страховка груза?</li>
+            <li>Можете ли зафиксировать тариф в заявке до выезда?</li>
+          </ul>
+        </div>
+
+        <p>Один звонок с этими вопросами отсеивает случайных исполнителей. Профессионалы отвечают быстро и называют конкретные цифры.</p>
+
+        <h2>3. Опыт и репутация</h2>
+        <ul class="plain">
+          <li><strong>Реальный офис</strong> — у нас это ул. Кропоткина, 50, офис 339</li>
+          <li><strong>Свежие отзывы</strong> на Яндекс.Картах и 2ГИС</li>
+          <li><strong>Кейсы с объектами</strong> — ТРЦ «Красная Площадь», Кнауф Гипс и др.</li>
+        </ul>
+
+        <div class="faq">
+          <h6>Частые вопросы по теме</h6>
+          <details open><summary>Что делать, если груз испортили при переезде?</summary><p>Фиксируйте повреждения фото до подписания актов. Мы решаем спорные ситуации индивидуально в пользу клиента.</p></details>
+          <details><summary>Можно ли заказать бригаду на сегодня?</summary><p>Да, при свободных бригадах выезд возможен от 40 минут. В высокий сезон лучше бронировать за день.</p></details>
+          <details><summary>Работаете ли с юрлицами и НДС?</summary><p>Да, мы ООО, предоставляем полный пакет закрывающих документов, работаем с НДС и без.</p></details>
+        </div>
+
+        <div class="done"><span class="cir">✓</span><div><b>Вы дочитали до конца</b><span>Сохраните статью или поделитесь — кнопки слева</span></div></div>
+
+        <div class="author-c">
+          <span class="av">ПГ</span>
+          <div><b>Редакция «Правильных Грузчиков»</b><p>Материал проверен директором компании. 5 000+ переездов и разгрузок с 2014 года в Краснодаре и крае.</p></div>
+        </div>
+
+        <div class="more">
+          <h5>Дальше по теме</h5>
+          <div class="more-grid">
+            <a class="more-card" href="#"><div class="im"><img src="../assets/blog/gruzchiki-chas-smena.jpg" alt=""></div><div class="bd"><span class="rub">Сравнение</span><h4>Грузчики на час или на смену: что выгоднее</h4></div></a>
+            <a class="more-card" href="#"><div class="im"><img src="../assets/blog/kvartirnyj-pereezd.jpg" alt=""></div><div class="bd"><span class="rub">Переезд</span><h4>Подготовка к квартирному переезду: чек-лист</h4></div></a>
+          </div>
+        </div>
+
+        <div class="cta-c">
+          <h3>Грузчики от 800 ₽/час</h3>
+          <p>Бригада от 2 человек, выезд от 40 минут. Тариф фиксируем до выезда.</p>
+          <div class="row"><a class="btn" href="#">Оставить заявку</a><a class="tel" href="#">+7 (928) 333-32-81</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+</main>
+
+<script>
+  const tabs=document.querySelectorAll('.pv-tabs button');
+  tabs.forEach(b=>b.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    document.getElementById('v-cover').classList.toggle('on', b.dataset.view==='cover');
+    document.getElementById('v-post').classList.toggle('on', b.dataset.view==='post');
+    window.scrollTo({top:0});
+  }));
+</script>
+</body>
+</html>

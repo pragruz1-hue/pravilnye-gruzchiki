@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Редизайн блога — 3 концепта | Превью</title>
+<link rel="stylesheet" href="../css/00-fonts.css">
+<style>
+  :root{
+    --bg:#0a0e16; --s1:#0f1522; --s2:#131c2d;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --txt:#eef2f8; --mut:#93a1b8;
+    --or:#ff7300; --or2:#ffa245; --grn:#34d399; --red:#f87171; --blu:#60a5fa; --vio:#a78bfa;
+    --r:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:"Inter",system-ui,sans-serif;line-height:1.6;min-height:100vh}
+  a{color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  .topbar{display:flex;align-items:center;gap:14px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .topbar img{width:44px;height:44px;border-radius:10px}
+  .topbar .m-mark{flex:none;background:linear-gradient(135deg,#ff8f00,#ff5100);color:#fff;font-weight:800;font-size:11px;letter-spacing:.08em;padding:6px 10px;border-radius:8px}
+  .topbar h1{font-size:1.25rem;font-weight:800}
+  .topbar span{font-size:.85rem;color:var(--mut)}
+  .topbar .crumb{margin-left:auto;font-size:.8rem;color:var(--mut);border:1px solid var(--line);padding:6px 12px;border-radius:99px}
+
+  .hero{padding:56px 0 8px}
+  .hero .kick{color:var(--or2);font-weight:700;font-size:.8rem;letter-spacing:.22em;text-transform:uppercase}
+  .hero h2{font-family:"Montserrat",sans-serif;font-size:clamp(2rem,4.6vw,3.4rem);font-weight:800;line-height:1.12;margin:14px 0 16px;max-width:22ch}
+  .hero h2 em{font-style:normal;color:var(--or)}
+  .hero p{max-width:68ch;color:var(--mut);font-size:1.05rem}
+
+  .diag{padding:44px 0 8px}
+  .sec-label{display:flex;align-items:center;gap:12px;font-size:.8rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);margin-bottom:22px}
+  .sec-label::after{content:"";flex:1;height:1px;background:var(--line)}
+  .diag-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .diag-card{background:var(--s1);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:flex;gap:14px}
+  .diag-card .n{flex:none;width:26px;height:26px;border-radius:8px;background:rgba(248,113,113,.14);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800}
+  .diag-card h4{font-size:.98rem;margin-bottom:4px}
+  .diag-card p{font-size:.85rem;color:var(--mut);line-height:1.55}
+
+  .concepts{padding:48px 0 10px}
+  .c-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px}
+  .c-card{background:var(--s1);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:.25s}
+  .c-card:hover{border-color:var(--line2);transform:translateY(-3px)}
+  .c-shot{height:190px;position:relative;overflow:hidden}
+  .c-shot .mock{position:absolute;inset:0}
+  .c-body{padding:24px}
+  .c-tag{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:99px;display:inline-block;margin-bottom:12px}
+  .c-card h3{font-family:"Montserrat",sans-serif;font-size:1.35rem;margin-bottom:8px}
+  .c-card>p{font-size:.9rem;color:var(--mut);margin-bottom:16px}
+  .c-feats{list-style:none;margin-bottom:20px}
+  .c-feats li{font-size:.85rem;color:#c5cede;padding:5px 0 5px 22px;position:relative;border-bottom:1px dashed rgba(255,255,255,.06)}
+  .c-feats li:last-child{border-bottom:0}
+  .c-feats li::before{content:"→";position:absolute;left:0;color:var(--or)}
+  .c-open{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#ff8f00,#ff5100);color:#fff;text-decoration:none;font-weight:700;font-size:.92rem;padding:13px 20px;border-radius:12px}
+  .c-open.ghost{background:none;border:1px solid rgba(255,115,0,.5);color:#ffb26b}
+  .c-body .row{display:flex;gap:10px;margin-top:auto}
+  .c-body .row .c-open{flex:1}
+
+  .prin{padding:48px 0}
+  .p-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .p-card{border:1px solid var(--line);border-radius:14px;padding:18px;background:rgba(255,255,255,.02)}
+  .p-card b{display:block;margin-bottom:6px;font-size:.95rem}
+  .p-card p{font-size:.84rem;color:var(--mut)}
+
+  .recommend{margin:10px 0 60px;background:linear-gradient(135deg,rgba(255,115,0,.12),rgba(255,115,0,.03));border:1px solid rgba(255,115,0,.35);border-radius:var(--r);padding:28px}
+  .recommend h3{font-family:"Montserrat",sans-serif;font-size:1.3rem;margin-bottom:10px}
+  .recommend p{color:#d7deea;font-size:.95rem;max-width:76ch}
+  .recommend .steps{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .recommend .steps span{font-size:.8rem;color:#ffc78f;border:1px solid rgba(255,115,0,.3);background:rgba(0,0,0,.25);padding:7px 13px;border-radius:99px}
+  footer{border-top:1px solid var(--line);padding:22px 0 60px;color:var(--mut);font-size:.82rem}
+
+  /* мини-моки в карточках концептов */
+  .mock-a{background:#f6f3ec;display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:14px}
+  .mock-a .big{background:#fff;border:1px solid #e7e2d6;border-radius:10px;padding:10px}
+  .mock-a .big i{display:block;height:56px;border-radius:6px;background:linear-gradient(120deg,#d9d2c2,#efe9db);margin-bottom:8px}
+  .mock-a .big b{display:block;height:9px;width:80%;background:#2a2f38;border-radius:3px;margin-bottom:5px}
+  .mock-a .big u{display:block;height:6px;width:60%;background:#c8c0ac;border-radius:3px}
+  .mock-a .col{display:grid;gap:8px}
+  .mock-a .col div{background:#fff;border:1px solid #e7e2d6;border-radius:10px;padding:8px}
+  .mock-a .col i{display:block;height:7px;width:70%;background:#2a2f38;border-radius:3px;margin-bottom:5px}
+  .mock-a .col u{display:block;height:5px;width:90%;background:#cfc8b6;border-radius:3px}
+  .mock-b{background:#0a0e16;display:grid;grid-template-rows:auto 1fr;gap:8px;padding:14px}
+  .mock-b .chips{display:flex;gap:5px}
+  .mock-b .chips i{width:52px;height:14px;border-radius:99px;background:rgba(255,255,255,.09)}
+  .mock-b .chips i:first-child{background:#ff7300}
+  .mock-b .row2{display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:8px}
+  .mock-b .row2 div{background:#121a2b;border:1px solid var(--line);border-radius:10px;position:relative;overflow:hidden}
+  .mock-b .row2 div::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+  .mock-b .row2 div:nth-child(1)::before{background:#ff7300}
+  .mock-b .row2 div:nth-child(2)::before{background:#38bdf8}
+  .mock-b .row2 div:nth-child(3)::before{background:#34d399}
+  .mock-c{background:#f1f2f4;display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:8px;padding:14px}
+  .mock-c div{background:#fff;border-radius:12px}
+  .mock-c div:nth-child(1){grid-row:span 2;background:linear-gradient(140deg,#14181f,#2a3242)}
+  .mock-c div:nth-child(2){background:#ff7300}
+  .mock-c div:nth-child(3){background:#fff}
+  .mock-c div:nth-child(4){background:#14181f}
+  .mock-c div:nth-child(5){background:#fff}
+
+  .notice{margin-top:14px;font-size:.78rem;color:var(--mut)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="m-mark">PREVIEW</span>
+    <img src="../assets/logo.png" alt="ПГ">
+    <div>
+      <h1>Редизайн блога — варианты оформления</h1>
+      <span>Раздел /blog · главная страница блога + страницы 20 статей</span>
+    </div>
+    <span class="crumb">Ничего не изменено на сайте — только макеты</span>
+  </div>
+
+  <section class="hero">
+    <span class="kick">Бриф</span>
+    <h2>Сейчас блог — это <em>сплошная тёмная стена</em>, которую не хочется читать. Вот три способа это исправить.</h2>
+    <p>Текущая версия: 20 одинаковых тёмных карточек без иерархии и фильтров + статьи «простынёй» светло-серым текстом на почти чёрном фоне. Ниже — разбор проблем и три концепта в виде интерактивных превью на реальном контенте (переключатель «Обложка блога / Статья» внутри каждого превью).</p>
+  </section>
+
+  <section class="diag">
+    <div class="sec-label">Диагноз: что именно «сливается» сейчас</div>
+    <div class="diag-grid">
+      <div class="diag-card"><span class="n">1</span><div><h4>Нет иерархии на обложке</h4><p>20 одинаковых карточек одной сеткой. Нет избранной статьи, групп, «ведущих» материалов — глазу не за что зацепиться.</p></div></div>
+      <div class="diag-card"><span class="n">2</span><div><h4>Рубрики не работают</h4><p>12 рубрик (Советы, Локальное, Кейс…) есть только в виде бирки на карточке. Фильтрации и разделения по темам нет, порядок статей случайный (даты вразнобой).</p></div></div>
+      <div class="diag-card"><span class="n">3</span><div><h4>Текст статьи — «простыня»</h4><p>Светло-серый (#cbd5e1) на почти чёрном (#07090e), одинаковые абзацы без якорных точек: нет содержания, выводов, цитат, таблиц, шагов.</p></div></div>
+      <div class="diag-card"><span class="n">4</span><div><h4>Все плашки одинаковые</h4><p>«Совет», «Важно», «Пример», блок услуг и CTA — все тёмно-синие с оранжевой каёмкой. Читатель не различает их смысл, просто пролистывает.</p></div></div>
+      <div class="diag-card"><span class="n">5</span><div><h4>Эмодзи вместо системы</h4><p>📅 ⏱ 👁 в мета-строках выглядят случайно и дёшево на фоне «премиальных» стилей сайта.</p></div></div>
+      <div class="diag-card"><span class="n">6</span><div><h4>Шум от плашек «ИИ»</h4><p>Чёрная бирка «Изображение сгенерировано ИИ» на каждой карточке спорит с заголовком. Дисклеймер нужен, но аккуратный.</p></div></div>
+      <div class="diag-card"><span class="n">7</span><div><h4>Нет навигации по статье</h4><p>Нет «Содержания», прогресса чтения, резюме «коротко». В статье на 8–10 минут без оглавления читатель теряется.</p></div></div>
+      <div class="diag-card"><span class="n">8</span><div><h4>Нет автора и связанных статей</h4><p>Пустой конец статьи: после «Итога» — тупик. Нужны автор, блок «Читайте также», нормальные prev/next.</p></div></div>
+    </div>
+  </section>
+
+  <section class="concepts">
+    <div class="sec-label">Три концепта — откройте и сравните</div>
+    <div class="c-grid">
+
+      <div class="c-card">
+        <div class="c-shot"><div class="mock mock-a"><div class="big"><i></i><b></b><u></u></div><div class="col"><div><i></i><u></u></div><div><i></i><u></u></div><div><i></i><u></u></div></div></div></div>
+        <div class="c-body">
+          <span class="c-tag" style="background:rgba(224,100,0,.15);color:#ffab63">Концепт A · светлый</span>
+          <h3>«Экспертный журнал»</h3>
+          <p>Блог-подраздел живёт в светлой «бумажной» теме: максимальная читабельность текста, журнальная типографика с засечками, редакционная подача.</p>
+          <ul class="c-feats">
+            <li>Обложка: избранная статья + нумерованная сетка, фильтры рубрик с счётчиками</li>
+            <li>Статья: белый лист 700px, «Коротко за 30 секунд», содержание справа</li>
+            <li>Цитаты, советы, таблицы цен, шаги — у каждого свой цветовой код</li>
+            <li>Автор, «Читайте также», тёмный CTA-блок в конце</li>
+          </ul>
+          <div class="row">
+            <a class="c-open" href="concept-a-journal.html">Открыть превью →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="c-card">
+        <div class="c-shot"><div class="mock mock-b"><div class="chips"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="row2"><div></div><div></div><div></div></div></div></div>
+        <div class="c-body">
+          <span class="c-tag" style="background:rgba(96,165,250,.14);color:#93c5fd">Концепт B · тёмный</span>
+          <h3>«Тёмный премиум 2.0»</h3>
+          <p>Бренд остаётся тёмным, но появляется структура: рубрики с цветовым кодом, секции-подборки, сайдбар с содержанием и прогресс чтения.</p>
+          <ul class="c-feats">
+            <li>Обложка: липкая панель фильтров, «Выбор редакции», секции «Свежее», «Городские гайды», «Инструкции»</li>
+            <li>Статья: прогресс-бар, оглавление слева от текста, гостевые номера разделов</li>
+            <li>Колор-код рубрик и типов блоков: совет / важно / пример / цитата</li>
+            <li>Минимум изменений в шапке и подвале сайта</li>
+          </ul>
+          <div class="row">
+            <a class="c-open" href="concept-b-dark.html">Открыть превью →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="c-card">
+        <div class="c-shot"><div class="mock mock-c"><div></div><div></div><div></div><div></div><div></div></div></div>
+        <div class="c-body">
+          <span class="c-tag" style="background:rgba(52,211,153,.13);color:#6ee7b7">Концепт C · смелый</span>
+          <h3>«Bento + Medium»</h3>
+          <p>Современная мозаика-плитка на обложке и минималистичная статья в стиле Medium: огромный заголовок, липкая шаринг-панель, выводы в начале.</p>
+          <ul class="c-feats">
+            <li>Обложка: bento-сетка — крупная плитка, «Популярное» топ-5, плитки-цифры</li>
+            <li>Статья: колонка 680px по центру, «В двух словах» перед текстом</li>
+            <li>FAQ-аккордеон, чек-листы, шаринг и прогресс на левом рейле</li>
+            <li>Самый «немассовый» вид — выделяется среди конкурентов</li>
+          </ul>
+          <div class="row">
+            <a class="c-open" href="concept-c-bento.html">Открыть превью →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="prin">
+    <div class="sec-label">Общие правила — вошли во все три концепта</div>
+    <div class="p-grid">
+      <div class="p-card"><b>Иерархия вместо стены</b><p>1 избранная статья → свежие → тематические подборки. Порядок — по дате, от новых к старым.</p></div>
+      <div class="p-card"><b>Читабельный текст</b><p>Контраст ≥ AA, 17–19px, длина строки 60–75 символов, ритм между блоками.</p></div>
+      <div class="p-card"><b>Сканируемость</b><p>Содержание с якорями, резюме «коротко», ключевые цифры вынесены из текста.</p></div>
+      <div class="p-card"><b>Кодировка смысла цветом</b><p>Совет = зелёный, Важно = янтарный, Пример = синий, Цитата = курсив с кавычкой. Не «всё оранжевое».</p></div>
+      <div class="p-card"><b>Без эмодзи в мета</b><p>Дата, время чтения и просмотры — аккуратными SVG-иконками или текстом.</p></div>
+      <div class="p-card"><b>AI-дисклеймер</b><p>Остаётся (требование прозрачности), но в виде мелкой подписи под фото в статье, без чёрных плашек на обложке.</p></div>
+      <div class="p-card"><b>Конец статьи = новый вход</b><p>Автор/редакция, «Читайте также», prev/next, CTA с фиксированной ценой или звонком.</p></div>
+      <div class="p-card"><b>SEO не трогаем</b><p>URL, заголовки H1–H3, schema.org разметка и внутренние ссылки сохраняются полностью.</p></div>
+    </div>
+  </section>
+
+  <div class="recommend">
+    <h3>Рекомендация</h3>
+    <p>Для читабельности статей лучше всего работает <b>Концепт A</b> (светлая статья — это стандарт экспертных блогов). Если важно не уходить от тёмного бренда сайта — <b>Концепт B</b> как компромисс: тёмный каркас, но со структурой и контрастом. Концепты можно смешать, например: <b>обложка из B + статья из A</b> — оба превью уже сверстаны в этом духе и совместимы.</p>
+    <div class="steps">
+      <span>1. Смотрите превью</span>
+      <span>2. Выбираете концепт или микс</span>
+      <span>3. После вашего «ок» внедряю на всех 21 страницах</span>
+    </div>
+  </div>
+
+  <footer>
+    Превью-файлы лежат в <code>/blog-redesign-preview/</code> и не влияют на боевой сайт. Реальные стили блога (css/13-blog.css) и страницы blog/*.html не изменены.
+  </footer>
+</div>
+</body>
+</html>
