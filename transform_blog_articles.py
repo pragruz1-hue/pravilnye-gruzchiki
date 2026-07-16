@@ -122,7 +122,7 @@ def main():
         slug = f[len(BLOG)+1:-5]
         h = open(f, encoding="utf-8").read()
 
-        if 'class="railzone"' in h:
+        if 'class="railzone container"' in h:
             skipped.append(slug); continue
 
         tag_lat, tag_ru, img, date_s, mins = DATA[slug]
@@ -170,7 +170,7 @@ def main():
 
         # TLDR
         tldr_links = "\n".join(
-            f'          <li><a href="#s{n}">{t}</a></li>' for n, t in h2_items[:5])
+            f'          <li><a href="#s{n}">{t}</a></li>' for n, t in h2_items)
         tldr = ""
         if h2_items:
             tldr = f'''
