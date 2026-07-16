@@ -14,7 +14,7 @@ import { initPhoneMasks, initFormsAntiSpam, initCookieBanner } from "./modules/f
 import { initOrderModal, initReviewModal, initExitIntentPopup } from "./modules/modals.js";
 import { initFaqAccordion } from "./modules/faq.js";
 import { initCargoCalculator } from "./modules/cargo.js";
-import { renderReviews } from "./modules/reviews.js";
+import { renderReviews, initReviewsCarouselControls } from "./modules/reviews.js";
 import { initApplicationAvailability } from "./modules/availability.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2.5. Reviews carousel (city-specific; also listens to cityChanged)
   const cityCode = localStorage.getItem("selected_city") || "krasnodar";
   renderReviews(cityCode);
+  initReviewsCarouselControls();
 
   // 3. Forms & phone masks
   initPhoneMasks();

@@ -230,10 +230,8 @@ export function renderReviews(cityCode) {
   const reviews = REVIEWS_DB[cityCode] || REVIEWS_DB["default"];
   container.innerHTML = "";
 
-  // Дублируем ленту для бесшовной CSS-карусели
-  const allReviews = [...reviews, ...reviews];
-
-  allReviews.forEach((review) => {
+  // Одна лента (без дублей) — удобнее листать вручную
+  reviews.forEach((review) => {
     const card = document.createElement("div");
     card.className = "review-card";
     const avatarPath = review.avatar || "assets/avatar-male.webp";
@@ -258,10 +256,206 @@ export function renderReviews(cityCode) {
     container.appendChild(card);
   });
 
-  // Длина анимации зависит от числа уникальных карточек (половина трека)
   const uniqueCount = reviews.length || 4;
   container.style.setProperty("--reviews-count", String(uniqueCount));
   container.style.animationDuration = `${Math.max(40, uniqueCount * 5)}s`;
+
+  // После перерисовки — переинициализировать управление
+  initReviewsCarouselControls();
+}
+
+/**
+ * Ручное листание отзывов: кнопки, drag, wheel, keyboard, touch.
+ * Автопрокрутка CSS остаётся, но отключается при взаимодействии.
+ */
+let reviewsControlsBound = false;
+
+export function initReviewsCarouselControls() {
+  const wrapper = document.querySelector(".reviews-carousel-wrapper");
+  const track = document.querySelector(".reviews-carousel-track");
+  if (!wrapper || !track) return;
+
+  let scroller = wrapper.querySelector(".reviews-carousel-scroller");
+  // Fallback: если scroller не в HTML — создаём обёртку на лету
+  if (!scroller) {
+    scroller = document.createElement("div");
+    scroller.className = "reviews-carousel-scroller";
+    scroller.tabIndex = 0;
+    scroller.setAttribute(
+      "aria-label",
+      "Лента отзывов — листайте стрелками, свайпом или перетаскиванием"
+    );
+    track.parentNode.insertBefore(scroller, track);
+    scroller.appendChild(track);
+  }
+
+  // Кнопки
+  let prevBtn = wrapper.querySelector(".reviews-prev");
+  let nextBtn = wrapper.querySelector(".reviews-next");
+  if (!prevBtn || !nextBtn) {
+    let nav = wrapper.querySelector(".reviews-nav");
+    if (!nav) {
+      nav = document.createElement("div");
+      nav.className = "reviews-nav";
+      nav.setAttribute("aria-label", "Листать отзывы");
+      nav.innerHTML = `
+        <button type="button" class="reviews-nav-btn reviews-prev" aria-label="Предыдущие отзывы">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button type="button" class="reviews-nav-btn reviews-next" aria-label="Следующие отзывы">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+        </button>`;
+      wrapper.insertBefore(nav, scroller);
+    }
+    prevBtn = wrapper.querySelector(".reviews-prev");
+    nextBtn = wrapper.querySelector(".reviews-next");
+  }
+
+  // Без CSS-автоплея на ручном скроллере (transform animation конфликтует)
+  track.classList.remove("is-autoplay");
+  wrapper.classList.add("is-user-control");
+
+  const getStep = () => {
+    const card = track.querySelector(".review-card");
+    if (!card) return Math.max(280, scroller.clientWidth * 0.8);
+    const styles = window.getComputedStyle(track);
+    const gap = parseFloat(styles.columnGap || styles.gap || "24") || 24;
+    return card.getBoundingClientRect().width + gap;
+  };
+
+  const maxScroll = () => Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+
+  const updateButtons = () => {
+    const max = maxScroll();
+    const x = scroller.scrollLeft;
+    if (prevBtn) prevBtn.disabled = x <= 2;
+    if (nextBtn) nextBtn.disabled = x >= max - 2;
+  };
+
+  const scrollByCards = (dir) => {
+    scroller.scrollBy({ left: dir * getStep(), behavior: "smooth" });
+  };
+
+  // Avoid double-binding on re-render: use AbortController stored on wrapper
+  if (wrapper._reviewsAbort) {
+    wrapper._reviewsAbort.abort();
+  }
+  const ac = new AbortController();
+  wrapper._reviewsAbort = ac;
+  const opts = { signal: ac.signal };
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => scrollByCards(-1), opts);
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => scrollByCards(1), opts);
+  }
+
+  scroller.addEventListener("scroll", updateButtons, { passive: true, signal: ac.signal });
+
+  // Keyboard when scroller focused
+  scroller.addEventListener(
+    "keydown",
+    (e) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        scrollByCards(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        scrollByCards(1);
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        scroller.scrollTo({ left: 0, behavior: "smooth" });
+      } else if (e.key === "End") {
+        e.preventDefault();
+        scroller.scrollTo({ left: maxScroll(), behavior: "smooth" });
+      }
+    },
+    opts
+  );
+
+  // Horizontal wheel / trackpad
+  scroller.addEventListener(
+    "wheel",
+    (e) => {
+      // Prefer horizontal; convert vertical wheel to horizontal when over carousel
+      const absX = Math.abs(e.deltaX);
+      const absY = Math.abs(e.deltaY);
+      if (absX > absY) return; // native horizontal
+      if (absY < 2) return;
+      // only hijack if can scroll in that direction
+      const max = maxScroll();
+      const atStart = scroller.scrollLeft <= 0;
+      const atEnd = scroller.scrollLeft >= max - 1;
+      if ((e.deltaY < 0 && atStart) || (e.deltaY > 0 && atEnd)) return;
+      e.preventDefault();
+      scroller.scrollBy({ left: e.deltaY, behavior: "auto" });
+    },
+    { passive: false, signal: ac.signal }
+  );
+
+  // Pointer drag-to-scroll (mouse / pen; touch uses native)
+  let dragging = false;
+  let startX = 0;
+  let startScroll = 0;
+  let moved = false;
+
+  scroller.addEventListener(
+    "pointerdown",
+    (e) => {
+      if (e.pointerType === "touch") return; // native swipe
+      if (e.button !== 0) return;
+      dragging = true;
+      moved = false;
+      startX = e.clientX;
+      startScroll = scroller.scrollLeft;
+      scroller.classList.add("is-dragging");
+      try {
+        scroller.setPointerCapture(e.pointerId);
+      } catch (_) {}
+    },
+    opts
+  );
+
+  scroller.addEventListener(
+    "pointermove",
+    (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 3) moved = true;
+      scroller.scrollLeft = startScroll - dx;
+    },
+    opts
+  );
+
+  const endDrag = (e) => {
+    if (!dragging) return;
+    dragging = false;
+    scroller.classList.remove("is-dragging");
+    try {
+      scroller.releasePointerCapture(e.pointerId);
+    } catch (_) {}
+  };
+  scroller.addEventListener("pointerup", endDrag, opts);
+  scroller.addEventListener("pointercancel", endDrag, opts);
+
+  // Prevent click-through after drag
+  scroller.addEventListener(
+    "click",
+    (e) => {
+      if (moved) {
+        e.preventDefault();
+        e.stopPropagation();
+        moved = false;
+      }
+    },
+    { capture: true, signal: ac.signal }
+  );
+
+  updateButtons();
+  // After images load, recompute
+  requestAnimationFrame(updateButtons);
+  window.addEventListener("resize", updateButtons, opts);
 }
 
 // Re-render reviews when city changes

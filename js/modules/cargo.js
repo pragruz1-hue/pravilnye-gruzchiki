@@ -9,8 +9,8 @@ export function initCargoCalculator() {
   if (!cargoRoot) return;
 
   const vehicles = {
-    gazel3: { name: "Газель 3 м", length: 300, width: 190, height: 180, volume: 10.3, weight: 1500, price: "от 2 000 ₽/час" },
-    gazel42: { name: "Газель 4.2 м", length: 420, width: 200, height: 210, volume: 17.6, weight: 2000, price: "от 2 500 ₽/час" },
+    gazel3: { name: "Газель 3 м", length: 300, width: 190, height: 180, volume: 10.3, weight: 1500, price: "от 1 800 ₽/час" },
+    gazel42: { name: "Газель 4.2 м", length: 420, width: 200, height: 210, volume: 17.6, weight: 2000, price: "от 2 000 ₽/час" },
     truck5: { name: "Фургон 5 м", length: 500, width: 210, height: 210, volume: 22.1, weight: 2500, price: "индивидуально" },
     truck6: { name: "Машина 6 м", length: 600, width: 220, height: 210, volume: 27.7, weight: 3000, price: "индивидуально" },
   };

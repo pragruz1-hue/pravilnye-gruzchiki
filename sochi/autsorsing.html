@@ -1,20 +1,20 @@
 <!doctype html>
 <html lang="ru">
   <head>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="120x120" href="../assets/favicon-120.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#07090e" />
-<link rel="icon" type="image/x-icon" href="../assets/logo.png" />
-<link rel="apple-touch-icon" href="../assets/logo.png" />
-
-
 <!-- Preload critical assets -->
 <link rel="preload" as="style" href="../css/style.css">
 <link rel="modulepreload" href="../js/app.js">
 <link rel="preload" as="image" href="../assets/logo.png">
 
 <link rel="stylesheet" href="../css/style.css" />
-
 
     <title>Аутсорсинг персонала в Сочи, Адлере и Сириусе</title>
     <meta name="description" content="Аутсорсинг персонала в Сочи, Адлере и Сириусе. Заказ грузчиков, разнорабочих, переездов и транспорта по единому номеру +7 (928) 333-32-81. Предварительный…" />
@@ -27,6 +27,9 @@
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:type" content="website" />
     <link rel="canonical" href="https://pragruz.ru/sochi/autsorsing.html" />
+    <link rel="alternate" hreflang="ru" href="https://pragruz.ru/sochi/autsorsing.html" />
+    <link rel="alternate" hreflang="x-default" href="https://pragruz.ru/" />
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -142,69 +145,7 @@
   ]
 }
 </script>
-    <link rel="alternate" hreflang="x-default" href="https://pragruz.ru/" />
-    <link rel="alternate" hreflang="ru-RU" href="https://pragruz.ru/krasnodar/" />
-    <link rel="alternate" hreflang="ru-RU" href="https://pragruz.ru/anapa/" />
-    <link rel="alternate" hreflang="ru-RU" href="https://pragruz.ru/sochi/" />
-    <link rel="alternate" hreflang="ru-RU" href="https://pragruz.ru/novorossiysk/" />
-    <link rel="alternate" hreflang="ru-RU" href="https://pragruz.ru/gelendzhik/" />
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Reviews",
-      "itemReviewed": {
-        "@type": "LocalBusiness",
-        "name": "Правильные Грузчики — Сочи",
-        "telephone": "+79283333281",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Сочи",
-          "addressRegion": "Краснодарский край",
-          "addressCountry": "RU"
-        }
-      },
-      "reviewRating": {
-        "@type": "Rating",
-        "ratingValue": "5",
-        "bestRating": "5"
-      },
-      "review": [
-        {
-          "@type": "Review",
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
-          "author": { "@type": "Person", "name": "Михаил" },
-          "reviewBody": "Отличные ребята! Переехали за один день, всё аккуратно упаковали и перенесли. Рекомендую!",
-          "datePublished": "2026-05-15"
-        },
-        {
-          "@type": "Review",
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
-          "author": { "@type": "Person", "name": "Елена" },
-          "reviewBody": "Заказывали разгрузку фуры, приехали быстро, работали профессионально. Цена адекватная.",
-          "datePublished": "2026-04-22"
-        },
-        {
-          "@type": "Review",
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
-          "author": { "@type": "Person", "name": "Алексей" },
-          "reviewBody": "Офисный переезд за выходные — идеально! Всё было готово к понедельнику.",
-          "datePublished": "2026-03-10"
-        }
-      ]
-    }
-    </script>
+
 </head>
 
 <body data-page="city">
@@ -222,11 +163,11 @@
       <div class="city-selector-wrap"><button class="city-selector-btn" id="current-selected-city" type="button" aria-label="Выбрать город"><span class="city-icon-pin">📍</span><span class="city-selector-current" id="city-btn-text">Сочи</span><span class="city-selector-arrow">▼</span></button><div class="city-dropdown" id="city-dropdown-menu"><div class="city-dropdown-list">
         <button type="button" class="city-item" data-city="krasnodar">Краснодар</button><button type="button" class="city-item" data-city="anapa">Анапа</button><button type="button" class="city-item" data-city="novorossiysk">Новороссийск</button><button type="button" class="city-item" data-city="sochi">Сочи / Адлер / Сириус</button><button type="button" class="city-item" data-city="gelendzhik">Геленджик</button>
       </div></div><div class="city-confirm-banner" id="city-confirm-banner"><p>Ваш город — <strong id="detected-city-name">Сочи</strong>?</p><div class="city-confirm-btns"><button type="button" class="btn btn-primary btn-sm" id="btn-city-confirm-yes">Да, верно</button><button type="button" class="btn btn-secondary btn-sm" id="btn-city-confirm-no">Другой</button></div></div></div>
-      <div class="header-phone-box"><a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a><span class="work-hours-badge">Круглосуточно 24/7</span></div><a href="../index.html#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn">Заказать звонок</a><button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню" type="button"><span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span></button>
+      <div class="header-phone-box"><a href="tel:+79283333281" class="phone-link" id="header-phone">+7 (928) 333-32-81</a><span class="work-hours-badge">Звонки 8:00–20:00 · работы 24/7</span></div><a href="../index.html#order-form-section" class="btn btn-primary btn-sm header-cta" id="header-cta-btn">Заказать звонок</a><button class="burger-menu-btn" id="burger-btn" aria-label="Открыть меню" type="button"><span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span></button>
     </div>
   </div>
 </header>
-<div class="mobile-nav-overlay" id="mobile-menu-overlay"><div class="mobile-nav-content"><button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню"><span></span><span></span></button><ul class="mobile-nav-links"><li><a href="../index.html" class="mobile-link">Главная</a></li><li><a href="../about.html" class="mobile-link">О нас</a></li><li><a href="../index.html#services" class="mobile-link">Услуги</a></li><li><a href="../mezhdugorodnie-pereezdy.html" class="mobile-link">Междугородние</a></li><li><a href="../index.html#reviews" class="mobile-link">Отзывы</a></li><li><a href="../index.html#faq" class="mobile-link">Вопросы</a></li><li><a href="../blog/" class="mobile-link">Блог</a></li></ul><div class="mobile-nav-footer"><a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 333-32-81</a><p class="mobile-hours">Прием заказов 24/7</p><a href="../index.html#order-form-section" class="btn btn-primary" id="mobile-menu-cta">Быстрый заказ</a></div></div></div>
+<div class="mobile-nav-overlay" id="mobile-menu-overlay"><div class="mobile-nav-content"><button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Закрыть меню"><span></span><span></span></button><ul class="mobile-nav-links"><li><a href="../index.html" class="mobile-link">Главная</a></li><li><a href="../about.html" class="mobile-link">О нас</a></li><li><a href="../index.html#services" class="mobile-link">Услуги</a></li><li><a href="../mezhdugorodnie-pereezdy.html" class="mobile-link">Междугородние</a></li><li><a href="../index.html#reviews" class="mobile-link">Отзывы</a></li><li><a href="../index.html#faq" class="mobile-link">Вопросы</a></li><li><a href="../blog/" class="mobile-link">Блог</a></li></ul><div class="mobile-nav-footer"><a href="tel:+79283333281" class="mobile-phone-link">+7 (928) 333-32-81</a><p class="mobile-hours">Звонки 8:00–20:00 · работы 24/7</p><a href="../index.html#order-form-section" class="btn btn-primary" id="mobile-menu-cta">Быстрый заказ</a></div></div></div>
 <main id="main">
     <!-- Background Glow FX -->
     <div class="glow-bg">
@@ -786,7 +727,6 @@
       </section>
     
 
-
 <section class="price-table-section" id="prices">
   <div class="container">
     <div class="city-local-header">
@@ -851,21 +791,23 @@
   </div>
 </section>
 
-    <section class="internal-links-section" aria-labelledby="internal-links-sochi-autsorsing" style="padding:2.5rem 0;background:#f8f9fa">
+    <section class="internal-links-section" aria-labelledby="internal-links-sochi-autsorsing">
       <div class="container">
-        <h2 id="internal-links-sochi-autsorsing" style="font-size:1.5rem;margin-bottom:1rem;color:#1a1a2e">Похожие услуги в Сочи, Адлере и Сириусе</h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0.75rem">
-          <a href="index.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Все услуги в Сочи, Адлере и Сириусе</a>
-          <a href="gruzchiki-na-smenu.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Грузчики на смену в Сочи, Адлере и Сириусе</a>
-          <a href="raznorabochie.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Разнорабочие в Сочи, Адлере и Сириусе</a>
-          <a href="raznorabochie-na-sklad.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Разнорабочие на склад в Сочи, Адлере и Сириусе</a>
-          <a href="raznorabochie-na-stroyku.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Разнорабочие на стройку в Сочи, Адлере и Сириусе</a>
-          <a href="loaders.html" class="internal-link-card" style="display:block;padding:0.75rem 1rem;background:#fff;border-radius:8px;text-decoration:none;color:#1a1a2e;font-weight:500;border:1px solid #e0e0e0;transition:border-color 0.2s">Грузчики в Сочи, Адлере и Сириусе</a>
+        <div class="internal-links-header">
+          <span class="sub-title-gradient">Навигация</span>
+          <h2 class="section-title" id="internal-links-sochi-autsorsing">Похожие услуги в Сочи, Адлере и Сириусе</h2>
+          <p class="section-desc">Смежные услуги и направления — откройте нужный раздел в один клик.</p>
         </div>
-        <h3 style="font-size:1.25rem;margin:1.5rem 0 0.75rem;color:#1a1a2e">Аутсорсинг персонала в других городах</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0.75rem">
-
+<div class="internal-links-grid">
+<a href="index.html" class="internal-link-card">Все услуги в Сочи, Адлере и Сириусе</a>
+          <a href="gruzchiki-na-smenu.html" class="internal-link-card">Грузчики на смену в Сочи, Адлере и Сириусе</a>
+          <a href="raznorabochie.html" class="internal-link-card">Разнорабочие в Сочи, Адлере и Сириусе</a>
+          <a href="raznorabochie-na-sklad.html" class="internal-link-card">Разнорабочие на склад в Сочи, Адлере и Сириусе</a>
+          <a href="raznorabochie-na-stroyku.html" class="internal-link-card">Разнорабочие на стройку в Сочи, Адлере и Сириусе</a>
+          <a href="loaders.html" class="internal-link-card">Грузчики в Сочи, Адлере и Сириусе</a>
         </div>
+        
+        
       </div>
     </section>
 
@@ -877,24 +819,32 @@
             <a href="../krasnodar/" class="city-link-card">
               <span class="city-link-name">Краснодар</span>
               <span class="city-link-desc">Грузчики и переезды в Краснодаре от 800 ₽/час</span>
+            
+              <span class="city-link-more">Смотреть →</span>
             </a>
             <a href="../anapa/" class="city-link-card">
               <span class="city-link-name">Анапа</span>
               <span class="city-link-desc">Грузчики и переезды в Анапе и районе</span>
+            
+              <span class="city-link-more">Смотреть →</span>
             </a>
             <a href="../novorossiysk/" class="city-link-card">
               <span class="city-link-name">Новороссийск</span>
               <span class="city-link-desc">Грузчики и переезды в Новороссийске</span>
+            
+              <span class="city-link-more">Смотреть →</span>
             </a>
             <a href="../gelendzhik/" class="city-link-card">
               <span class="city-link-name">Геленджик</span>
               <span class="city-link-desc">Грузчики и переезды в Геленджике</span>
+            
+              <span class="city-link-more">Смотреть →</span>
             </a>
               </div>
             </div>
           </section>
     </main>
-<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="../index.html" class="logo-area"><img src="../assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64"><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="loaders.html">Услуги грузчиков</a></li><li><a href="raznorabochie.html">Разнорабочие</a></li><li><a href="kvartirnyj-pereezd.html">Квартирный переезд</a></li><li><a href="ofisnyj-pereezd.html">Офисный переезд</a></li><li><a href="rigging.html">Такелажные работы</a></li><li><a href="furniture.html">Сборка мебели</a></li><li><a href="../gruzoperevozki.html">Грузоперевозки</a></li><li><a href="../mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li></ul></div><div class="footer-col"><h4>Для бизнеса</h4><ul class="footer-links"><li><a href="autsorsing.html">Аутсорсинг персонала</a></li><li><a href="gruzchiki-na-smenu.html">Грузчики на смену</a></li><li><a href="raznorabochie.html">Разнорабочие</a></li><li><a href="rigging.html">Такелаж</a></li><li><a href="arenda-gazeli-3m.html">Аренда Газели</a></li><li><a href="index.html#order-form-section">Работа с юрлицами / безнал</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</span></li><li><span class="f-contact-icon">✉️</span> info@pragruz.ru</li></ul><div class="social-links-stub"><a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a><a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div></footer>
+<footer class="site-footer"><div class="container footer-grid"><div class="footer-col brand-col"><a href="../index.html" class="logo-area"><img src="../assets/logo.png" alt="Правильные Грузчики" class="logo-icon-img u-logo-size" width="64" height="64"><div class="logo-text"><span class="logo-title">ПРАВИЛЬНЫЕ</span><span class="logo-subtitle">ГРУЗЧИКИ</span></div></a><p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p><span class="footer-copy">© 2014 - 2026 ООО «Правильные грузчики».<br />Все права защищены.</span></div><div class="footer-col"><h4>Услуги</h4><ul class="footer-links"><li><a href="loaders.html">Услуги грузчиков</a></li><li><a href="raznorabochie.html">Разнорабочие</a></li><li><a href="kvartirnyj-pereezd.html">Квартирный переезд</a></li><li><a href="ofisnyj-pereezd.html">Офисный переезд</a></li><li><a href="rigging.html">Такелажные работы</a></li><li><a href="furniture.html">Сборка мебели</a></li><li><a href="../gruzoperevozki.html">Грузоперевозки</a></li><li><a href="../mezhdugorodnie-pereezdy.html">Междугородние переезды</a></li></ul></div><div class="footer-col"><h4>Для бизнеса</h4><ul class="footer-links"><li><a href="autsorsing.html">Аутсорсинг персонала</a></li><li><a href="gruzchiki-na-smenu.html">Грузчики на смену</a></li><li><a href="raznorabochie.html">Разнорабочие</a></li><li><a href="rigging.html">Такелаж</a></li><li><a href="arenda-gazeli-3m.html">Аренда Газели</a></li><li><a href="index.html#order-form-section">Работа с юрлицами / безнал</a></li></ul></div><div class="footer-col contact-col"><h4>Контакты</h4><ul class="footer-contacts"><li><span class="f-contact-icon">📞</span><a href="tel:+79283333281">+7 (928) 333-32-81</a></li><li><span class="f-contact-icon">📍</span><span class="city-address">354340, г. Сочи, Адлерский район, ул. Кирова, д. 58, офис 7</span></li></ul><div class="social-links-stub"><a class="social-icon" href="https://t.me/+79283333281" target="_blank" rel="noopener noreferrer">Telegram</a><a class="social-icon" href="https://wa.me/79283333281" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div></footer>
 <!-- ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== -->
 <div class="modal-overlay" id="order-modal">
   <div class="modal-box">

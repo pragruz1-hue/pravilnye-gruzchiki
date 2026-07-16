@@ -168,7 +168,7 @@
   #city-price-label { font-size: 0.8rem; padding: 8px 16px; margin: 15px auto 20px; }
 
   .review-card { flex: 0 0 min(300px, 85vw); }
-  .reviews-carousel-track { animation-duration: 28s; }
+  .reviews-carousel-track.is-autoplay { animation-duration: 28s; }
   @keyframes reviewsScroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(calc(-1 * min(300px, 85vw) * 4 - 24px * 4)); }
@@ -214,7 +214,7 @@
   .hero-live-dot { width: 6px; height: 6px; }
 
   .review-card { flex: 0 0 280px; padding: 20px; }
-  .reviews-carousel-track { animation-duration: 24s; }
+  .reviews-carousel-track.is-autoplay { animation-duration: 24s; }
   @keyframes reviewsScroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(calc(-280px * 4 - 24px * 4)); }
@@ -241,4 +241,19 @@
   .hero-live-item { gap: 6px; font-size: 0.75rem; }
   .hero-live-label { font-size: 0.75rem; }
   .hero-live-value { font-size: 0.8rem; }
+}
+
+
+/* Reviews manual nav — mobile */
+@media (max-width: 640px) {
+  .reviews-nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .review-card {
+    flex: 0 0 min(300px, 82vw);
+  }
+  .reviews-nav {
+    padding: 0 2px;
+  }
 }

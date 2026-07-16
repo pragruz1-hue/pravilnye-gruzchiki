@@ -741,11 +741,8 @@
   to { transform: rotate(360deg); }
 }
 
-/* ===== REVIEWS CAROUSEL PAUSE ON HOVER ===== */
-.reviews-carousel-track {
-  animation-play-state: running;
-}
-
-.reviews-carousel-wrapper:hover .reviews-carousel-track {
+/* ===== REVIEWS CAROUSEL ===== */
+/* Manual controls live in reviews.js; autoplay pauses on hover / interaction */
+.reviews-carousel-wrapper:hover .reviews-carousel-track.is-autoplay {
   animation-play-state: paused;
 }

@@ -107,7 +107,7 @@ export function initOrderModal() {
   document.querySelectorAll(".fleet-order-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const truckName = btn.getAttribute("data-truck") || "Газель";
-      let rate = truckName.includes("Удлиненная") ? 2500 : 2000;
+      let rate = truckName.includes("Удлиненная") || truckName.includes("удлинен") || truckName.includes("4.2") || truckName.includes("4,2") ? 2000 : 1800;
       openModal(`Аренда авто: ${truckName}`, `Аренда грузовика: ${truckName}. Минимальный заказ от 2 часов.`, rate * 2);
     });
   });
