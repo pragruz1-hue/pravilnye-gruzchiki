@@ -1,13 +1,8 @@
 /* =========================================================
    PROJECT-WIDE UNIFIED PATCH — legal notes, header, mobile UX
    ========================================================= */
-.main-header,
-.main-header.sticky {
-  background: #07090e !important;
-  background-color: #07090e !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+/* .main-header styles moved to 14-header-footer-glass.css */
+.main-header-glass-moved {}
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32) !important;
 }
 
@@ -133,48 +128,9 @@
   .u-logo-size { height: 52px; }
 }
 
-/* ===== Premium visual polish: header logo, compact stats, premium internal links ===== */
-/* Logo: «ГРУЗЧИКИ» same visual width as «ПРАВИЛЬНЫЕ», unified colors in header + footer */
-.logo-text {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  min-width: 132px;
-  width: max-content;
-}
-.logo-title {
-  display: block !important;
-  width: 100% !important;
-  font-weight: 900 !important;
-  font-size: 1.25rem !important;
-  letter-spacing: 0.01em !important;
-  color: #fff !important;
-  line-height: 1 !important;
-  white-space: nowrap !important;
-  text-align: left !important;
-}
-.logo-subtitle {
-  display: block !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-  font-weight: 900 !important;
-  font-size: 0.82rem !important;
-  letter-spacing: 0.205em !important;
-  color: #ff8f00 !important;
-  line-height: 1 !important;
-  margin-top: 4px !important;
-  white-space: nowrap !important;
-  text-align: justify !important;
-  text-align-last: justify !important;
-  text-shadow: 0 0 18px rgba(255, 115, 0, 0.28);
-  transform: none !important;
-}
-.desktop-nav ul {
-  gap: clamp(16px, 1.7vw, 28px);
-}
-.header-right {
-  gap: clamp(14px, 1.4vw, 22px);
-}
+/* Logo, nav, header-right styles moved to 14-header-footer-glass.css */
+.desktop-nav ul,
+.header-right { /* moved */ }
 
 .stats-section {
   padding: 48px 0 !important;
@@ -1366,17 +1322,7 @@ a.city-link-card:focus-visible .city-link-more {
 }
 
 /* Footer stacking: keep footer above preceding section glow/shadows */
-.site-footer {
-  position: relative;
-  z-index: 5;
-  isolation: isolate;
-  background-color: #040508;
-  margin-top: 0;
-  clear: both;
-}
-.site-footer::before {
-  content: none;
-}
+/* .site-footer styles moved to 14-header-footer-glass.css */
 
 /* ===== MOBILE SWIPE / OVERFLOW FIXES ===== */
 /* Utility: horizontal swipe strip used on narrow screens */
