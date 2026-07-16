@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react';
-import { Html, RoundedBox, TransformControls } from '@react-three/drei';
+import { Html, RoundedBox } from '@react-three/drei';
 import { ThreeEvent, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { CargoBox, LoadItem } from '../../types';
@@ -55,19 +55,7 @@ export const Pallet = React.memo(function Pallet(props: PalletProps) {
       )}
       {isSelected && (
         <>
-          <TransformControls object={itemRef as unknown as React.MutableRefObject<THREE.Object3D>} mode="translate" size={0.72} showY showX showZ />
-          <TransformControls
-            object={itemRef as unknown as React.MutableRefObject<THREE.Object3D>}
-            mode="rotate"
-            size={0.58}
-            showX={props.canLaySide}
-            showY
-            showZ={props.canLaySide}
-            onMouseUp={() => {
-              if (!itemRef.current) return;
-              onRotateCommit(id, [itemRef.current.rotation.x, itemRef.current.rotation.y, itemRef.current.rotation.z]);
-            }}
-          />
+          <GizmoHint height={cargoHeight} />
           <Html position={[0, cargoHeight + 0.08, 0]} center distanceFactor={8} className="pointer-events-none">
             <div className="rounded-2xl bg-slate-900/85 px-3 py-2 text-center text-xs font-black text-white shadow-xl">{name}<br />{Math.round(props.weight)} кг</div>
           </Html>
@@ -127,6 +115,41 @@ function ProceduralPallet({ length, width, material }: { length: number; width: 
 
 function SelectionBox({ dimensions, height, hasCollision }: { dimensions: LoadItem['dimensions']; height: number; hasCollision: boolean }) {
   return <lineSegments position={[0, height / 2, 0]}><edgesGeometry args={[new THREE.BoxGeometry(dimensions.length + 0.1, height + 0.1, dimensions.width + 0.1)]} /><lineBasicMaterial color={hasCollision ? '#ef4444' : '#ff6b00'} linewidth={2} /></lineSegments>;
+}
+
+function GizmoHint({ height }: { height: number }) {
+  return (
+    <group position={[0, height + 0.04, 0]}>
+      <mesh rotation={[0, 0, -Math.PI / 2]} position={[0.34, 0, 0]}>
+        <cylinderGeometry args={[0.018, 0.018, 0.68, 12]} />
+        <meshBasicMaterial color="#ef4444" />
+      </mesh>
+      <mesh position={[0.72, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+        <coneGeometry args={[0.06, 0.14, 16]} />
+        <meshBasicMaterial color="#ef4444" />
+      </mesh>
+      <mesh position={[0, 0.34, 0]}>
+        <cylinderGeometry args={[0.018, 0.018, 0.68, 12]} />
+        <meshBasicMaterial color="#10b981" />
+      </mesh>
+      <mesh position={[0, 0.72, 0]}>
+        <coneGeometry args={[0.06, 0.14, 16]} />
+        <meshBasicMaterial color="#10b981" />
+      </mesh>
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0.34]}>
+        <cylinderGeometry args={[0.018, 0.018, 0.68, 12]} />
+        <meshBasicMaterial color="#2563eb" />
+      </mesh>
+      <mesh position={[0, 0, 0.72]} rotation={[Math.PI / 2, 0, 0]}>
+        <coneGeometry args={[0.06, 0.14, 16]} />
+        <meshBasicMaterial color="#2563eb" />
+      </mesh>
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.48, 0.012, 8, 48]} />
+        <meshBasicMaterial color="#f59e0b" />
+      </mesh>
+    </group>
+  );
 }
 
 function layoutBoxes(boxes: CargoBox[], dimensions: LoadItem['dimensions']): Array<{ box: CargoBox; position: [number, number, number] }> {
