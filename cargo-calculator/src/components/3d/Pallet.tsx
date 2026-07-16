@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react';
-import { Html, TransformControls, useGLTF } from '@react-three/drei';
+import { Html, TransformControls } from '@react-three/drei';
 import { ThreeEvent, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { CargoBox, Pallet as PalletType } from '../../types';
@@ -32,28 +32,13 @@ export const Pallet = React.memo(function Pallet({
   onSelect,
   onRotateCommit
 }: PalletProps) {
-  const { scene } = useGLTF('/models/pallet.glb');
   const palletRef = useRef<THREE.Group>(null);
-  const clonedScene = useMemo(() => {
-    const clone = scene.clone(true);
-    const mat = material === 'wood'
-      ? createWoodMaterial()
-      : material === 'plasticBlue'
-        ? createPlasticMaterial('#2563eb')
-        : material === 'plasticGreen'
-          ? createPlasticMaterial('#10b981')
-          : new THREE.MeshStandardMaterial({ color: '#94a3b8', metalness: 0.8, roughness: 0.18 });
-    clone.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        child.material = mat;
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-    });
-    const scaleZ = type === 'FIN' ? 1.25 : type === 'STANDARD' ? 1.5 : 1;
-    clone.scale.set(1, 1, scaleZ);
-    return clone;
-  }, [material, scene, type]);
+  const palletMaterial = useMemo(() => {
+    if (material === 'wood') return createWoodMaterial();
+    if (material === 'plasticBlue') return createPlasticMaterial('#2563eb');
+    if (material === 'plasticGreen') return createPlasticMaterial('#10b981');
+    return new THREE.MeshStandardMaterial({ color: '#94a3b8', metalness: 0.8, roughness: 0.18 });
+  }, [material]);
   const wrapMaterial = useMemo(() => createStretchWrapMaterial(), []);
 
   useFrame((state) => {
@@ -77,19 +62,19 @@ export const Pallet = React.memo(function Pallet({
         onSelect(id);
       }}
     >
-      <primitive object={clonedScene} />
+      <ProceduralPallet length={dimensions.length} width={dimensions.width} material={palletMaterial} />
       {boxPositions.map(({ box, position: boxPosition }) => (
         <Box3D key={box.id} size={box.size} type={box.type} color={box.color} position={boxPosition} />
       ))}
       {wrapped && (
         <mesh position={[0, 0.144 + cargoHeight / 2, 0]} castShadow receiveShadow>
-          <boxGeometry args={[dimensions.length + 0.04, cargoHeight + 0.05, dimensions.width + 0.04]} />
+          <boxGeometry args={[dimensions.length + 0.05, cargoHeight + 0.08, dimensions.width + 0.05]} />
           <primitive object={wrapMaterial} attach="material" />
         </mesh>
       )}
       {isSelected && (
         <lineSegments position={[0, 0.144 + cargoHeight / 2, 0]}>
-          <edgesGeometry args={[new THREE.BoxGeometry(dimensions.length + 0.08, cargoHeight + 0.1, dimensions.width + 0.08)]} />
+          <edgesGeometry args={[new THREE.BoxGeometry(dimensions.length + 0.1, cargoHeight + 0.14, dimensions.width + 0.1)]} />
           <lineBasicMaterial color={hasCollision ? '#ef4444' : '#2563eb'} linewidth={2} />
         </lineSegments>
       )}
@@ -105,7 +90,7 @@ export const Pallet = React.memo(function Pallet({
           showX={false}
           showY={true}
           showZ={false}
-          size={0.65}
+          size={0.7}
           onMouseUp={() => {
             if (!palletRef.current) return;
             onRotateCommit(id, [palletRef.current.rotation.x, palletRef.current.rotation.y, palletRef.current.rotation.z]);
@@ -115,6 +100,36 @@ export const Pallet = React.memo(function Pallet({
     </group>
   );
 });
+
+function ProceduralPallet({ length, width, material }: { length: number; width: number; material: THREE.Material }) {
+  const topPlanks = Array.from({ length: 5 }, (_, index) => -width / 2 + 0.07 + index * ((width - 0.14) / 4));
+  const bottomPlanks = [-width / 2 + 0.13, 0, width / 2 - 0.13];
+  const blocksX = [-length / 2 + 0.16, 0, length / 2 - 0.16];
+  const blocksZ = [-width / 2 + 0.13, 0, width / 2 - 0.13];
+
+  return (
+    <group name="visible-procedural-pallet">
+      {topPlanks.map((z, index) => (
+        <mesh key={`top-${index}`} position={[0, 0.144, z]} castShadow receiveShadow>
+          <boxGeometry args={[length, 0.04, Math.min(0.12, width / 7)]} />
+          <primitive object={material} attach="material" />
+        </mesh>
+      ))}
+      {bottomPlanks.map((z, index) => (
+        <mesh key={`bottom-${index}`} position={[0, 0.025, z]} castShadow receiveShadow>
+          <boxGeometry args={[length, 0.035, Math.min(0.1, width / 8)]} />
+          <primitive object={material} attach="material" />
+        </mesh>
+      ))}
+      {blocksX.map((x) => blocksZ.map((z) => (
+        <mesh key={`block-${x}-${z}`} position={[x, 0.08, z]} castShadow receiveShadow>
+          <boxGeometry args={[0.16, 0.09, 0.14]} />
+          <primitive object={material} attach="material" />
+        </mesh>
+      )))}
+    </group>
+  );
+}
 
 function layoutBoxes(boxes: CargoBox[], dimensions: PalletType['dimensions']): Array<{ box: CargoBox; position: [number, number, number] }> {
   const sorted = [...boxes].sort((a, b) => boxDimensions(b.size).length - boxDimensions(a.size).length);
@@ -133,5 +148,3 @@ function layoutBoxes(boxes: CargoBox[], dimensions: PalletType['dimensions']): A
     return { box, position: [x, y, z] as [number, number, number] };
   });
 }
-
-useGLTF.preload('/models/pallet.glb');
