@@ -6,14 +6,10 @@
   .glow-orb { filter: blur(180px); }
 }
 
-@media (max-width: 1300px) {
-  .desktop-nav ul { gap: 20px; }
-  .header-right { gap: 16px; }
-  .city-selector-btn { padding: 8px 12px; }
-}
+/* 1300px header responsive moved to 14-header-footer-glass.css */
 
 @media (max-width: 1200px) {
-  .header-cta { display: none; }
+  .header-cta { display: none !important; }
   .hero-container { gap: 40px; }
   .hero-title { font-size: 3rem; }
   .advantages-grid,
@@ -58,10 +54,7 @@
     text-align-last: justify;
     transform: none;
   }
-  .city-selector-btn { padding: 6px 10px; font-size: 0.75rem; gap: 6px; }
-  .city-selector-current { max-width: 95px; }
-  .city-confirm-banner,
-  .city-dropdown { right: -20px; }
+  /* city selector responsive moved to 14-header-footer-glass.css */
 
   .hero-title { font-size: 2.3rem; }
   .hero-cta-group { flex-direction: column; width: 100%; }
