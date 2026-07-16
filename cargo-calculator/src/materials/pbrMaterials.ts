@@ -3,7 +3,9 @@ import * as THREE from 'three';
 const textureLoader = new THREE.TextureLoader();
 
 function loadTexture(url: string): THREE.Texture {
-  const texture = textureLoader.load(url);
+  const cleanUrl = url.replace(/^\//, '');
+  const textureUrl = `${import.meta.env.BASE_URL}${cleanUrl}`;
+  const texture = textureLoader.load(textureUrl);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.colorSpace = url.includes('normal') || url.includes('disp') ? THREE.NoColorSpace : THREE.SRGBColorSpace;
