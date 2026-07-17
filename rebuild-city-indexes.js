@@ -167,7 +167,9 @@ function buildCityIndex(code, city, rootHtml, oldHtml) {
   const descr = `Услуги профессиональных грузчиков, разнорабочих и такелажников ${city.prep} от 800 руб/час. Квартирные и офисные переезды, аутсорсинг персонала для компаний. Работаем 24/7.`;
   const ogTitle = `Правильные Грузчики ${city.nom} | Услуги грузчиков 24/7`;
   const ogDescr = `Заказ профессиональных грузчиков и разнорабочих ${city.prep}. Работаем без выходных, круглосуточно. Наличный и безналичный расчет (ООО).`;
-  const canonical = `https://pragruz.ru/${code}/`;
+  const canonical = code === 'krasnodar'
+    ? 'https://pragruz.ru/'            // Краснодар = корень сайта; /krasnodar/ — canonical-дубль
+    : `https://pragruz.ru/${code}/`;
 
   // title
   html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${title}</title>`);
