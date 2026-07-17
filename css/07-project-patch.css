@@ -1809,3 +1809,63 @@ a.blog-service-chip:focus-visible {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Tooltip for legal entities (?!) */
+.info-tooltip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  background: var(--primary, #ff7300);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+  user-select: none;
+}
+.info-tooltip .info-tooltip-content {
+  visibility: hidden;
+  opacity: 0;
+  width: 240px;
+  background-color: #1a1a2e;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 8px 12px;
+  position: absolute;
+  z-index: 100;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.2s, visibility 0.2s;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.info-tooltip .info-tooltip-content::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #1a1a2e transparent transparent transparent;
+}
+@media (hover: hover) {
+  .info-tooltip:hover .info-tooltip-content {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+.info-tooltip:focus .info-tooltip-content,
+.info-tooltip.active .info-tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}
