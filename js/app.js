@@ -13,7 +13,6 @@ import { initCalculator } from "./modules/calculator.js";
 import { initPhoneMasks, initFormsAntiSpam, initCookieBanner } from "./modules/forms.js";
 import { initOrderModal, initReviewModal, initExitIntentPopup } from "./modules/modals.js";
 import { initFaqAccordion } from "./modules/faq.js";
-import { initCargoCalculator } from "./modules/cargo.js";
 import { renderReviews, initReviewsCarouselControls } from "./modules/reviews.js";
 import { initApplicationAvailability } from "./modules/availability.js";
 import { initBlogCityLinks } from "./modules/blogCityLinks.js";
@@ -57,7 +56,16 @@ document.addEventListener("DOMContentLoaded", () => {
   initFaqAccordion();
 
   // 7. Cargo visual calculator
-  initCargoCalculator();
+  // Load the heavy Three.js module only on cargo pages. Keeping it out of the
+  // common startup path prevents one calculator dependency from breaking reviews
+  // and the rest of the site if the cargo bundle fails to load.
+  if (document.getElementById("cargo-visual-calculator")) {
+    import("./modules/cargo.js")
+      .then(({ initCargoCalculator }) => initCargoCalculator())
+      .catch((error) => {
+        console.error("Не удалось загрузить грузовой калькулятор", error);
+      });
+  }
 
   // 8. Exit-intent popup (delayed)
   setTimeout(initExitIntentPopup, 2000);
