@@ -2,8 +2,8 @@
  * Cargo visual 2.5D calculator (for gruzoperevozki.html)
  * Features: auto-rotation, dual-plane visualization, packaging types, fragile mode, quick-fill modal.
  */
-import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import * as THREE from "../vendor/three/three.module.js";
+import { OrbitControls } from "../vendor/three/OrbitControls.js";
 import { setupPhoneMask, submitLead, showToast, initFormsAntiSpam } from "./forms.js";
 
 

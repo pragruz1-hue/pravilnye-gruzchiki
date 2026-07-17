@@ -3,6 +3,55 @@
 Дата: 2026-07-16
 Ветка Arena: `arena/019f6a53-pravilnye-gruzchiki`
 
+## ⚠️ Важное обновление 2026-07-17 — не ломать отзывы и общий JS
+
+В ходе проверки выяснилось, что блок отзывов на главной перестал отображаться не из-за данных отзывов, а из-за общего `js/app.js`: он статически импортировал `js/modules/cargo.js`, а внутри `cargo.js` были browser-invalid bare imports:
+
+```js
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+```
+
+На статическом сайте без importmap/сборщика в браузере это роняет весь граф `app.js`. Из-за этого не запускались `renderReviews()`, обычный калькулятор, модалки и другие модули.
+
+Что изменено для следующего агента по 3D-калькулятору:
+
+1. `js/app.js` больше НЕ импортирует `cargo.js` статически. Грузовой калькулятор загружается лениво только если на странице есть:
+
+```html
+#cargo-visual-calculator
+```
+
+2. Для статического сайта добавлена локальная Three.js-база:
+
+```text
+js/vendor/three/three.module.js
+js/vendor/three/OrbitControls.js
+js/vendor/three/LICENSE.txt
+```
+
+3. `js/modules/cargo.js` теперь использует эти локальные модули:
+
+```js
+import * as THREE from "../vendor/three/three.module.js";
+import { OrbitControls } from "../vendor/three/OrbitControls.js";
+```
+
+### Правила для следующего агента
+
+- **Не возвращать** bare imports `from "three"` / `from "three/addons/..."` в файлы, которые подключаются прямо браузером со статического сайта.
+- Если дорабатываешь встроенный калькулятор на `gruzoperevozki.html`, используй уже созданные локальные мощности `js/vendor/three/*`.
+- Не подключай тяжёлый 3D-модуль обратно статически в `js/app.js`: отзывы и основной сайт должны работать даже если 3D-калькулятор сломался.
+- Если нужен новый Three.js helper/control для встроенного калькулятора — добавляй его локально в `js/vendor/three/` и правь импорты на относительные пути к `three.module.js`.
+- Перед сдачей обязательно проверить:
+
+```bash
+find js -type f -name '*.js' -print0 | while IFS= read -r -d '' f; do node --check "$f" >/dev/null; done
+npm ci && npm run build
+```
+
+Smoke-test отзывов: `renderReviews('krasnodar')` должен создавать 10 `.review-card`.
+
 ## Что попросил пользователь
 
 Пользователь хочет не обычную форму и не декоративный 3D-грузовик, а полноценный 3D-конструктор загрузки кузова:
