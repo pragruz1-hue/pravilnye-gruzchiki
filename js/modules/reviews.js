@@ -308,8 +308,14 @@ function setupReviewsAutoplay(wrapper, scroller, track, opts) {
   let resumeTimer = null;
   let cachedW = singleWidth();
 
+  // На старте дрейф активен — отключаем обязательный snap, чтобы браузер
+  // не «дёргал» ленту к точкам привязки при непрерывном scrollLeft.
+  scroller.classList.add("is-autoplay-drifting");
+
   const pause = () => {
     paused = true;
+    // Возвращаем snap — удобно для ручного листания карточка-к-карточке.
+    scroller.classList.remove("is-autoplay-drifting");
     if (resumeTimer) {
       clearTimeout(resumeTimer);
       resumeTimer = null;
@@ -319,6 +325,7 @@ function setupReviewsAutoplay(wrapper, scroller, track, opts) {
     if (resumeTimer) clearTimeout(resumeTimer);
     resumeTimer = setTimeout(() => {
       paused = false;
+      scroller.classList.add("is-autoplay-drifting");
       last = performance.now();
     }, 2500);
   };
@@ -354,6 +361,7 @@ function setupReviewsAutoplay(wrapper, scroller, track, opts) {
   return () => {
     if (rafId) cancelAnimationFrame(rafId);
     if (resumeTimer) clearTimeout(resumeTimer);
+    scroller.classList.remove("is-autoplay-drifting");
   };
 }
 

@@ -590,6 +590,13 @@
   scroll-snap-type: none;
 }
 
+/* Во время автодрейфа отключаем обязательный snap, иначе браузер
+   может «подёргивать» ленту к точкам привязки при непрерывном scrollLeft.
+   При паузе/ручном режиме класс снимается — snap возвращается. */
+.reviews-carousel-scroller.is-autoplay-drifting {
+  scroll-snap-type: none;
+}
+
 .reviews-nav {
   position: absolute;
   top: 50%;
