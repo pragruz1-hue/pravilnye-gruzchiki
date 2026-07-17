@@ -46,6 +46,14 @@
   line-height: 1.6;
 }
 
+.footer-price-disclaimer {
+  max-width: 280px;
+  margin: 10px 0 0;
+  color: rgba(148, 163, 184, 0.58);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
 .footer-legal-links {
   margin-top: 12px;
 }

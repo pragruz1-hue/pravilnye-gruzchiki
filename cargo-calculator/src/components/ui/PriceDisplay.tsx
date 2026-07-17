@@ -36,6 +36,7 @@ export function PriceDisplay() {
         <div className="mb-1 text-sm font-black text-gray-600">💰 Стоимость перевозки</div>
         <div className="text-5xl font-black tracking-tight text-gray-950">{totalPrice.toLocaleString('ru-RU')} ₽</div>
         <div className="mt-1 text-xs font-semibold text-gray-500">включая НДС 20% · предварительно</div>
+        <div className="mt-2 text-[11px] leading-snug text-gray-400">Указанные на сайте цены носят информационный характер и не являются публичной офертой.</div>
       </div>
       <div className="space-y-2 border-t border-gray-200 pt-4 text-sm">
         <Row label="Базовый тариф" value={basePrice} />
