@@ -8,6 +8,9 @@ import { CITIES_DATA } from "./geotargeting.js";
 
 const SITE_ASSET_BASE = document.querySelector('link[href^="../css/"]') ? "../" : "";
 
+// Достаточно динамичный темп для витрины, но текст каждой карточки остаётся читаемым.
+const REVIEWS_AUTOPLAY_SPEED_PX_PER_MS = 0.14; // ≈ 140 px/сек
+
 const M = "assets/avatar-male.webp";
 const M2 = "assets/avatar-male-2.webp";
 const F = "assets/avatar-female.webp";
@@ -260,7 +263,7 @@ export function renderReviews(cityCode) {
 
   const uniqueCount = reviews.length || 4;
   container.style.setProperty("--reviews-count", String(uniqueCount));
-  container.style.animationDuration = `${Math.max(40, uniqueCount * 5)}s`;
+  container.style.animationDuration = `${Math.max(18, uniqueCount * 2)}s`;
 
   // После перерисовки — переинициализировать управление
   initReviewsCarouselControls();
@@ -301,7 +304,7 @@ function setupReviewsAutoplay(wrapper, scroller, track, opts) {
     return half * (card.getBoundingClientRect().width + gap);
   };
 
-  const SPEED = 0.05; // px/ms ≈ 50px/сек — спокойный дрейф
+  const SPEED = REVIEWS_AUTOPLAY_SPEED_PX_PER_MS;
   let paused = false;
   let last = performance.now();
   let rafId = null;
