@@ -69,4 +69,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 8. Exit-intent popup (delayed)
   setTimeout(initExitIntentPopup, 2000);
+
+  // Tooltip click handler for mobile / touch devices
+  document.addEventListener("click", function(e) {
+    const tooltips = document.querySelectorAll(".info-tooltip");
+    tooltips.forEach(t => {
+      if (t.contains(e.target)) {
+        t.classList.toggle("active");
+      } else {
+        t.classList.remove("active");
+      }
+    });
+  });
+
 });
