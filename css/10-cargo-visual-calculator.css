@@ -851,6 +851,7 @@
 .ultra-price-card strong { display:block; font-size: clamp(2rem, 4vw, 3rem); line-height:1; color:#111827; letter-spacing:-.05em; transition:.25s ease; }
 .ultra-result-card strong { color:#111827; font-size: 1.6rem; display:block; }
 .ultra-price-card small, .ultra-result-card small { color:#64748b; }
+.ultra-price-disclaimer { display:block; margin-top:8px; font-size:.68rem; line-height:1.35; color:#94a3b8 !important; }
 .ultra-detail-card strong, .ultra-checklist strong { color:#111827; display:block; margin-bottom:10px; }
 .ultra-detail-card dl { display:grid; grid-template-columns: 1fr auto; gap:6px 12px; margin:0; color:#475569; font-size:.9rem; }
 .ultra-detail-card dd { margin:0; font-weight:900; color:#111827; }

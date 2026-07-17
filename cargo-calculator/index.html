@@ -6,9 +6,24 @@
     <meta name="theme-color" content="#f8f9fa" />
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
     <title>3D калькулятор грузоперевозок</title>
-  </head>
+      <style>
+      .calculator-price-disclaimer {
+        position: fixed;
+        right: 12px;
+        bottom: 10px;
+        z-index: 2147483647;
+        max-width: min(330px, calc(100vw - 24px));
+        margin: 0;
+        color: rgba(71, 85, 105, .66);
+        font: 10px/1.35 system-ui, sans-serif;
+        text-align: right;
+        pointer-events: none;
+      }
+    </style>
+</head>
   <body>
     <div id="root"></div>
+    <p class="calculator-price-disclaimer">Указанные на сайте цены носят информационный характер и не являются публичной офертой.</p>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

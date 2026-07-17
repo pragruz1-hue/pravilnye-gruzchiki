@@ -281,6 +281,7 @@ def build_footer(page: Path) -> str:
       </a>
       <p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p>
       <span class="footer-copy">© 2014–2026 ООО «Правильные грузчики».<br />Все права защищены.</span>
+      <p class="footer-price-disclaimer">Указанные на сайте цены носят информационный характер и не являются публичной офертой.</p>
       <p class="footer-copy footer-legal-links"><a href="{base}privacy.html">Персональные данные</a> · <a href="{base}cookies.html">Cookies</a></p>
     </div>
     <div class="footer-col">
@@ -469,6 +470,7 @@ def build_placeholder_footer() -> str:
       </a>
       <p class="footer-pitch">Профессиональные грузчики, разнорабочие, переезды, такелаж и аренда Газели. Работаем для вашего комфорта с 2014 года.</p>
       <span class="footer-copy">© 2014–2026 ООО «Правильные грузчики».<br />Все права защищены.</span>
+      <p class="footer-price-disclaimer">Указанные на сайте цены носят информационный характер и не являются публичной офертой.</p>
       <p class="footer-copy footer-legal-links"><a href="{{BASE}}privacy.html">Персональные данные</a> · <a href="{{BASE}}cookies.html">Cookies</a></p>
     </div>
     <div class="footer-col">
