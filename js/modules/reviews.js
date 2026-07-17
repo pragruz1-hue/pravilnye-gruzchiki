@@ -229,6 +229,8 @@ export function renderReviews(cityCode) {
 
   const reviews = REVIEWS_DB[cityCode] || REVIEWS_DB["default"];
   container.innerHTML = "";
+  // Сброс флага дублирования карточек для автоплея (см. setupReviewsAutoplay)
+  delete container.dataset.duped;
 
   // Одна лента (без дублей) — удобнее листать вручную
   reviews.forEach((review) => {
@@ -266,9 +268,102 @@ export function renderReviews(cityCode) {
 
 /**
  * Ручное листание отзывов: кнопки, drag, wheel, keyboard, touch.
- * Автопрокрутка CSS остаётся, но отключается при взаимодействии.
+ * Плюс JS-автопрокрутка (плавный дрейф) с паузой при взаимодействии.
+ * Автопрокрутка двигает scrollLeft того же скроллера — конфликтов с ручным
+ * управлением нет: при любом действии пользователя ставится пауза, а после
+ * короткого простоя движение возобновляется.
  */
-let reviewsControlsBound = false;
+
+/**
+ * Автоплея ленты: дублируем карточки для бесшовного зацикливания, плавно
+ * сдвигаем scrollLeft, при достижении границы набора незаметно переносимся
+ * на начало (набор-дубль идентичен оригиналу).
+ * Возвращает функцию очистки (отмена rAF / таймеров).
+ */
+function setupReviewsAutoplay(wrapper, scroller, track, opts) {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) return () => {};
+
+  // Дублируем карточки один раз — для бесшовного цикла
+  if (!track.dataset.duped) {
+    Array.from(track.children).forEach((node) =>
+      track.appendChild(node.cloneNode(true))
+    );
+    track.dataset.duped = "1";
+  }
+
+  const singleWidth = () => {
+    const card = track.querySelector(".review-card");
+    if (!card) return 0;
+    const styles = window.getComputedStyle(track);
+    const gap = parseFloat(styles.columnGap || styles.gap || "24") || 24;
+    const half = Math.max(1, Math.round(track.childElementCount / 2));
+    return half * (card.getBoundingClientRect().width + gap);
+  };
+
+  const SPEED = 0.05; // px/ms ≈ 50px/сек — спокойный дрейф
+  let paused = false;
+  let last = performance.now();
+  let rafId = null;
+  let resumeTimer = null;
+  let cachedW = singleWidth();
+
+  // На старте дрейф активен — отключаем обязательный snap, чтобы браузер
+  // не «дёргал» ленту к точкам привязки при непрерывном scrollLeft.
+  scroller.classList.add("is-autoplay-drifting");
+
+  const pause = () => {
+    paused = true;
+    // Возвращаем snap — удобно для ручного листания карточка-к-карточке.
+    scroller.classList.remove("is-autoplay-drifting");
+    if (resumeTimer) {
+      clearTimeout(resumeTimer);
+      resumeTimer = null;
+    }
+  };
+  const scheduleResume = () => {
+    if (resumeTimer) clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => {
+      paused = false;
+      scroller.classList.add("is-autoplay-drifting");
+      last = performance.now();
+    }, 2500);
+  };
+
+  const loop = (now) => {
+    const dt = Math.min(now - last, 64); // защита от скачков после фона вкладки
+    last = now;
+    if (!paused && document.visibilityState === "visible") {
+      let x = scroller.scrollLeft + SPEED * dt;
+      if (cachedW > 0 && x >= cachedW) x -= cachedW;
+      scroller.scrollLeft = x;
+    }
+    rafId = requestAnimationFrame(loop);
+  };
+  rafId = requestAnimationFrame(loop);
+
+  // Пауза при любом взаимодействии пользователя, возобновление после простоя
+  scroller.addEventListener("pointerenter", pause, opts);
+  scroller.addEventListener("pointerleave", scheduleResume, opts);
+  scroller.addEventListener("pointerdown", pause, opts);
+  scroller.addEventListener("pointerup", scheduleResume, opts);
+  scroller.addEventListener("pointercancel", scheduleResume, opts);
+  scroller.addEventListener("wheel", () => { pause(); scheduleResume(); }, opts);
+  scroller.addEventListener("focusin", pause, opts);
+  scroller.addEventListener("focusout", scheduleResume, opts);
+  wrapper.querySelectorAll(".reviews-nav-btn").forEach((btn) => {
+    btn.addEventListener("click", () => { pause(); scheduleResume(); }, opts);
+  });
+
+  // Пересчёт ширины набора при изменении размеров окна
+  window.addEventListener("resize", () => { cachedW = singleWidth(); }, opts);
+
+  return () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    if (resumeTimer) clearTimeout(resumeTimer);
+    scroller.classList.remove("is-autoplay-drifting");
+  };
+}
 
 export function initReviewsCarouselControls() {
   const wrapper = document.querySelector(".reviews-carousel-wrapper");
@@ -311,9 +406,8 @@ export function initReviewsCarouselControls() {
     nextBtn = wrapper.querySelector(".reviews-next");
   }
 
-  // Без CSS-автоплея на ручном скроллере (transform animation конфликтует)
-  track.classList.remove("is-autoplay");
-  wrapper.classList.add("is-user-control");
+  // Ручной скроллер и автоплей живут на одном scrollLeft — конфликта нет.
+  // Автоплей ставится на паузу при взаимодействии (см. setupReviewsAutoplay).
 
   const getStep = () => {
     const card = track.querySelector(".review-card");
@@ -336,7 +430,12 @@ export function initReviewsCarouselControls() {
     scroller.scrollBy({ left: dir * getStep(), behavior: "smooth" });
   };
 
-  // Avoid double-binding on re-render: use AbortController stored on wrapper
+  // Avoid double-binding on re-render: use AbortController stored on wrapper.
+  // Also tear down the previous autoplay loop (rAF isn't auto-cancelled by abort).
+  if (wrapper._reviewsAutoplayDestroy) {
+    wrapper._reviewsAutoplayDestroy();
+    wrapper._reviewsAutoplayDestroy = null;
+  }
   if (wrapper._reviewsAbort) {
     wrapper._reviewsAbort.abort();
   }
@@ -456,6 +555,10 @@ export function initReviewsCarouselControls() {
   // After images load, recompute
   requestAnimationFrame(updateButtons);
   window.addEventListener("resize", updateButtons, opts);
+
+  // Запускаем автодвижение ленты (совместимо с ручным листанием выше)
+  wrapper._reviewsAutoplayDestroy =
+    setupReviewsAutoplay(wrapper, scroller, track, opts) || null;
 }
 
 // Re-render reviews when city changes
