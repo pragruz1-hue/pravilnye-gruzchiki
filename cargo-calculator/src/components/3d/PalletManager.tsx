@@ -108,7 +108,7 @@ export function PalletManager() {
         <Pallet key={pallet.id} {...pallet} isSelected={pallet.id === selectedPalletId} hasCollision={collisionMap.get(pallet.id) ?? false} onPointerDown={handlePalletPointerDown} onPointerUp={stopDragging} onSelect={selectPallet} onRotateCommit={updatePalletRotation} />
       ))}
       {instancedBoxes.length > 0 && <InstancedCargoBoxes items={instancedBoxes} onSelect={selectPallet} />}
-      <mesh position={[0, 0.071, 0]} rotation={[-Math.PI / 2, 0, 0]} visible={false} onPointerUp={stopDragging}>
+      <mesh position={[0, 0.071, 0]} rotation={[-Math.PI / 2, 0, 0]} visible={false} onPointerUp={stopDragging} onClick={(e) => { e.stopPropagation(); selectPallet(null); }}>
         <planeGeometry args={[vehicle.cargoLength, vehicle.cargoWidth]} />
         <meshBasicMaterial transparent opacity={0} />
       </mesh>

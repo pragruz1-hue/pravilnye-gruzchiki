@@ -21,7 +21,19 @@ interface PalletProps extends LoadItem {
 export const Pallet = React.memo(function Pallet(props: PalletProps) {
   const { id, kind, name, position, rotation, boxes, dimensions, material, wrapped, isSelected, hasCollision, onPointerDown, onPointerUp, onSelect } = props;
   const itemRef = useRef<THREE.Group>(null);
-  const itemMaterial = useMemo(() => makeMaterial(material, kind), [kind, material]);
+  const baseMaterial = useMemo(() => makeMaterial(material, kind), [kind, material]);
+  const itemMaterial = useMemo(() => {
+    if (!hasCollision) return baseMaterial;
+    const mat = baseMaterial.clone();
+    if ('color' in mat) {
+      (mat as THREE.MeshStandardMaterial).color.set('#ef4444');
+      if ('emissive' in mat && (mat as any).emissive) {
+        (mat as any).emissive.set('#991b1b');
+        (mat as any).emissiveIntensity = 0.4;
+      }
+    }
+    return mat;
+  }, [baseMaterial, hasCollision]);
   const wrapMaterial = useMemo(() => createStretchWrapMaterial(), []);
   const cargoHeight = kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(boxes.length / 4) * 0.28) : orientedHeight(props);
   const fallingTargets = useCalculatorStore((s) => s.fallingTargets);
@@ -70,18 +82,8 @@ export const Pallet = React.memo(function Pallet(props: PalletProps) {
         </mesh>
       )}
       {isSelected && <SelectionBox dimensions={dimensions} height={cargoHeight} hasCollision={hasCollision} />}
-      {hasCollision && (
-        <Html position={[0, cargoHeight + 0.32, 0]} center distanceFactor={8}>
-          <div className="rounded-full bg-red-500 px-3 py-1 text-xs font-black text-white shadow-lg">нельзя поставить</div>
-        </Html>
-      )}
       {isSelected ? (
-        <>
-          <InteractiveGizmo id={id} position={position} rotation={rotation} height={cargoHeight} />
-          <Html position={[0, cargoHeight + 0.08, 0]} center distanceFactor={8} className="pointer-events-none">
-            <div className="rounded-2xl bg-slate-900/85 px-3 py-2 text-center text-xs font-black text-white shadow-xl">{name}<br />{Math.round(props.weight)} кг</div>
-          </Html>
-        </>
+        <InteractiveGizmo id={id} position={position} rotation={rotation} height={cargoHeight} />
       ) : null}
     </group>
   );

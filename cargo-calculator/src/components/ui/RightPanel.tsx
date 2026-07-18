@@ -11,6 +11,9 @@ export function RightPanel() {
   const isNightMode = useCalculatorStore((s) => s.isNightMode);
   const totalWeight = useCalculatorStore((s) => s.totalWeight);
   const totalVolume = useCalculatorStore((s) => s.totalVolume);
+  const selectPallet = useCalculatorStore((s) => s.selectPallet);
+  const removePallet = useCalculatorStore((s) => s.removePallet);
+  const selectedPalletId = useCalculatorStore((s) => s.selectedPalletId);
   const [copied, setCopied] = useState(false);
 
   const cog = computeCenterOfGravity(pallets);
@@ -82,16 +85,39 @@ export function RightPanel() {
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        <button onClick={handleShare} className="rounded-2xl bg-[#10131b] px-3 py-3 text-xs font-black text-white shadow hover:bg-black">
-          {copied ? '✅ Скопировано!' : '🔗 Поделиться ссылкой'}
+        <button onClick={handleShare} className="col-span-2 rounded-2xl bg-[#10131b] px-3 py-3 text-xs font-black text-white shadow hover:bg-black">
+          {copied ? '✅ Ссылка скопирована в буфер обмена!' : '📋 Скопировать ссылку на расстановку'}
         </button>
         <button onClick={handleScreenshot} className="rounded-2xl bg-white px-3 py-3 text-xs font-black text-gray-800 ring-1 ring-black/10 hover:bg-gray-50">
           📸 Скриншот 3D
         </button>
-        <button onClick={handleSendToSite} className="col-span-2 rounded-2xl bg-gradient-to-r from-[#ff6b00] to-[#d35400] px-3 py-3 text-sm font-black text-white shadow hover:opacity-90">
-          📨 Отправить расчет менеджеру (postMessage)
+        <button onClick={handleSendToSite} className="rounded-2xl bg-gradient-to-r from-[#ff6b00] to-[#d35400] px-3 py-3 text-xs font-black text-white shadow hover:opacity-90">
+          📨 Отправить менеджеру
         </button>
       </div>
+
+      {pallets.length > 0 && (
+        <details className={`rounded-[20px] p-3 text-xs ${isNightMode ? 'bg-white/5 text-white ring-1 ring-white/10' : 'bg-white/90 shadow-sm ring-1 ring-black/5'}`}>
+          <summary className="cursor-pointer text-sm font-black flex items-center justify-between">
+            <span>📋 Спецификация предметов ({pallets.length})</span>
+            <span className="text-[11px] font-bold text-orange-400">{Math.round(totalWeight)} кг · {Math.round(totalVolume * 100) / 100} м³</span>
+          </summary>
+          <div className="mt-3 max-h-56 space-y-2 overflow-auto pr-1">
+            {pallets.map((item, index) => {
+              const vol = Math.round(item.dimensions.length * item.dimensions.width * item.dimensions.height * 100) / 100;
+              return (
+                <div key={item.id} className={`flex items-center justify-between gap-2 rounded-xl p-2.5 ${selectedPalletId === item.id ? 'bg-orange-500/20 ring-1 ring-orange-500' : isNightMode ? 'bg-white/5' : 'bg-slate-50'}`}>
+                  <button className="text-left flex-1" onClick={() => selectPallet(item.id)}>
+                    <div className="font-black">#{index + 1} {item.name}</div>
+                    <div className="text-[10px] opacity-75">{item.dimensions.length}×{item.dimensions.width}×{item.dimensions.height} м · {vol} м³ · {Math.round(item.weight)} кг</div>
+                  </button>
+                  <button className="rounded-lg bg-red-500/20 px-2.5 py-1 font-bold text-red-400 hover:bg-red-500/30" onClick={() => removePallet(item.id)}>✕</button>
+                </div>
+              );
+            })}
+          </div>
+        </details>
+      )}
 
       {useCalculatorStore((s) => s.overflowCount) > 0 && (
         <div className="rounded-full border border-orange-400 bg-orange-50 px-3 py-1.5 text-xs font-black text-orange-700 shadow-sm">
