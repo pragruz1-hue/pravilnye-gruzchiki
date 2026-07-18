@@ -8,12 +8,17 @@ export function SoundManager() {
   useEffect(() => {
     if (!isSoundEnabled) return;
     try {
-      audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      audioCtxRef.current = ctx;
+      const resume = () => { if (ctx.state === 'suspended') ctx.resume(); };
+      window.addEventListener('pointerdown', resume, { once: true });
+      window.addEventListener('keydown', resume, { once: true });
     } catch {}
 
     (window as any).pgPlaySound = (type: 'add' | 'remove' | 'snap' | 'click' | 'error') => {
       if (!isSoundEnabled || !audioCtxRef.current) return;
       const ctx = audioCtxRef.current;
+      if (ctx.state === 'suspended') ctx.resume();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.connect(gain);

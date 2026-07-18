@@ -530,36 +530,55 @@ export function computeCenterOfGravity(items: LoadItem[]): { x: number; y: numbe
   return { x: sumX / sumW, y: sumY / sumW, z: sumZ / sumW, weight: sumW };
 }
 
-export function computeAxleLoads(items: LoadItem[], vehicleType: VehicleType): { frontKg: number; rearKg: number; imbalancePercent: number; isOverloadedFront: boolean; isOverloadedRear: boolean } {
+export function computeAxleLoads(items: LoadItem[], vehicleType: VehicleType): { frontKg: number; rearKg: number; leftKg: number; rightKg: number; imbalancePercent: number; lateralPercent: number; isOverloadedFront: boolean; isOverloadedRear: boolean; isLateralRisk: boolean } {
   const vehicle = VEHICLES[vehicleType];
   const L = vehicle.cargoLength;
-  // Упрощенная модель: передняя ось в точке -L/2 -0.8, задняя в -L/2 + L*0.35 (типично для Газели)
+  const W = vehicle.cargoWidth;
+  // Инженерная модель: передняя ось -L/2 -0.9м от начала кузова, задняя -L/2 + L*0.32 (типично для Газели, база ~3.1-3.7м)
   const frontAxleX = -L / 2 - 0.9;
   const rearAxleX = -L / 2 + L * 0.32;
   const wheelbase = Math.abs(rearAxleX - frontAxleX);
 
-  let frontMoment = 0;
   let totalWeight = 0;
+  let momentFront = 0; // момент относительно передней оси
+  let leftWeight = 0;
+  let rightWeight = 0;
 
   items.forEach((item) => {
     const w = itemWeight(item);
     const x = item.position[0];
-    // Момент относительно задней оси: чем дальше вперед, тем больше нагрузка на перед
-    const distToRear = Math.abs(x - rearAxleX);
-    frontMoment += w * (wheelbase - distToRear);
+    const z = item.position[2];
     totalWeight += w;
+    const distFromFront = x - frontAxleX; // если x за задней осью, dist > wheelbase
+    momentFront += w * distFromFront;
+    if (z < 0) leftWeight += w * (Math.abs(z) / (W/2)); else rightWeight += w * (Math.abs(z) / (W/2));
+    // Упрощенно для боковой: считаем вес на сторону пропорционально смещению от центра
   });
 
-  const frontKg = totalWeight === 0 ? 0 : (frontMoment / wheelbase);
-  const rearKg = totalWeight - frontKg;
-  const imbalance = totalWeight === 0 ? 0 : Math.abs(frontKg - rearKg) / totalWeight * 100;
+  // Реакция на задней оси: Rr = sum(Wi * (Xi - Xf)) / wheelbase
+  const rearKgRaw = wheelbase > 0 ? momentFront / wheelbase : totalWeight;
+  const frontKgRaw = totalWeight - rearKgRaw;
+
+  // Боковой баланс: центр Z взвешенный
+  const cog = computeCenterOfGravity(items);
+  const lateralPercent = W > 0 ? Math.abs(cog.z) / (W/2) * 100 : 0;
+
+  // Для отображения left/right используем распределение от COG
+  const leftKg = totalWeight * (0.5 - cog.z / W);
+  const rightKg = totalWeight * (0.5 + cog.z / W);
+
+  const imbalance = totalWeight === 0 ? 0 : Math.abs(frontKgRaw - rearKgRaw) / Math.max(1, Math.abs(frontKgRaw) + Math.abs(rearKgRaw)) * 100;
 
   return {
-    frontKg: Math.round(frontKg),
-    rearKg: Math.round(rearKg),
+    frontKg: Math.round(frontKgRaw),
+    rearKg: Math.round(rearKgRaw),
+    leftKg: Math.round(leftKg),
+    rightKg: Math.round(rightKg),
     imbalancePercent: Math.round(imbalance),
-    isOverloadedFront: frontKg > totalWeight * 0.65,
-    isOverloadedRear: rearKg > totalWeight * 0.75
+    lateralPercent: Math.round(lateralPercent),
+    isOverloadedFront: frontKgRaw > totalWeight * 0.65 || frontKgRaw < -totalWeight * 0.1,
+    isOverloadedRear: rearKgRaw > totalWeight * 0.85,
+    isLateralRisk: lateralPercent > 35
   };
 }
 

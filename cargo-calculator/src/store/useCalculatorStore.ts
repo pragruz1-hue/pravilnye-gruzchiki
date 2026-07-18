@@ -138,32 +138,46 @@ function buildPreset(preset: ApartmentPreset): LoadItem[] {
   return items;
 }
 
+let lastPostTime = 0;
+let postDebounceTimer: any = null;
+
 function recalculate(set: (partial: Partial<CalculatorState>) => void, state: CalculatorState): void {
   const totals = calculateTotals(state.pallets);
   const recommendedVehicleType = state.activePreset ? APARTMENT_STANDARDS[state.activePreset].recommendedVehicle : recommendVehicle(state.pallets);
   const price = calculatePrice({ vehicleType: state.vehicleType, vehicleCount: state.vehicleCount, distance: state.distance, pallets: state.pallets, services: state.services, urgency: state.urgency });
   set({ totalWeight: totals.weight, totalVolume: totals.volume, recommendedVehicleType, ...price });
 
-  // Отправка данных родителю (интеграция с формой сайта)
-  try {
-    const payload = generateSharePayload(state.pallets, state.vehicleType);
-    const message = {
-      type: 'cargo-calculation-update',
-      pallets: state.pallets.length,
-      volume: totals.volume,
-      weight: totals.weight,
-      vehicle: state.vehicleType,
-      recommended: recommendedVehicleType,
-      price: price.totalPrice,
-      share: payload,
-      from: state.from,
-      to: state.to
-    };
-    window.parent?.postMessage(message, '*');
-    window.postMessage(message, '*');
-    // Сохраняем в localStorage для сайта
-    localStorage.setItem('pg_last_calculation', JSON.stringify(message));
-  } catch {}
+  // Throttled postMessage — не спамить при drag (макс 1 раз в 350мс)
+  const now = Date.now();
+  const shouldSend = now - lastPostTime > 350;
+  const send = () => {
+    try {
+      const payload = generateSharePayload(state.pallets, state.vehicleType);
+      const message = {
+        type: 'cargo-calculation-update',
+        pallets: state.pallets.length,
+        volume: totals.volume,
+        weight: totals.weight,
+        vehicle: state.vehicleType,
+        recommended: recommendedVehicleType,
+        price: price.totalPrice,
+        share: payload,
+        from: state.from,
+        to: state.to
+      };
+      window.parent?.postMessage(message, '*');
+      window.postMessage(message, '*');
+      localStorage.setItem('pg_last_calculation', JSON.stringify(message));
+      lastPostTime = Date.now();
+    } catch {}
+  };
+
+  if (shouldSend) {
+    send();
+  } else {
+    if (postDebounceTimer) clearTimeout(postDebounceTimer);
+    postDebounceTimer = setTimeout(send, 350);
+  }
 }
 
 function pushHistory(state: CalculatorState): { history: LoadItem[][]; future: LoadItem[][] } {

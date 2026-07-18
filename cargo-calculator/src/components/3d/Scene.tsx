@@ -23,7 +23,7 @@ function CameraController() {
   const H = vehicle.cargoHeight;
 
   const getDesired = () => {
-    if (isFirstPerson) return null; // WASD mode — не лерпим
+    if (isFirstPerson) return null;
     switch (cameraMode) {
       case 'inside':
         return {
@@ -78,8 +78,32 @@ function CameraController() {
   return null;
 }
 
-export function Scene() {
+function ControlsWrapper() {
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
+  const cameraMode = useCalculatorStore((s) => s.cameraMode);
+  const isFirstPerson = useCalculatorStore((s) => s.isFirstPerson);
+  const isInside = cameraMode === 'inside' || cameraMode === 'cabin' || isFirstPerson;
+
+  return (
+    <OrbitControls
+      ref={controlsRef}
+      enabled={!isFirstPerson}
+      enablePan={!isInside}
+      enableZoom={!isFirstPerson}
+      enableRotate={!isFirstPerson}
+      minDistance={isInside ? 0.3 : 1.2}
+      maxDistance={isInside ? 6 : 20}
+      maxPolarAngle={isInside ? Math.PI / 1.6 : Math.PI / 2.02}
+      minPolarAngle={isInside ? 0.1 : 0.1}
+      target={[0, 1.0, 0]}
+      makeDefault
+      enableDamping
+      dampingFactor={0.12}
+    />
+  );
+}
+
+export function Scene() {
   const cameraMode = useCalculatorStore((s) => s.cameraMode);
   const isFirstPerson = useCalculatorStore((s) => s.isFirstPerson);
   const isInside = cameraMode === 'inside' || cameraMode === 'cabin' || isFirstPerson;
@@ -98,20 +122,7 @@ export function Scene() {
         <FirstPersonController />
         <SoundManager />
       </Suspense>
-      <OrbitControls
-        ref={controlsRef}
-        enablePan={!isInside}
-        enableZoom
-        enableRotate
-        minDistance={isInside ? 0.3 : 1.2}
-        maxDistance={isInside ? 6 : 20}
-        maxPolarAngle={isInside ? Math.PI / 1.6 : Math.PI / 2.02}
-        minPolarAngle={isInside ? 0.1 : 0.1}
-        target={[0, 1.0, 0]}
-        makeDefault
-        enableDamping
-        dampingFactor={0.12}
-      />
+      <ControlsWrapper />
     </Canvas>
   );
 }
