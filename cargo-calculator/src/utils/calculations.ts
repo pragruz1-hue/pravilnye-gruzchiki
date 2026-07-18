@@ -1,29 +1,108 @@
 import { LoadItem, VehicleSpec, VehicleType } from '../types';
 
+import { ApartmentStandard } from '../types';
+
+export const APARTMENT_STANDARDS: Record<string, ApartmentStandard> = {
+  oneRoom: {
+    id: 'oneRoom',
+    label: '1 к.к.',
+    hint: '7 м³ · до 1500 кг',
+    volumeM3: 7,
+    weightKg: 900,
+    recommendedVehicle: 'gazelle7',
+    description: 'эконом — коробки, мелкая мебель'
+  },
+  twoRoom: {
+    id: 'twoRoom',
+    label: '2 к.к.',
+    hint: '12 м³ · до 1500 кг',
+    volumeM3: 12,
+    weightKg: 1200,
+    recommendedVehicle: 'gazelle12',
+    description: 'стандарт — шкафы, техника, коробки'
+  },
+  threeRoom: {
+    id: 'threeRoom',
+    label: '3 к.к.',
+    hint: '18 м³ · до 1500 кг',
+    volumeM3: 18,
+    weightKg: 1500,
+    recommendedVehicle: 'gazelle18',
+    description: 'максимум — пианино, много мебели'
+  }
+};
+
 export const VEHICLES: Record<VehicleType, VehicleSpec> = {
-  gazelle3: {
-    id: 'gazelle3',
-    label: 'Газель 3 м',
-    shortLabel: '3 м',
+  // Квартирные Газели — основные для переездов (7, 12, 18 м³, все 1500 кг)
+  gazelle7: {
+    id: 'gazelle7',
+    label: 'Газель 7 м³ (3м эконом)',
+    shortLabel: '7 м³',
+    // Реальные габариты: ГАЗ 2705 компакт — ~3.0×1.8×1.3 = 7.02 м³ (источник kuzovspec.ru, fb.ru)
     cargoLength: 3.0,
-    cargoWidth: 1.9,
-    cargoHeight: 1.8,
+    cargoWidth: 1.8,
+    cargoHeight: 1.3,
     capacityKg: 1500,
-    capacityM3: 10.3,
+    capacityM3: 7,
+    palletCapacity: 2,
+    baseHourlyRate: 800,
+    minHours: 2,
+    kmRate: 30
+  },
+  gazelle12: {
+    id: 'gazelle12',
+    label: 'Газель 12 м³ (4м стандарт)',
+    shortLabel: '12 м³',
+    // 3.2×1.9×2.0 = 12.16 м³ — классическая тент Газель 4м (logisterra, pereezdporossii)
+    cargoLength: 3.2,
+    cargoWidth: 1.9,
+    cargoHeight: 2.0,
+    capacityKg: 1500,
+    capacityM3: 12,
     palletCapacity: 4,
-    baseHourlyRate: 900,
+    baseHourlyRate: 950,
     minHours: 3,
     kmRate: 36
   },
+  gazelle18: {
+    id: 'gazelle18',
+    label: 'Газель 18 м³ (4.2м макс)',
+    shortLabel: '18 м³',
+    // 4.2×2.0×2.15 = 18.06 м³ — удлиненная Газель (FB.ru статья про 16-18 кубов)
+    cargoLength: 4.2,
+    cargoWidth: 2.0,
+    cargoHeight: 2.15,
+    capacityKg: 1500,
+    capacityM3: 18,
+    palletCapacity: 6,
+    baseHourlyRate: 1100,
+    minHours: 3,
+    kmRate: 42
+  },
+  // Легаси типы (совместимость) — маппим на новые объемы
+  gazelle3: {
+    id: 'gazelle3',
+    label: 'Газель 3 м (7 м³)',
+    shortLabel: '3 м',
+    cargoLength: 3.0,
+    cargoWidth: 1.8,
+    cargoHeight: 1.3,
+    capacityKg: 1500,
+    capacityM3: 7,
+    palletCapacity: 2,
+    baseHourlyRate: 800,
+    minHours: 2,
+    kmRate: 30
+  },
   gazelle42: {
     id: 'gazelle42',
-    label: 'Газель 4.2 м',
+    label: 'Газель 4.2 м (18 м³)',
     shortLabel: '4.2 м',
     cargoLength: 4.2,
     cargoWidth: 2.0,
-    cargoHeight: 2.1,
-    capacityKg: 2000,
-    capacityM3: 17.6,
+    cargoHeight: 2.15,
+    capacityKg: 1500,
+    capacityM3: 18,
     palletCapacity: 6,
     baseHourlyRate: 1100,
     minHours: 3,
@@ -31,7 +110,7 @@ export const VEHICLES: Record<VehicleType, VehicleSpec> = {
   },
   van5: {
     id: 'van5',
-    label: 'Фургон 5 м',
+    label: 'Фургон 5 м (22 м³)',
     shortLabel: '5 м',
     cargoLength: 5.0,
     cargoWidth: 2.1,
@@ -45,7 +124,7 @@ export const VEHICLES: Record<VehicleType, VehicleSpec> = {
   },
   van6: {
     id: 'van6',
-    label: 'Фургон 6 м',
+    label: 'Фургон 6 м (29 м³)',
     shortLabel: '6 м',
     cargoLength: 6.0,
     cargoWidth: 2.2,
@@ -208,15 +287,45 @@ export function orientedHeight(item: LoadItem): number {
 }
 
 export function recommendVehicle(items: LoadItem[]): VehicleType {
-  const order: VehicleType[] = ['gazelle3', 'gazelle42', 'van5', 'van6', 'truck'];
+  // Для квартирных переездов используем только Газели 7/12/18 (все до 1500 кг)
+  const gazelleOrder: VehicleType[] = ['gazelle7', 'gazelle12', 'gazelle18'];
+  const fullOrder: VehicleType[] = ['gazelle7', 'gazelle12', 'gazelle18', 'van5', 'van6', 'truck'];
   const totals = calculateTotals(items);
+
+  // Если предметов нет — рекомендуем минимальную 7 м³
+  if (items.length === 0) return 'gazelle7';
+
+  // Быстрый путь по объему: для квартирных переездов ориентируемся на стандарт 7/12/18
+  // Источники размеров: kuzovspec.ru (тент 3×1.9×1.5=~8м³), fb.ru (4.2×1.9×2.15=18м³), pereezdporossii.ru (3м-10-12м³, 4-5м-16-18м³)
+  const volumeOrder = gazelleOrder.find((key) => {
+    const v = VEHICLES[key];
+    // Учитываем только объем и вес (до 1500 кг для всех газелей)
+    return totals.volume <= v.capacityM3 * 0.98 && totals.weight <= v.capacityKg * 0.98;
+  });
+  if (volumeOrder) {
+    // Дополнительная проверка высоты самого высокого предмета
+    const maxItemHeight = items.reduce((max, item) => Math.max(max, orientedHeight(item)), 0);
+    const fitsHeight = VEHICLES[volumeOrder].cargoHeight >= maxItemHeight;
+    if (fitsHeight) return volumeOrder;
+  }
+
+  // Если не влезло в газели — ищем по всем машинам с проверкой габаритов
   const maxTop = items.reduce((max, item) => Math.max(max, item.position[1] + orientedHeight(item)), 0);
   const maxX = items.reduce((max, item) => Math.max(max, Math.abs(item.position[0]) + orientedFootprint(item).length / 2), 0);
   const maxZ = items.reduce((max, item) => Math.max(max, Math.abs(item.position[2]) + orientedFootprint(item).width / 2), 0);
-  return order.find((key) => {
-    const v = VEHICLES[key];
-    return totals.volume <= v.capacityM3 * 0.94 && totals.weight <= v.capacityKg * 0.94 && maxTop <= v.cargoHeight && maxX <= v.cargoLength / 2 && maxZ <= v.cargoWidth / 2;
-  }) || 'truck';
+
+  return (
+    fullOrder.find((key) => {
+      const v = VEHICLES[key];
+      return totals.volume <= v.capacityM3 * 0.94 && totals.weight <= v.capacityKg * 0.94 && maxTop <= v.cargoHeight && maxX <= v.cargoLength / 2 && maxZ <= v.cargoWidth / 2;
+    }) || 'gazelle18'
+  );
+}
+
+export function recommendVehicleForVolume(volumeM3: number): VehicleType {
+  if (volumeM3 <= 7) return 'gazelle7';
+  if (volumeM3 <= 12) return 'gazelle12';
+  return 'gazelle18';
 }
 
 export function getStackHeightAt(palletId: string, x: number, z: number, pallets: LoadItem[]): number {
@@ -285,6 +394,9 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
 
   const placed: LoadItem[] = [];
 
+  // Магнит к стенам: если предмет в 5см от стены — прилипает
+  const WALL_SNAP = 0.06;
+
   sorted.forEach((item) => {
     if (item.dimensions.height > H && item.canLaySide) {
       item.rotation = [0, 0, Math.PI / 2];
@@ -305,8 +417,8 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
 
     const candidateZs: number[] = [];
     if (isLong) {
-      candidateZs.push(-W / 2 + fp.width / 2);
-      candidateZs.push(W / 2 - fp.width / 2);
+      candidateZs.push(-W / 2 + fp.width / 2 + WALL_SNAP);
+      candidateZs.push(W / 2 - fp.width / 2 - WALL_SNAP);
       for (let z = -W / 2 + fp.width / 2 + 0.1; z <= W / 2 - fp.width / 2; z += 0.2) {
         candidateZs.push(z);
       }
@@ -381,6 +493,16 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     }
 
     if (found) {
+      // Прилипание к стенам
+      const distToLeft = Math.abs(bestZ - (-W / 2 + fp.width / 2));
+      const distToRight = Math.abs(bestZ - (W / 2 - fp.width / 2));
+      const distToFront = Math.abs(bestX - (-L / 2 + fp.length / 2));
+      const distToBack = Math.abs(bestX - (L / 2 - fp.length / 2));
+      if (distToLeft < WALL_SNAP) bestZ = -W / 2 + fp.width / 2;
+      if (distToRight < WALL_SNAP) bestZ = W / 2 - fp.width / 2;
+      if (distToFront < WALL_SNAP) bestX = -L / 2 + fp.length / 2;
+      if (distToBack < WALL_SNAP) bestX = L / 2 - fp.length / 2;
+
       item.position = [bestX, bestY, bestZ];
     } else {
       const idx = placed.length;
@@ -390,4 +512,115 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
   });
 
   return placed;
+}
+
+// === Инженерные расчеты: центр тяжести, нагрузка на оси, дверь ===
+
+export function computeCenterOfGravity(items: LoadItem[]): { x: number; y: number; z: number; weight: number } {
+  if (items.length === 0) return { x: 0, y: 0, z: 0, weight: 0 };
+  let sumX = 0, sumY = 0, sumZ = 0, sumW = 0;
+  items.forEach((item) => {
+    const w = itemWeight(item);
+    const h = orientedHeight(item);
+    sumX += item.position[0] * w;
+    sumY += (item.position[1] + h / 2) * w;
+    sumZ += item.position[2] * w;
+    sumW += w;
+  });
+  return { x: sumX / sumW, y: sumY / sumW, z: sumZ / sumW, weight: sumW };
+}
+
+export function computeAxleLoads(items: LoadItem[], vehicleType: VehicleType): { frontKg: number; rearKg: number; imbalancePercent: number; isOverloadedFront: boolean; isOverloadedRear: boolean } {
+  const vehicle = VEHICLES[vehicleType];
+  const L = vehicle.cargoLength;
+  // Упрощенная модель: передняя ось в точке -L/2 -0.8, задняя в -L/2 + L*0.35 (типично для Газели)
+  const frontAxleX = -L / 2 - 0.9;
+  const rearAxleX = -L / 2 + L * 0.32;
+  const wheelbase = Math.abs(rearAxleX - frontAxleX);
+
+  let frontMoment = 0;
+  let totalWeight = 0;
+
+  items.forEach((item) => {
+    const w = itemWeight(item);
+    const x = item.position[0];
+    // Момент относительно задней оси: чем дальше вперед, тем больше нагрузка на перед
+    const distToRear = Math.abs(x - rearAxleX);
+    frontMoment += w * (wheelbase - distToRear);
+    totalWeight += w;
+  });
+
+  const frontKg = totalWeight === 0 ? 0 : (frontMoment / wheelbase);
+  const rearKg = totalWeight - frontKg;
+  const imbalance = totalWeight === 0 ? 0 : Math.abs(frontKg - rearKg) / totalWeight * 100;
+
+  return {
+    frontKg: Math.round(frontKg),
+    rearKg: Math.round(rearKg),
+    imbalancePercent: Math.round(imbalance),
+    isOverloadedFront: frontKg > totalWeight * 0.65,
+    isOverloadedRear: rearKg > totalWeight * 0.75
+  };
+}
+
+export function canFitThroughDoor(item: LoadItem, vehicleType: VehicleType): { fits: boolean; reason?: string } {
+  const vehicle = VEHICLES[vehicleType];
+  const doorWidth = vehicle.cargoWidth * 0.92; // проем чуть уже кузова
+  const doorHeight = vehicle.cargoHeight * 0.94;
+  const fp = orientedFootprint(item);
+  const h = orientedHeight(item);
+
+  if (fp.width > doorWidth && fp.length > doorWidth) {
+    return { fits: false, reason: `ширина ${fp.width.toFixed(2)} м > проем ${doorWidth.toFixed(2)} м` };
+  }
+  if (h > doorHeight) {
+    return { fits: false, reason: `высота ${h.toFixed(2)} м > проем ${doorHeight.toFixed(2)} м` };
+  }
+  if (!item.canLaySide && (Math.abs(item.dimensions.length - fp.length) > 0.01 || Math.abs(item.dimensions.width - fp.width) > 0.01)) {
+    // предмет положили боком но нельзя
+    return { fits: false, reason: 'нельзя класть боком' };
+  }
+  return { fits: true };
+}
+
+export function getDistanceToWalls(item: LoadItem, vehicleType: VehicleType): { left: number; right: number; front: number; back: number; top: number } {
+  const vehicle = VEHICLES[vehicleType];
+  const L = vehicle.cargoLength;
+  const W = vehicle.cargoWidth;
+  const H = vehicle.cargoHeight;
+  const fp = orientedFootprint(item);
+  const h = orientedHeight(item);
+
+  const minX = item.position[0] - fp.length / 2;
+  const maxX = item.position[0] + fp.length / 2;
+  const minZ = item.position[2] - fp.width / 2;
+  const maxZ = item.position[2] + fp.width / 2;
+  const maxY = item.position[1] + h;
+
+  return {
+    front: Math.abs(minX - (-L / 2)),
+    back: Math.abs(L / 2 - maxX),
+    left: Math.abs(minZ - (-W / 2)),
+    right: Math.abs(W / 2 - maxZ),
+    top: Math.abs(H - maxY)
+  };
+}
+
+export function generateSharePayload(pallets: LoadItem[], vehicleType: VehicleType): string {
+  const minimal = pallets.map((p) => ({ k: p.kind, p: p.position.map((v) => Math.round(v * 100) / 100), r: p.rotation.map((v) => Math.round(v * 100) / 100) }));
+  const data = { v: vehicleType, items: minimal };
+  try {
+    return btoa(encodeURIComponent(JSON.stringify(data)));
+  } catch {
+    return '';
+  }
+}
+
+export function parseSharePayload(payload: string): { vehicleType: VehicleType; items: Array<{ kind: string; position: [number, number, number]; rotation: [number, number, number] }> } | null {
+  try {
+    const json = decodeURIComponent(atob(payload));
+    return JSON.parse(json);
+  } catch {
+    return null;
+  }
 }

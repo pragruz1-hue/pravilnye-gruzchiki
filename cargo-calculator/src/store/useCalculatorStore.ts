@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import { ApartmentPreset, BoxSize, BoxType, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, PalletType, ServicesState, VehicleType } from '../types';
-import { calculateDistance, calculatePrice, calculateTotals, recommendVehicle, packItemsInVehicle } from '../utils/calculations';
+import { persist } from 'zustand/middleware';
+import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, PalletType, ServicesState, VehicleType } from '../types';
+import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, generateSharePayload, packItemsInVehicle, recommendVehicle } from '../utils/calculations';
 
 interface CalculatorState {
   from: string;
@@ -23,6 +24,14 @@ interface CalculatorState {
   totalPrice: number;
   deliveryTime: string;
   activePreset: ApartmentPreset | null;
+  cameraMode: CameraMode;
+  isNightMode: boolean;
+  history: LoadItem[][];
+  future: LoadItem[][];
+  isFirstPerson: boolean;
+  showMinimap: boolean;
+  showMeasurements: boolean;
+  isSoundEnabled: boolean;
   setRoute: (from: string, to: string) => void;
   setMoveType: (moveType: MoveType) => void;
   setVehicleType: (vehicleType: VehicleType) => void;
@@ -42,6 +51,17 @@ interface CalculatorState {
   updatePalletBoxes: (id: string, boxes: CargoBox[]) => void;
   calculatePrice: () => void;
   resetCalculator: () => void;
+  clearCalculator: () => void;
+  setCameraMode: (mode: CameraMode) => void;
+  toggleNightMode: () => void;
+  setNightMode: (isNight: boolean) => void;
+  undo: () => void;
+  redo: () => void;
+  setFirstPerson: (v: boolean) => void;
+  toggleMinimap: () => void;
+  toggleMeasurements: () => void;
+  toggleSound: () => void;
+  loadFromShare: (pallets: LoadItem[], vehicle: VehicleType) => void;
 }
 
 export const CATALOG: CatalogItem[] = [
@@ -96,8 +116,8 @@ export function makePallet(params: { type: PalletType; boxCount: number; boxSize
   return { kind: 'pallet', name: `${params.type} паллета`, type: params.type, position: params.position ?? [0, 0.072, 0], rotation: [0, 0, 0], weight: materialWeight, boxes: buildBoxes(params.boxCount, params.boxSize, params.boxType), dimensions, material: params.material, wrapped: params.wrapped, stackable: true, maxStackWeight: 1200, canLaySide: false, fragile: params.boxType === 'fragile' };
 }
 
-function gridPosition(index: number, vehicle: VehicleType = 'gazelle42'): [number, number, number] {
-  const cols = vehicle === 'gazelle3' ? 2 : 3;
+function gridPosition(index: number, vehicle: VehicleType = 'gazelle12'): [number, number, number] {
+  const cols = vehicle === 'gazelle7' ? 2 : 3;
   const col = index % cols;
   const row = Math.floor(index / cols);
   return [-1.45 + col * 1.05, 0.04, -0.55 + row * 0.78];
@@ -107,11 +127,11 @@ function buildPreset(preset: ApartmentPreset): LoadItem[] {
   const base: LoadItemKind[] = ['sofa', 'bed', 'wardrobe', 'fridge', 'washer', 'table', 'chairs', 'tv'];
   const extra2: LoadItemKind[] = ['wardrobe', 'bed', 'box', 'box', 'box', 'plant'];
   const extra3: LoadItemKind[] = ['sofa', 'wardrobe', 'wardrobe', 'bed', 'table', 'chairs', 'box', 'box', 'box', 'box', 'piano'];
-  const boxesCount = preset === 'oneRoom' ? 10 : preset === 'twoRoom' ? 18 : 28;
+  const boxesCount = preset === 'oneRoom' ? 6 : preset === 'twoRoom' ? 12 : 20;
   const kinds = preset === 'oneRoom' ? base : preset === 'twoRoom' ? [...base, ...extra2] : [...base, ...extra2, ...extra3];
-  const items = kinds.map((kind, index) => ({ ...createLoadItem(kind, gridPosition(index)), id: createId(kind) }));
+  const items = kinds.map((kind, index) => ({ ...createLoadItem(kind, gridPosition(index, APARTMENT_STANDARDS[preset].recommendedVehicle)), id: createId(kind) }));
   for (let i = 0; i < boxesCount; i += 1) {
-    const pos = gridPosition(kinds.length + i);
+    const pos = gridPosition(kinds.length + i, APARTMENT_STANDARDS[preset].recommendedVehicle);
     pos[1] = 0.04 + Math.floor(i / 8) * 0.42;
     items.push({ ...createLoadItem('box', pos), id: createId('box') });
   }
@@ -120,112 +140,226 @@ function buildPreset(preset: ApartmentPreset): LoadItem[] {
 
 function recalculate(set: (partial: Partial<CalculatorState>) => void, state: CalculatorState): void {
   const totals = calculateTotals(state.pallets);
-  const recommendedVehicleType = recommendVehicle(state.pallets);
+  const recommendedVehicleType = state.activePreset ? APARTMENT_STANDARDS[state.activePreset].recommendedVehicle : recommendVehicle(state.pallets);
   const price = calculatePrice({ vehicleType: state.vehicleType, vehicleCount: state.vehicleCount, distance: state.distance, pallets: state.pallets, services: state.services, urgency: state.urgency });
   set({ totalWeight: totals.weight, totalVolume: totals.volume, recommendedVehicleType, ...price });
+
+  // Отправка данных родителю (интеграция с формой сайта)
+  try {
+    const payload = generateSharePayload(state.pallets, state.vehicleType);
+    const message = {
+      type: 'cargo-calculation-update',
+      pallets: state.pallets.length,
+      volume: totals.volume,
+      weight: totals.weight,
+      vehicle: state.vehicleType,
+      recommended: recommendedVehicleType,
+      price: price.totalPrice,
+      share: payload,
+      from: state.from,
+      to: state.to
+    };
+    window.parent?.postMessage(message, '*');
+    window.postMessage(message, '*');
+    // Сохраняем в localStorage для сайта
+    localStorage.setItem('pg_last_calculation', JSON.stringify(message));
+  } catch {}
 }
 
-const initialItemsRaw = buildPreset('oneRoom');
-const initialItems = packItemsInVehicle(initialItemsRaw, 'gazelle42');
+function pushHistory(state: CalculatorState): { history: LoadItem[][]; future: LoadItem[][] } {
+  const newHistory = [...state.history, state.pallets.map(p => ({ ...p, position: [...p.position] as any, rotation: [...p.rotation] as any }))];
+  if (newHistory.length > 30) newHistory.shift();
+  return { history: newHistory, future: [] };
+}
 
-export const useCalculatorStore = create<CalculatorState>((set, get) => ({
-  from: 'Краснодар', to: 'Сочи', distance: 286, moveType: 'apartment', totalWeight: calculateTotals(initialItems).weight, totalVolume: calculateTotals(initialItems).volume,
-  pallets: initialItems, selectedPalletId: initialItems[0]?.id ?? null, vehicleType: 'gazelle42', recommendedVehicleType: recommendVehicle(initialItems), vehicleCount: 1, urgency: 2, services: initialServices,
-  basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', activePreset: 'oneRoom',
+export const useCalculatorStore = create<CalculatorState>()(
+  persist(
+    (set, get) => ({
+      from: 'Краснодар', to: 'Сочи', distance: 286, moveType: 'apartment', totalWeight: 0, totalVolume: 0,
+      pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7', vehicleCount: 1, urgency: 2, services: initialServices,
+      basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', activePreset: null,
+      cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
 
-  setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
-  setMoveType: (moveType) => { set({ moveType }); get().calculatePrice(); },
-  setVehicleType: (vehicleType) => {
-    set({ vehicleType });
-    // Pack current items when vehicle changes so they always sit nicely
-    const currentItems = get().pallets;
-    const packed = packItemsInVehicle(currentItems, vehicleType);
-    set({ pallets: packed, selectedPalletId: packed.length > 0 ? packed[0].id : null });
-    get().calculatePrice();
-  },
-  useRecommendedVehicle: () => {
-    const recommended = get().recommendedVehicleType;
-    set({ vehicleType: recommended });
-    const currentItems = get().pallets;
-    const packed = packItemsInVehicle(currentItems, recommended);
-    set({ pallets: packed, selectedPalletId: packed.length > 0 ? packed[0].id : null });
-    get().calculatePrice();
-  },
-  setVehicleCount: (vehicleCount) => { set({ vehicleCount: Math.max(1, Math.min(10, vehicleCount)) }); get().calculatePrice(); },
-  setUrgency: (urgency) => { set({ urgency }); get().calculatePrice(); },
-  setService: (key, value) => { set((state) => ({ services: { ...state.services, [key]: value } })); get().calculatePrice(); },
-  addPallet: (palletData) => {
-    const id = createId('pallet');
-    set((state) => {
-      const items = [...state.pallets, { ...palletData, id }];
-      const packed = packItemsInVehicle(items, state.vehicleType);
-      return { pallets: packed, selectedPalletId: id, activePreset: null };
-    });
-    get().calculatePrice();
-  },
-  addCatalogItem: (kind) => {
-    const id = createId(kind);
-    set((state) => {
-      const dummyPos: [number, number, number] = [0, 0.04, 0];
-      const items = [...state.pallets, { ...createLoadItem(kind, dummyPos), id }];
-      const packed = packItemsInVehicle(items, state.vehicleType);
-      return { pallets: packed, selectedPalletId: id, activePreset: null };
-    });
-    get().calculatePrice();
-  },
-  applyApartmentPreset: (preset) => {
-    const rawItems = buildPreset(preset);
-    const recommended = recommendVehicle(rawItems);
-    const packed = packItemsInVehicle(rawItems, recommended);
-    set({
-      moveType: 'apartment',
-      pallets: packed,
-      selectedPalletId: packed[0]?.id ?? null,
-      activePreset: preset,
-      recommendedVehicleType: recommended,
-      vehicleType: recommended
-    });
-    get().calculatePrice();
-  },
-  removePallet: (id) => {
-    set((state) => {
-      const remaining = state.pallets.filter((pallet) => pallet.id !== id);
-      const packed = packItemsInVehicle(remaining, state.vehicleType);
-      return {
-        pallets: packed,
-        selectedPalletId: state.selectedPalletId === id ? (packed[0]?.id ?? null) : state.selectedPalletId,
-        activePreset: null
-      };
-    });
-    get().calculatePrice();
-  },
-  updatePalletPosition: (id, position) => { set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, position } : pallet), activePreset: null })); get().calculatePrice(); },
-  updatePalletRotation: (id, rotation) => { set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, rotation } : pallet), activePreset: null })); get().calculatePrice(); },
-  liftSelected: (delta) => { const id = get().selectedPalletId; if (!id) return; set((state) => ({ pallets: state.pallets.map((item) => item.id === id ? { ...item, position: [item.position[0], Math.max(0.04, item.position[1] + delta), item.position[2]] } : item), activePreset: null })); get().calculatePrice(); },
-  rotateSelectedY: () => { const id = get().selectedPalletId; if (!id) return; set((state) => ({ pallets: state.pallets.map((item) => item.id === id ? { ...item, rotation: [item.rotation[0], item.rotation[1] + Math.PI / 2, item.rotation[2]] } : item), activePreset: null })); get().calculatePrice(); },
-  selectPallet: (id) => set({ selectedPalletId: id }),
-  updatePalletBoxes: (id, boxes) => { set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, boxes } : pallet) })); get().calculatePrice(); },
-  calculatePrice: () => recalculate(set, get()),
-  resetCalculator: () => {
-    const rawItems = buildPreset('oneRoom');
-    const recommended = recommendVehicle(rawItems);
-    const packed = packItemsInVehicle(rawItems, recommended);
-    set({
-      from: 'Краснодар',
-      to: 'Сочи',
-      distance: 286,
-      moveType: 'apartment',
-      pallets: packed,
-      selectedPalletId: packed[0]?.id ?? null,
-      vehicleType: recommended,
-      recommendedVehicleType: recommended,
-      vehicleCount: 1,
-      urgency: 2,
-      services: initialServices,
-      activePreset: 'oneRoom'
-    });
-    get().calculatePrice();
-  }
-}));
+      setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
+      setMoveType: (moveType) => { set({ moveType }); get().calculatePrice(); },
+      setVehicleType: (vehicleType) => {
+        const st = get();
+        const hist = pushHistory(st);
+        set({ vehicleType, ...hist });
+        const currentItems = get().pallets;
+        if (currentItems.length === 0) { get().calculatePrice(); return; }
+        const packed = packItemsInVehicle(currentItems, vehicleType);
+        set({ pallets: packed, selectedPalletId: packed.length > 0 ? packed[0].id : null });
+        get().calculatePrice();
+      },
+      useRecommendedVehicle: () => {
+        const recommended = get().recommendedVehicleType;
+        const st = get();
+        set({ vehicleType: recommended, ...pushHistory(st) });
+        const currentItems = get().pallets;
+        if (currentItems.length === 0) { get().calculatePrice(); return; }
+        const packed = packItemsInVehicle(currentItems, recommended);
+        set({ pallets: packed, selectedPalletId: packed.length > 0 ? packed[0].id : null });
+        get().calculatePrice();
+      },
+      setVehicleCount: (vehicleCount) => { set({ vehicleCount: Math.max(1, Math.min(10, vehicleCount)) }); get().calculatePrice(); },
+      setUrgency: (urgency) => { set({ urgency }); get().calculatePrice(); },
+      setService: (key, value) => { set((state) => ({ services: { ...state.services, [key]: value } })); get().calculatePrice(); },
+      addPallet: (palletData) => {
+        const id = createId('pallet');
+        const st = get();
+        set((state) => {
+          const items = [...state.pallets, { ...palletData, id }];
+          const packed = packItemsInVehicle(items, state.vehicleType);
+          return { pallets: packed, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
+        });
+        get().calculatePrice();
+        if (get().isSoundEnabled) { try { (window as any).pgPlaySound?.('add'); } catch {} }
+      },
+      addCatalogItem: (kind) => {
+        const id = createId(kind);
+        const st = get();
+        set((state) => {
+          const dummyPos: [number, number, number] = [0, 0.04, 0];
+          const items = [...state.pallets, { ...createLoadItem(kind, dummyPos), id }];
+          const packed = packItemsInVehicle(items, state.vehicleType);
+          return { pallets: packed, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
+        });
+        get().calculatePrice();
+        if (get().isSoundEnabled) { try { (window as any).pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {} }
+      },
+      applyApartmentPreset: (preset) => {
+        const standard = APARTMENT_STANDARDS[preset];
+        const rawItems = buildPreset(preset);
+        const recommended = standard.recommendedVehicle;
+        const st = get();
+        const packed = packItemsInVehicle(rawItems, recommended);
+        set({
+          moveType: 'apartment',
+          pallets: packed,
+          selectedPalletId: packed[0]?.id ?? null,
+          activePreset: preset,
+          recommendedVehicleType: recommended,
+          vehicleType: recommended,
+          ...pushHistory(st)
+        });
+        get().calculatePrice();
+      },
+      removePallet: (id) => {
+        const st = get();
+        set((state) => {
+          const remaining = state.pallets.filter((pallet) => pallet.id !== id);
+          if (remaining.length === 0) {
+            return { pallets: [], selectedPalletId: null, activePreset: null, ...pushHistory(st) };
+          }
+          const packed = packItemsInVehicle(remaining, state.vehicleType);
+          return {
+            pallets: packed,
+            selectedPalletId: state.selectedPalletId === id ? (packed[0]?.id ?? null) : state.selectedPalletId,
+            activePreset: null,
+            ...pushHistory(st)
+          };
+        });
+        get().calculatePrice();
+        if (get().isSoundEnabled) { try { (window as any).pgPlaySound?.('remove'); if (navigator.vibrate) navigator.vibrate([20, 30, 20]); } catch {} }
+      },
+      updatePalletPosition: (id, position) => {
+        const st = get();
+        // Не пушим историю на каждое движение, только если была пауза — упрощено: пушим раз в 10 движений через throttle? Пока без истории для плавности
+        set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, position } : pallet), activePreset: null }));
+        get().calculatePrice();
+      },
+      updatePalletRotation: (id, rotation) => {
+        const st = get();
+        set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, rotation } : pallet), activePreset: null, ...pushHistory(st) }));
+        get().calculatePrice();
+      },
+      liftSelected: (delta) => {
+        const id = get().selectedPalletId; if (!id) return;
+        const st = get();
+        set((state) => ({ pallets: state.pallets.map((item) => item.id === id ? { ...item, position: [item.position[0], Math.max(0.04, item.position[1] + delta), item.position[2]] } : item), activePreset: null, ...pushHistory(st) }));
+        get().calculatePrice();
+      },
+      rotateSelectedY: () => {
+        const id = get().selectedPalletId; if (!id) return;
+        const st = get();
+        set((state) => ({ pallets: state.pallets.map((item) => item.id === id ? { ...item, rotation: [item.rotation[0], item.rotation[1] + Math.PI / 2, item.rotation[2]] } : item), activePreset: null, ...pushHistory(st) }));
+        get().calculatePrice();
+      },
+      selectPallet: (id) => set({ selectedPalletId: id }),
+      updatePalletBoxes: (id, boxes) => { set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, boxes } : pallet) })); get().calculatePrice(); },
+      calculatePrice: () => recalculate(set as any, get()),
+      resetCalculator: () => {
+        if (get().pallets.length > 0 && !confirm('Очистить кузов? Все предметы удалятся.')) return;
+        set({
+          from: 'Краснодар', to: 'Сочи', distance: 286, moveType: 'apartment',
+          pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7',
+          vehicleCount: 1, urgency: 2, services: initialServices, activePreset: null,
+          cameraMode: 'overview', isNightMode: false, history: [], future: []
+        });
+        get().calculatePrice();
+      },
+      clearCalculator: () => {
+        if (get().pallets.length > 0 && !confirm('Очистить кузов?')) return;
+        const st = get();
+        set({ pallets: [], selectedPalletId: null, activePreset: null, totalWeight: 0, totalVolume: 0, ...pushHistory(st) });
+        get().calculatePrice();
+      },
+      setCameraMode: (mode) => set({ cameraMode: mode }),
+      toggleNightMode: () => set((state) => ({ isNightMode: !state.isNightMode })),
+      setNightMode: (isNight) => set({ isNightMode: isNight }),
+      undo: () => {
+        const st = get();
+        if (st.history.length === 0) return;
+        const prev = st.history[st.history.length - 1];
+        const newHist = st.history.slice(0, -1);
+        set({ pallets: prev, future: [...st.future, st.pallets], history: newHist, selectedPalletId: prev[0]?.id ?? null });
+        get().calculatePrice();
+      },
+      redo: () => {
+        const st = get();
+        if (st.future.length === 0) return;
+        const next = st.future[st.future.length - 1];
+        const newFuture = st.future.slice(0, -1);
+        set({ pallets: next, history: [...st.history, st.pallets], future: newFuture, selectedPalletId: next[0]?.id ?? null });
+        get().calculatePrice();
+      },
+      setFirstPerson: (v) => set({ isFirstPerson: v }),
+      toggleMinimap: () => set((s) => ({ showMinimap: !s.showMinimap })),
+      toggleMeasurements: () => set((s) => ({ showMeasurements: !s.showMeasurements })),
+      toggleSound: () => set((s) => ({ isSoundEnabled: !s.isSoundEnabled })),
+      loadFromShare: (pallets, vehicle) => {
+        set({ pallets, vehicleType: vehicle, selectedPalletId: pallets[0]?.id ?? null });
+        get().calculatePrice();
+      }
+    }),
+    {
+      name: 'pg-cargo-3d-v2',
+      partialize: (state) => ({ pallets: state.pallets, vehicleType: state.vehicleType, from: state.from, to: state.to, activePreset: state.activePreset, cameraMode: state.cameraMode, isNightMode: state.isNightMode, showMinimap: state.showMinimap, showMeasurements: state.showMeasurements, isSoundEnabled: state.isSoundEnabled })
+    }
+  )
+);
 
 useCalculatorStore.getState().calculatePrice();
+
+// Загрузка из URL ?share=...
+if (typeof window !== 'undefined') {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const share = params.get('share');
+    if (share) {
+      import('../utils/calculations').then(({ parseSharePayload }) => {
+        const data = parseSharePayload(share);
+        if (data) {
+          const store = useCalculatorStore.getState();
+          // Восстанавливаем предметы из каталога
+          const items = data.items.map((i: any, idx: number) => {
+            const cat = CATALOG.find(c => c.kind === i.k) || CATALOG[0];
+            return { ...cat, id: `shared-${idx}`, kind: cat.kind as any, name: cat.name, position: i.p as any, rotation: i.r as any, type: 'STANDARD' as any, boxes: [], weight: cat.weight, dimensions: cat.dimensions, material: cat.material, wrapped: false, stackable: cat.stackable, maxStackWeight: cat.maxStackWeight, canLaySide: cat.canLaySide, fragile: cat.fragile };
+          });
+          store.loadFromShare(items as any, data.vehicleType as any);
+        }
+      });
+    }
+  } catch {}
+}

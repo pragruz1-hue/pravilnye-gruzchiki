@@ -17,6 +17,7 @@ export function PalletManager() {
   const selectPallet = useCalculatorStore((state) => state.selectPallet);
   const vehicle = VEHICLES[vehicleType];
   const { camera, raycaster, gl } = useThree();
+  const controls = useThree((state) => state.controls as any);
   const [isDragging, setIsDragging] = useState(false);
   const dragPlaneRef = useRef<THREE.Plane>(new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.04));
   const dragOffset = useRef(new THREE.Vector3());
@@ -45,20 +46,42 @@ export function PalletManager() {
     updatePalletPosition(selectedPalletId, [targetX, targetY, targetZ]);
   });
 
+  function disableControls() {
+    if (controls) controls.enabled = false;
+  }
+  function enableControls() {
+    if (controls) controls.enabled = true;
+  }
+
   function handlePalletPointerDown(id: string, event: ThreeEvent<PointerEvent>) {
     event.stopPropagation();
+    // Prevent OrbitControls from also receiving this pointerdown (fixes camera moving while dragging)
+    if ((event as any).nativeEvent) {
+      (event as any).nativeEvent.preventDefault?.();
+    }
     const item = pallets.find((entry) => entry.id === id);
     if (!item) return;
     selectPallet(id);
     setIsDragging(true);
+    disableControls();
     gl.domElement.style.cursor = 'grabbing';
+    // Capture pointer to avoid losing drag when cursor leaves canvas
+    try {
+      (event.target as HTMLElement).setPointerCapture((event as any).pointerId);
+    } catch {}
     dragPlaneRef.current.constant = -Math.max(0.04, item.position[1]);
     dragOffset.current.set(event.point.x - item.position[0], 0, event.point.z - item.position[2]);
   }
 
-  function stopDragging() {
+  function stopDragging(event?: any) {
     setIsDragging(false);
+    enableControls();
     gl.domElement.style.cursor = 'grab';
+    if (event) {
+      try {
+        (event.target as HTMLElement).releasePointerCapture(event.pointerId);
+      } catch {}
+    }
   }
 
   return (

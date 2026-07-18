@@ -7,7 +7,7 @@
     <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
     <meta name="yandex" content="noindex, nofollow, noarchive" />
     <meta name="theme-color" content="#10131b" />
-    <title>Тестовый 3D калькулятор грузоперевозок — Правильные Грузчики</title>
+    <title>Тестовый 3D калькулятор грузоперевозок — Правильные Грузчики v2 инженерный</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <style>
@@ -27,7 +27,7 @@
           radial-gradient(circle at 86% 12%, rgba(37, 99, 235, .20), transparent 34%),
           linear-gradient(135deg, #07090e 0%, #10131b 45%, #e9ecef 100%);
       }
-      .page-shell { min-height: 100vh; padding: 18px; display: grid; grid-template-rows: auto 1fr; gap: 14px; }
+      .page-shell { min-height: 100vh; padding: 18px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 14px; }
       .topbar {
         display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px;
         border-radius: 24px; color: #fff; background: rgba(16, 19, 27, .82); border: 1px solid rgba(255,255,255,.12);
@@ -37,17 +37,20 @@
       .logo-mark { width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; background: linear-gradient(135deg, var(--pg-orange), var(--pg-orange-dark)); font-weight: 950; box-shadow: 0 12px 28px rgba(255,107,0,.32); }
       .brand-title { font-size: 12px; font-weight: 950; letter-spacing: .18em; color: #ffbd8a; line-height: 1; }
       .brand-subtitle { font-size: 18px; font-weight: 950; line-height: 1.15; }
-      .page-note { flex: 1; color: rgba(255,255,255,.76); font-size: 14px; line-height: 1.45; }
+      .page-note { flex: 1; color: rgba(255,255,255,.76); font-size: 13px; line-height: 1.45; }
       .badge { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; padding: 10px 12px; border-radius: 999px; background: rgba(255, 107, 0, .16); border: 1px solid rgba(255, 107, 0, .34); color: #ffd7bd; font-weight: 900; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
-      .frame-wrap { position: relative; min-height: 720px; border-radius: 30px; overflow: hidden; background: rgba(255,255,255,.68); border: 1px solid rgba(255,255,255,.55); box-shadow: 0 28px 80px rgba(0,0,0,.26); }
+      .integration-bar { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px 16px; border-radius: 18px; background: rgba(255,255,255,.88); border: 1px solid rgba(255,255,255,.6); box-shadow: 0 10px 30px rgba(0,0,0,.18); font-size: 12px; }
+      .integration-bar b { color: #d35400; }
+      .frame-wrap { position: relative; min-height: 760px; border-radius: 30px; overflow: hidden; background: rgba(255,255,255,.68); border: 1px solid rgba(255,255,255,.55); box-shadow: 0 28px 80px rgba(0,0,0,.26); }
       .calc-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #f8fafc; }
       .fallback { position: absolute; inset: auto 22px 22px; z-index: 2; max-width: 760px; padding: 12px 14px; border-radius: 18px; background: rgba(16, 19, 27, .84); color: rgba(255,255,255,.82); font-size: 13px; line-height: 1.5; pointer-events: none; }
       .fallback strong { color: #fff; }
+      .footer-note { padding: 12px 16px; border-radius: 16px; background: rgba(16,19,27,.75); color: rgba(255,255,255,.7); font-size: 11px; line-height: 1.5; }
       @media (max-width: 840px) {
         .page-shell { padding: 10px; }
         .topbar { align-items: flex-start; flex-direction: column; border-radius: 20px; }
         .brand { min-width: 0; }
-        .frame-wrap { min-height: 78vh; border-radius: 22px; }
+        .frame-wrap { min-height: 82vh; border-radius: 22px; }
         .fallback { display: none; }
       }
     </style>
@@ -59,18 +62,60 @@
           <div class="logo-mark">ПГ</div>
           <div>
             <div class="brand-title">ПРАВИЛЬНЫЕ</div>
-            <div class="brand-subtitle">ГРУЗЧИКИ</div>
+            <div class="brand-subtitle">ГРУЗЧИКИ v2</div>
           </div>
         </div>
         <div class="page-note">
-          Тестовая закрытая страница 3D-калькулятора. Не добавлена в меню и sitemap, закрыта от индексации meta robots и robots.txt.
+          Инженерный 3D-калькулятор: пустой старт, Газели 7/12/18 м³ (3.0×1.8×1.3, 3.2×1.9×2.0, 4.2×2.0×2.15, 1500 кг), камеры как в игре (в кузове, кабина), день/ночь с лампами, COG, оси, дверь, рулетка, мини-карта, WASD, магнит, звук, undo/redo, persist, share, скриншот в PDF, postMessage в сайт.
         </div>
-        <div class="badge">noindex · prototype</div>
+        <div class="badge">noindex · v2 инженерный</div>
       </header>
+
+      <div class="integration-bar" id="integrationBar">
+        <span>📦 Интеграция: <b id="ibCount">0</b> предметов · <b id="ibVol">0</b> м³ · <b id="ibWeight">0</b> кг · <b id="ibVehicle">-</b> · <b id="ibPrice">0</b> ₽ · <span id="ibStatus">ожидание postMessage...</span></span>
+        <button onclick="copyPayload()" style="margin-left:auto;background:#10131b;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer">📋 Копировать JSON для CRM</button>
+        <button onclick="document.getElementById('calcFrame').contentWindow?.postMessage({type:'pg-request-calculation'},'*')" style="background:#ff6b00;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer">🔄 Запросить расчет</button>
+      </div>
+
       <section class="frame-wrap" aria-label="3D калькулятор грузоперевозок">
-        <iframe class="calc-frame" src="cargo-3d-calculator/index.html" title="3D калькулятор грузоперевозок" loading="eager" allow="fullscreen; autoplay; clipboard-write"></iframe>
-        <div class="fallback"><strong>Если внутри пусто:</strong> обновите страницу без кэша Ctrl+F5. Приложение лежит в <code>/cargo-3d-calculator/</code>, исходники — в <code>/cargo-calculator/</code>.</div>
+        <iframe id="calcFrame" class="calc-frame" src="cargo-3d-calculator/index.html" title="3D калькулятор грузоперевозок" loading="eager" allow="fullscreen; autoplay; clipboard-write"></iframe>
+        <div class="fallback"><strong>v2:</strong> пустой кузов на старте, выбор квартиры → авто-машина 7/12/18, WASD в кузове, мини-карта, рулетка, COG, оси, postMessage. Исходники — <code>/cargo-calculator/</code>.</div>
       </section>
+
+      <div class="footer-note">
+        <b>Что исправлено по твоим 5 пунктам:</b> 1) пустой кузов, 2) рекомендация машины по стандарту квартиры, 3) авто-объем 7/12/18, 4) 3 панели вместо 2 перекрывающих, 5) drag не двигает камеру + WASD. Мобилка как игра. 
+        <b>Нововведения v2:</b> persist в localStorage, undo/redo, share ?share=, скриншот canvas.toDataURL в PDF, COG красный, нагрузка на оси, проверка двери, мини-карта, измерения, магнит 6см, звук/вибрация, first-person, интеграция postMessage в этот бар.
+      </div>
     </main>
+
+    <script>
+      let lastPayload = null;
+      window.addEventListener('message', (event) => {
+        const data = event.data;
+        if (!data || typeof data !== 'object') return;
+        if (data.type && data.type.startsWith('cargo-')) {
+          console.log('[PG 3D] postMessage', data);
+          lastPayload = data;
+          const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+          el('ibCount', data.pallets ?? data.count ?? 0);
+          el('ibVol', (data.volume ?? 0).toFixed ? data.volume.toFixed(1) : data.volume ?? 0);
+          el('ibWeight', data.weight ?? 0);
+          el('ibVehicle', data.vehicle ?? '-');
+          el('ibPrice', (data.price ?? 0).toLocaleString ? data.price.toLocaleString('ru-RU') : data.price ?? 0);
+          el('ibStatus', '✅ ' + data.type + ' в ' + new Date().toLocaleTimeString());
+          try { localStorage.setItem('pg_last_calculation_parent', JSON.stringify(data)); } catch {}
+        }
+      });
+      function copyPayload() {
+        if (!lastPayload) { alert('Пока нет данных — походи в кузове, добавь мебель'); return; }
+        navigator.clipboard.writeText(JSON.stringify(lastPayload, null, 2));
+        alert('JSON скопирован — вставь в CRM / заявку');
+      }
+      // Чтение из localStorage при загрузке
+      try {
+        const saved = localStorage.getItem('pg_last_calculation');
+        if (saved) console.log('last calc from iframe localStorage', JSON.parse(saved));
+      } catch {}
+    </script>
   </body>
 </html>

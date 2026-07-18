@@ -91,9 +91,9 @@ body {
   body {
     overflow: auto;
   }
-
+  /* Убрали ограничение 48vh — теперь 3 панели и игровые камеры не перекрывают обзор */
   .glass-panel {
-    max-height: 48vh;
+    max-height: none;
   }
 }
 

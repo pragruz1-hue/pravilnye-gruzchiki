@@ -1,5 +1,16 @@
 export type MoveType = 'apartment' | 'office' | 'commercial';
-export type VehicleType = 'gazelle3' | 'gazelle42' | 'van5' | 'van6' | 'truck' | 'refrigerator';
+export type VehicleType = 'gazelle7' | 'gazelle12' | 'gazelle18' | 'gazelle3' | 'gazelle42' | 'van5' | 'van6' | 'truck' | 'refrigerator';
+export type CameraMode = 'overview' | 'inside' | 'top' | 'side' | 'cabin';
+
+export interface ApartmentStandard {
+  id: ApartmentPreset;
+  label: string;
+  hint: string;
+  volumeM3: number;
+  weightKg: number;
+  recommendedVehicle: VehicleType;
+  description: string;
+}
 export type PalletType = 'EUR' | 'FIN' | 'STANDARD';
 export type BoxSize = 'S' | 'M' | 'L' | 'XL';
 export type BoxType = 'standard' | 'fragile' | 'heavy' | 'cold' | 'danger';
