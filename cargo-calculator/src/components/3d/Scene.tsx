@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Component, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
@@ -118,6 +118,32 @@ function AdaptiveQuality({ onSlowFrames }: { onSlowFrames: () => void }) {
   return null;
 }
 
+/**
+ * HDR-окружение (Environment preset) грузится с внешнего CDN. Если CDN
+ * недоступен или файл завис/упал, сцена всё равно рендерится — просто без
+ * environment-map (отражений). Свой Suspense нужен, чтобы остальное
+ * содержимое сцены не ждало загрузку HDR.
+ */
+class EnvGuard extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
+
+function SafeEnvironment({ preset }: { preset: 'apartment' | 'warehouse' }) {
+  return (
+    <Suspense fallback={null}>
+      <EnvGuard>
+        <Environment preset={preset} />
+      </EnvGuard>
+    </Suspense>
+  );
+}
+
 function SceneFallback({ reason }: { reason: string }) {
   const pallets = useCalculatorStore((s) => s.pallets);
   const vehicleType = useCalculatorStore((s) => s.vehicleType);
@@ -178,7 +204,7 @@ export function Scene() {
       <PerspectiveCamera makeDefault position={[6.8, 4.3, 6.2]} fov={48} />
       <Suspense fallback={null}>
         <Lighting />
-        {!renderLite && <Environment preset={isInside ? 'apartment' : 'warehouse'} />}
+        {!renderLite && <SafeEnvironment preset={isInside ? 'apartment' : 'warehouse'} />}
         <Truck position={[0, 0, 0]} />
         {isHeatmapEnabled && !renderLite && <FloorHeatmap />}
         <PalletManager />
