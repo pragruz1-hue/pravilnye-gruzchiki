@@ -1573,23 +1573,6 @@
       if (orderBtn) {
         orderBtn.addEventListener('click', function () { closeGeo(); });
       }
-
-      // Burger already may be handled by app.js; keep minimal fallback
-      var burger = document.getElementById('burger-btn');
-      var menu = document.getElementById('mobile-menu-overlay');
-      var menuClose = document.getElementById('mobile-menu-close');
-      if (burger && menu) {
-        burger.addEventListener('click', function () {
-          menu.classList.add('active');
-          document.body.classList.add('no-scroll');
-        });
-      }
-      if (menuClose && menu) {
-        menuClose.addEventListener('click', function () {
-          menu.classList.remove('active');
-          document.body.classList.remove('no-scroll');
-        });
-      }
     </script>
 
   

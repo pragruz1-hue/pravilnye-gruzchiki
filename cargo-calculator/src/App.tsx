@@ -6,6 +6,7 @@ import { CameraSwitcher, DayNightBadge } from './components/ui/CameraSwitcher';
 import { MiniMap } from './components/ui/MiniMap';
 import { MobileJoystick } from './components/ui/MobileJoystick';
 import { AutoFillButton } from './components/ui/AutoFillButton';
+import { RenderQualityControl } from './components/ui/RenderQualityControl';
 import { useCalculatorStore } from './store/useCalculatorStore';
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
 
         <main className="relative flex min-h-[58vh] flex-1 flex-col overflow-hidden rounded-[24px] border border-white/20 bg-white/40 shadow-glass backdrop-blur-glass md:min-h-0 md:rounded-[32px]">
           <Scene />
+          <RenderQualityControl />
           <AutoFillButton />
           <CameraSwitcher />
           <DayNightBadge />

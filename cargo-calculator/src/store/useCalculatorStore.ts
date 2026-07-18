@@ -35,6 +35,7 @@ interface CalculatorState {
   showMeasurements: boolean;
   isSoundEnabled: boolean;
   isPerformanceMode: boolean;
+  renderQuality: import('../types').RenderQuality;
   isPhysicsEnabled: boolean;
   isHeatmapEnabled: boolean;
   overflowCount: number;
@@ -77,6 +78,7 @@ interface CalculatorState {
   toggleMeasurements: () => void;
   toggleSound: () => void;
   togglePerformance: () => void;
+  setRenderQuality: (quality: import('../types').RenderQuality) => void;
   togglePhysics: () => void;
   toggleHeatmap: () => void;
   loadFromShare: (pallets: LoadItem[], vehicle: VehicleType) => void;
@@ -286,7 +288,7 @@ export const useCalculatorStore = create<CalculatorState>()(
       pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7', vehicleCount: 1, urgency: 2, services: initialServices,
       basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', tripRange: 'regional', workHours: 0, activePreset: null,
       cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
-      isPerformanceMode: false, isPhysicsEnabled: false, isHeatmapEnabled: true, fallingTargets: {},
+      isPerformanceMode: false, renderQuality: 'auto', isPhysicsEnabled: false, isHeatmapEnabled: false, fallingTargets: {},
       overflowCount: 0, overflowItems: [], overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0,
 
       setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
@@ -504,6 +506,7 @@ export const useCalculatorStore = create<CalculatorState>()(
       toggleMeasurements: () => set((s) => ({ showMeasurements: !s.showMeasurements })),
       toggleSound: () => set((s) => ({ isSoundEnabled: !s.isSoundEnabled })),
       togglePerformance: () => set((s) => ({ isPerformanceMode: !s.isPerformanceMode })),
+      setRenderQuality: (renderQuality) => set({ renderQuality }),
       togglePhysics: () => set((s) => ({ isPhysicsEnabled: !s.isPhysicsEnabled })),
       toggleHeatmap: () => set((s) => ({ isHeatmapEnabled: !s.isHeatmapEnabled })),
       loadFromShare: (pallets, vehicle) => {
@@ -561,7 +564,7 @@ export const useCalculatorStore = create<CalculatorState>()(
     }),
     {
       name: 'pg-cargo-3d-v3',
-      version: 3,
+      version: 5,
       migrate: (persisted: any, version: number) => {
         if (version < 3) {
           return {
@@ -573,6 +576,10 @@ export const useCalculatorStore = create<CalculatorState>()(
             future: []
           };
         }
+        // Floor heatmap creates dozens of extra meshes and used to be enabled in
+        // persisted v3 sessions. Start it off after the performance migration.
+        if (version < 4) return { ...persisted, isHeatmapEnabled: false };
+        if (version < 5) return { ...persisted, renderQuality: 'auto' };
         return persisted;
       },
       partialize: (state) => ({
@@ -587,6 +594,7 @@ export const useCalculatorStore = create<CalculatorState>()(
         showMeasurements: state.showMeasurements,
         isSoundEnabled: state.isSoundEnabled,
         isPerformanceMode: state.isPerformanceMode,
+        renderQuality: state.renderQuality,
         isPhysicsEnabled: state.isPhysicsEnabled,
         isHeatmapEnabled: state.isHeatmapEnabled
       })

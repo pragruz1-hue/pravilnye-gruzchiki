@@ -21,6 +21,9 @@ export function MiniMap() {
   }
 
   const scale = 120 / Math.max(L, W);
+  // Avoid creating hundreds of DOM nodes in the mini-map for an auto-filled truck.
+  const visiblePallets = pallets.slice(0, 80);
+  const hiddenCount = pallets.length - visiblePallets.length;
 
   return (
     <div className="absolute left-4 top-[88px] z-20 w-[170px] rounded-2xl border border-white/30 bg-white/90 p-2 shadow-xl backdrop-blur">
@@ -30,7 +33,7 @@ export function MiniMap() {
       </div>
       <div className="relative mx-auto overflow-hidden rounded-lg border border-gray-300 bg-slate-100" style={{ width: L * scale + 20, height: W * scale + 20 }}>
         <div className="absolute left-[10px] top-[10px] border-2 border-orange-400 bg-white" style={{ width: L * scale, height: W * scale }} />
-        {pallets.map((item) => {
+        {visiblePallets.map((item) => {
           const fp = orientedFootprint(item as any);
           const x = ((item.position[0] + L / 2 - fp.length / 2) / L) * (L * scale);
           const z = ((item.position[2] + W / 2 - fp.width / 2) / W) * (W * scale);
@@ -49,7 +52,7 @@ export function MiniMap() {
           );
         })}
       </div>
-      <div className="mt-1 text-[9px] leading-3 text-gray-500">Клик — выбрать. Поворот виден. 🔥 — тепловая карта нагрузки пола включена.</div>
+      <div className="mt-1 text-[9px] leading-3 text-gray-500">Клик — выбрать. Поворот виден. 🔥 — тепловая карта нагрузки пола включена.{hiddenCount > 0 ? ` На схеме первые ${visiblePallets.length}, ещё ${hiddenCount} в расчёте.` : ''}</div>
     </div>
   );
 }

@@ -2,13 +2,22 @@ import * as THREE from 'three';
 
 const textureLoader = new THREE.TextureLoader();
 
+// Textures are immutable scene assets. Creating a new Texture on every box creates
+// hundreds of GPU copies of the 5 MB cardboard normal map and can lose the WebGL
+// context on mobile devices. Reuse one texture object per URL instead.
+const textureCache = new Map<string, THREE.Texture>();
+
 function loadTexture(url: string): THREE.Texture {
+  const cached = textureCache.get(url);
+  if (cached) return cached;
+
   const cleanUrl = url.replace(/^\//, '');
   const textureUrl = `${import.meta.env.BASE_URL}${cleanUrl}`;
   const texture = textureLoader.load(textureUrl);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.colorSpace = url.includes('normal') || url.includes('disp') ? THREE.NoColorSpace : THREE.SRGBColorSpace;
+  textureCache.set(url, texture);
   return texture;
 }
 
