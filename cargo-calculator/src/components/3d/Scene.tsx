@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
@@ -106,17 +106,26 @@ export function Scene() {
   const isPerformanceMode = useCalculatorStore((s) => s.isPerformanceMode);
   const isHeatmapEnabled = useCalculatorStore((s) => s.isHeatmapEnabled);
   const isInside = cameraMode === 'inside' || cameraMode === 'cabin' || isFirstPerson;
+  // A full HDR environment, soft shadows and high device-pixel-ratio are not a
+  // safe default for phones and entry-level laptops. The manual quality switch
+  // still works, while constrained devices start with the lighter renderer.
+  const isLowPowerDevice = useMemo(() => {
+    if (typeof navigator === 'undefined') return false;
+    const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
+    return window.matchMedia('(pointer: coarse)').matches || (memory !== undefined && memory <= 4) || navigator.hardwareConcurrency <= 4;
+  }, []);
+  const renderLite = isPerformanceMode || isLowPowerDevice;
   return (
-    <Canvas shadows={!isPerformanceMode} dpr={isPerformanceMode ? [1, 1] : [1, 1.8]} gl={{ antialias: !isPerformanceMode, alpha: true, preserveDrawingBuffer: false }} className="h-full w-full touch-none">
+    <Canvas shadows={!renderLite} dpr={renderLite ? [1, 1] : [1, 1.8]} gl={{ antialias: !renderLite, alpha: true, preserveDrawingBuffer: false }} className="h-full w-full touch-none">
       <PerspectiveCamera makeDefault position={[6.8, 4.3, 6.2]} fov={48} />
       <Suspense fallback={null}>
         <Lighting />
-        {!isPerformanceMode && <Environment preset={isInside ? 'apartment' : 'warehouse'} />}
+        {!renderLite && <Environment preset={isInside ? 'apartment' : 'warehouse'} />}
         <Truck position={[0, 0, 0]} />
         {isHeatmapEnabled && <FloorHeatmap />}
         <PalletManager />
         <EngineeringOverlay />
-        {!isPerformanceMode && <ContactShadows position={[0, -0.02, 0]} opacity={isInside ? 0.22 : 0.42} scale={12} blur={2.5} far={5} />}
+        {!renderLite && <ContactShadows position={[0, -0.02, 0]} opacity={isInside ? 0.22 : 0.42} scale={12} blur={2.5} far={5} />}
         <CameraController />
         <FirstPersonController />
         <SoundManager />
