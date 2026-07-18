@@ -14,6 +14,9 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
   const resetCalculator = useCalculatorStore((state) => state.resetCalculator);
   const clearCalculator = useCalculatorStore((state) => state.clearCalculator);
   const isNightMode = useCalculatorStore((state) => state.isNightMode);
+  const overflowCount = useCalculatorStore((state) => state.overflowCount);
+  const overflowWeight = useCalculatorStore((state) => state.overflowWeight);
+  const estimatedTrips = useCalculatorStore((state) => state.estimatedTrips);
 
   async function exportPdf() {
     const { default: jsPDF } = await import('jspdf');
@@ -82,6 +85,21 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
         </div>
       </div>
       <div className="mt-4 rounded-2xl bg-blue-50 p-3 text-sm font-bold text-blue-800">⏱ {deliveryTime} · {distance} км · {pallets.length} предметов · {VEHICLES[vehicleType].label}</div>
+
+      {overflowCount > 0 && (
+        <div className="mt-3 rounded-2xl border-2 border-orange-400 bg-orange-50 p-3 text-xs leading-5 text-orange-900">
+          <div className="mb-1 font-black">⚠️ Не все предметы поместились — {overflowCount} шт. ({Math.round(overflowWeight)} кг) не влезли</div>
+          <p className="font-semibold text-orange-700">Потребуется ~{estimatedTrips} рейс{estimatedTrips === 1 ? '' : 'ов'}. Финальное количество рейсов и тип машины определит диспетчер.</p>
+        </div>
+      )}
+
+      <div className="mt-3 rounded-2xl bg-amber-50 p-3 text-[11px] leading-5 text-amber-900 ring-1 ring-amber-200">
+        <span className="font-black">⚠️ Предварительный расчёт.</span> Калькулятор помогает визуально
+        оценить загрузку кузова. Реальная вместимость, необходимое количество машин, точный тип
+        транспорта и итоговая стоимость определяются <strong>диспетчером при оформлении заказа</strong>.
+        Данные расчёта носят ознакомительный характер и не являются публичной офертой.
+      </div>
+
       <div className="mt-4 grid grid-cols-2 gap-2">
         <button className="button-primary col-span-2" onClick={exportPdf}>Скачать PDF + скриншот 3D</button>
         <button className={`rounded-2xl px-4 py-3 text-sm font-black transition ${isNightMode ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`} onClick={clearCalculator}>Очистить кузов</button>

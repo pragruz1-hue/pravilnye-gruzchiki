@@ -3,6 +3,7 @@ import { RouteInputs } from './RouteInputs';
 import { CargoParameters } from './CargoParameters';
 import { PalletBuilder } from './PalletBuilder';
 import { AdditionalServices } from './AdditionalServices';
+import { OverflowWarning } from './OverflowWarning';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
 
 export function LeftPanel() {
@@ -26,6 +27,7 @@ export function LeftPanel() {
       <MoveTypeSelector />
       <RouteInputs />
       <CargoParameters />
+      <OverflowWarning />
       <PalletBuilder />
       <AdditionalServices />
       <button className="button-primary mb-8 w-full" onClick={calculatePrice}>Рассчитать точную стоимость</button>

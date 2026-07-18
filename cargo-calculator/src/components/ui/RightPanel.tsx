@@ -95,6 +95,14 @@ export function RightPanel() {
         </button>
       </div>
 
+      {useCalculatorStore((s) => s.overflowCount) > 0 && (
+        <div className="rounded-[20px] border-2 border-orange-400 bg-orange-50 p-3 text-xs leading-5 text-orange-900 shadow-sm">
+          <div className="mb-1 font-black">⚠️ Не все предметы поместились</div>
+          <p>{useCalculatorStore((s) => s.overflowCount)} предм. ({Math.round(useCalculatorStore((s) => s.overflowWeight))} кг) — не влезли в {vehicle.label}</p>
+          <p className="font-bold text-orange-700">~{useCalculatorStore((s) => s.estimatedTrips)} рейс{(useCalculatorStore((s) => s.estimatedTrips)) === 1 ? '' : 'ов'}. Точное количество определит диспетчер.</p>
+        </div>
+      )}
+
       {pallets.length > 0 && (
         <div className={`rounded-[20px] p-3 text-xs ${isNightMode ? 'bg-orange-500/10 text-orange-200 ring-1 ring-orange-500/20' : 'bg-orange-50 text-orange-900 ring-1 ring-orange-200'}`}>
           <div className="font-black">💡 Что нового (инженерное):</div>

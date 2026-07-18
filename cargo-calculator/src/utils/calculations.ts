@@ -344,7 +344,7 @@ export function getStackHeightAt(palletId: string, x: number, z: number, pallets
   return maxTopY;
 }
 
-export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType): LoadItem[] {
+export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType): { placed: LoadItem[]; overflow: LoadItem[] } {
   const vehicle = VEHICLES[vehicleType];
   const L = vehicle.cargoLength;
   const W = vehicle.cargoWidth;
@@ -365,9 +365,19 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     return itemVolume(b) - itemVolume(a);
   });
   const placed: LoadItem[] = [];
+  const overflow: LoadItem[] = [];
   const WALL_SNAP = 0.06;
 
   sorted.forEach((item) => {
+    // Check basic volumetric / weight capacity first
+    const totalsSoFar = calculateTotals(placed);
+    const itemV = itemVolume(item);
+    const itemW = itemWeight(item);
+    if (totalsSoFar.volume + itemV > vehicle.capacityM3 * 1.0 || totalsSoFar.weight + itemW > vehicle.capacityKg * 1.0) {
+      overflow.push(item);
+      return;
+    }
+
     if (item.dimensions.height > H && item.canLaySide) item.rotation = [0, 0, Math.PI / 2];
     const isLong = item.kind === 'sofa' || item.kind === 'bed' || item.kind === 'bike' || item.kind === 'table';
     if (isLong) item.rotation = [item.rotation[0], Math.PI / 2, item.rotation[2]];
@@ -446,13 +456,13 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
       }
       if (!snapCollision) { bestX = snappedX; bestZ = snappedZ; }
       item.position = [bestX, bestY, bestZ];
+      placed.push(item);
     } else {
-      const idx = placed.length;
-      item.position = [-L / 2 + 0.5 + idx * 0.4, 0.04, 0];
+      // Не нашли места — предмет не помещается в этот кузов
+      overflow.push(item);
     }
-    placed.push(item);
   });
-  return placed;
+  return { placed, overflow };
 }
 
 // === Инженерные расчеты ===
