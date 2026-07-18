@@ -115,7 +115,7 @@ export function RightPanel() {
         <div className={`rounded-[20px] p-4 text-center ${isNightMode ? 'bg-white/5 text-white/70' : 'bg-slate-50 text-slate-600'}`}>
           <div className="text-3xl">📦</div>
           <div className="mt-2 text-sm font-black">Кузов пустой</div>
-          <div className="mt-1 text-xs leading-5">Выбери пресет квартиры (7 / 12 / 18 м³) или добавь мебель. Машина подберется автоматически. Все газели до 1500 кг.</div>
+          <div className="mt-1 text-xs leading-5">Выбери пресет квартиры или офиса слева, либо добавь вещи вручную. Машина подберется автоматически. Все газели до 1500 кг.</div>
         </div>
       )}
     </aside>

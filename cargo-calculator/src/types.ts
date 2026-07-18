@@ -4,7 +4,7 @@ export type VehicleType = 'gazelle7' | 'gazelle12' | 'gazelle18' | 'gazelle3' | 
 export type CameraMode = 'overview' | 'inside' | 'top' | 'side' | 'cabin';
 
 export interface ApartmentStandard {
-  id: ApartmentPreset;
+  id: string;
   label: string;
   hint: string;
   volumeM3: number;
@@ -17,6 +17,8 @@ export type BoxSize = 'S' | 'M' | 'L' | 'XL';
 export type BoxType = 'standard' | 'fragile' | 'heavy' | 'cold' | 'danger';
 export type LoadItemKind = 'pallet' | 'box' | 'sofa' | 'wardrobe' | 'fridge' | 'washer' | 'bed' | 'table' | 'chairs' | 'tv' | 'piano' | 'safe' | 'plant' | 'bike';
 export type ApartmentPreset = 'oneRoom' | 'twoRoom' | 'threeRoom';
+export type OfficePreset = 'officeS' | 'officeM' | 'officeL';
+export type StandardPreset = ApartmentPreset | OfficePreset;
 
 export interface CargoBox {
   id: string;

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { ApartmentPreset, BoxSize, BoxType, LoadItem, PalletType } from '../../types';
+import { ApartmentPreset, BoxSize, BoxType, LoadItem, OfficePreset, PalletType } from '../../types';
 import { CATALOG, makePallet, useCalculatorStore } from '../../store/useCalculatorStore';
-import { APARTMENT_STANDARDS, VEHICLES } from '../../utils/calculations';
+import { APARTMENT_STANDARDS, OFFICE_STANDARDS, VEHICLES } from '../../utils/calculations';
 
 const presets: Array<{ id: ApartmentPreset; label: string; hint: string; volume: string }> = [
   { id: 'oneRoom', label: '1 к.к.', hint: 'эконом', volume: '7 м³ · 1500 кг' },
@@ -9,10 +9,18 @@ const presets: Array<{ id: ApartmentPreset; label: string; hint: string; volume:
   { id: 'threeRoom', label: '3 к.к.', hint: 'максимум', volume: '18 м³ · 1500 кг' }
 ];
 
+const officePresets: Array<{ id: OfficePreset; label: string; hint: string; volume: string }> = [
+  { id: 'officeS', label: 'Кабинет', hint: '10 м²', volume: '5 м³ · 900 кг' },
+  { id: 'officeM', label: 'Офис', hint: '25 м²', volume: '11 м³ · 1200 кг' },
+  { id: 'officeL', label: 'Офис+', hint: '50 м²', volume: '16 м³ · 1500 кг' }
+];
+
 export function PalletBuilder() {
   const addPallet = useCalculatorStore((state) => state.addPallet);
   const addCatalogItem = useCalculatorStore((state) => state.addCatalogItem);
   const applyApartmentPreset = useCalculatorStore((state) => state.applyApartmentPreset);
+  const applyOfficePreset = useCalculatorStore((state) => state.applyOfficePreset);
+  const moveType = useCalculatorStore((state) => state.moveType);
   const activePreset = useCalculatorStore((state) => state.activePreset);
   const removePallet = useCalculatorStore((state) => state.removePallet);
   const selectPallet = useCalculatorStore((state) => state.selectPallet);
@@ -66,9 +74,28 @@ export function PalletBuilder() {
         })}
       </div>
 
+      <div className="mb-2 text-[11px] font-black uppercase tracking-wide text-gray-500">Стандартные объемы для офисных переездов</div>
+      <div className="mb-4 grid grid-cols-3 gap-2">
+        {officePresets.map((preset) => {
+          const standard = OFFICE_STANDARDS[preset.id];
+          return (
+            <button
+              key={preset.id}
+              onClick={() => applyOfficePreset(preset.id)}
+              className={`rounded-2xl border p-3 text-left transition ${activePreset === preset.id ? 'border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200' : 'border-gray-200 bg-white/70 hover:border-blue-200'}`}
+            >
+              <span className="block text-lg font-black text-gray-950">{preset.label}</span>
+              <span className="block text-xs font-bold text-gray-600">{standard.description}</span>
+              <span className="mt-1 block text-[11px] font-black text-blue-700">{preset.volume}</span>
+              <span className="mt-1 block text-[10px] text-gray-400">Машина: {VEHICLES[standard.recommendedVehicle].label}</span>
+            </button>
+          );
+        })}
+      </div>
+
       {pallets.length === 0 ? (
         <div className="mb-4 rounded-2xl bg-[#10131b] p-4 text-white">
-          <div className="text-sm font-black">Кузов пустой — выбери квартиру</div>
+          <div className="text-sm font-black">Кузов пустой — выбери пресет выше</div>
           <div className="mt-1 text-xs leading-5 text-slate-300">
             Выбери 1/2/3 к.к. — подставится подходящая Газель: 7 м³ (3.0×1.8×1.3 м), 12 м³ (3.2×1.9×2.0 м) или 18 м³ (4.2×2.0×2.15 м). Грузоподъёмность любой газели — до 1500 кг.
           </div>
@@ -82,7 +109,9 @@ export function PalletBuilder() {
 
       <div className="mb-4 rounded-2xl bg-slate-950 p-3 text-white">
         <div className="mb-2 flex items-center justify-between">
-          <div className="text-xs font-black uppercase tracking-wide text-orange-300">Библиотека квартирного переезда</div>
+          <div className="text-xs font-black uppercase tracking-wide text-orange-300">
+            Библиотека {moveType === 'office' ? 'офисного' : moveType === 'commercial' ? 'коммерческого' : 'квартирного'} переезда
+          </div>
           {pallets.length > 0 && (
             <button
               onClick={fillEmptySpace}

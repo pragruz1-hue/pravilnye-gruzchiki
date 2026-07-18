@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, PalletType, ServicesState, TripRange, VehicleType } from '../types';
-import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, fillCargoWithBoxes, generateSharePayload, getStackHeightAt, orientedHeight, packItemsInVehicle, recommendVehicle, VEHICLES } from '../utils/calculations';
+import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, OfficePreset, PalletType, ServicesState, StandardPreset, TripRange, VehicleType } from '../types';
+import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, fillCargoWithBoxes, generateSharePayload, getStackHeightAt, OFFICE_STANDARDS, orientedHeight, packItemsInVehicle, recommendVehicle, STANDARDS, VEHICLES } from '../utils/calculations';
 
 interface CalculatorState {
   from: string;
@@ -25,7 +25,7 @@ interface CalculatorState {
   deliveryTime: string;
   tripRange: TripRange;
   workHours: number;
-  activePreset: ApartmentPreset | null;
+  activePreset: StandardPreset | null;
   cameraMode: CameraMode;
   isNightMode: boolean;
   history: LoadItem[][];
@@ -55,6 +55,7 @@ interface CalculatorState {
   addPallet: (pallet: Omit<LoadItem, 'id'>) => void;
   addCatalogItem: (kind: LoadItemKind) => void;
   applyApartmentPreset: (preset: ApartmentPreset) => void;
+  applyOfficePreset: (preset: OfficePreset) => void;
   removePallet: (id: string) => void;
   updatePalletPosition: (id: string, position: [number, number, number]) => void;
   updatePalletRotation: (id: string, rotation: [number, number, number]) => void;
@@ -155,6 +156,41 @@ function buildPreset(preset: ApartmentPreset): LoadItem[] {
   return items;
 }
 
+function buildOfficePreset(preset: OfficePreset): LoadItem[] {
+  const desk = 'Стол рабочий';
+  const shelf = 'Шкаф для документов';
+  const docs = 'Коробка с документами';
+  const seats = 'Офисные кресла (4 шт)';
+  const screens = 'Мониторы и техника';
+  const layouts: Record<OfficePreset, Array<[LoadItemKind, string]>> = {
+    officeS: [
+      ['table', desk], ['table', desk], ['chairs', seats], ['wardrobe', shelf],
+      ['tv', screens], ['plant', 'Растение в кабинет'],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs]
+    ],
+    officeM: [
+      ['table', desk], ['table', desk], ['table', desk], ['table', desk], ['table', desk],
+      ['chairs', seats], ['chairs', seats],
+      ['wardrobe', shelf], ['wardrobe', shelf], ['tv', screens], ['tv', screens],
+      ['safe', 'Сейф офисный'], ['plant', 'Растение в офис'],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs]
+    ],
+    officeL: [
+      ['table', desk], ['table', desk], ['table', desk], ['table', desk], ['table', desk], ['table', desk], ['table', desk], ['table', desk],
+      ['chairs', seats], ['chairs', seats], ['chairs', seats],
+      ['wardrobe', shelf], ['wardrobe', shelf], ['wardrobe', shelf],
+      ['tv', screens], ['tv', screens], ['safe', 'Сейф офисный'],
+      ['sofa', 'Диван зоны ожидания'], ['plant', 'Растение в зоне ожидания'],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs]
+    ]
+  };
+  const vehicle = OFFICE_STANDARDS[preset].recommendedVehicle;
+  return layouts[preset].map(([kind, name], index) => ({ ...createLoadItem(kind, gridPosition(index, vehicle)), name, id: createId(kind) }));
+}
+
 let lastPostTime = 0;
 let postDebounceTimer: any = null;
 let lastHistoryPush = 0;
@@ -176,7 +212,7 @@ function computeOverflowInfo(overflow: LoadItem[], vehicleType: VehicleType): { 
 
 function recalculate(set: (partial: Partial<CalculatorState>) => void, state: CalculatorState): void {
   const totals = calculateTotals(state.pallets);
-  const recommendedVehicleType = state.activePreset ? APARTMENT_STANDARDS[state.activePreset].recommendedVehicle : recommendVehicle(state.pallets);
+  const recommendedVehicleType = state.activePreset && STANDARDS[state.activePreset] ? STANDARDS[state.activePreset].recommendedVehicle : recommendVehicle(state.pallets);
   const price = calculatePrice({ vehicleType: state.vehicleType, vehicleCount: state.vehicleCount, distance: state.distance, pallets: state.pallets, services: state.services, urgency: state.urgency, moveType: state.moveType });
   set({ totalWeight: totals.weight, totalVolume: totals.volume, recommendedVehicleType, ...price });
 
@@ -297,6 +333,27 @@ export const useCalculatorStore = create<CalculatorState>()(
         const _oi5 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
         set({
           moveType: 'apartment',
+          pallets: result.placed,
+          overflowItems: result.overflow,
+          selectedPalletId: result.placed[0]?.id ?? null,
+          activePreset: preset,
+          recommendedVehicleType: recommended,
+          vehicleType: recommended,
+          ..._oi5,
+          ...pushHistory(st)
+        });
+        get().calculatePrice();
+      },
+      applyOfficePreset: (preset) => {
+        const standard = OFFICE_STANDARDS[preset];
+        const rawItems = buildOfficePreset(preset);
+        const recommended = standard.recommendedVehicle;
+        const st = get();
+        const packed = packItemsInVehicle(rawItems, recommended);
+        const result = fillCargoWithBoxes(packed.placed, recommended, () => createId('fill'));
+        const _oi5 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        set({
+          moveType: 'office',
           pallets: result.placed,
           overflowItems: result.overflow,
           selectedPalletId: result.placed[0]?.id ?? null,

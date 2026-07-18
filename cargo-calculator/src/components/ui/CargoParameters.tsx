@@ -1,5 +1,5 @@
 import { useCalculatorStore } from '../../store/useCalculatorStore';
-import { APARTMENT_STANDARDS, VEHICLES } from '../../utils/calculations';
+import { STANDARDS, VEHICLES } from '../../utils/calculations';
 import { VehicleType } from '../../types';
 
 const gazelleVehicles: VehicleType[] = ['gazelle7', 'gazelle12', 'gazelle18'];
@@ -19,7 +19,7 @@ export function CargoParameters() {
   const activePreset = useCalculatorStore((state) => state.activePreset);
   const pallets = useCalculatorStore((state) => state.pallets);
 
-  const recommendedStandard = activePreset ? APARTMENT_STANDARDS[activePreset] : null;
+  const recommendedStandard = activePreset ? STANDARDS[activePreset] : null;
 
   return (
     <section className="mb-6 rounded-3xl bg-white/60 p-4 ring-1 ring-black/5 backdrop-blur">

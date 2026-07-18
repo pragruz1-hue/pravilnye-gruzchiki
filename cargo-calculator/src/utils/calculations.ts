@@ -60,6 +60,38 @@ export const APARTMENT_STANDARDS: Record<string, ApartmentStandard> = {
   }
 };
 
+export const OFFICE_STANDARDS: Record<string, ApartmentStandard> = {
+  officeS: {
+    id: 'officeS',
+    label: 'Кабинет 10 м²',
+    hint: '5 м³ · до 900 кг',
+    volumeM3: 5,
+    weightKg: 900,
+    recommendedVehicle: 'gazelle7',
+    description: '2 рабочих места, шкаф, документы'
+  },
+  officeM: {
+    id: 'officeM',
+    label: 'Офис 25 м²',
+    hint: '11 м³ · до 1200 кг',
+    volumeM3: 11,
+    weightKg: 1200,
+    recommendedVehicle: 'gazelle12',
+    description: '5–6 рабочих мест, техника, сейф'
+  },
+  officeL: {
+    id: 'officeL',
+    label: 'Офис 50 м²',
+    hint: '16 м³ · до 1500 кг',
+    volumeM3: 16,
+    weightKg: 1500,
+    recommendedVehicle: 'gazelle18',
+    description: 'open-space: столы, стеллажи, зона ожидания'
+  }
+};
+
+export const STANDARDS: Record<string, ApartmentStandard> = { ...APARTMENT_STANDARDS, ...OFFICE_STANDARDS };
+
 export const VEHICLES: Record<VehicleType, VehicleSpec> = {
   gazelle7: {
     id: 'gazelle7',
