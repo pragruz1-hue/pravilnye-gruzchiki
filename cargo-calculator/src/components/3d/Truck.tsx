@@ -70,8 +70,7 @@ export function Truck({ position }: TruckProps) {
       <mesh position={[0, H + 0.18, -W / 2]} castShadow receiveShadow><boxGeometry args={[L, 0.1, 0.12]} /><primitive object={materials.chrome} attach="material" /></mesh>
       <mesh position={[0, H + 0.18, W / 2]} castShadow receiveShadow><boxGeometry args={[L, 0.1, 0.12]} /><primitive object={materials.chrome} attach="material" /></mesh>
 
-      <group position={[L / 2 + 0.06, H / 2 + 0.1, -W * 0.28]} rotation={[0, -0.78, 0]}><mesh castShadow receiveShadow><boxGeometry args={[0.08, Math.max(1.8, H - 0.18), W * 0.48]} /><primitive object={materials.paint} attach="material" /></mesh></group>
-      <group position={[L / 2 + 0.06, H / 2 + 0.1, W * 0.28]} rotation={[0, 0.78, 0]}><mesh castShadow receiveShadow><boxGeometry args={[0.08, Math.max(1.8, H - 0.18), W * 0.48]} /><primitive object={materials.paint} attach="material" /></mesh></group>
+
 
       <lineSegments position={[0, H / 2 + 0.12, 0]}><edgesGeometry args={[new THREE.BoxGeometry(L + 0.05, H + 0.02, W + 0.05)]} /><lineBasicMaterial color="#ff6b00" transparent opacity={isInside ? 0.35 : 0.85} /></lineSegments>
       <gridHelper args={[Math.max(L, W), Math.round(Math.max(L, W) * 10), '#2563eb', '#93c5fd']} position={[0, 0.172, 0]} scale={[L / Math.max(L, W), 1, W / Math.max(L, W)]} />
@@ -109,20 +108,7 @@ export function Truck({ position }: TruckProps) {
       <mesh position={[cabinX - 0.88, 0.62, 0.62]} castShadow receiveShadow><boxGeometry args={[0.08, 0.22, 0.38]} /><primitive object={materials.light} attach="material" /></mesh>
       {wheelXs.map((x) => <group key={x}><Wheel x={x} z={-W / 2 - 0.15} tire={materials.tire} chrome={materials.chrome} /><Wheel x={x} z={W / 2 + 0.15} tire={materials.tire} chrome={materials.chrome} /></group>)}
 
-      {!isInside && (
-        <Html position={[0, H + 0.52, 0]} center distanceFactor={7} className="pointer-events-none">
-          <div className="rounded-full bg-[#10131b]/90 px-4 py-2 text-xs font-black text-white shadow-xl backdrop-blur-md ring-2 ring-[#ff6b00]/50">
-            {vehicle.label} · кузов {L}×{W}×{H} м · {vehicle.capacityM3} м³
-          </div>
-        </Html>
-      )}
-      {isInside && (
-        <Html position={[0, H - 0.25, 0]} center distanceFactor={5} className="pointer-events-none">
-          <div className="rounded-full bg-black/60 px-3 py-1 text-[10px] font-black text-orange-300 ring-1 ring-orange-400/40 backdrop-blur">
-            {isNightMode ? '🌙 НОЧЬ · освещение вкл' : '☀️ ДЕНЬ · вид изнутри'} · {vehicle.capacityM3} м³
-          </div>
-        </Html>
-      )}
+
     </group>
   );
 }

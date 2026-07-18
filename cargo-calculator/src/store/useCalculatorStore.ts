@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, OfficePreset, PalletType, ServicesState, StandardPreset, TripRange, TruckPreset, VehicleType } from '../types';
-import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, fillCargoWithBoxes, generateSharePayload, getStackHeightAt, OFFICE_STANDARDS, orientedHeight, packItemsInVehicle, recommendVehicle, STANDARDS, VEHICLES } from '../utils/calculations';
+import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, fillCargoWithBoxes, generateSharePayload, getStackHeightAt, OFFICE_STANDARDS, orientedHeight, packItemsInVehicle, placeNewItem, recommendVehicle, STANDARDS, VEHICLES } from '../utils/calculations';
 
 interface CalculatorState {
   from: string;
@@ -89,10 +89,10 @@ export const CATALOG: CatalogItem[] = [
   { kind: 'sofa', name: 'Диван прямой', emoji: '🛋', dimensions: { length: 2.1, width: 0.9, height: 0.85 }, weight: 85, material: 'fabric', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, description: 'ткань, можно поставить на бок' },
   { kind: 'wardrobe', name: 'Шкаф', emoji: '🚪', dimensions: { length: 1.2, width: 0.6, height: 2.1 }, weight: 90, material: 'wood', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, description: 'высокий, проверка потолка' },
   { kind: 'fridge', name: 'Холодильник', emoji: '🧊', dimensions: { length: 0.7, width: 0.7, height: 1.9 }, weight: 80, material: 'whiteGoods', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, description: 'нельзя класть боком' },
-  { kind: 'washer', name: 'Стиральная машина', emoji: '🧺', dimensions: { length: 0.6, width: 0.6, height: 0.85 }, weight: 65, material: 'whiteGoods', stackable: true, maxStackWeight: 15, canLaySide: false, fragile: true, description: 'тяжёлая техника' },
-  { kind: 'bed', name: 'Кровать разобранная', emoji: '🛏', dimensions: { length: 2.05, width: 0.25, height: 0.75 }, weight: 70, material: 'wood', stackable: true, maxStackWeight: 80, canLaySide: true, fragile: false, description: 'плоский груз' },
-  { kind: 'table', name: 'Стол', emoji: '🪑', dimensions: { length: 1.3, width: 0.8, height: 0.75 }, weight: 38, material: 'wood', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, description: 'можно перевернуть' },
-  { kind: 'chairs', name: '4 стула', emoji: '🪑', dimensions: { length: 0.8, width: 0.8, height: 0.95 }, weight: 28, material: 'wood', stackable: true, maxStackWeight: 20, canLaySide: true, fragile: false, description: 'стопка стульев' },
+  { kind: 'washer', name: 'Стиральная машина', emoji: '🧺', dimensions: { length: 0.6, width: 0.6, height: 0.85 }, weight: 65, material: 'whiteGoods', stackable: true, maxStackWeight: 30, canLaySide: false, fragile: true, description: 'тяжёлая техника' },
+  { kind: 'bed', name: 'Кровать разобранная', emoji: '🛏', dimensions: { length: 2.05, width: 0.25, height: 0.75 }, weight: 70, material: 'wood', stackable: true, maxStackWeight: 90, canLaySide: true, fragile: false, description: 'плоский груз' },
+  { kind: 'table', name: 'Стол', emoji: '🪑', dimensions: { length: 1.3, width: 0.8, height: 0.75 }, weight: 38, material: 'wood', stackable: true, maxStackWeight: 75, canLaySide: true, fragile: false, description: 'можно ставить друг на друга (столешница к столешнице)' },
+  { kind: 'chairs', name: '4 стула', emoji: '🪑', dimensions: { length: 0.8, width: 0.8, height: 0.95 }, weight: 28, material: 'wood', stackable: true, maxStackWeight: 50, canLaySide: true, fragile: false, description: 'стопка стульев' },
   { kind: 'tv', name: 'Телевизор', emoji: '📺', dimensions: { length: 1.2, width: 0.16, height: 0.75 }, weight: 18, material: 'glass', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, description: 'хрупкий экран' },
   { kind: 'piano', name: 'Пианино', emoji: '🎹', dimensions: { length: 1.45, width: 0.62, height: 1.15 }, weight: 210, material: 'dark', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, description: 'особый тяжёлый груз' },
   { kind: 'safe', name: 'Сейф', emoji: '🔒', dimensions: { length: 0.6, width: 0.55, height: 0.8 }, weight: 180, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: false, description: 'только низ кузова' },
@@ -322,10 +322,10 @@ export const useCalculatorStore = create<CalculatorState>()(
         const id = createId('pallet');
         const st = get();
         set((state) => {
-          const items = [...state.pallets, { ...palletData, id }];
-          const packed = packItemsInVehicle(items, state.vehicleType);
-          const _oi3 = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
-          return { pallets: packed.placed, overflowItems: packed.overflow, ..._oi3, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
+          const newItem = { ...palletData, id };
+          const result = placeNewItem(state.pallets, newItem, state.vehicleType);
+          const _oi3 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+          return { pallets: result.pallets, overflowItems: [...state.overflowItems, ...result.overflow], ..._oi3, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
         });
         get().calculatePrice();
         if (get().isSoundEnabled) { try { window.pgPlaySound?.('add'); } catch {} }
@@ -335,10 +335,10 @@ export const useCalculatorStore = create<CalculatorState>()(
         const st = get();
         set((state) => {
           const dummyPos: [number, number, number] = [0, 0.04, 0];
-          const items = [...state.pallets, { ...createLoadItem(kind, dummyPos), id }];
-          const packed = packItemsInVehicle(items, state.vehicleType);
-          const _oi4 = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
-          return { pallets: packed.placed, overflowItems: packed.overflow, ..._oi4, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
+          const newItem = { ...createLoadItem(kind, dummyPos), id };
+          const result = placeNewItem(state.pallets, newItem, state.vehicleType);
+          const _oi4 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+          return { pallets: result.pallets, overflowItems: [...state.overflowItems, ...result.overflow], ..._oi4, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
         });
         get().calculatePrice();
         if (get().isSoundEnabled) { try { window.pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {} }

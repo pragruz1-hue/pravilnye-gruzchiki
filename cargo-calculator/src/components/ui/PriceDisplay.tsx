@@ -67,6 +67,18 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
     ? `w-full rounded-[24px] border p-5 shadow-sm backdrop-blur ${isNightMode ? 'border-white/10 bg-white/5' : 'border-white/50 bg-white/90'}`
     : 'absolute bottom-6 right-6 z-10 w-[min(390px,calc(100%-48px))] rounded-3xl border border-white/50 bg-white/85 p-6 shadow-glass backdrop-blur-glass';
 
+  if (pallets.length === 0) {
+    return (
+      <div className={wrapperClass}>
+        <div className="text-center py-8">
+          <div className="text-4xl mb-3">📦</div>
+          <div className={`text-base font-black ${isNightMode ? 'text-white' : 'text-gray-950'}`}>Кузов пуст</div>
+          <p className={`mt-2 text-xs leading-relaxed ${isNightMode ? 'text-slate-300' : 'text-gray-500'}`}>Добавьте предметы из каталога или выберите пресет квартиры/офиса, чтобы рассчитать стоимость и загрузку кузова.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={wrapperClass}>
       <div className="mb-4">

@@ -867,3 +867,88 @@ export function generateFillBoxes(items: LoadItem[], vehicleType: VehicleType): 
 
   return boxes;
 }
+
+export function placeNewItem(existingItems: LoadItem[], newItem: LoadItem, vehicleType: VehicleType): { pallets: LoadItem[]; overflow: LoadItem[]; placed: boolean } {
+  const vehicle = VEHICLES[vehicleType];
+  const L = vehicle.cargoLength;
+  const W = vehicle.cargoWidth;
+  const H = vehicle.cargoHeight;
+
+  const placedRects = existingItems.map(o => {
+    const f = orientedFootprint(o);
+    const h = o.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(o.boxes.length / 4) * 0.28) : orientedHeight(o);
+    return {
+      minX: o.position[0] - f.length / 2, maxX: o.position[0] + f.length / 2,
+      minZ: o.position[2] - f.width / 2, maxZ: o.position[2] + f.width / 2,
+      minY: o.position[1], maxY: o.position[1] + h,
+      stackable: o.stackable, maxStackWeight: o.maxStackWeight
+    };
+  });
+
+  const item = { ...newItem, position: [0, 0, 0] as [number, number, number], rotation: [0, 0, 0] as [number, number, number] };
+  const itemV = itemVolume(item);
+  const itemW = itemWeight(item);
+  const totals = calculateTotals(existingItems);
+  if (totals.volume + itemV > vehicle.capacityM3 * 1.0 || totals.weight + itemW > vehicle.capacityKg * 1.0) {
+    return { pallets: existingItems, overflow: [item], placed: false };
+  }
+
+  if (item.dimensions.height > H && item.canLaySide) item.rotation = [0, 0, Math.PI / 2];
+  const isLong = item.kind === 'sofa' || item.kind === 'bed' || item.kind === 'bike' || item.kind === 'table';
+  if (isLong) item.rotation = [item.rotation[0], Math.PI / 2, item.rotation[2]];
+
+  const fp = orientedFootprint(item);
+  const baseY = item.kind === 'pallet' ? 0.072 : 0.04;
+  const itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
+
+  let bestX = 0, bestY = baseY, bestZ = 0, found = false;
+  let stackX = 0, stackY = 0, stackZ = 0, stackFound = false;
+  const candidateZs: number[] = [];
+  for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.15) candidateZs.push(z);
+  if (fp.width <= W && !candidateZs.some((z) => Math.abs(z) < 1e-9)) candidateZs.push(0);
+
+  const halfL = fp.length / 2;
+  const halfW = fp.width / 2;
+  for (let x = -L / 2 + halfL; x <= L / 2 - halfL && !found; x += 0.1) {
+    const minX = x - halfL, maxX = x + halfL;
+    for (const z of candidateZs) {
+      const minZ = z - halfW, maxZ = z + halfW;
+      let maxTopY = baseY;
+      let canStackOnTop = true;
+      for (const r of placedRects) {
+        if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
+        if (r.maxY > maxTopY) {
+          maxTopY = r.maxY;
+          if (!r.stackable || item.weight > r.maxStackWeight) canStackOnTop = false;
+        }
+      }
+      if (canStackOnTop && (maxTopY + itemHeight) <= H) {
+        const isFloorSlot = maxTopY <= baseY + 0.001;
+        const aMinY = maxTopY, aMaxY = maxTopY + itemHeight;
+        let has3DCollision = false;
+        for (const r of placedRects) {
+          if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
+          if (aMinY < r.maxY && aMaxY > r.minY) { has3DCollision = true; break; }
+        }
+        if (!has3DCollision) {
+          if (isFloorSlot) {
+            bestX = x; bestY = maxTopY; bestZ = z; found = true; break;
+          }
+          if (!stackFound) { stackX = x; stackY = maxTopY; stackZ = z; stackFound = true; }
+        }
+      }
+    }
+  }
+  if (!found && stackFound) {
+    bestX = stackX; bestY = stackY; bestZ = stackZ; found = true;
+  }
+
+  if (found) {
+    bestY = Math.round(bestY / 0.05) * 0.05;
+    item.position = [bestX, bestY, bestZ];
+    return { pallets: [...existingItems, item], overflow: [], placed: true };
+  } else {
+    return { pallets: [...existingItems, item], overflow: [item], placed: false };
+  }
+}
+
