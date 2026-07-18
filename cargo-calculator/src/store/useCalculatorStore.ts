@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, PalletType, ServicesState, VehicleType } from '../types';
-import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, generateSharePayload, packItemsInVehicle, recommendVehicle } from '../utils/calculations';
+import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, generateSharePayload, getStackHeightAt, orientedHeight, packItemsInVehicle, recommendVehicle, VEHICLES } from '../utils/calculations';
 
 interface CalculatorState {
   from: string;
@@ -35,6 +35,9 @@ interface CalculatorState {
   isPerformanceMode: boolean;
   isPhysicsEnabled: boolean;
   isHeatmapEnabled: boolean;
+  fallingTargets: Record<string, number>;
+  landItem: (id: string) => void;
+  commitLanding: (id: string) => void;
   setRoute: (from: string, to: string) => void;
   setMoveType: (moveType: MoveType) => void;
   setVehicleType: (vehicleType: VehicleType) => void;
@@ -205,7 +208,7 @@ export const useCalculatorStore = create<CalculatorState>()(
       pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7', vehicleCount: 1, urgency: 2, services: initialServices,
       basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', activePreset: null,
       cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
-      isPerformanceMode: false, isPhysicsEnabled: false, isHeatmapEnabled: true,
+      isPerformanceMode: false, isPhysicsEnabled: false, isHeatmapEnabled: true, fallingTargets: {},
 
       setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
       setMoveType: (moveType) => { set({ moveType }); get().calculatePrice(); },
@@ -362,6 +365,32 @@ export const useCalculatorStore = create<CalculatorState>()(
       loadFromShare: (pallets, vehicle) => {
         set({ pallets, vehicleType: vehicle, selectedPalletId: pallets[0]?.id ?? null });
         get().calculatePrice();
+      },
+      landItem: (id) => {
+        const state = get();
+        const item = state.pallets.find(p => p.id === id);
+        if (!item) return;
+        const targetY = getStackHeightAt(id, item.position[0], item.position[2], state.pallets);
+        const vehicle = VEHICLES[state.vehicleType];
+        const itemH = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
+        const clampedY = Math.round(Math.min(targetY, vehicle.cargoHeight - itemH) / 0.05) * 0.05;
+        // Start smooth fall animation
+        set((s) => ({ fallingTargets: { ...s.fallingTargets, [id]: clampedY } }));
+      },
+      commitLanding: (id) => {
+        const state = get();
+        const targetY = state.fallingTargets[id];
+        if (targetY === undefined) return;
+        const newFalling = { ...state.fallingTargets };
+        delete newFalling[id];
+        set((s) => ({
+          fallingTargets: newFalling,
+          pallets: s.pallets.map(p => p.id === id ? { ...p, position: [p.position[0], targetY, p.position[2]] } : p)
+        }));
+        get().calculatePrice();
+        if (get().isSoundEnabled) {
+          try { (window as any).pgPlaySound?.('click'); if (navigator.vibrate) navigator.vibrate(20); } catch {}
+        }
       }
     }),
     {

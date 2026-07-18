@@ -23,9 +23,31 @@ export const Pallet = React.memo(function Pallet(props: PalletProps) {
   const itemMaterial = useMemo(() => makeMaterial(material, kind), [kind, material]);
   const wrapMaterial = useMemo(() => createStretchWrapMaterial(), []);
   const cargoHeight = kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(boxes.length / 4) * 0.28) : orientedHeight(props);
+  const fallingTargets = useCalculatorStore((s) => s.fallingTargets);
+  const commitLanding = useCalculatorStore((s) => s.commitLanding);
 
-  useFrame((state) => {
-    if (itemRef.current && isSelected) {
+  useFrame((state, delta) => {
+    if (!itemRef.current) return;
+    
+    // Smooth falling animation — gravity pull to target stack height
+    const targetY = fallingTargets[id];
+    if (targetY !== undefined) {
+      const currentVisualY = itemRef.current.position.y;
+      const diff = currentVisualY - targetY;
+      if (Math.abs(diff) > 0.005) {
+        // Gravity: accelerate towards target, faster when higher up
+        const speed = Math.min(1, (Math.abs(diff) + 0.3) * delta * 5.0);
+        itemRef.current.position.y = currentVisualY - Math.sign(diff) * Math.min(Math.abs(diff), Math.abs(diff) * speed + 0.02);
+      } else {
+        // Snap to exact target and commit to store
+        itemRef.current.position.y = targetY;
+        commitLanding(id);
+      }
+      return;
+    }
+
+    // Normal selected bob animation (only when not falling)
+    if (isSelected) {
       itemRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 3) * 0.015;
     }
   });
@@ -384,6 +406,7 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
   const pallets = useCalculatorStore((state) => state.pallets);
   const updatePalletPosition = useCalculatorStore((state) => state.updatePalletPosition);
   const updatePalletRotation = useCalculatorStore((state) => state.updatePalletRotation);
+  const landItem = useCalculatorStore((state) => state.landItem);
   
   const vehicle = VEHICLES[vehicleType];
   const item = pallets.find((p) => p.id === id);
@@ -488,6 +511,8 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
     (event.target as HTMLElement).releasePointerCapture(event.pointerId);
     enableControls();
     dragRef.current = null;
+    // Land the item — smooth fall to correct stack height
+    landItem(id);
   };
 
   return (

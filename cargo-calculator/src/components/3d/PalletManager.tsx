@@ -15,6 +15,7 @@ export function PalletManager() {
   const updatePalletPosition = useCalculatorStore((state) => state.updatePalletPosition);
   const updatePalletRotation = useCalculatorStore((state) => state.updatePalletRotation);
   const selectPallet = useCalculatorStore((state) => state.selectPallet);
+  const landItem = useCalculatorStore((state) => state.landItem);
   const vehicle = VEHICLES[vehicleType];
   const { camera, raycaster, gl } = useThree();
   const controls = useThree((state) => state.controls as any);
@@ -81,6 +82,11 @@ export function PalletManager() {
       try {
         (event.target as HTMLElement).releasePointerCapture(event.pointerId);
       } catch {}
+    }
+    // Land the item — start smooth fall to correct stack height
+    const draggedId = selectedPalletId || useCalculatorStore.getState().selectedPalletId;
+    if (draggedId) {
+      landItem(draggedId);
     }
   }
 
