@@ -191,7 +191,7 @@ export function Scene() {
     <Canvas
       shadows={!renderLite}
       dpr={renderLite ? [1, 1] : [1, 1.8]}
-      gl={{ antialias: !renderLite, alpha: true, preserveDrawingBuffer: false }}
+      gl={{ antialias: !renderLite, alpha: true, preserveDrawingBuffer: true }}
       onCreated={({ gl }) => {
         gl.domElement.addEventListener('webglcontextlost', (event) => {
           event.preventDefault();
