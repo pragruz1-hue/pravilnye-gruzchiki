@@ -198,3 +198,29 @@ zip -r cargo-calculator-react-3d.zip cargo-calculator -x "cargo-calculator/node_
 5. **Code splitting** — three.js (1 MB) в отдельном чанке, jsPDF ленивый импорт
 
 ---
+
+---
+
+## 🚨 Инцидент 2026-07-18 — «пропала загрузка сцены» (исправлено)
+
+**Симптом:** страница `3d-cargo-calculator.html` / `cargo-3d-calculator/` — белый экран, приложение не стартует вообще.
+
+**Причина:** `cargo-3d-calculator/assets/index-DJ-x8o40.js` был **пропатчен вручную после билда** (в минифицированном файле встречаются вставки с реальными переносами строк: гейт-экран `pg_scene_loaded`, туториал `pg_tutorial_seen`, промокоды `PROMO_CODES`/`pg_promo`, `trackEvent`, `generateLeadMessage`, `floorSurcharge`, дебаунс `calculatePrice`). В правках было 5 ошибок:
+
+1. `totalPrice:Math.round((f+v+j+y+(():{...})())...)` — опечатка `(():` вместо `(()=>` → **SyntaxError, весь бандл не парсился** (это и был «белый экран»).
+2. `applyApartmentPreset:(p)=>{trackEvent(...);a=>{...}` — внутренняя стрелка не вызывалась и внешний блок не закрыт → SyntaxError.
+3. `calculatePrice` обёрнут в `setTimeout` без закрывающих `,200)}` → SyntaxError.
+4. `clearCalculator(){...},500)` — хвост недописанного setTimeout → SyntaxError.
+5. В гейт-экране у трёх `c.jsx` не закрыт объект пропсов (`children:"в библиотеке")` вместо `"})`) → SyntaxError.
+
+После починки синтаксиса вскрылись ещё два нарушения **Rules of Hooks** (React #310): ранние `return` туториала и гейта стояли между хуками (перенесены после всех хуков перед основным рендером), а в `RightPanel` (`Nt`) бейдж переполнения вызывал `Pe(e=>e.overflowCount)` трижды прямо в JSX условно — хук поднят наверх компонента (`ovf`).
+
+**Проверка:** все 8 js-чанков парсятся acorn'ом; jsdom smoke-тест проходит весь флоу: туториал → гейт «Начать расчёт» → пресеты 1кк/3кк (включая бейдж «не влезло») → каталог → удаление → шаринг → камеры; цены считаются.
+
+**Заодно исправлено:** пути текстур `/textures/...` → `textures/...` (бандл + `cargo-calculator/src/materials/pbrMaterials.ts`) — на проде приложение живёт в `/cargo-3d-calculator/`, корневые пути давали 404.
+
+### ⚠️ Важно для следующих агентов
+
+- **Бандл в `cargo-3d-calculator/` ≠ билд из `cargo-calculator/src`.** В бандле есть фичи, которых нет в исходниках (гейт, туториал, промокоды, этаж/лифт, лид-кнопки WhatsApp/Telegram, спецификация, анти-overflow бейдж). **Пересборка из src эти фичи сотрёт** — либо сначала портируй их в src, либо правь и src, и бандл одинаково.
+- Никогда не правь минифицированный бандл руками без проверки синтаксиса (`node --check` / acorn) и прогона рендера.
+- `<Environment preset="warehouse"/"apartment">` тянет HDR с внешнего CDN `raw.githack.com` — если CDN недоступен у пользователя, `Suspense fallback={null}` = пустая сцена без ошибки. **Сделана страховка (2026-07-18, решение: фолбэк без вендоринга):** Environment обёрнут в собственный `Suspense` + error-boundary `EnvGuard` (бандл) / `SafeEnvironment` (`src/components/3d/Scene.tsx`) — при недоступности HDR сцена рендерится без отражений, а не висит пустой. Полное устранение зависимости = завендорить HDR локально и уйти с `preset` на `files`.
