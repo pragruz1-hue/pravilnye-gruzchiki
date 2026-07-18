@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, PalletType, ServicesState, VehicleType } from '../types';
+import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, PalletType, ServicesState, TripRange, VehicleType } from '../types';
 import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, generateFillBoxes, generateSharePayload, getStackHeightAt, orientedHeight, packItemsInVehicle, recommendVehicle, VEHICLES } from '../utils/calculations';
 
 interface CalculatorState {
@@ -23,6 +23,8 @@ interface CalculatorState {
   insurancePrice: number;
   totalPrice: number;
   deliveryTime: string;
+  tripRange: TripRange;
+  workHours: number;
   activePreset: ApartmentPreset | null;
   cameraMode: CameraMode;
   isNightMode: boolean;
@@ -175,7 +177,7 @@ function computeOverflowInfo(overflow: LoadItem[], vehicleType: VehicleType): { 
 function recalculate(set: (partial: Partial<CalculatorState>) => void, state: CalculatorState): void {
   const totals = calculateTotals(state.pallets);
   const recommendedVehicleType = state.activePreset ? APARTMENT_STANDARDS[state.activePreset].recommendedVehicle : recommendVehicle(state.pallets);
-  const price = calculatePrice({ vehicleType: state.vehicleType, vehicleCount: state.vehicleCount, distance: state.distance, pallets: state.pallets, services: state.services, urgency: state.urgency });
+  const price = calculatePrice({ vehicleType: state.vehicleType, vehicleCount: state.vehicleCount, distance: state.distance, pallets: state.pallets, services: state.services, urgency: state.urgency, moveType: state.moveType });
   set({ totalWeight: totals.weight, totalVolume: totals.volume, recommendedVehicleType, ...price });
 
   const now = Date.now();
@@ -192,6 +194,7 @@ function recalculate(set: (partial: Partial<CalculatorState>) => void, state: Ca
         recommended: recommendedVehicleType,
         price: price.totalPrice,
         fuelLiters: (price as any).fuelLiters,
+        tripRange: price.tripRange,
         share: payload,
         from: state.from,
         to: state.to
@@ -227,7 +230,7 @@ export const useCalculatorStore = create<CalculatorState>()(
     (set, get) => ({
       from: 'Краснодар', to: 'Сочи', distance: 286, moveType: 'apartment', totalWeight: 0, totalVolume: 0,
       pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7', vehicleCount: 1, urgency: 2, services: initialServices,
-      basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', activePreset: null,
+      basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', tripRange: 'regional', workHours: 0, activePreset: null,
       cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
       isPerformanceMode: false, isPhysicsEnabled: false, isHeatmapEnabled: true, fallingTargets: {},
       overflowCount: 0, overflowItems: [], overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0,

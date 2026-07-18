@@ -1,5 +1,37 @@
-import { LoadItem, VehicleSpec, VehicleType } from '../types';
+import { LoadItem, MoveType, TripRange, VehicleSpec, VehicleType } from '../types';
 import { ApartmentStandard } from '../types';
+
+// === Классы перевозки по дальности ===
+// Городская — почасовая аренда (км включены в часы), региональная — минималка + км
+// по трассе со скидкой, междугородняя — покилометровая + обратный порожний пробег.
+export const TRIP_RANGE_LIMITS = { cityMaxKm: 60, regionalMaxKm: 300 } as const;
+
+export function getTripRange(distance: number): TripRange {
+  if (distance <= TRIP_RANGE_LIMITS.cityMaxKm) return 'city';
+  if (distance <= TRIP_RANGE_LIMITS.regionalMaxKm) return 'regional';
+  return 'intercity';
+}
+
+export const TRIP_RANGE_INFO: Record<TripRange, { label: string; icon: string; tariffLabel: string; description: string }> = {
+  city: {
+    label: 'Городской',
+    icon: '🏙️',
+    tariffLabel: 'почасовой тариф',
+    description: 'внутри города и агломерации: минимальный заказ по часам, километры включены'
+  },
+  regional: {
+    label: 'Региональный',
+    icon: '🛣️',
+    tariffLabel: 'минималка + км',
+    description: 'по краю/области: часы работы + трасса со скидкой 15%'
+  },
+  intercity: {
+    label: 'Междугородний',
+    icon: '🚛',
+    tariffLabel: 'за километр',
+    description: 'дальний рейс: км со скидкой 10% + обратная подача порожняком ×30%'
+  }
+};
 
 export const APARTMENT_STANDARDS: Record<string, ApartmentStandard> = {
   oneRoom: {
@@ -219,7 +251,9 @@ export function boxDimensions(size: 'S' | 'M' | 'L' | 'XL'): { length: number; w
 
 export function calculateDeliveryTime(distance: number): string {
   if (distance <= 0) return 'уточняется';
-  if (distance <= 80) return 'сегодня';
+  const range = getTripRange(distance);
+  if (range === 'city') return 'сегодня';
+  if (range === 'regional') return 'сегодня / завтра';
   const days = Math.max(1, Math.ceil(distance / 400));
   return `${days}-${days + 2} дней`;
 }
@@ -231,24 +265,69 @@ export function calculatePrice(params: {
   pallets: LoadItem[];
   services: import('../types').ServicesState;
   urgency: number;
-}): { basePrice: number; additionalPrice: number; fuelPrice: number; insurancePrice: number; totalPrice: number; deliveryTime: string; fuelLiters: number; packingVolume: number } {
+  moveType?: MoveType;
+}): { basePrice: number; additionalPrice: number; fuelPrice: number; insurancePrice: number; totalPrice: number; deliveryTime: string; fuelLiters: number; packingVolume: number; tripRange: TripRange; workHours: number } {
   const vehicle = VEHICLES[params.vehicleType];
   const totals = calculateTotals(params.pallets);
   const totalsWithPacking = calculateTotalsWithPacking(params.pallets, params.services.packing);
   const urgencyCoef = params.urgency === 1 ? 0.9 : params.urgency === 3 ? 1.35 : 1;
-  const baseByTime = vehicle.baseHourlyRate * vehicle.minHours * params.vehicleCount;
-  const distancePrice = Math.max(0, params.distance * vehicle.kmRate * params.vehicleCount);
-  // Учитываем упаковку как +15% объема в обработке
-  const volumeHandling = Math.ceil(totalsWithPacking.volume) * 120;
-  const heavyHandling = totals.weight > 900 ? Math.ceil((totals.weight - 900) / 100) * 180 : 0;
-  const basePrice = Math.round((baseByTime + distancePrice + volumeHandling + heavyHandling) * urgencyCoef);
+  const tripRange = getTripRange(params.distance);
+  const count = params.vehicleCount;
+  const distance = Math.max(0, params.distance);
 
-  // Топливо: база 12л/100км + 0.3л на каждые 100кг на 100км + упаковка
+  // Тип переезда влияет на стоимость обработки груза:
+  // офис — техника/документы требуют аккуратности (+15%),
+  // коммерческий — паллеты грузятся механизированно (−15%).
+  const moveCoef = params.moveType === 'office' ? 1.15 : params.moveType === 'commercial' ? 0.85 : 1;
+  // Учитываем упаковку как +15% объема в обработке
+  const volumeHandling = Math.round(Math.ceil(totalsWithPacking.volume) * 120 * moveCoef);
+  const heavyHandling = totals.weight > 900 ? Math.ceil((totals.weight - 900) / 100) * 180 : 0;
+
+  // Время езды (для почасовой тарификации): в городе ~25 км/ч с пробками
+  const driveHours = distance / 25;
+  // Погрузка/разгрузка: бригада закрывает ~10 м³ в час
+  const loadingHours = totalsWithPacking.volume / 10;
+
+  let laborCost: number;
+  let mileageCost: number;
+  let workHours: number;
+  let fuelMinPrice: number;
+  // Обратная подача порожняком имеет смысл только на дальних рейсах
+  let emptyReturnKm = 0;
+
+  if (tripRange === 'city') {
+    // Городской: почасовая аренда, километры уже сидят во времени работы.
+    // Старой двойной оплаты (минималка + каждый км) больше нет.
+    workHours = Math.max(vehicle.minHours, Math.ceil(vehicle.minHours + driveHours + loadingHours));
+    laborCost = vehicle.baseHourlyRate * workHours * count;
+    mileageCost = 0;
+    fuelMinPrice = 250;
+  } else if (tripRange === 'regional') {
+    // Региональный: минималка по часам + трасса со скидкой 15% к ставке км.
+    workHours = vehicle.minHours;
+    laborCost = vehicle.baseHourlyRate * vehicle.minHours * count;
+    mileageCost = distance * vehicle.kmRate * 0.85 * count;
+    fuelMinPrice = 350;
+  } else {
+    // Междугородний: половина минималки за подачу/приём + км со скидкой 10%
+    // + обратный порожний пробег по 30% ставки — машина возвращается пустой.
+    workHours = Math.ceil(vehicle.minHours / 2);
+    laborCost = vehicle.baseHourlyRate * workHours * 0.5 * count;
+    mileageCost = distance * vehicle.kmRate * 0.9 * count;
+    mileageCost += distance * vehicle.kmRate * 0.3 * count;
+    emptyReturnKm = distance;
+    fuelMinPrice = 700;
+  }
+
+  const basePrice = Math.round((laborCost + mileageCost + volumeHandling + heavyHandling) * urgencyCoef);
+
+  // Топливо: 12л/100км + 0.3л на каждые 100кг на 100км (только под грузом);
+  // обратный порожний пробег считаем без весового фактора, но добавляем в литры.
   const baseConsumption = 12; // л/100км пустая Газель
   const weightFactor = (totals.weight / 100) * 0.3; // 0.3л на 100кг
-  const fuelLiters = (baseConsumption + weightFactor) * params.distance / 100 * params.vehicleCount;
+  const fuelLiters = ((baseConsumption + weightFactor) * distance + baseConsumption * emptyReturnKm) / 100 * count;
   const fuelPricePerLiter = 62; // руб
-  const fuelPrice = Math.round(Math.max(700, fuelLiters * fuelPricePerLiter));
+  const fuelPrice = Math.round(Math.max(fuelMinPrice, fuelLiters * fuelPricePerLiter));
 
   let additionalPrice = 0;
   if (params.services.packing) additionalPrice += 2000 + params.pallets.length * 220 + Math.round(totalsWithPacking.packingExtra * 180);
@@ -260,7 +339,7 @@ export function calculatePrice(params: {
   if (params.services.nightMove) additionalPrice = Math.round((additionalPrice + basePrice) * 0.3 + additionalPrice);
 
   const insurancePrice = params.services.insurance ? Math.round((basePrice + fuelPrice + additionalPrice) * 0.05) : 0;
-  return { basePrice, additionalPrice, fuelPrice, insurancePrice, totalPrice: basePrice + fuelPrice + additionalPrice + insurancePrice, deliveryTime: calculateDeliveryTime(params.distance), fuelLiters: Math.round(fuelLiters * 10) / 10, packingVolume: Math.round(totalsWithPacking.packingExtra * 100) / 100 };
+  return { basePrice, additionalPrice, fuelPrice, insurancePrice, totalPrice: basePrice + fuelPrice + additionalPrice + insurancePrice, deliveryTime: calculateDeliveryTime(params.distance), fuelLiters: Math.round(fuelLiters * 10) / 10, packingVolume: Math.round(totalsWithPacking.packingExtra * 100) / 100, tripRange, workHours };
 }
 
 export function getCapacity(params: { pallets: LoadItem[]; vehicleType: VehicleType; packing?: boolean }): { volumePercent: number; weightPercent: number; palletPercent: number; heightPercent: number; packingPercent: number } {
