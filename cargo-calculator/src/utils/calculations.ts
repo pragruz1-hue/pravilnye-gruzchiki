@@ -237,7 +237,10 @@ const CITY_DISTANCES: Record<string, number> = {
 };
 
 export function calculateDistance(from: string, to: string): number {
-  const key = `${from.trim().toLowerCase()}-${to.trim().toLowerCase()}`;
+  const f = from.trim().toLowerCase();
+  const t = to.trim().toLowerCase();
+  if (f === t && f !== '') return 15;
+  const key = `${f}-${t}`;
   if (CITY_DISTANCES[key]) return CITY_DISTANCES[key];
   if (!from.trim() || !to.trim()) return 0;
   const seed = Array.from(key).reduce((sum, char) => sum + char.charCodeAt(0), 0);

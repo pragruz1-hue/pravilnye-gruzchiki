@@ -52,82 +52,105 @@ export function PalletBuilder() {
     addPallet(makePallet({ type: palletType, boxCount, boxSize, boxType, material, wrapped, position: [-1.5 + col * 1.25, 0.072, -0.55 + row * 0.92] }));
   }
 
+  const sectionTitle = useMemo(() => {
+    if (moveType === 'apartment') return '🏠 Квартирные пресеты и вещи';
+    if (moveType === 'office') return '🏢 Офисные пресеты и мебель';
+    return '📦 Коммерческие грузы и паллеты';
+  }, [moveType]);
+
   return (
     <section className="mb-6 rounded-3xl bg-white/60 p-4 ring-1 ring-black/5 backdrop-blur">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold text-gray-800">🏠 Предметы и пресеты</h2>
+        <h2 className="text-lg font-semibold text-gray-800">{sectionTitle}</h2>
         <div className="flex items-center gap-2">
           <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-[#d35400]">{pallets.length} объектов</span>
           {pallets.length > 0 && <button onClick={clearCalculator} className="rounded-full bg-slate-900 px-2 py-1 text-xs font-bold text-white">Очистить</button>}
         </div>
       </div>
 
-      <div className="mb-2 text-[11px] font-black uppercase tracking-wide text-gray-500">Стандартные объемы для квартирных переездов (все газели до 1500 кг)</div>
-      <div className="mb-4 grid grid-cols-3 gap-2">
-        {presets.map((preset) => {
-          const standard = APARTMENT_STANDARDS[preset.id];
-          return (
-            <button
-              key={preset.id}
-              onClick={() => applyApartmentPreset(preset.id)}
-              className={`rounded-2xl border p-3 text-left transition ${activePreset === preset.id ? 'border-[#ff6b00] bg-orange-50 shadow-md ring-2 ring-orange-200' : 'border-gray-200 bg-white/70 hover:border-orange-200'}`}
-            >
-              <span className="block text-lg font-black text-gray-950">{preset.label}</span>
-              <span className="block text-xs font-bold text-gray-600">{standard.description}</span>
-              <span className="mt-1 block text-[11px] font-black text-[#d35400]">{preset.volume}</span>
-              <span className="mt-1 block text-[10px] text-gray-400">Машина: {VEHICLES[standard.recommendedVehicle].label}</span>
-            </button>
-          );
-        })}
-      </div>
+      {/* Apartment Presets */}
+      {moveType === 'apartment' && (
+        <>
+          <div className="mb-2 text-[11px] font-black uppercase tracking-wide text-gray-500">Пресеты квартирного переезда</div>
+          <div className="mb-4 grid grid-cols-3 gap-2">
+            {presets.map((preset) => {
+              const standard = APARTMENT_STANDARDS[preset.id];
+              return (
+                <button
+                  key={preset.id}
+                  onClick={() => applyApartmentPreset(preset.id)}
+                  className={`rounded-2xl border p-3 text-left transition ${activePreset === preset.id ? 'border-[#ff6b00] bg-orange-50 shadow-md ring-2 ring-orange-200' : 'border-gray-200 bg-white/70 hover:border-orange-200'}`}
+                >
+                  <span className="block text-lg font-black text-gray-950">{preset.label}</span>
+                  <span className="block text-xs font-bold text-gray-600">{standard.description}</span>
+                  <span className="mt-1 block text-[11px] font-black text-[#d35400]">{preset.volume}</span>
+                  <span className="mt-1 block text-[10px] text-gray-400">Машина: {VEHICLES[standard.recommendedVehicle].label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
 
-      <div className="mb-2 text-[11px] font-black uppercase tracking-wide text-gray-500">Стандартные объемы для офисных переездов</div>
-      <div className="mb-4 grid grid-cols-3 gap-2">
-        {officePresets.map((preset) => {
-          const standard = OFFICE_STANDARDS[preset.id];
-          return (
-            <button
-              key={preset.id}
-              onClick={() => applyOfficePreset(preset.id)}
-              className={`rounded-2xl border p-3 text-left transition ${activePreset === preset.id ? 'border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200' : 'border-gray-200 bg-white/70 hover:border-blue-200'}`}
-            >
-              <span className="block text-lg font-black text-gray-950">{preset.label}</span>
-              <span className="block text-xs font-bold text-gray-600">{standard.description}</span>
-              <span className="mt-1 block text-[11px] font-black text-blue-700">{preset.volume}</span>
-              <span className="mt-1 block text-[10px] text-gray-400">Машина: {VEHICLES[standard.recommendedVehicle].label}</span>
-            </button>
-          );
-        })}
-      </div>
+      {/* Office Presets */}
+      {moveType === 'office' && (
+        <>
+          <div className="mb-2 text-[11px] font-black uppercase tracking-wide text-gray-500">Пресеты офисного переезда</div>
+          <div className="mb-4 grid grid-cols-3 gap-2">
+            {officePresets.map((preset) => {
+              const standard = OFFICE_STANDARDS[preset.id];
+              return (
+                <button
+                  key={preset.id}
+                  onClick={() => applyOfficePreset(preset.id)}
+                  className={`rounded-2xl border p-3 text-left transition ${activePreset === preset.id ? 'border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200' : 'border-gray-200 bg-white/70 hover:border-blue-200'}`}
+                >
+                  <span className="block text-lg font-black text-gray-950">{preset.label}</span>
+                  <span className="block text-xs font-bold text-gray-600">{standard.description}</span>
+                  <span className="mt-1 block text-[11px] font-black text-blue-700">{preset.volume}</span>
+                  <span className="mt-1 block text-[10px] text-gray-400">Машина: {VEHICLES[standard.recommendedVehicle].label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
 
-      <div className="mb-2 text-[11px] font-black uppercase tracking-wide text-gray-500">Коммерческие перевозки — фура{vehicleType === 'refrigerator' ? ' / рефрижератор' : ''}</div>
-      <div className="mb-4 grid grid-cols-2 gap-2">
-        {truckPresets.map((preset) => (
-          <button
-            key={preset.id}
-            onClick={() => applyTruckPreset(preset.id)}
-            className={`rounded-2xl border border-gray-200 bg-white/70 p-3 text-left transition hover:border-emerald-300 ${moveType === 'commercial' && pallets.some((p) => p.kind === (preset.id === 'pallets' ? 'pallet' : 'box')) && pallets.length > 20 ? 'border-emerald-500 bg-emerald-50 shadow-md ring-2 ring-emerald-200' : ''}`}
-            title="Применится к выбранной фуре или рефрижератору — иначе подставится фура 20т"
-          >
-            <span className="block text-lg font-black text-gray-950">{preset.label}</span>
-            <span className="block text-xs font-bold text-gray-600">{preset.description}</span>
-            <span className="mt-1 block text-[11px] font-black text-emerald-700">{preset.volume}</span>
-            <span className="mt-1 block text-[10px] text-gray-400">Машина: {vehicleType === 'refrigerator' ? 'Рефрижератор' : VEHICLES.truck.label}</span>
-          </button>
-        ))}
-      </div>
+      {/* Commercial Presets */}
+      {moveType === 'commercial' && (
+        <>
+          <div className="mb-2 text-[11px] font-black uppercase tracking-wide text-gray-500">Пресеты коммерческих перевозок</div>
+          <div className="mb-4 grid grid-cols-2 gap-2">
+            {truckPresets.map((preset) => (
+              <button
+                key={preset.id}
+                onClick={() => applyTruckPreset(preset.id)}
+                className={`rounded-2xl border border-gray-200 bg-white/70 p-3 text-left transition hover:border-emerald-300 ${moveType === 'commercial' && pallets.some((p) => p.kind === (preset.id === 'pallets' ? 'pallet' : 'box')) && pallets.length > 20 ? 'border-emerald-500 bg-emerald-50 shadow-md ring-2 ring-emerald-200' : ''}`}
+                title="Применится к выбранной фуре или рефрижератору — иначе подставится фура 20т"
+              >
+                <span className="block text-lg font-black text-gray-950">{preset.label}</span>
+                <span className="block text-xs font-bold text-gray-600">{preset.description}</span>
+                <span className="mt-1 block text-[11px] font-black text-emerald-700">{preset.volume}</span>
+                <span className="mt-1 block text-[10px] text-gray-400">Машина: {vehicleType === 'refrigerator' ? 'Рефрижератор' : VEHICLES.truck.label}</span>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
 
       {pallets.length === 0 ? (
         <div className="mb-4 rounded-2xl bg-[#10131b] p-4 text-white">
-          <div className="text-sm font-black">Кузов пустой — выбери пресет выше</div>
+          <div className="text-sm font-black">Кузов пустой — выберите пресет выше</div>
           <div className="mt-1 text-xs leading-5 text-slate-300">
-            Выбери 1/2/3 к.к. — подставится подходящая Газель: 7 м³ (3.0×1.8×1.3 м), 12 м³ (3.2×1.9×2.0 м) или 18 м³ (4.2×2.0×2.15 м). Грузоподъёмность любой газели — до 1500 кг.
+            {moveType === 'apartment' && 'Выбери 1/2/3 к.к. — подставится подходящая Газель (7 / 12 / 18 м³).'}
+            {moveType === 'office' && 'Выберите пресет кабинета или офиса — подберется нужная Газель или Фура.'}
+            {moveType === 'commercial' && 'Выберите загрузку поддонами или навалом — задействуется Фура 20т.'}
           </div>
         </div>
       ) : (
         <div className="mb-4 rounded-2xl bg-emerald-50 p-3 ring-1 ring-emerald-200">
           <div className="text-xs font-black text-emerald-800">✅ Автозаполнение машины</div>
-          <div className="mt-1 text-xs text-emerald-700">Кнопка «Автозаполнить» над 3D-видом дозаполняет пустоты коробками — видно, как будет выглядеть загруженная машина. Грузоподъёмность любой газели — до 1500 кг.</div>
+          <div className="mt-1 text-xs text-emerald-700">Кнопка «Автозаполнить» над 3D-видом дозаполняет пустоты коробками. Предельный вес на все Газели — до 1.5т.</div>
         </div>
       )}
 
@@ -165,11 +188,11 @@ export function PalletBuilder() {
             <button onClick={() => liftSelected(-0.1)} className="rounded-xl bg-white px-2 py-2 text-xs font-black text-red-700 shadow-sm">↓ опустить</button>
             <button onClick={rotateSelectedY} className="rounded-xl bg-white px-2 py-2 text-xs font-black text-blue-700 shadow-sm">R 90°</button>
           </div>
-          <div className="mt-2 text-xs font-semibold text-gray-600">Drag в 3D — перемещение предмета, цветные оси — точное смещение и поворот.</div>
+          <div className="mt-2 text-xs font-semibold text-gray-600">Перетаскивание мышью в 3D, точное управление стрелками осей.</div>
         </div>
       )}
 
-      <details className="rounded-2xl bg-white/70 p-3" open={false}>
+      <details className="rounded-2xl bg-white/70 p-3" open={moveType === 'commercial'}>
         <summary className="cursor-pointer text-sm font-black text-gray-800">📊 Добавить паллету вручную</summary>
         <div className="mt-3 grid grid-cols-2 gap-3">
           <label className="text-sm font-semibold text-gray-700">Тип<select className="input-field mt-2" value={palletType} onChange={(event) => setPalletType(event.target.value as PalletType)}><option value="EUR">EUR 120×80</option><option value="FIN">FIN 120×100</option><option value="STANDARD">STANDARD 120×120</option></select></label>

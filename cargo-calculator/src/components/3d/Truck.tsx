@@ -39,7 +39,10 @@ export function Truck({ position }: TruckProps) {
     lampOff: new THREE.MeshStandardMaterial({ color: '#94a3b8', emissive: '#000000', emissiveIntensity: 0, roughness: 0.4 })
   }), [isInside, isNightMode]);
   const cabinX = -L / 2 - 0.92;
-  const wheelXs = [-L / 2 - 1.08, -L / 2 + Math.min(0.8, L * 0.22), L / 2 - 0.62];
+  const isGazelle = vehicleType.startsWith('gazelle');
+  const wheelXs = isGazelle
+    ? [-L / 2 - 1.08, L / 2 - 0.62]
+    : [-L / 2 - 1.08, -L / 2 + Math.min(0.8, L * 0.22), L / 2 - 0.62];
 
   return (
     <group position={position} name="procedural-truck-dynamic">
