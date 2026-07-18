@@ -40,11 +40,11 @@ export function PalletManager() {
     if (!hit) return;
     const fp = orientedFootprint(item);
     const snapped = snapToGrid(intersection.current.sub(dragOffset.current), GRID_SIZE);
-    
+
     const targetX = THREE.MathUtils.clamp(snapped.x, -vehicle.cargoLength / 2 + fp.length / 2, vehicle.cargoLength / 2 - fp.length / 2);
     const targetZ = THREE.MathUtils.clamp(snapped.z, -vehicle.cargoWidth / 2 + fp.width / 2, vehicle.cargoWidth / 2 - fp.width / 2);
     const targetY = getStackHeightAt(selectedPalletId, targetX, targetZ, pallets);
-    
+
     updatePalletPosition(selectedPalletId, [targetX, targetY, targetZ]);
   });
 
@@ -57,7 +57,6 @@ export function PalletManager() {
 
   function handlePalletPointerDown(id: string, event: ThreeEvent<PointerEvent>) {
     event.stopPropagation();
-    // Prevent OrbitControls from also receiving this pointerdown (fixes camera moving while dragging)
     if ((event as any).nativeEvent) {
       (event as any).nativeEvent.preventDefault?.();
     }
@@ -67,7 +66,6 @@ export function PalletManager() {
     setIsDragging(true);
     disableControls();
     gl.domElement.style.cursor = 'grabbing';
-    // Capture pointer to avoid losing drag when cursor leaves canvas
     try {
       (event.target as HTMLElement).setPointerCapture((event as any).pointerId);
     } catch {}
@@ -84,7 +82,6 @@ export function PalletManager() {
         (event.target as HTMLElement).releasePointerCapture(event.pointerId);
       } catch {}
     }
-    // Land the item — start smooth fall to correct stack height
     const draggedId = selectedPalletId || useCalculatorStore.getState().selectedPalletId;
     if (draggedId) {
       landItem(draggedId);

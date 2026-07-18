@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
+import { TRIP_RANGE_INFO } from '../../utils/calculations';
 
 export function RouteInputs() {
   const from = useCalculatorStore((state) => state.from);
   const to = useCalculatorStore((state) => state.to);
   const distance = useCalculatorStore((state) => state.distance);
+  const tripRange = useCalculatorStore((state) => state.tripRange);
   const setRoute = useCalculatorStore((state) => state.setRoute);
   const [localFrom, setLocalFrom] = useState(from);
   const [localTo, setLocalTo] = useState(to);
+  const rangeInfo = TRIP_RANGE_INFO[tripRange];
 
   function applyRoute(nextFrom = localFrom, nextTo = localTo) {
     setLocalFrom(nextFrom);
@@ -49,6 +52,9 @@ export function RouteInputs() {
       </div>
       <div className="mt-3 rounded-2xl bg-slate-900/90 px-4 py-3 text-sm font-bold text-white">
         Расстояние: <span className="text-blue-200">{distance.toLocaleString('ru-RU')} км</span>
+      </div>
+      <div className="mt-2 rounded-2xl bg-blue-50 px-4 py-2.5 text-xs font-bold text-blue-800 ring-1 ring-blue-100" title={rangeInfo.description}>
+        {rangeInfo.icon} {rangeInfo.label} переезд · {rangeInfo.tariffLabel}
       </div>
     </section>
   );

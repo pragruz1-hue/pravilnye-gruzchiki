@@ -22,7 +22,6 @@ export function RightPanel() {
     navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    // Шаринг как игра — звук
     try { window.pgPlaySound?.('click'); if (navigator.vibrate) navigator.vibrate(40); } catch {}
   }
 
@@ -51,9 +50,8 @@ export function RightPanel() {
         share: generateSharePayload(pallets, vehicleType)
       };
       window.parent?.postMessage(message, '*');
-      // Скопируем JSON в консоль сайта
       localStorage.setItem('pg_cargo_final_payload', JSON.stringify(message));
-      alert('Расчет отправлен на сайт (postMessage + localStorage). Менеджер увидит данные в pg_cargo_final_payload.');
+      alert('Расчёт отправлен. Менеджер увидит данные при оформлении заявки.');
     } catch {}
   }
 
@@ -103,17 +101,12 @@ export function RightPanel() {
 
       {pallets.length > 0 && (
         <div className={`rounded-[20px] p-3 text-xs ${isNightMode ? 'bg-orange-500/10 text-orange-200 ring-1 ring-orange-500/20' : 'bg-orange-50 text-orange-900 ring-1 ring-orange-200'}`}>
-          <div className="font-black">💡 Что нового (инженерное):</div>
+          <div className="font-black">💡 Подсказки:</div>
           <ul className="mt-1 list-disc pl-4 font-semibold leading-5">
-            <li>COG красный шарик + линия до пола</li>
-            <li>Нагрузка на оси, дисбаланс &gt;30% красный</li>
-            <li>Проверка двери: если не лезет — бейдж над предметом</li>
-            <li>Рулетка: расстояние до стен для выбранного</li>
-            <li>Мини-карта топ-вид, клик выбирает</li>
-            <li>WASD + Q/E + Shift ходьба внутри, коллизия со стенами</li>
-            <li>Магнит к стенам 6см, snap звук, вибрация</li>
-            <li>Undo/Redo, persist в localStorage, share ?share=</li>
-            <li>Скриншот сохраняет canvas.toDataURL в PNG и в PDF попадет</li>
+            <li>Красный шарик — центр тяжести, следите за нагрузкой на оси</li>
+            <li>Если предмет не проходит в дверь — появится предупреждение</li>
+            <li>Перетаскивайте предметы мышью, кнопки ↩️ ↪️ отменяют действия</li>
+            <li>Кнопка «Автозаполнить» над 3D-видом дозаполнит пустоты коробками</li>
           </ul>
         </div>
       )}
@@ -122,7 +115,7 @@ export function RightPanel() {
         <div className={`rounded-[20px] p-4 text-center ${isNightMode ? 'bg-white/5 text-white/70' : 'bg-slate-50 text-slate-600'}`}>
           <div className="text-3xl">📦</div>
           <div className="mt-2 text-sm font-black">Кузов пустой</div>
-          <div className="mt-1 text-xs leading-5">Выбери пресет квартиры (7 / 12 / 18 м³) или добавь мебель. Машина подберется автоматически. Все газели до 1500 кг.</div>
+          <div className="mt-1 text-xs leading-5">Выбери пресет квартиры или офиса слева, либо добавь вещи вручную. Машина подберется автоматически. Все газели до 1500 кг.</div>
         </div>
       )}
     </aside>

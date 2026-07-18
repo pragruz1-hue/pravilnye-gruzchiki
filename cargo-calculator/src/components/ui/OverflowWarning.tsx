@@ -73,7 +73,6 @@ export function OverflowWarning() {
     );
   }
 
-  // Все предметы поместились — показываем информационный блок
   if (pallets.length > 0 && overflowCount === 0) {
     return (
       <section className="mb-4 animate-[fadeIn_0.25s_ease-out] rounded-3xl bg-emerald-50 p-4 ring-1 ring-emerald-200">

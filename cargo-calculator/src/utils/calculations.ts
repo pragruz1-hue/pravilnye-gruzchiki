@@ -1,5 +1,34 @@
-import { LoadItem, VehicleSpec, VehicleType } from '../types';
+import { LoadItem, MoveType, TripRange, VehicleSpec, VehicleType } from '../types';
 import { ApartmentStandard } from '../types';
+
+export const TRIP_RANGE_LIMITS = { cityMaxKm: 60, regionalMaxKm: 300 } as const;
+
+export function getTripRange(distance: number): TripRange {
+  if (distance <= TRIP_RANGE_LIMITS.cityMaxKm) return 'city';
+  if (distance <= TRIP_RANGE_LIMITS.regionalMaxKm) return 'regional';
+  return 'intercity';
+}
+
+export const TRIP_RANGE_INFO: Record<TripRange, { label: string; icon: string; tariffLabel: string; description: string }> = {
+  city: {
+    label: 'Городской',
+    icon: '🏙️',
+    tariffLabel: 'почасовой тариф',
+    description: 'внутри города и агломерации: минимальный заказ по часам, километры включены'
+  },
+  regional: {
+    label: 'Региональный',
+    icon: '🛣️',
+    tariffLabel: 'минималка + км',
+    description: 'по краю/области: часы работы + трасса со скидкой 15%'
+  },
+  intercity: {
+    label: 'Междугородний',
+    icon: '🚛',
+    tariffLabel: 'за километр',
+    description: 'дальний рейс: км со скидкой 10% + обратная подача порожняком ×30%'
+  }
+};
 
 export const APARTMENT_STANDARDS: Record<string, ApartmentStandard> = {
   oneRoom: {
@@ -30,6 +59,38 @@ export const APARTMENT_STANDARDS: Record<string, ApartmentStandard> = {
     description: 'максимум — пианино, много мебели'
   }
 };
+
+export const OFFICE_STANDARDS: Record<string, ApartmentStandard> = {
+  officeS: {
+    id: 'officeS',
+    label: 'Кабинет 10 м²',
+    hint: '5 м³ · до 900 кг',
+    volumeM3: 5,
+    weightKg: 900,
+    recommendedVehicle: 'gazelle7',
+    description: '2 рабочих места, шкаф, документы'
+  },
+  officeM: {
+    id: 'officeM',
+    label: 'Офис 25 м²',
+    hint: '11 м³ · до 1200 кг',
+    volumeM3: 11,
+    weightKg: 1200,
+    recommendedVehicle: 'gazelle12',
+    description: '5–6 рабочих мест, техника, сейф'
+  },
+  officeL: {
+    id: 'officeL',
+    label: 'Офис 50 м²',
+    hint: '16 м³ · до 1500 кг',
+    volumeM3: 16,
+    weightKg: 1500,
+    recommendedVehicle: 'gazelle18',
+    description: 'open-space: столы, стеллажи, зона ожидания'
+  }
+};
+
+export const STANDARDS: Record<string, ApartmentStandard> = { ...APARTMENT_STANDARDS, ...OFFICE_STANDARDS };
 
 export const VEHICLES: Record<VehicleType, VehicleSpec> = {
   gazelle7: {
@@ -219,7 +280,9 @@ export function boxDimensions(size: 'S' | 'M' | 'L' | 'XL'): { length: number; w
 
 export function calculateDeliveryTime(distance: number): string {
   if (distance <= 0) return 'уточняется';
-  if (distance <= 80) return 'сегодня';
+  const range = getTripRange(distance);
+  if (range === 'city') return 'сегодня';
+  if (range === 'regional') return 'сегодня / завтра';
   const days = Math.max(1, Math.ceil(distance / 400));
   return `${days}-${days + 2} дней`;
 }
@@ -231,24 +294,55 @@ export function calculatePrice(params: {
   pallets: LoadItem[];
   services: import('../types').ServicesState;
   urgency: number;
-}): { basePrice: number; additionalPrice: number; fuelPrice: number; insurancePrice: number; totalPrice: number; deliveryTime: string; fuelLiters: number; packingVolume: number } {
+  moveType?: MoveType;
+}): { basePrice: number; additionalPrice: number; fuelPrice: number; insurancePrice: number; totalPrice: number; deliveryTime: string; fuelLiters: number; packingVolume: number; tripRange: TripRange; workHours: number } {
   const vehicle = VEHICLES[params.vehicleType];
   const totals = calculateTotals(params.pallets);
   const totalsWithPacking = calculateTotalsWithPacking(params.pallets, params.services.packing);
   const urgencyCoef = params.urgency === 1 ? 0.9 : params.urgency === 3 ? 1.35 : 1;
-  const baseByTime = vehicle.baseHourlyRate * vehicle.minHours * params.vehicleCount;
-  const distancePrice = Math.max(0, params.distance * vehicle.kmRate * params.vehicleCount);
-  // Учитываем упаковку как +15% объема в обработке
-  const volumeHandling = Math.ceil(totalsWithPacking.volume) * 120;
-  const heavyHandling = totals.weight > 900 ? Math.ceil((totals.weight - 900) / 100) * 180 : 0;
-  const basePrice = Math.round((baseByTime + distancePrice + volumeHandling + heavyHandling) * urgencyCoef);
+  const tripRange = getTripRange(params.distance);
+  const count = params.vehicleCount;
+  const distance = Math.max(0, params.distance);
 
-  // Топливо: база 12л/100км + 0.3л на каждые 100кг на 100км + упаковка
-  const baseConsumption = 12; // л/100км пустая Газель
-  const weightFactor = (totals.weight / 100) * 0.3; // 0.3л на 100кг
-  const fuelLiters = (baseConsumption + weightFactor) * params.distance / 100 * params.vehicleCount;
-  const fuelPricePerLiter = 62; // руб
-  const fuelPrice = Math.round(Math.max(700, fuelLiters * fuelPricePerLiter));
+  const moveCoef = params.moveType === 'office' ? 1.15 : params.moveType === 'commercial' ? 0.85 : 1;
+  const volumeHandling = Math.round(Math.ceil(totalsWithPacking.volume) * 120 * moveCoef);
+  const heavyHandling = totals.weight > 900 ? Math.ceil((totals.weight - 900) / 100) * 180 : 0;
+
+  const driveHours = distance / 25;
+  const loadingHours = totalsWithPacking.volume / 10;
+
+  let laborCost: number;
+  let mileageCost: number;
+  let workHours: number;
+  let fuelMinPrice: number;
+  let emptyReturnKm = 0;
+
+  if (tripRange === 'city') {
+    workHours = Math.max(vehicle.minHours, Math.ceil(vehicle.minHours + driveHours + loadingHours));
+    laborCost = vehicle.baseHourlyRate * workHours * count;
+    mileageCost = 0;
+    fuelMinPrice = 250;
+  } else if (tripRange === 'regional') {
+    workHours = vehicle.minHours;
+    laborCost = vehicle.baseHourlyRate * vehicle.minHours * count;
+    mileageCost = distance * vehicle.kmRate * 0.85 * count;
+    fuelMinPrice = 350;
+  } else {
+    workHours = Math.ceil(vehicle.minHours / 2);
+    laborCost = vehicle.baseHourlyRate * workHours * 0.5 * count;
+    mileageCost = distance * vehicle.kmRate * 0.9 * count;
+    mileageCost += distance * vehicle.kmRate * 0.3 * count;
+    emptyReturnKm = distance;
+    fuelMinPrice = 700;
+  }
+
+  const basePrice = Math.round((laborCost + mileageCost + volumeHandling + heavyHandling) * urgencyCoef);
+
+  const baseConsumption = 12;
+  const weightFactor = (totals.weight / 100) * 0.3;
+  const fuelLiters = ((baseConsumption + weightFactor) * distance + baseConsumption * emptyReturnKm) / 100 * count;
+  const fuelPricePerLiter = 62;
+  const fuelPrice = Math.round(Math.max(fuelMinPrice, fuelLiters * fuelPricePerLiter));
 
   let additionalPrice = 0;
   if (params.services.packing) additionalPrice += 2000 + params.pallets.length * 220 + Math.round(totalsWithPacking.packingExtra * 180);
@@ -260,7 +354,7 @@ export function calculatePrice(params: {
   if (params.services.nightMove) additionalPrice = Math.round((additionalPrice + basePrice) * 0.3 + additionalPrice);
 
   const insurancePrice = params.services.insurance ? Math.round((basePrice + fuelPrice + additionalPrice) * 0.05) : 0;
-  return { basePrice, additionalPrice, fuelPrice, insurancePrice, totalPrice: basePrice + fuelPrice + additionalPrice + insurancePrice, deliveryTime: calculateDeliveryTime(params.distance), fuelLiters: Math.round(fuelLiters * 10) / 10, packingVolume: Math.round(totalsWithPacking.packingExtra * 100) / 100 };
+  return { basePrice, additionalPrice, fuelPrice, insurancePrice, totalPrice: basePrice + fuelPrice + additionalPrice + insurancePrice, deliveryTime: calculateDeliveryTime(params.distance), fuelLiters: Math.round(fuelLiters * 10) / 10, packingVolume: Math.round(totalsWithPacking.packingExtra * 100) / 100, tripRange, workHours };
 }
 
 export function getCapacity(params: { pallets: LoadItem[]; vehicleType: VehicleType; packing?: boolean }): { volumePercent: number; weightPercent: number; palletPercent: number; heightPercent: number; packingPercent: number } {
@@ -341,7 +435,6 @@ export function getStackHeightAt(palletId: string, x: number, z: number, pallets
       if (otherTopY > maxTopY) maxTopY = otherTopY;
     }
   });
-  // Snap Y to 5cm grid for even stacking
   return Math.round(maxTopY / 0.05) * 0.05;
 }
 
@@ -369,12 +462,28 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
   const overflow: LoadItem[] = [];
   const WALL_SNAP = 0.06;
 
+  interface PlacedRect {
+    minX: number; maxX: number; minZ: number; maxZ: number;
+    minY: number; maxY: number; stackable: boolean; maxStackWeight: number;
+  }
+  const placedRects: PlacedRect[] = [];
+  let placedVolume = 0;
+  let placedWeight = 0;
+  const rectOf = (o: LoadItem): PlacedRect => {
+    const f = orientedFootprint(o);
+    const h = o.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(o.boxes.length / 4) * 0.28) : orientedHeight(o);
+    return {
+      minX: o.position[0] - f.length / 2, maxX: o.position[0] + f.length / 2,
+      minZ: o.position[2] - f.width / 2, maxZ: o.position[2] + f.width / 2,
+      minY: o.position[1], maxY: o.position[1] + h,
+      stackable: o.stackable, maxStackWeight: o.maxStackWeight
+    };
+  };
+
   sorted.forEach((item) => {
-    // Check basic volumetric / weight capacity first
-    const totalsSoFar = calculateTotals(placed);
     const itemV = itemVolume(item);
     const itemW = itemWeight(item);
-    if (totalsSoFar.volume + itemV > vehicle.capacityM3 * 1.0 || totalsSoFar.weight + itemW > vehicle.capacityKg * 1.0) {
+    if (placedVolume + itemV > vehicle.capacityM3 * 1.0 || placedWeight + itemW > vehicle.capacityKg * 1.0) {
       overflow.push(item);
       return;
     }
@@ -384,8 +493,10 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     if (isLong) item.rotation = [item.rotation[0], Math.PI / 2, item.rotation[2]];
 
     const fp = orientedFootprint(item);
+    const baseY = item.kind === 'pallet' ? 0.072 : 0.04;
     const itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
-    let bestX = 0, bestY = item.kind === 'pallet' ? 0.072 : 0.04, bestZ = 0, found = false;
+    let bestX = 0, bestY = baseY, bestZ = 0, found = false;
+    let stackX = 0, stackY = 0, stackZ = 0, stackFound = false;
     const candidateZs: number[] = [];
     if (isLong) {
       candidateZs.push(-W / 2 + fp.width / 2 + WALL_SNAP);
@@ -393,119 +504,114 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
       for (let z = -W / 2 + fp.width / 2 + 0.1; z <= W / 2 - fp.width / 2; z += 0.2) candidateZs.push(z);
     } else {
       for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.15) candidateZs.push(z);
+      if (fp.width <= W && !candidateZs.some((z) => Math.abs(z) < 1e-9)) {
+        candidateZs.push(0);
+        candidateZs.sort((a, b) => a - b);
+      }
     }
 
-    for (let x = -L / 2 + fp.length / 2; x <= L / 2 - fp.length / 2; x += 0.1) {
+    const halfL = fp.length / 2;
+    const halfW = fp.width / 2;
+    for (let x = -L / 2 + halfL; x <= L / 2 - halfL; x += 0.1) {
       if (found) break;
+      const minX = x - halfL, maxX = x + halfL;
       for (const z of candidateZs) {
-        let maxTopY = item.kind === 'pallet' ? 0.072 : 0.04;
+        const minZ = z - halfW, maxZ = z + halfW;
+        let maxTopY = baseY;
         let canStackOnTop = true;
-        for (const other of placed) {
-          const otherFp = orientedFootprint(other);
-          const otherMinX = other.position[0] - otherFp.length / 2;
-          const otherMaxX = other.position[0] + otherFp.length / 2;
-          const otherMinZ = other.position[2] - otherFp.width / 2;
-          const otherMaxZ = other.position[2] + otherFp.width / 2;
-          const overlap = (x - fp.length / 2) < otherMaxX && (x + fp.length / 2) > otherMinX && (z - fp.width / 2) < otherMaxZ && (z + fp.width / 2) > otherMinZ;
-          if (overlap) {
-            const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
-            const otherTopY = other.position[1] + otherHeight;
-            if (otherTopY > maxTopY) {
-              maxTopY = otherTopY;
-              if (!other.stackable || item.weight > other.maxStackWeight) canStackOnTop = false;
-            }
+        for (const r of placedRects) {
+          if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
+          if (r.maxY > maxTopY) {
+            maxTopY = r.maxY;
+            if (!r.stackable || item.weight > r.maxStackWeight) canStackOnTop = false;
           }
         }
         if (canStackOnTop && (maxTopY + itemHeight) <= H) {
-          let has3DCollision = false;
+          const isFloorSlot = maxTopY <= baseY + 0.001;
           const aMinY = maxTopY, aMaxY = maxTopY + itemHeight;
-          for (const other of placed) {
-            const otherFp = orientedFootprint(other);
-            const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
-            const otherMinX = other.position[0] - otherFp.length / 2;
-            const otherMaxX = other.position[0] + otherFp.length / 2;
-            const otherMinZ = other.position[2] - otherFp.width / 2;
-            const otherMaxZ = other.position[2] + otherFp.width / 2;
-            const otherMinY = other.position[1];
-            const otherMaxY = other.position[1] + otherHeight;
-            const overlapXZ = (x - fp.length / 2) < otherMaxX && (x + fp.length / 2) > otherMinX && (z - fp.width / 2) < otherMaxZ && (z + fp.width / 2) > otherMinZ;
-            const overlapY = aMinY < otherMaxY && aMaxY > otherMinY;
-            if (overlapXZ && overlapY) { has3DCollision = true; break; }
+          let has3DCollision = false;
+          for (const r of placedRects) {
+            if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
+            if (aMinY < r.maxY && aMaxY > r.minY) { has3DCollision = true; break; }
           }
-          if (!has3DCollision) { bestX = x; bestY = maxTopY; bestZ = z; found = true; break; }
+          if (!has3DCollision) {
+            if (isFloorSlot) {
+              bestX = x; bestY = maxTopY; bestZ = z; found = true; break;
+            }
+            if (!stackFound) { stackX = x; stackY = maxTopY; stackZ = z; stackFound = true; }
+          }
         }
       }
     }
+    if (!found && stackFound) {
+      bestX = stackX; bestY = stackY; bestZ = stackZ; found = true;
+    }
 
     if (found) {
-      // Магнит к стенам с повторной проверкой коллизии
       let snappedX = bestX, snappedZ = bestZ;
-      if (Math.abs(bestZ - (-W / 2 + fp.width / 2)) < WALL_SNAP) snappedZ = -W / 2 + fp.width / 2;
-      if (Math.abs(bestZ - (W / 2 - fp.width / 2)) < WALL_SNAP) snappedZ = W / 2 - fp.width / 2;
-      if (Math.abs(bestX - (-L / 2 + fp.length / 2)) < WALL_SNAP) snappedX = -L / 2 + fp.length / 2;
-      if (Math.abs(bestX - (L / 2 - fp.length / 2)) < WALL_SNAP) snappedX = L / 2 - fp.length / 2;
+      if (Math.abs(bestZ - (-W / 2 + halfW)) < WALL_SNAP) snappedZ = -W / 2 + halfW;
+      if (Math.abs(bestZ - (W / 2 - halfW)) < WALL_SNAP) snappedZ = W / 2 - halfW;
+      if (Math.abs(bestX - (-L / 2 + halfL)) < WALL_SNAP) snappedX = -L / 2 + halfL;
+      if (Math.abs(bestX - (L / 2 - halfL)) < WALL_SNAP) snappedX = L / 2 - halfL;
 
-      // Проверяем не создаёт ли снап новую коллизию
       let snapCollision = false;
-      for (const other of placed) {
-        const otherFp = orientedFootprint(other);
-        const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
-        const overlap = (snappedX - fp.length / 2) < (other.position[0] + otherFp.length / 2) && (snappedX + fp.length / 2) > (other.position[0] - otherFp.length / 2) &&
-                        (snappedZ - fp.width / 2) < (other.position[2] + otherFp.width / 2) && (snappedZ + fp.width / 2) > (other.position[2] - otherFp.width / 2) &&
-                        bestY < (other.position[1] + otherHeight) && (bestY + itemHeight) > other.position[1];
-        if (overlap) { snapCollision = true; break; }
+      const sMinX = snappedX - halfL, sMaxX = snappedX + halfL;
+      const sMinZ = snappedZ - halfW, sMaxZ = snappedZ + halfW;
+      for (const r of placedRects) {
+        if (sMaxX <= r.minX || sMinX >= r.maxX || sMaxZ <= r.minZ || sMinZ >= r.maxZ) continue;
+        if (bestY < r.maxY && (bestY + itemHeight) > r.minY) { snapCollision = true; break; }
       }
       if (!snapCollision) { bestX = snappedX; bestZ = snappedZ; }
-      // Snap Y to 5cm grid
       bestY = Math.round(bestY / 0.05) * 0.05;
       item.position = [bestX, bestY, bestZ];
       placed.push(item);
+      placedRects.push(rectOf(item));
+      placedVolume += itemV;
+      placedWeight += itemW;
     } else {
-      // Не нашли места — пробуем развернуть предмет на 180° вокруг Y
       if (item.canLaySide && Math.abs(item.rotation[2]) < 0.1) {
-        // Try laying on side if height exceeds and wasn't tried
         const altRot: [number, number, number] = [Math.PI / 2, item.rotation[1], 0];
         const origRot: [number, number, number] = [...item.rotation];
         item.rotation = altRot;
         const altFp = orientedFootprint(item);
         const altHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
         if (altHeight <= H) {
-          // Try again with new orientation (just one pass)
           let altFound = false;
-          for (let x = -L / 2 + altFp.length / 2; x <= L / 2 - altFp.length / 2 && !altFound; x += 0.15) {
+          const aHalfL = altFp.length / 2;
+          const aHalfW = altFp.width / 2;
+          for (let x = -L / 2 + aHalfL; x <= L / 2 - aHalfL && !altFound; x += 0.15) {
             for (const z of candidateZs) {
               let maxTopY = item.kind === 'pallet' ? 0.072 : 0.04;
               let canStack = true;
-              for (const other of placed) {
-                const otherFp = orientedFootprint(other);
-                const overlap = (x - altFp.length / 2) < (other.position[0] + otherFp.length / 2) && (x + altFp.length / 2) > (other.position[0] - otherFp.length / 2) &&
-                                (z - altFp.width / 2) < (other.position[2] + otherFp.width / 2) && (z + altFp.width / 2) > (other.position[2] - otherFp.width / 2);
-                if (overlap) {
-                  const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
-                  const otherTopY = other.position[1] + otherHeight;
-                  if (otherTopY > maxTopY) maxTopY = otherTopY;
-                }
+              const minX = x - aHalfL, maxX = x + aHalfL;
+              const minZ = z - aHalfW, maxZ = z + aHalfW;
+              for (const r of placedRects) {
+                if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
+                if (r.maxY > maxTopY) maxTopY = r.maxY;
               }
               if (canStack && maxTopY + altHeight <= H) {
-                const snapZ = Math.abs(z - (-W / 2 + altFp.width / 2)) < WALL_SNAP ? -W / 2 + altFp.width / 2 : z;
+                const snapZ = Math.abs(z - (-W / 2 + aHalfW)) < WALL_SNAP ? -W / 2 + aHalfW : z;
                 item.position = [Math.round(x / 0.05) * 0.05, Math.round(maxTopY / 0.05) * 0.05, snapZ];
                 altFound = true;
                 break;
               }
             }
           }
-          if (altFound) { placed.push(item); return; }
+          if (altFound) {
+            placed.push(item);
+            placedRects.push(rectOf(item));
+            placedVolume += itemV;
+            placedWeight += itemW;
+            return;
+          }
         }
         item.rotation = origRot;
       }
-      // Не нашли места — предмет не помещается в этот кузов
       overflow.push(item);
     }
   });
   return { placed, overflow };
 }
-
-// === Инженерные расчеты ===
 
 export function computeCenterOfGravity(items: LoadItem[]): { x: number; y: number; z: number; weight: number } {
   if (items.length === 0) return { x: 0, y: 0, z: 0, weight: 0 };
@@ -559,10 +665,9 @@ export function computeAxleLoads(items: LoadItem[], vehicleType: VehicleType): {
 
 export function canFitThroughDoor(item: LoadItem, vehicleType: VehicleType): { fits: boolean; reason?: string; fitsRotated?: boolean } {
   const vehicle = VEHICLES[vehicleType];
-  // Реалистичный проем: ширина на 10-12% уже кузова, высота — на 8-12% ниже + ограничение порога 1.92м для высоких кузовов
-  const doorWidth = vehicle.cargoWidth * 0.90; // рама съедает 10%
+  const doorWidth = vehicle.cargoWidth * 0.90;
   const rawDoorHeight = vehicle.cargoHeight * 0.88;
-  const doorHeight = vehicle.cargoHeight > 1.9 ? Math.min(rawDoorHeight, 1.92) : rawDoorHeight; // порог 1.92м для Газели 4м+
+  const doorHeight = vehicle.cargoHeight > 1.9 ? Math.min(rawDoorHeight, 1.92) : rawDoorHeight;
   const fp = orientedFootprint(item);
   const h = orientedHeight(item);
   const diagDoor = Math.sqrt(doorWidth * doorWidth + doorHeight * doorHeight);
@@ -570,7 +675,6 @@ export function canFitThroughDoor(item: LoadItem, vehicleType: VehicleType): { f
   const diagItemFace2 = Math.sqrt(fp.width * fp.width + h * h);
   const diagItemBase = Math.sqrt(fp.length * fp.length + fp.width * fp.width);
 
-  // Проверка обеих ориентаций в плане + диагональ, с учетом canLaySide
   const orientations: Array<{ w: number; h: number }> = [
     { w: fp.length, h: h },
     { w: fp.width, h: h },
@@ -587,12 +691,10 @@ export function canFitThroughDoor(item: LoadItem, vehicleType: VehicleType): { f
     if (o.w <= doorHeight && o.h <= doorWidth) return { fits: true, fitsRotated: true };
   }
 
-  // Диагональная проверка — можно ли пронести под углом
   if (diagItemFace1 <= diagDoor && fp.width <= doorWidth) return { fits: true, fitsRotated: true };
   if (diagItemFace2 <= diagDoor && fp.length <= doorWidth) return { fits: true, fitsRotated: true };
   if (diagItemBase <= doorWidth && h <= doorHeight) return { fits: true, fitsRotated: true };
 
-  // Не проходит
   if (fp.width > doorWidth && fp.length > doorWidth) {
     return { fits: false, reason: `ширина ${Math.min(fp.width, fp.length).toFixed(2)}м > проем ${doorWidth.toFixed(2)}м` };
   }
@@ -660,8 +762,6 @@ export function checkOverload(items: LoadItem[], vehicleType: VehicleType): { ov
   return { overloaded: false, weightPercent, volumePercent };
 }
 
-// === Автозаполнение пустот коробками ===
-
 interface BoxTemplate {
   size: 'S' | 'M' | 'L';
   dims: { length: number; width: number; height: number };
@@ -675,53 +775,72 @@ const FILL_BOX_TEMPLATES: BoxTemplate[] = [
   { size: 'L', dims: { length: 0.8, width: 0.6, height: 0.6 }, weight: 22, volume: 0.8*0.6*0.6 }
 ];
 
-/** Generate virtual box items to fill remaining empty space in the vehicle.
- *  Returns an array of Omit<LoadItem, 'id'> that can be added and re-packed. */
+export function fillCargoWithBoxes(items: LoadItem[], vehicleType: VehicleType, makeId: () => string, maxIterations = 8): { placed: LoadItem[]; overflow: LoadItem[] } {
+  let placed = [...items];
+  let overflow: LoadItem[] = [];
+  const fillIds = new Set<string>();
+  let consecutiveEmpty = 0;
+  for (let i = 0; i < maxIterations; i++) {
+    placed.forEach((p) => { if (fillIds.has(p.id)) p.rotation = [0, 0, 0]; });
+    const fillBoxes = generateFillBoxes(placed, vehicleType);
+    if (fillBoxes.length === 0) break;
+    const withIds = fillBoxes.map((b) => ({ ...b, id: makeId() }));
+    const withIdSet = new Set(withIds.map((b) => b.id));
+    withIds.forEach((b) => fillIds.add(b.id));
+    const packed = packItemsInVehicle([...placed, ...withIds], vehicleType);
+    overflow = packed.overflow.filter((o) => !withIdSet.has(o.id));
+    placed = packed.placed;
+    const placedIds = new Set(placed.map((p) => p.id));
+    fillIds.forEach((id) => { if (!placedIds.has(id)) fillIds.delete(id); });
+    const added = withIds.filter((b) => placedIds.has(b.id)).length;
+    consecutiveEmpty = added === 0 ? consecutiveEmpty + 1 : 0;
+    if (consecutiveEmpty >= 2) break;
+  }
+  return { placed, overflow };
+}
+
 export function generateFillBoxes(items: LoadItem[], vehicleType: VehicleType): Array<Omit<LoadItem, 'id'>> {
   const vehicle = VEHICLES[vehicleType];
-  const MAX_FILL = 0.92; // fill up to 92% capacity to leave realistic margins
+  const MAX_FILL = 0.92;
   const totals = calculateTotals(items);
   const freeVol = vehicle.capacityM3 * MAX_FILL - totals.volume;
   const freeWeight = vehicle.capacityKg * MAX_FILL - totals.weight;
 
-  if (freeVol < 0.05 || freeWeight < 5) return []; // not enough room for even one box
+  if (freeVol < 0.05 || freeWeight < 5) return [];
 
   const boxes: Array<Omit<LoadItem, 'id'>> = [];
   let usedVol = 0;
   let usedWeight = 0;
 
-  // Mix of sizes: prefer M as most realistic, then S for small gaps, L for bulk
   const mix: Array<{ template: BoxTemplate; ratio: number }> = [
-    { template: FILL_BOX_TEMPLATES[1], ratio: 0.5 }, // M — 50%
-    { template: FILL_BOX_TEMPLATES[0], ratio: 0.3 }, // S — 30%
-    { template: FILL_BOX_TEMPLATES[2], ratio: 0.2 }, // L — 20%
+    { template: FILL_BOX_TEMPLATES[1], ratio: 0.5 },
+    { template: FILL_BOX_TEMPLATES[0], ratio: 0.3 },
+    { template: FILL_BOX_TEMPLATES[2], ratio: 0.2 },
   ];
 
   let iterations = 0;
-  const MAX_ITER = 200; // safety cap
+  const MAX_ITER = 200;
 
   while (usedVol < freeVol - 0.02 && usedWeight < freeWeight - 3 && iterations < MAX_ITER) {
     iterations++;
-    // Pick template based on remaining space
     let template: BoxTemplate;
     if (freeVol - usedVol < 0.15) {
-      template = FILL_BOX_TEMPLATES[0]; // only S size fits
+      template = FILL_BOX_TEMPLATES[0];
     } else if (freeVol - usedVol < 0.35) {
-      template = FILL_BOX_TEMPLATES[1]; // M
+      template = FILL_BOX_TEMPLATES[1];
     } else {
-      template = FILL_BOX_TEMPLATES[2]; // L for bulk
+      template = FILL_BOX_TEMPLATES[2];
     }
 
     const addVol = template.volume;
     const addWeight = template.weight;
     if (usedVol + addVol > freeVol || usedWeight + addWeight > freeWeight) {
-      // Try smaller box
       if (template.size === 'L') {
         template = FILL_BOX_TEMPLATES[1];
       } else if (template.size === 'M') {
         template = FILL_BOX_TEMPLATES[0];
       } else {
-        break; // even S doesn't fit
+        break;
       }
       if (usedVol + template.volume > freeVol || usedWeight + template.weight > freeWeight) break;
     }

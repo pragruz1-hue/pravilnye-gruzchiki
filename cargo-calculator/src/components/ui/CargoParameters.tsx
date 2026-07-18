@@ -1,5 +1,5 @@
 import { useCalculatorStore } from '../../store/useCalculatorStore';
-import { APARTMENT_STANDARDS, VEHICLES } from '../../utils/calculations';
+import { STANDARDS, VEHICLES } from '../../utils/calculations';
 import { VehicleType } from '../../types';
 
 const gazelleVehicles: VehicleType[] = ['gazelle7', 'gazelle12', 'gazelle18'];
@@ -19,7 +19,7 @@ export function CargoParameters() {
   const activePreset = useCalculatorStore((state) => state.activePreset);
   const pallets = useCalculatorStore((state) => state.pallets);
 
-  const recommendedStandard = activePreset ? APARTMENT_STANDARDS[activePreset] : null;
+  const recommendedStandard = activePreset ? STANDARDS[activePreset] : null;
 
   return (
     <section className="mb-6 rounded-3xl bg-white/60 p-4 ring-1 ring-black/5 backdrop-blur">
@@ -34,7 +34,7 @@ export function CargoParameters() {
         <div className="mb-3 rounded-2xl bg-[#10131b] p-3 text-white ring-1 ring-white/10">
           <div className="text-xs font-black uppercase tracking-wide text-orange-300">Рекомендация под {recommendedStandard.label}</div>
           <div className="mt-1 text-sm font-bold">Стандартный объем {recommendedStandard.volumeM3} м³ · вес до {recommendedStandard.weightKg} кг · до 1500 кг на все газели</div>
-          <div className="mt-1 text-xs text-slate-300">Автоподбор: {VEHICLES[recommendedStandard.recommendedVehicle].label} — {VEHICLES[recommendedStandard.recommendedVehicle].cargoLength}×{VEHICLES[recommendedStandard.recommendedVehicle].cargoWidth}×{VEHICLES[recommendedStandard.recommendedVehicle].cargoHeight} м (данные: kuzovspec.ru, fb.ru, pereezdporossii.ru)</div>
+          <div className="mt-1 text-xs text-slate-300">Автоподбор: {VEHICLES[recommendedStandard.recommendedVehicle].label} — {VEHICLES[recommendedStandard.recommendedVehicle].cargoLength}×{VEHICLES[recommendedStandard.recommendedVehicle].cargoWidth}×{VEHICLES[recommendedStandard.recommendedVehicle].cargoHeight} м</div>
         </div>
       )}
 

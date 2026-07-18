@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, PalletType, ServicesState, VehicleType } from '../types';
-import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, generateFillBoxes, generateSharePayload, getStackHeightAt, orientedHeight, packItemsInVehicle, recommendVehicle, VEHICLES } from '../utils/calculations';
+import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, OfficePreset, PalletType, ServicesState, StandardPreset, TripRange, TruckPreset, VehicleType } from '../types';
+import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, fillCargoWithBoxes, generateSharePayload, getStackHeightAt, OFFICE_STANDARDS, orientedHeight, packItemsInVehicle, recommendVehicle, STANDARDS, VEHICLES } from '../utils/calculations';
 
 interface CalculatorState {
   from: string;
@@ -23,7 +23,9 @@ interface CalculatorState {
   insurancePrice: number;
   totalPrice: number;
   deliveryTime: string;
-  activePreset: ApartmentPreset | null;
+  tripRange: TripRange;
+  workHours: number;
+  activePreset: StandardPreset | null;
   cameraMode: CameraMode;
   isNightMode: boolean;
   history: LoadItem[][];
@@ -53,6 +55,8 @@ interface CalculatorState {
   addPallet: (pallet: Omit<LoadItem, 'id'>) => void;
   addCatalogItem: (kind: LoadItemKind) => void;
   applyApartmentPreset: (preset: ApartmentPreset) => void;
+  applyOfficePreset: (preset: OfficePreset) => void;
+  applyTruckPreset: (preset: TruckPreset) => void;
   removePallet: (id: string) => void;
   updatePalletPosition: (id: string, position: [number, number, number]) => void;
   updatePalletRotation: (id: string, rotation: [number, number, number]) => void;
@@ -153,6 +157,58 @@ function buildPreset(preset: ApartmentPreset): LoadItem[] {
   return items;
 }
 
+function buildOfficePreset(preset: OfficePreset): LoadItem[] {
+  const desk = 'Стол рабочий';
+  const shelf = 'Шкаф для документов';
+  const docs = 'Коробка с документами';
+  const seats = 'Офисные кресла (4 шт)';
+  const screens = 'Мониторы и техника';
+  const layouts: Record<OfficePreset, Array<[LoadItemKind, string]>> = {
+    officeS: [
+      ['table', desk], ['table', desk], ['chairs', seats], ['wardrobe', shelf],
+      ['tv', screens], ['plant', 'Растение в кабинет'],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs]
+    ],
+    officeM: [
+      ['table', desk], ['table', desk], ['table', desk], ['table', desk], ['table', desk],
+      ['chairs', seats], ['chairs', seats],
+      ['wardrobe', shelf], ['wardrobe', shelf], ['tv', screens], ['tv', screens],
+      ['safe', 'Сейф офисный'], ['plant', 'Растение в офис'],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs]
+    ],
+    officeL: [
+      ['table', desk], ['table', desk], ['table', desk], ['table', desk], ['table', desk], ['table', desk], ['table', desk], ['table', desk],
+      ['chairs', seats], ['chairs', seats], ['chairs', seats],
+      ['wardrobe', shelf], ['wardrobe', shelf], ['wardrobe', shelf],
+      ['tv', screens], ['tv', screens], ['safe', 'Сейф офисный'],
+      ['sofa', 'Диван зоны ожидания'], ['plant', 'Растение в зоне ожидания'],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs],
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs]
+    ]
+  };
+  const vehicle = OFFICE_STANDARDS[preset].recommendedVehicle;
+  return layouts[preset].map(([kind, name], index) => ({ ...createLoadItem(kind, gridPosition(index, vehicle)), name, id: createId(kind) }));
+}
+
+function buildPalletLoad(vehicleType: VehicleType): LoadItem[] {
+  const vehicle = VEHICLES[vehicleType];
+  const items: LoadItem[] = [];
+  for (let i = 0; i < vehicle.palletCapacity; i += 1) {
+    items.push({
+      ...makePallet({ type: 'EUR', boxCount: 16, boxSize: 'M', boxType: 'standard', material: 'wood', wrapped: true, position: gridPosition(i, vehicleType) }),
+      id: createId('pallet')
+    });
+  }
+  return items;
+}
+
+function buildTruckLoad(preset: TruckPreset, vehicleType: VehicleType): LoadItem[] {
+  if (preset === 'pallets') return buildPalletLoad(vehicleType);
+  return [];
+}
+
 let lastPostTime = 0;
 let postDebounceTimer: any = null;
 let lastHistoryPush = 0;
@@ -174,8 +230,8 @@ function computeOverflowInfo(overflow: LoadItem[], vehicleType: VehicleType): { 
 
 function recalculate(set: (partial: Partial<CalculatorState>) => void, state: CalculatorState): void {
   const totals = calculateTotals(state.pallets);
-  const recommendedVehicleType = state.activePreset ? APARTMENT_STANDARDS[state.activePreset].recommendedVehicle : recommendVehicle(state.pallets);
-  const price = calculatePrice({ vehicleType: state.vehicleType, vehicleCount: state.vehicleCount, distance: state.distance, pallets: state.pallets, services: state.services, urgency: state.urgency });
+  const recommendedVehicleType = state.activePreset && STANDARDS[state.activePreset] ? STANDARDS[state.activePreset].recommendedVehicle : recommendVehicle(state.pallets);
+  const price = calculatePrice({ vehicleType: state.vehicleType, vehicleCount: state.vehicleCount, distance: state.distance, pallets: state.pallets, services: state.services, urgency: state.urgency, moveType: state.moveType });
   set({ totalWeight: totals.weight, totalVolume: totals.volume, recommendedVehicleType, ...price });
 
   const now = Date.now();
@@ -192,6 +248,7 @@ function recalculate(set: (partial: Partial<CalculatorState>) => void, state: Ca
         recommended: recommendedVehicleType,
         price: price.totalPrice,
         fuelLiters: (price as any).fuelLiters,
+        tripRange: price.tripRange,
         share: payload,
         from: state.from,
         to: state.to
@@ -227,7 +284,7 @@ export const useCalculatorStore = create<CalculatorState>()(
     (set, get) => ({
       from: 'Краснодар', to: 'Сочи', distance: 286, moveType: 'apartment', totalWeight: 0, totalVolume: 0,
       pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7', vehicleCount: 1, urgency: 2, services: initialServices,
-      basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', activePreset: null,
+      basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', tripRange: 'regional', workHours: 0, activePreset: null,
       cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
       isPerformanceMode: false, isPhysicsEnabled: false, isHeatmapEnabled: true, fallingTargets: {},
       overflowCount: 0, overflowItems: [], overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0,
@@ -290,17 +347,16 @@ export const useCalculatorStore = create<CalculatorState>()(
         const recommended = standard.recommendedVehicle;
         const st = get();
         const packed = packItemsInVehicle(rawItems, recommended);
-        // Auto-fill remaining empty space with boxes for realistic visualisation
-        const fillBoxes = generateFillBoxes(packed.placed, recommended);
-        const filledItems = fillBoxes.length > 0
-          ? packItemsInVehicle([...packed.placed, ...fillBoxes.map(b => ({ ...b, id: createId('fill') }))], recommended)
-          : packed;
-        const result = fillBoxes.length > 0 ? filledItems : packed;
-        const _oi5 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        const result = fillCargoWithBoxes(packed.placed, recommended, () => createId('fill'));
+        const placedIds5 = new Set(result.placed.map((p) => p.id));
+        const mergedOverflow5 = [...packed.overflow, ...result.overflow]
+          .filter((o, i, arr) => arr.findIndex((x) => x.id === o.id) === i)
+          .filter((o) => !placedIds5.has(o.id));
+        const _oi5 = mergedOverflow5.length > 0 ? computeOverflowInfo(mergedOverflow5, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
         set({
           moveType: 'apartment',
           pallets: result.placed,
-          overflowItems: result.overflow,
+          overflowItems: mergedOverflow5,
           selectedPalletId: result.placed[0]?.id ?? null,
           activePreset: preset,
           recommendedVehicleType: recommended,
@@ -309,6 +365,57 @@ export const useCalculatorStore = create<CalculatorState>()(
           ...pushHistory(st)
         });
         get().calculatePrice();
+      },
+      applyOfficePreset: (preset) => {
+        const standard = OFFICE_STANDARDS[preset];
+        const rawItems = buildOfficePreset(preset);
+        const recommended = standard.recommendedVehicle;
+        const st = get();
+        const packed = packItemsInVehicle(rawItems, recommended);
+        const result = fillCargoWithBoxes(packed.placed, recommended, () => createId('fill'));
+        const placedIds5 = new Set(result.placed.map((p) => p.id));
+        const mergedOverflow5 = [...packed.overflow, ...result.overflow]
+          .filter((o, i, arr) => arr.findIndex((x) => x.id === o.id) === i)
+          .filter((o) => !placedIds5.has(o.id));
+        const _oi5 = mergedOverflow5.length > 0 ? computeOverflowInfo(mergedOverflow5, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        set({
+          moveType: 'office',
+          pallets: result.placed,
+          overflowItems: mergedOverflow5,
+          selectedPalletId: result.placed[0]?.id ?? null,
+          activePreset: preset,
+          recommendedVehicleType: recommended,
+          vehicleType: recommended,
+          ..._oi5,
+          ...pushHistory(st)
+        });
+        get().calculatePrice();
+      },
+      applyTruckPreset: (preset) => {
+        const st = get();
+        const current = st.vehicleType;
+        const recommended = current === 'refrigerator' || current === 'truck' ? current : 'truck';
+        const rawItems = buildTruckLoad(preset, recommended);
+        const packed = packItemsInVehicle(rawItems, recommended);
+        const result = fillCargoWithBoxes(packed.placed, recommended, () => createId('fill'));
+        const placedIds = new Set(result.placed.map((p) => p.id));
+        const mergedOverflow = [...packed.overflow, ...result.overflow]
+          .filter((o, i, arr) => arr.findIndex((x) => x.id === o.id) === i)
+          .filter((o) => !placedIds.has(o.id));
+        const _oi = mergedOverflow.length > 0 ? computeOverflowInfo(mergedOverflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        set({
+          moveType: 'commercial',
+          pallets: result.placed,
+          overflowItems: mergedOverflow,
+          selectedPalletId: result.placed[0]?.id ?? null,
+          activePreset: null,
+          recommendedVehicleType: recommended,
+          vehicleType: recommended,
+          ..._oi,
+          ...pushHistory(st)
+        });
+        get().calculatePrice();
+        if (get().isSoundEnabled) { try { window.pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(40); } catch {} }
       },
       removePallet: (id) => {
         const st = get();
@@ -332,7 +439,6 @@ export const useCalculatorStore = create<CalculatorState>()(
         if (get().isSoundEnabled) { try { window.pgPlaySound?.('remove'); if (navigator.vibrate) navigator.vibrate([20, 30, 20]); } catch {} }
       },
       updatePalletPosition: (id, position) => {
-        // Throttled history for drag
         const st = get();
         const hist = pushHistoryThrottled(st);
         set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, position } : pallet), activePreset: null, ...hist } as any));
@@ -407,17 +513,13 @@ export const useCalculatorStore = create<CalculatorState>()(
       fillEmptySpace: () => {
         const state = get();
         if (state.pallets.length === 0) return;
-        const fillBoxes = generateFillBoxes(state.pallets, state.vehicleType);
-        if (fillBoxes.length === 0) {
+        const st = get();
+        const packed = fillCargoWithBoxes(state.pallets, state.vehicleType, () => createId('fill'));
+        if (packed.placed.length === state.pallets.length) {
           if (get().isSoundEnabled) try { window.pgPlaySound?.('click'); } catch {}
           return;
         }
-        const st = get();
-        const itemsWithFill = [...state.pallets, ...fillBoxes.map(b => ({ ...b, id: createId('fill') }))];
-        const packed = packItemsInVehicle(itemsWithFill, state.vehicleType);
         const _oi = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
-        // If fill boxes created collisions (overflow has original items), warn is handled by overflow display
-        const fillCount = packed.placed.length - state.pallets.length;
         set({
           pallets: packed.placed,
           overflowItems: packed.overflow,
@@ -439,7 +541,6 @@ export const useCalculatorStore = create<CalculatorState>()(
         const vehicle = VEHICLES[state.vehicleType];
         const itemH = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
         const clampedY = Math.round(Math.min(targetY, vehicle.cargoHeight - itemH) / 0.05) * 0.05;
-        // Start smooth fall animation
         set((s) => ({ fallingTargets: { ...s.fallingTargets, [id]: clampedY } }));
       },
       commitLanding: (id) => {
@@ -462,7 +563,6 @@ export const useCalculatorStore = create<CalculatorState>()(
       name: 'pg-cargo-3d-v3',
       version: 3,
       migrate: (persisted: any, version: number) => {
-        // Миграция с v2 на v3: добавляем новые флаги, сохраняем pallets/vehicle
         if (version < 3) {
           return {
             ...persisted,

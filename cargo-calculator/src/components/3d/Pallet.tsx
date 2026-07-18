@@ -29,25 +29,21 @@ export const Pallet = React.memo(function Pallet(props: PalletProps) {
 
   useFrame((state, delta) => {
     if (!itemRef.current) return;
-    
-    // Smooth falling animation — gravity pull to target stack height
+
     const targetY = fallingTargets[id];
     if (targetY !== undefined) {
       const currentVisualY = itemRef.current.position.y;
       const diff = currentVisualY - targetY;
       if (Math.abs(diff) > 0.005) {
-        // Gravity: accelerate towards target, faster when higher up
         const speed = Math.min(1, (Math.abs(diff) + 0.3) * delta * 5.0);
         itemRef.current.position.y = currentVisualY - Math.sign(diff) * Math.min(Math.abs(diff), Math.abs(diff) * speed + 0.02);
       } else {
-        // Snap to exact target and commit to store
         itemRef.current.position.y = targetY;
         commitLanding(id);
       }
       return;
     }
 
-    // Normal selected bob animation (only when not falling)
     if (isSelected) {
       itemRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 3) * 0.015;
     }
@@ -113,27 +109,27 @@ function makeMaterial(material: LoadItem['material'], kind: LoadItem['kind']): T
 
 function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: THREE.Material }) {
   const d = item.dimensions;
-  
+
   if (item.kind === 'sofa') {
     return (
       <group>
-        {/* Main Base */}
+
         <RoundedBox args={[d.length, d.height * 0.45, d.width]} radius={0.08} smoothness={5} position={[0, d.height * 0.22, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-        {/* Backrest */}
+
         <RoundedBox args={[d.length, d.height * 0.55, 0.18]} radius={0.06} smoothness={5} position={[0, d.height * 0.58, -d.width / 2 + 0.08]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-        {/* Left Armrest */}
+
         <RoundedBox args={[0.16, d.height * 0.52, d.width]} radius={0.05} smoothness={4} position={[-d.length / 2 + 0.08, d.height * 0.5, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-        {/* Right Armrest */}
+
         <RoundedBox args={[0.16, d.height * 0.52, d.width]} radius={0.05} smoothness={4} position={[d.length / 2 - 0.08, d.height * 0.5, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-        {/* Back pillows */}
+
         <RoundedBox args={[0.55, 0.35, 0.1]} radius={0.04} smoothness={4} position={[-0.45, d.height * 0.58, -d.width / 2 + 0.16]} castShadow receiveShadow>
           <meshStandardMaterial color="#3b4252" roughness={0.9} />
         </RoundedBox>
@@ -143,19 +139,19 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
       </group>
     );
   }
-  
+
   if (item.kind === 'fridge') {
     return (
       <group>
         <RoundedBox args={[d.length, d.height, d.width]} radius={0.03} smoothness={4} position={[0, d.height / 2, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-        {/* Horizontal freezer separation line */}
+
         <mesh position={[0, d.height * 0.35, d.width / 2 + 0.005]}>
           <boxGeometry args={[d.length * 0.96, 0.008, 0.005]} />
           <meshStandardMaterial color="#94a3b8" />
         </mesh>
-        {/* Handles */}
+
         <mesh position={[d.length / 2 - 0.06, d.height * 0.65, d.width / 2 + 0.014]} castShadow>
           <boxGeometry args={[0.02, 0.28, 0.02]} />
           <meshStandardMaterial color="#cbd5e1" metalness={0.9} roughness={0.1} />
@@ -174,29 +170,29 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
         <RoundedBox args={[d.length, d.height, d.width]} radius={0.045} smoothness={4} position={[0, d.height / 2, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-        {/* Control panel row */}
+
         <mesh position={[0, d.height * 0.85, d.width / 2 + 0.006]}>
           <boxGeometry args={[d.length * 0.9, 0.12, 0.008]} />
           <meshStandardMaterial color="#e2e8f0" roughness={0.4} />
         </mesh>
-        {/* Blue LCD screen */}
+
         <mesh position={[d.length * 0.22, d.height * 0.85, d.width / 2 + 0.011]}>
           <boxGeometry args={[0.12, 0.05, 0.005]} />
           <meshBasicMaterial color="#0284c7" />
         </mesh>
-        {/* Dial control */}
+
         <mesh position={[-d.length * 0.22, d.height * 0.85, d.width / 2 + 0.013]} rotation={[Math.PI / 2, 0, 0]}>
           <cylinderGeometry args={[0.024, 0.024, 0.012, 24]} />
           <meshStandardMaterial color="#64748b" metalness={0.5} roughness={0.2} />
         </mesh>
-        {/* Circular door */}
+
         <group position={[0, d.height * 0.44, d.width / 2 + 0.006]} rotation={[Math.PI / 2, 0, 0]}>
-          {/* Chrome door frame ring */}
+
           <mesh castShadow>
             <torusGeometry args={[0.16, 0.018, 12, 36]} />
             <meshStandardMaterial color="#cbd5e1" metalness={0.9} roughness={0.1} />
           </mesh>
-          {/* Circular glass window */}
+
           <mesh position={[0, 0.004, 0]}>
             <cylinderGeometry args={[0.14, 0.14, 0.008, 24]} />
             <meshPhysicalMaterial color="#38bdf8" transparent opacity={0.65} roughness={0.02} transmission={0.9} />
@@ -205,19 +201,19 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
       </group>
     );
   }
-  
+
   if (item.kind === 'wardrobe') {
     return (
       <group>
         <RoundedBox args={[d.length, d.height, d.width]} radius={0.02} smoothness={3} position={[0, d.height / 2, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-        {/* Door separation line */}
+
         <mesh position={[0, d.height / 2, d.width / 2 + 0.005]}>
           <boxGeometry args={[0.006, d.height * 0.95, 0.006]} />
           <meshStandardMaterial color="#111827" roughness={0.8} />
         </mesh>
-        {/* Door handles */}
+
         <mesh position={[-0.04, d.height / 2, d.width / 2 + 0.012]} castShadow>
           <cylinderGeometry args={[0.008, 0.01, 0.14, 12]} />
           <meshStandardMaterial color="#cbd5e1" metalness={0.9} roughness={0.2} />
@@ -243,29 +239,29 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
       </group>
     );
   }
-  
+
   if (item.kind === 'plant') {
     return (
       <group>
-        {/* Pot */}
+
         <mesh position={[0, 0.16, 0]} castShadow receiveShadow>
           <cylinderGeometry args={[0.18, 0.24, 0.32, 24]} />
           <meshStandardMaterial color="#8B7355" roughness={0.8} />
         </mesh>
-        {/* Stem */}
+
         <mesh position={[0, d.height * 0.4, 0]} castShadow receiveShadow>
           <cylinderGeometry args={[0.02, 0.02, d.height * 0.5, 8]} />
           <meshStandardMaterial color="#78350f" roughness={0.9} />
         </mesh>
-        {/* Leaves */}
+
         {Array.from({ length: 5 }).map((_, idx) => {
           const rot = (idx * Math.PI * 2) / 5;
           return (
-            <mesh 
-              key={`leaf-${idx}`} 
-              position={[Math.sin(rot) * 0.16, d.height * 0.55 + idx * 0.06, Math.cos(rot) * 0.16]} 
-              rotation={[0.3, rot, 0.2]} 
-              castShadow 
+            <mesh
+              key={`leaf-${idx}`}
+              position={[Math.sin(rot) * 0.16, d.height * 0.55 + idx * 0.06, Math.cos(rot) * 0.16]}
+              rotation={[0.3, rot, 0.2]}
+              castShadow
               receiveShadow
             >
               <sphereGeometry args={[0.22, 16, 8]} />
@@ -276,7 +272,7 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
       </group>
     );
   }
-  
+
   if (item.kind === 'bike') {
     return (
       <group>
@@ -302,7 +298,7 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
         <RoundedBox args={[d.length, d.height, d.width]} radius={0.025} smoothness={3} position={[0, d.height / 2, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-        {/* Tape along length */}
+
         <mesh position={[0, d.height + 0.003, 0]}>
           <boxGeometry args={[d.length * 1.01, 0.002, 0.051]} />
           <meshStandardMaterial color="#854d0e" roughness={0.7} />
@@ -315,7 +311,7 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
           <boxGeometry args={[0.002, d.height * 0.8, 0.051]} />
           <meshStandardMaterial color="#854d0e" roughness={0.7} />
         </mesh>
-        {/* Address / shipping label */}
+
         <mesh position={[0, d.height / 2, d.width / 2 + 0.004]}>
           <planeGeometry args={[0.16, 0.1]} />
           <meshBasicMaterial color="#ffffff" />
@@ -327,12 +323,12 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
   if (item.kind === 'table') {
     return (
       <group>
-        {/* Table top */}
+
         <RoundedBox args={[d.length, 0.06, d.width]} radius={0.012} smoothness={3} position={[0, d.height - 0.03, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-        {/* Legs */}
-        {[-d.length / 2 + 0.08, d.length / 2 - 0.08].map((x) => 
+
+        {[-d.length / 2 + 0.08, d.length / 2 - 0.08].map((x) =>
           [-d.width / 2 + 0.08, d.width / 2 - 0.08].map((z) => (
             <mesh key={`leg-${x}-${z}`} position={[x, (d.height - 0.06) / 2, z]} castShadow receiveShadow>
               <cylinderGeometry args={[0.03, 0.02, d.height - 0.06, 12]} />
@@ -351,16 +347,16 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
           const yOffset = idx * 0.12;
           return (
             <group key={`chair-${idx}`} position={[0, yOffset, 0]}>
-              {/* Seat */}
+
               <RoundedBox args={[0.42, 0.04, 0.42]} radius={0.01} smoothness={2} position={[0, 0.4, 0]} castShadow receiveShadow>
                 <primitive object={itemMaterial} attach="material" />
               </RoundedBox>
-              {/* Backrest */}
+
               <RoundedBox args={[0.42, 0.38, 0.04]} radius={0.01} smoothness={2} position={[0, 0.6, -0.19]} castShadow receiveShadow>
                 <primitive object={itemMaterial} attach="material" />
               </RoundedBox>
-              {/* Legs */}
-              {[-0.18, 0.18].map((x) => 
+
+              {[-0.18, 0.18].map((x) =>
                 [-0.18, 0.18].map((z) => (
                   <mesh key={`leg-${x}-${z}`} position={[x, 0.2, z]} castShadow receiveShadow>
                     <cylinderGeometry args={[0.018, 0.014, 0.4, 8]} />
@@ -408,7 +404,7 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
   const updatePalletPosition = useCalculatorStore((state) => state.updatePalletPosition);
   const updatePalletRotation = useCalculatorStore((state) => state.updatePalletRotation);
   const landItem = useCalculatorStore((state) => state.landItem);
-  
+
   const vehicle = VEHICLES[vehicleType];
   const item = pallets.find((p) => p.id === id);
 
@@ -427,7 +423,7 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
     event.stopPropagation();
     (event.target as HTMLElement).setPointerCapture(event.pointerId);
     disableControls();
-    
+
     dragRef.current = {
       axis,
       pointerId: event.pointerId,
@@ -440,7 +436,7 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
   const handlePointerMove = (event: ThreeEvent<PointerEvent>) => {
     if (!dragRef.current || !item) return;
     event.stopPropagation();
-    
+
     const drag = dragRef.current;
     raycaster.setFromCamera(event.pointer, camera);
 
@@ -448,12 +444,12 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
       const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -drag.initialPoint.y);
       const hitPoint = new THREE.Vector3();
       raycaster.ray.intersectPlane(plane, hitPoint);
-      
+
       const delta = hitPoint.sub(drag.initialPoint);
       const fp = orientedFootprint(item);
       const maxL = vehicle.cargoLength / 2 - fp.length / 2;
       const maxW = vehicle.cargoWidth / 2 - fp.width / 2;
-      
+
       let newX = drag.initialItemPos[0];
       let newZ = drag.initialItemPos[2];
 
@@ -472,37 +468,37 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
       camera.getWorldDirection(camDir);
       camDir.y = 0;
       camDir.normalize();
-      
+
       const plane = new THREE.Plane(camDir, -camDir.dot(drag.initialPoint));
       const hitPoint = new THREE.Vector3();
       raycaster.ray.intersectPlane(plane, hitPoint);
-      
+
       const deltaY = hitPoint.y - drag.initialPoint.y;
       let newY = Math.round((drag.initialItemPos[1] + deltaY) / 0.1) * 0.1;
       const itemH = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
       newY = THREE.MathUtils.clamp(newY, 0.04, vehicle.cargoHeight - itemH);
-      
+
       updatePalletPosition(id, [position[0], newY, position[2]]);
     } else if (drag.axis === 'rotY') {
       const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -drag.initialPoint.y);
       const hitPoint = new THREE.Vector3();
       raycaster.ray.intersectPlane(plane, hitPoint);
-      
+
       const center = new THREE.Vector3(position[0], 0, position[2]);
       const initDir = drag.initialPoint.clone().sub(center);
       initDir.y = 0;
       const initAngle = Math.atan2(initDir.z, initDir.x);
-      
+
       const currentDir = hitPoint.clone().sub(center);
       currentDir.y = 0;
       const currentAngle = Math.atan2(currentDir.z, currentDir.x);
-      
+
       const deltaAngle = currentAngle - initAngle;
       let newRotY = drag.initialItemRot[1] - deltaAngle;
-      
+
       const step = Math.PI / 2;
       newRotY = Math.round(newRotY / step) * step;
-      
+
       updatePalletRotation(id, [rotation[0], newRotY, rotation[2]]);
     }
   };
@@ -512,13 +508,12 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
     (event.target as HTMLElement).releasePointerCapture(event.pointerId);
     enableControls();
     dragRef.current = null;
-    // Land the item — smooth fall to correct stack height
     landItem(id);
   };
 
   return (
     <group position={[0, height + 0.04, 0]}>
-      {/* X Axis (Red) */}
+
       <group rotation={[0, 0, -Math.PI / 2]}>
         <mesh
           position={[0.34, 0, 0]}
@@ -542,7 +537,6 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
         </mesh>
       </group>
 
-      {/* Y Axis (Green) */}
       <group>
         <mesh
           position={[0, 0.34, 0]}
@@ -566,7 +560,6 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
         </mesh>
       </group>
 
-      {/* Z Axis (Blue) */}
       <group rotation={[Math.PI / 2, 0, 0]}>
         <mesh
           position={[0, 0, 0.34]}
@@ -591,7 +584,6 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
         </mesh>
       </group>
 
-      {/* Rotation ring Y (Orange Torus) */}
       <mesh
         rotation={[Math.PI / 2, 0, 0]}
         onPointerDown={(e) => handlePointerDown('rotY', e)}

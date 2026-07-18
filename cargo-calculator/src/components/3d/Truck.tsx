@@ -21,14 +21,14 @@ export function Truck({ position }: TruckProps) {
     brandOrange: new THREE.MeshPhysicalMaterial({ color: '#ff6b00', metalness: 0.35, roughness: 0.24, clearcoat: 0.8 }),
     dark: new THREE.MeshPhysicalMaterial({ color: '#10131b', metalness: 0.35, roughness: 0.28, clearcoat: 0.5 }),
     floor: new THREE.MeshStandardMaterial({ color: isInside ? '#e2e8f0' : '#cbd5e1', roughness: 0.58, metalness: 0.12 }),
-    wall: new THREE.MeshPhysicalMaterial({ 
-      color: isInside ? '#f1f5f9' : '#dbeafe', 
-      transparent: true, 
-      opacity: isInside ? 0.92 : isNightMode ? 0.42 : 0.28, 
-      roughness: isInside ? 0.35 : 0.08, 
+    wall: new THREE.MeshPhysicalMaterial({
+      color: isInside ? '#f1f5f9' : '#dbeafe',
+      transparent: true,
+      opacity: isInside ? 0.92 : isNightMode ? 0.42 : 0.28,
+      roughness: isInside ? 0.35 : 0.08,
       metalness: isInside ? 0.05 : 0.02,
-      transmission: isInside ? 0.0 : 0.3, 
-      side: THREE.DoubleSide 
+      transmission: isInside ? 0.0 : 0.3,
+      side: THREE.DoubleSide
     }),
     wallInside: new THREE.MeshStandardMaterial({ color: '#f8fafc', roughness: 0.6, metalness: 0.02, side: THREE.DoubleSide }),
     glass: createGlassMaterial(),
@@ -47,7 +47,7 @@ export function Truck({ position }: TruckProps) {
       <mesh position={[-L / 2 - 0.02, H / 2 + 0.12, 0]} castShadow receiveShadow><boxGeometry args={[0.12, H, W]} /><primitive object={materials.paint} attach="material" /></mesh>
       <mesh position={[0, H / 2 + 0.12, -W / 2 - 0.02]} castShadow receiveShadow><boxGeometry args={[L, H, 0.08]} /><primitive object={materials.wall} attach="material" /></mesh>
       <mesh position={[0, H / 2 + 0.12, W / 2 + 0.02]} castShadow receiveShadow><boxGeometry args={[L, H, 0.08]} /><primitive object={materials.wall} attach="material" /></mesh>
-      
+
       {isInside && (
         <>
           <mesh position={[0, H / 2 + 0.12, -W / 2 + 0.02]}><boxGeometry args={[L - 0.05, H - 0.05, 0.02]} /><primitive object={materials.wallInside} attach="material" /></mesh>

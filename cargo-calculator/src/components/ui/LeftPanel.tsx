@@ -20,7 +20,7 @@ export function LeftPanel() {
             <div className="text-xl font-black tracking-wide">ГРУЗЧИКИ</div>
           </div>
         </div>
-        <div className="mb-2 inline-flex rounded-full bg-[#ff6b00]/15 px-3 py-1 text-xs font-black uppercase tracking-wide text-orange-200 ring-1 ring-[#ff6b00]/30">3D configurator · game mode</div>
+        <div className="mb-2 inline-flex rounded-full bg-[#ff6b00]/15 px-3 py-1 text-xs font-black uppercase tracking-wide text-orange-200 ring-1 ring-[#ff6b00]/30">3D-визуализация загрузки</div>
         <h1 className="text-2xl font-black tracking-tight">Калькулятор загрузки кузова</h1>
         <p className="mt-2 text-sm leading-6 text-slate-300">Пустой кузов на старте. Выбери квартиру — машина подставится автоматически (7/12/18 м³, до 1500 кг). Внутри кузова видны борта и лампы, есть день/ночь и камеры как в игре.</p>
       </div>
@@ -32,14 +32,12 @@ export function LeftPanel() {
       <AdditionalServices />
       <button className="button-primary mb-8 w-full" onClick={calculatePrice}>Рассчитать точную стоимость</button>
       <div className="mb-4 rounded-2xl bg-slate-900 p-3 text-xs leading-5 text-slate-300">
-        <div className="font-black text-orange-300">Исправлено по ТЗ:</div>
+        <div className="font-black text-orange-300">Как пользоваться:</div>
         <ul className="mt-1 list-disc pl-4">
-          <li>1) Пустой кузов на старте, нет “нельзя поставить”</li>
-          <li>2) При выборе квартиры подгружается рекомендуемая машина</li>
-          <li>3) Авто-заполнение объема (7/12/18 м³)</li>
-          <li>4) Убран оверлап цены — теперь 3 панели, ничего не перекрывает обзор</li>
-          <li>5) При drag камера не едет</li>
-          <li>Мобилка как игра: кнопки камер, вид из кузова, лампы, день/ночь</li>
+          <li>Выберите квартиру — подходящая машина и вещи подставятся автоматически</li>
+          <li>Кнопка «Автозаполнить» над 3D-видом дозаполняет пустоты коробками</li>
+          <li>Предметы перетаскиваются мышью, камера крутится в любом режиме</li>
+          <li>Класс перевозки (городской / региональный / междугородний) и цена считаются по расстоянию маршрута</li>
         </ul>
       </div>
     </div>

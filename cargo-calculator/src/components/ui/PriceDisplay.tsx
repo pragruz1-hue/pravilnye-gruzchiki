@@ -1,5 +1,5 @@
 import { useCalculatorStore } from '../../store/useCalculatorStore';
-import { VEHICLES } from '../../utils/calculations';
+import { TRIP_RANGE_INFO, VEHICLES } from '../../utils/calculations';
 
 export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
   const basePrice = useCalculatorStore((state) => state.basePrice);
@@ -17,6 +17,9 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
   const overflowCount = useCalculatorStore((state) => state.overflowCount);
   const overflowWeight = useCalculatorStore((state) => state.overflowWeight);
   const estimatedTrips = useCalculatorStore((state) => state.estimatedTrips);
+  const tripRange = useCalculatorStore((state) => state.tripRange);
+  const workHours = useCalculatorStore((state) => state.workHours);
+  const rangeInfo = TRIP_RANGE_INFO[tripRange];
 
   async function exportPdf() {
     const { default: jsPDF } = await import('jspdf');
@@ -28,7 +31,7 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
     doc.setFontSize(11);
     const vehicle = VEHICLES[vehicleType];
     doc.text(`Vehicle: ${vehicle.label} ${vehicle.cargoLength}x${vehicle.cargoWidth}x${vehicle.cargoHeight} m ${vehicle.capacityM3} m3`, 14, 28);
-    doc.text(`Distance: ${distance} km`, 14, 34);
+    doc.text(`Distance: ${distance} km (${tripRange})`, 14, 34);
     doc.text(`Items: ${pallets.length} - Weight: ${pallets.reduce((s,p)=>s+p.weight,0)}kg`, 14, 42);
     doc.text(`Base price: ${basePrice} RUB`, 14, 54);
     doc.text(`Fuel: ${fuelPrice} RUB`, 14, 62);
@@ -37,7 +40,6 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
     doc.setFont('helvetica', 'bold');
     doc.text(`Total: ${totalPrice} RUB`, 14, 92);
 
-    // Скриншот 3D канваса в PDF
     try {
       const canvas = document.querySelector('canvas') as HTMLCanvasElement;
       if (canvas) {
@@ -45,11 +47,10 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
         doc.addImage(imgData, 'PNG', 14, 100, 180, 100);
         doc.setFontSize(9);
         doc.setFont('helvetica','normal');
-        doc.text('Скриншот кузова (день/ночь, лампы, COG)', 14, 205);
+        doc.text('Screenshot of the cargo bay loading', 14, 205);
       }
     } catch {}
 
-    // Список предметов
     doc.setFontSize(10);
     let y = 215;
     pallets.forEach((p, i) => {
@@ -72,7 +73,7 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
         <div className={`mb-1 text-sm font-black ${isNightMode ? 'text-orange-200' : 'text-gray-600'}`}>💰 Стоимость перевозки</div>
         <div className={`text-4xl font-black tracking-tight ${isNightMode ? 'text-white' : 'text-gray-950'}`}>{totalPrice.toLocaleString('ru-RU')} ₽</div>
         <div className="mt-1 text-xs font-semibold text-gray-500">включая НДС 20% · предварительно · {VEHICLES[vehicleType].capacityM3} м³ до 1500 кг</div>
-        <div className="mt-2 text-[11px] leading-snug text-gray-400">Газели 7/12/18 м³ — реальные габариты: 3.0×1.8×1.3, 3.2×1.9×2.0, 4.2×2.0×2.15 (kuzovspec, fb.ru). Цена не оферта.</div>
+
       </div>
       <div className="space-y-2 border-t border-gray-200 pt-4 text-sm">
         <Row label="Базовый тариф" value={basePrice} />
@@ -85,6 +86,12 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
         </div>
       </div>
       <div className="mt-4 rounded-2xl bg-blue-50 p-3 text-sm font-bold text-blue-800">⏱ {deliveryTime} · {distance} км · {pallets.length} предметов · {VEHICLES[vehicleType].label}</div>
+      <div className="mt-2 rounded-2xl bg-indigo-50 p-3 text-[11px] font-bold leading-5 text-indigo-800 ring-1 ring-indigo-100" title={rangeInfo.description}>
+        {rangeInfo.icon} {rangeInfo.label} перевозка · {rangeInfo.tariffLabel}
+        {tripRange === 'city' && workHours > 0 && <span className="block font-semibold text-indigo-600">⏳ ~{workHours} ч работы экипажа (мин. {VEHICLES[vehicleType].minHours} ч), км включены</span>}
+        {tripRange === 'regional' && <span className="block font-semibold text-indigo-600">минималка {VEHICLES[vehicleType].minHours} ч + трасса −15% к ставке км</span>}
+        {tripRange === 'intercity' && <span className="block font-semibold text-indigo-600">км −10% + обратная подача порожняком ×30%</span>}
+      </div>
 
       <div className="mt-3 rounded-2xl bg-amber-50 p-3 text-[11px] leading-5 text-amber-900 ring-1 ring-amber-200">
         <span className="font-black">⚠️ Предварительный расчёт.</span> Калькулятор помогает визуально

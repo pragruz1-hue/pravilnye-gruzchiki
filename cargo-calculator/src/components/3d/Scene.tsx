@@ -1,4 +1,4 @@
-import { Suspense, useRef } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
@@ -10,14 +10,19 @@ import { EngineeringOverlay } from './EngineeringOverlay';
 import { FirstPersonController } from './FirstPersonController';
 import { SoundManager } from './SoundManager';
 import { FloorHeatmap } from './FloorHeatmap';
+import { cameraTransition, cancelCameraTransition, startCameraTransition } from './cameraTransition';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
 import { VEHICLES } from '../../utils/calculations';
+
+const TRANSITION_TIMEOUT_MS = 2500;
+const SETTLE_EPSILON = 0.03;
 
 function CameraController() {
   const cameraMode = useCalculatorStore((s) => s.cameraMode);
   const isFirstPerson = useCalculatorStore((s) => s.isFirstPerson);
   const vehicleType = useCalculatorStore((s) => s.vehicleType);
-  const { camera, controls } = useThree() as any;
+  const camera = useThree((s) => s.camera);
+  const controls = useThree((s) => s.controls) as OrbitControlsImpl | null;
   const vehicle = VEHICLES[vehicleType];
   const L = vehicle.cargoLength;
   const W = vehicle.cargoWidth;
@@ -32,27 +37,66 @@ function CameraController() {
       default: return { pos: new THREE.Vector3(L * 0.85 + 2.5, H + 2.8, W + 2.8), target: new THREE.Vector3(0, H * 0.45, 0), fov: 48 };
     }
   };
+  useEffect(() => {
+    if (isFirstPerson) {
+      cancelCameraTransition();
+      if (controls) {
+        const dir = new THREE.Vector3();
+        camera.getWorldDirection(dir);
+        controls.target.copy(camera.position).addScaledVector(dir, 1.2);
+        controls.update();
+      }
+      return;
+    }
+    startCameraTransition();
+  }, [cameraMode, vehicleType, isFirstPerson, controls, camera]);
   useFrame(() => {
-    if (isFirstPerson) return;
+    if (isFirstPerson || !cameraTransition.active || !controls) return;
     const desired = getDesired();
     if (!desired) return;
     const { pos, target, fov } = desired;
-    camera.position.lerp(pos, 0.08);
-    if (controls) { (controls as OrbitControlsImpl).target.lerp(target, 0.08); (controls as OrbitControlsImpl).update(); }
-    if ((camera as THREE.PerspectiveCamera).fov !== undefined) { const cam = camera as THREE.PerspectiveCamera; cam.fov = THREE.MathUtils.lerp(cam.fov, fov, 0.08); cam.updateProjectionMatrix(); }
+
+    camera.position.lerp(pos, 0.12);
+    let settled = camera.position.distanceTo(pos) < SETTLE_EPSILON;
+
+    controls.target.lerp(target, 0.12);
+    controls.update();
+    if (controls.target.distanceTo(target) >= SETTLE_EPSILON) settled = false;
+
+    const cam = camera as THREE.PerspectiveCamera;
+    if (cam.isPerspectiveCamera) {
+      cam.fov = THREE.MathUtils.lerp(cam.fov, fov, 0.12);
+      cam.updateProjectionMatrix();
+      if (Math.abs(cam.fov - fov) >= 0.1) settled = false;
+    }
+
+    if (settled || performance.now() - cameraTransition.startedAt > TRANSITION_TIMEOUT_MS) {
+      cameraTransition.active = false;
+    }
   });
   return null;
 }
 
 function ControlsWrapper() {
-  const controlsRef = useRef<OrbitControlsImpl | null>(null);
   const cameraMode = useCalculatorStore((s) => s.cameraMode);
   const isFirstPerson = useCalculatorStore((s) => s.isFirstPerson);
-  const isInside = cameraMode === 'inside' || isFirstPerson;
   const isRestricted = cameraMode === 'inside' || isFirstPerson;
   const isCabin = cameraMode === 'cabin';
   return (
-    <OrbitControls ref={controlsRef} enabled={!isFirstPerson} enablePan={!isRestricted} enableZoom={!isFirstPerson} enableRotate={!isFirstPerson} minDistance={isRestricted ? 0.3 : isCabin ? 0.5 : 1.2} maxDistance={isRestricted ? 6 : isCabin ? 12 : 20} maxPolarAngle={isRestricted ? Math.PI / 1.6 : isCabin ? Math.PI / 1.8 : Math.PI / 2.02} minPolarAngle={isRestricted ? 0.1 : 0.05} target={[0, 1.0, 0]} makeDefault enableDamping dampingFactor={0.12} />
+    <OrbitControls
+      makeDefault
+      enablePan={!isRestricted}
+      enableZoom
+      enableRotate
+      onStart={cancelCameraTransition}
+      minDistance={isRestricted ? 0.3 : isCabin ? 0.5 : 1.2}
+      maxDistance={isRestricted ? 6 : isCabin ? 12 : 20}
+      maxPolarAngle={isRestricted ? Math.PI / 1.6 : isCabin ? Math.PI / 1.8 : Math.PI / 2.02}
+      minPolarAngle={isRestricted ? 0.1 : 0.05}
+      target={[0, 1.0, 0]}
+      enableDamping
+      dampingFactor={0.12}
+    />
   );
 }
 

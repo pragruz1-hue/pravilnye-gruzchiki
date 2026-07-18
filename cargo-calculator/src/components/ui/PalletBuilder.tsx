@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { ApartmentPreset, BoxSize, BoxType, LoadItem, PalletType } from '../../types';
+import { ApartmentPreset, BoxSize, BoxType, LoadItem, OfficePreset, PalletType, TruckPreset } from '../../types';
 import { CATALOG, makePallet, useCalculatorStore } from '../../store/useCalculatorStore';
-import { APARTMENT_STANDARDS } from '../../utils/calculations';
+import { APARTMENT_STANDARDS, OFFICE_STANDARDS, VEHICLES } from '../../utils/calculations';
 
 const presets: Array<{ id: ApartmentPreset; label: string; hint: string; volume: string }> = [
   { id: 'oneRoom', label: '1 к.к.', hint: 'эконом', volume: '7 м³ · 1500 кг' },
@@ -9,10 +9,25 @@ const presets: Array<{ id: ApartmentPreset; label: string; hint: string; volume:
   { id: 'threeRoom', label: '3 к.к.', hint: 'максимум', volume: '18 м³ · 1500 кг' }
 ];
 
+const officePresets: Array<{ id: OfficePreset; label: string; hint: string; volume: string }> = [
+  { id: 'officeS', label: 'Кабинет', hint: '10 м²', volume: '5 м³ · 900 кг' },
+  { id: 'officeM', label: 'Офис', hint: '25 м²', volume: '11 м³ · 1200 кг' },
+  { id: 'officeL', label: 'Офис+', hint: '50 м²', volume: '16 м³ · 1500 кг' }
+];
+
+const truckPresets: Array<{ id: TruckPreset; label: string; description: string; volume: string }> = [
+  { id: 'pallets', label: '🚛 Поддоны', description: 'европоддоны в стретч-плёнке по полу + коробки сверху', volume: '86 м³ · до 20 т' },
+  { id: 'bulk', label: '🚛 Навалом', description: 'коробки без поддонов — загрузка до потолка', volume: '86 м³ · до 20 т' }
+];
+
 export function PalletBuilder() {
   const addPallet = useCalculatorStore((state) => state.addPallet);
   const addCatalogItem = useCalculatorStore((state) => state.addCatalogItem);
   const applyApartmentPreset = useCalculatorStore((state) => state.applyApartmentPreset);
+  const applyOfficePreset = useCalculatorStore((state) => state.applyOfficePreset);
+  const applyTruckPreset = useCalculatorStore((state) => state.applyTruckPreset);
+  const vehicleType = useCalculatorStore((state) => state.vehicleType);
+  const moveType = useCalculatorStore((state) => state.moveType);
   const activePreset = useCalculatorStore((state) => state.activePreset);
   const removePallet = useCalculatorStore((state) => state.removePallet);
   const selectPallet = useCalculatorStore((state) => state.selectPallet);
@@ -60,29 +75,67 @@ export function PalletBuilder() {
               <span className="block text-lg font-black text-gray-950">{preset.label}</span>
               <span className="block text-xs font-bold text-gray-600">{standard.description}</span>
               <span className="mt-1 block text-[11px] font-black text-[#d35400]">{preset.volume}</span>
-              <span className="mt-1 block text-[10px] text-gray-400">Авто: {standard.recommendedVehicle}</span>
+              <span className="mt-1 block text-[10px] text-gray-400">Машина: {VEHICLES[standard.recommendedVehicle].label}</span>
             </button>
           );
         })}
       </div>
 
+      <div className="mb-2 text-[11px] font-black uppercase tracking-wide text-gray-500">Стандартные объемы для офисных переездов</div>
+      <div className="mb-4 grid grid-cols-3 gap-2">
+        {officePresets.map((preset) => {
+          const standard = OFFICE_STANDARDS[preset.id];
+          return (
+            <button
+              key={preset.id}
+              onClick={() => applyOfficePreset(preset.id)}
+              className={`rounded-2xl border p-3 text-left transition ${activePreset === preset.id ? 'border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200' : 'border-gray-200 bg-white/70 hover:border-blue-200'}`}
+            >
+              <span className="block text-lg font-black text-gray-950">{preset.label}</span>
+              <span className="block text-xs font-bold text-gray-600">{standard.description}</span>
+              <span className="mt-1 block text-[11px] font-black text-blue-700">{preset.volume}</span>
+              <span className="mt-1 block text-[10px] text-gray-400">Машина: {VEHICLES[standard.recommendedVehicle].label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mb-2 text-[11px] font-black uppercase tracking-wide text-gray-500">Коммерческие перевозки — фура{vehicleType === 'refrigerator' ? ' / рефрижератор' : ''}</div>
+      <div className="mb-4 grid grid-cols-2 gap-2">
+        {truckPresets.map((preset) => (
+          <button
+            key={preset.id}
+            onClick={() => applyTruckPreset(preset.id)}
+            className={`rounded-2xl border border-gray-200 bg-white/70 p-3 text-left transition hover:border-emerald-300 ${moveType === 'commercial' && pallets.some((p) => p.kind === (preset.id === 'pallets' ? 'pallet' : 'box')) && pallets.length > 20 ? 'border-emerald-500 bg-emerald-50 shadow-md ring-2 ring-emerald-200' : ''}`}
+            title="Применится к выбранной фуре или рефрижератору — иначе подставится фура 20т"
+          >
+            <span className="block text-lg font-black text-gray-950">{preset.label}</span>
+            <span className="block text-xs font-bold text-gray-600">{preset.description}</span>
+            <span className="mt-1 block text-[11px] font-black text-emerald-700">{preset.volume}</span>
+            <span className="mt-1 block text-[10px] text-gray-400">Машина: {vehicleType === 'refrigerator' ? 'Рефрижератор' : VEHICLES.truck.label}</span>
+          </button>
+        ))}
+      </div>
+
       {pallets.length === 0 ? (
         <div className="mb-4 rounded-2xl bg-[#10131b] p-4 text-white">
-          <div className="text-sm font-black">Кузов пустой — выбери квартиру</div>
+          <div className="text-sm font-black">Кузов пустой — выбери пресет выше</div>
           <div className="mt-1 text-xs leading-5 text-slate-300">
-            Раньше калькулятор грузился заполненным и предметы были с меткой “нельзя поставить”. Теперь старт пустой. Выбери 1/2/3 к.к. — подставится правильная Газель: 7 м³ (3.0×1.8×1.3), 12 м³ (3.2×1.9×2.0), 18 м³ (4.2×2.0×2.15) — размеры из открытых источников (kuzovspec.ru, FB.ru, pereezdporossii.ru). Все газели до 1500 кг.
+            Выбери 1/2/3 к.к. — подставится подходящая Газель: 7 м³ (3.0×1.8×1.3 м), 12 м³ (3.2×1.9×2.0 м) или 18 м³ (4.2×2.0×2.15 м). Грузоподъёмность любой газели — до 1500 кг.
           </div>
         </div>
       ) : (
         <div className="mb-4 rounded-2xl bg-emerald-50 p-3 ring-1 ring-emerald-200">
           <div className="text-xs font-black text-emerald-800">✅ Автозаполнение машины</div>
-          <div className="mt-1 text-xs text-emerald-700">При выборе квартиры пустоты автоматически заполняются коробками — видно как примерно будет выглядеть загруженная машина. Можно также нажать «Заполнить коробками» вручную. Вес до 1500 кг на любую газель.</div>
+          <div className="mt-1 text-xs text-emerald-700">Кнопка «Автозаполнить» над 3D-видом дозаполняет пустоты коробками — видно, как будет выглядеть загруженная машина. Грузоподъёмность любой газели — до 1500 кг.</div>
         </div>
       )}
 
       <div className="mb-4 rounded-2xl bg-slate-950 p-3 text-white">
         <div className="mb-2 flex items-center justify-between">
-          <div className="text-xs font-black uppercase tracking-wide text-orange-300">Библиотека квартирного переезда</div>
+          <div className="text-xs font-black uppercase tracking-wide text-orange-300">
+            Библиотека {moveType === 'office' ? 'офисного' : moveType === 'commercial' ? 'коммерческого' : 'квартирного'} переезда
+          </div>
           {pallets.length > 0 && (
             <button
               onClick={fillEmptySpace}
@@ -112,7 +165,7 @@ export function PalletBuilder() {
             <button onClick={() => liftSelected(-0.1)} className="rounded-xl bg-white px-2 py-2 text-xs font-black text-red-700 shadow-sm">↓ опустить</button>
             <button onClick={rotateSelectedY} className="rounded-xl bg-white px-2 py-2 text-xs font-black text-blue-700 shadow-sm">R 90°</button>
           </div>
-          <div className="mt-2 text-xs font-semibold text-gray-600">Drag в 3D — перемещение (камера больше не едет), gizmo — вращение/XYZ, высота и коллизии проверяются.</div>
+          <div className="mt-2 text-xs font-semibold text-gray-600">Drag в 3D — перемещение предмета, цветные оси — точное смещение и поворот.</div>
         </div>
       )}
 
