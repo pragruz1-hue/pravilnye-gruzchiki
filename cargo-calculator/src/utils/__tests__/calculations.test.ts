@@ -39,7 +39,6 @@ describe('computeAxleLoads', () => {
     const rearX = -vehicle.cargoLength / 2 + vehicle.cargoLength * 0.32;
     const item = makeItem({ position: [vehicle.cargoLength / 2 - 0.2, 0.04, 0], weight: 500 });
     const res = computeAxleLoads([item], 'gazelle12');
-    // Задняя ось должна быть перегружена если груз в хвосте
     expect(res.rearKg).toBeGreaterThan(res.frontKg);
   });
   it('lateral imbalance detected', () => {
@@ -65,12 +64,12 @@ describe('canFitThroughDoor', () => {
   it('wardrobe 2.1m can be laid side so fits 7m3, fridge cannot', () => {
     const wardrobe = makeItem({ dimensions: { length: 1.2, width: 0.6, height: 2.1 }, kind: 'wardrobe' as any, canLaySide: true });
     const res7 = canFitThroughDoor(wardrobe as any, 'gazelle7');
-    expect(res7.fits).toBe(true); // can lay side -> 0.6 height fits 1.14 door
+    expect(res7.fits).toBe(true);
     const fridge = makeItem({ dimensions: { length: 0.7, width: 0.7, height: 1.9 }, kind: 'fridge' as any, canLaySide: false });
     const resFridge7 = canFitThroughDoor(fridge as any, 'gazelle7');
-    expect(resFridge7.fits).toBe(false); // 1.9 > 1.14 and cannot lay
+    expect(resFridge7.fits).toBe(false);
     const resFridge12 = canFitThroughDoor(fridge as any, 'gazelle12');
-    expect(resFridge12.fits).toBe(true); // 1.9 <= 1.92 door for 12m3
+    expect(resFridge12.fits).toBe(true);
   });
   it('rotated sofa can fit through diagonal', () => {
     const sofa = makeItem({ dimensions: { length: 2.1, width: 0.9, height: 0.85 }, kind: 'sofa' as any });
@@ -88,7 +87,6 @@ describe('checkOverload', () => {
   });
   it('overload volume', () => {
     const items = [makeItem({ dimensions: { length: 3, width: 1.8, height: 1.3 }, weight: 100 })];
-    // volume 7.02 > 7
     const res = checkOverload(items as any, 'gazelle7');
     expect(res.volumePercent).toBeGreaterThan(99);
   });
@@ -97,131 +95,111 @@ describe('checkOverload', () => {
 describe('critical path: 2k.k. preset -> 12m3', () => {
   it('twoRoom preset volume 12 should recommend gazelle12', () => {
     expect(recommendVehicleForVolume(12)).toBe('gazelle12');
-    // Имитация buildPreset 2кк: 8 base + 6 extra + 12 boxes = примерно 12м3
-    // Логика recommendVehicle должна для 14 предметов дать 12м³
   });
 });
 
-
-// === Тесты на packItemsInVehicle ===
-
 describe('packItemsInVehicle', () => {
   it('places a single small item in center of gazelle12', () => {
-    
+
     const items = [makeItem({ id: 'box1', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 10 })];
     const result = packItemsInVehicle(items, 'gazelle12');
     expect(result.placed.length).toBe(1);
     expect(result.overflow.length).toBe(0);
-    // Should be placed inside cargo bay
     const v = VEHICLES['gazelle12'];
     expect(result.placed[0].position[0]).toBeGreaterThanOrEqual(-v.cargoLength / 2);
     expect(result.placed[0].position[0]).toBeLessThanOrEqual(v.cargoLength / 2);
   });
 
   it('does not place items exceeding max volume capacity', () => {
-    
-    
-    // Create an item that takes up more than entire capacity
+
     const bigItem = makeItem({ id: 'big', dimensions: { length: 100, width: 100, height: 100 }, weight: 100 });
     const smallItem = makeItem({ id: 'small', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 10 });
     const result = packItemsInVehicle([bigItem, smallItem], 'gazelle7');
-    // At least 1 should overflow (the big one)
     expect(result.overflow.length).toBeGreaterThanOrEqual(1);
   });
 
   it('does not place items exceeding max weight capacity', () => {
-    
+
     const items = [
       makeItem({ id: 'heavy1', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 900 }),
       makeItem({ id: 'heavy2', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 900 })
     ];
     const result = packItemsInVehicle(items, 'gazelle12');
-    // At least 1 should overflow (total 1800 > 1500)
     expect(result.overflow.length).toBeGreaterThanOrEqual(1);
   });
 
   it('long items placed along walls', () => {
-    
+
     const sofa = makeItem({ id: 'sofa1', kind: 'sofa', dimensions: { length: 2.1, width: 0.9, height: 0.85 }, weight: 85, canLaySide: true });
     const result = packItemsInVehicle([sofa], 'gazelle12');
     expect(result.placed.length).toBe(1);
     expect(result.overflow.length).toBe(0);
-    // Sofa should be rotated (Math.PI/2) to fit along wall
     expect(Math.abs(result.placed[0].rotation[1])).toBeGreaterThan(0);
   });
 
   it('fridge stays upright (canLaySide=false)', () => {
-    
+
     const fridge = makeItem({ id: 'fridge1', kind: 'fridge', dimensions: { length: 0.7, width: 0.7, height: 1.9 }, weight: 80, canLaySide: false });
     const result = packItemsInVehicle([fridge], 'gazelle12');
     expect(result.placed.length).toBe(1);
-    // Fridge should stay upright
     expect(result.placed[0].rotation[0]).toBe(0);
     expect(result.placed[0].rotation[2]).toBe(0);
   });
 
   it('multiple boxes stack on top of each other', () => {
-    
-    const boxes = Array.from({ length: 5 }, (_, i) => 
+
+    const boxes = Array.from({ length: 5 }, (_, i) =>
       makeItem({ id: `box${i}`, dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 10 })
     );
     const result = packItemsInVehicle(boxes, 'gazelle12');
     expect(result.placed.length).toBe(5);
     expect(result.overflow.length).toBe(0);
-    // At least some should be stacked (y > 0.04 means not on floor)
     const stacked = result.placed.filter(b => b.position[1] > 0.05);
     expect(stacked.length).toBeGreaterThan(0);
   });
 });
 
-// === Тесты на getStackHeightAt ===
-
 describe('getStackHeightAt', () => {
   it('returns floor height when no items overlap', () => {
-    
+
     const items = [
       makeItem({ id: 'a', position: [-0.5, 0.04, 0], dimensions: { length: 0.6, width: 0.4, height: 0.4 } })
     ];
     const h = getStackHeightAt('a', -0.5, 0, items);
-    expect(h).toBeCloseTo(0.05, 2); // snapped to 5cm grid
+    expect(h).toBeCloseTo(0.05, 2);
   });
 
   it('returns top of another item when overlapping in XZ', () => {
-    
+
     const items = [
       makeItem({ id: 'bottom', position: [0, 0.04, 0], dimensions: { length: 0.6, width: 0.4, height: 0.4 } }),
       makeItem({ id: 'top', position: [0, 0.44, 0], dimensions: { length: 0.6, width: 0.4, height: 0.4 } })
     ];
     const h = getStackHeightAt('top', 0, 0, items);
-    // Top of bottom item is 0.04 + 0.4 = 0.44, snapped to 5cm = 0.45
     expect(h).toBeCloseTo(0.45, 2);
   });
 });
 
-// === Тесты на generateFillBoxes ===
-
 describe('generateFillBoxes', () => {
   it('generates boxes for empty gazelle12', () => {
-    
+
     const boxes = generateFillBoxes([], 'gazelle12');
     expect(boxes.length).toBeGreaterThan(5);
-    // Total weight should not exceed capacity
     const totalWeight = boxes.reduce((s: number, b: any) => s + b.weight, 0);
     expect(totalWeight).toBeLessThanOrEqual(VEHICLES['gazelle12'].capacityKg * 0.92);
   });
 
   it('generates fewer boxes for already-full vehicle', () => {
-    
+
     const existing = [
       makeItem({ id: 'big', dimensions: { length: 2.5, width: 1.5, height: 1.0 }, weight: 600 })
     ];
     const boxes = generateFillBoxes(existing, 'gazelle7');
-    // 7m³ - 3.75m³(occupied) = 3.25m³ free, should fill some boxes
     expect(boxes.length).toBeGreaterThan(0);
   });
 
   it('returns empty array when no space left', () => {
-    
+
     const full = [
       makeItem({ id: 'full', dimensions: { length: 3.0, width: 1.8, height: 1.2 }, weight: 1400 })
     ];
@@ -230,18 +208,16 @@ describe('generateFillBoxes', () => {
   });
 });
 
-// === Тесты на overflow ===
-
 describe('overflow detection', () => {
   it('overflow empty when all items fit', () => {
-    
+
     const items = [makeItem({ id: 's1', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 10 })];
     const result = packItemsInVehicle(items, 'gazelle7');
     expect(result.overflow.length).toBe(0);
   });
 
   it('overflow contains items when vehicle too small', () => {
-    
+
     const items = [
       makeItem({ id: 'sofa1', kind: 'sofa', dimensions: { length: 2.1, width: 0.9, height: 0.85 }, weight: 85 }),
       makeItem({ id: 'sofa2', kind: 'sofa', dimensions: { length: 2.1, width: 0.9, height: 0.85 }, weight: 85 }),
@@ -250,7 +226,6 @@ describe('overflow detection', () => {
       makeItem({ id: 'sofa5', kind: 'sofa', dimensions: { length: 2.1, width: 0.9, height: 0.85 }, weight: 85 }),
     ];
     const result = packItemsInVehicle(items, 'gazelle7');
-    // 5 sofas each 1.6m³ = 8m³, gazelle7 only 7m³, at least 1 should overflow
     expect(result.overflow.length).toBeGreaterThanOrEqual(1);
     expect(result.placed.length).toBeLessThan(5);
   });

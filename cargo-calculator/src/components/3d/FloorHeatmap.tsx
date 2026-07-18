@@ -6,7 +6,7 @@ import * as THREE from 'three';
 export function FloorHeatmap() {
   const pallets = useCalculatorStore((s) => s.pallets);
   const vehicleType = useCalculatorStore((s) => s.vehicleType);
-  const showMinimap = useCalculatorStore((s) => s.showMinimap); // reuse toggle for heatmap visibility when minimap on
+  const showMinimap = useCalculatorStore((s) => s.showMinimap);
   const vehicle = VEHICLES[vehicleType];
 
   const heatmap = useMemo(() => computeFloorHeatmap(pallets, vehicleType, 12), [pallets, vehicleType]);
@@ -24,7 +24,7 @@ export function FloorHeatmap() {
         row.map((w, iz) => {
           if (w <= 0.1) return null;
           const intensity = Math.min(1, w / maxWeight);
-          const color = new THREE.Color().setHSL(0.15 - intensity * 0.15, 0.85, 0.55 - intensity * 0.2); // green->red
+          const color = new THREE.Color().setHSL(0.15 - intensity * 0.15, 0.85, 0.55 - intensity * 0.2);
           if (intensity < 0.05) return null;
           const x = -vehicle.cargoLength / 2 + ix * cellL + cellL / 2;
           const z = -vehicle.cargoWidth / 2 + iz * cellW + cellW / 2;

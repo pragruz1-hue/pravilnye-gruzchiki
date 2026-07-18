@@ -5,6 +5,7 @@ import { RightPanel } from './components/ui/RightPanel';
 import { CameraSwitcher, DayNightBadge } from './components/ui/CameraSwitcher';
 import { MiniMap } from './components/ui/MiniMap';
 import { MobileJoystick } from './components/ui/MobileJoystick';
+import { AutoFillButton } from './components/ui/AutoFillButton';
 import { useCalculatorStore } from './store/useCalculatorStore';
 
 function App() {
@@ -48,7 +49,7 @@ function App() {
           <div className="grid h-9 w-9 place-items-center rounded-xl bg-[#ff6b00] text-sm font-black text-white shadow">ПГ</div>
           <div className="leading-none">
             <div className="text-[10px] font-black tracking-widest text-orange-300">ПРАВИЛЬНЫЕ ГРУЗЧИКИ</div>
-            <div className="text-sm font-black text-white">3D v3 — инженерный полный</div>
+            <div className="text-sm font-black text-white">3D калькулятор загрузки</div>
           </div>
           <div className="ml-3 flex flex-wrap items-center gap-1 rounded-full bg-white/10 p-1 backdrop-blur">
             <button onClick={undo} disabled={history.length===0} className="rounded-full bg-white px-2 py-1 text-[11px] font-black disabled:opacity-30">↩️</button>
@@ -59,16 +60,15 @@ function App() {
             <div className="group relative">
               <button className="rounded-full bg-white/50 px-2 py-1 text-[11px] font-black text-white/80 hover:bg-white/80 hover:text-gray-900">⚙️</button>
               <div className="invisible absolute left-0 top-full z-50 mt-1 flex flex-col gap-1 rounded-2xl bg-[#10131b]/95 p-2 opacity-0 shadow-2xl backdrop-blur-xl transition-all group-hover:visible group-hover:opacity-100">
-                <span className="px-2 py-1 text-[10px] font-black uppercase tracking-wider text-orange-300">Для экспертов</span>
+                <span className="px-2 py-1 text-[10px] font-black uppercase tracking-wider text-orange-300">Дополнительно</span>
                 <button onClick={toggleMeasurements} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${showMeasurements ? 'bg-blue-500 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>📏 Рулетка</button>
-                <button onClick={togglePerformance} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${isPerformanceMode ? 'bg-purple-600 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>⚡ Perf режим</button>
+                <button onClick={togglePerformance} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${isPerformanceMode ? 'bg-purple-600 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>⚡ Быстрый рендер</button>
                 <button onClick={togglePhysics} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${isPhysicsEnabled ? 'bg-red-600 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>🧪 Физика</button>
-                <button onClick={toggleHeatmap} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${isHeatmapEnabled ? 'bg-orange-500 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>🔥 Heatmap</button>
+                <button onClick={toggleHeatmap} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${isHeatmapEnabled ? 'bg-orange-500 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>🔥 Нагрузка на пол</button>
               </div>
             </div>
           </div>
         </div>
-        <div className="text-[10px] font-bold text-white/60">Дверь: обе ориентации + диагональ √(W²+H²) · Топливо: 12л +0.3л/100кг/100км · Упаковка +15% · История throttle 500мс · Магнит с ре-проверкой · perf dpr1 · v3 migrate</div>
       </div>
 
       <div className="relative z-30 flex items-center justify-between gap-2 p-3 md:hidden">
@@ -76,7 +76,7 @@ function App() {
           <div className="grid h-9 w-9 place-items-center rounded-xl bg-[#ff6b00] text-sm font-black text-white shadow">ПГ</div>
           <div className="leading-none">
             <div className="text-[10px] font-black tracking-widest text-orange-300">ПРАВИЛЬНЫЕ</div>
-            <div className="text-sm font-black text-white">3D v3</div>
+            <div className="text-sm font-black text-white">3D калькулятор</div>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -98,6 +98,7 @@ function App() {
 
         <main className="relative flex min-h-[58vh] flex-1 flex-col overflow-hidden rounded-[24px] border border-white/20 bg-white/40 shadow-glass backdrop-blur-glass md:min-h-0 md:rounded-[32px]">
           <Scene />
+          <AutoFillButton />
           <CameraSwitcher />
           <DayNightBadge />
           <MiniMap />
@@ -107,7 +108,7 @@ function App() {
             </div>
           )}
           {isFirstPerson && (
-            <div className="pointer-events-none absolute bottom-[88px] left-4 z-20 hidden rounded-full bg-black/70 px-3 py-1 text-[11px] font-black text-white backdrop-blur md:block">WASD + Shift + Q/E · Коллизия · Джойстик на мобиле</div>
+            <div className="pointer-events-none absolute bottom-[88px] left-4 z-20 hidden rounded-full bg-black/70 px-3 py-1 text-[11px] font-black text-white backdrop-blur md:block">WASD + Shift + Q/E — движение и высота · на телефоне — джойстик</div>
           )}
         </main>
 

@@ -34,14 +34,12 @@ describe('city pricing: почасовой тариф без двойного с
   const price = () => calculatePrice({ vehicleType: 'gazelle7', vehicleCount: 1, distance: 10, pallets: emptyPallets, services: noServices, urgency: 2 });
 
   it('charges only hourly labor: rate × ceil(minHours + drive + loading)', () => {
-    // ceil(2 + 10/25 + 0) = 3 часа × 800 ₽
     expect(price().basePrice).toBe(2400);
     expect(price().tripRange).toBe('city');
     expect(price().workHours).toBe(3);
   });
 
   it('fuel is small actual cost, not the intercity 700₽ floor', () => {
-    // 2 пустых? вес 0 → 12л/100км × 10 км = 1.2л × 62 ≈ 74₽ → городская заглушка 250₽
     expect(price().fuelPrice).toBe(250);
     expect(price().fuelPrice).toBeLessThan(700);
   });
@@ -57,7 +55,6 @@ describe('regional pricing: минималка + трасса −15%', () => {
   });
 
   it('applies min hours + km × 0.85', () => {
-    // gazelle12: rate 950×3ч = 2850; обработка 1 м³ = 120; км: 100×36×0.85 = 3060
     const p = calculatePrice({ vehicleType: 'gazelle12', vehicleCount: 1, distance: 100, pallets: [oneBox(1, 100)], services: noServices, urgency: 2 });
     expect(p.tripRange).toBe('regional');
     expect(p.basePrice).toBe(2850 + 3060 + 120);
@@ -66,15 +63,12 @@ describe('regional pricing: минималка + трасса −15%', () => {
 
 describe('intercity pricing: км −10% + обратная подача порожняком', () => {
   it('includes empty return run at 30% of km rate', () => {
-    // truck: kmRate 98 → 1000×98×0.9 + 1000×98×0.3 = 88200 + 29400 = 117600
-    // labor: 2800 × ceil(4/2) × 0.5 = 2800
     const p = calculatePrice({ vehicleType: 'truck', vehicleCount: 1, distance: 1000, pallets: emptyPallets, services: noServices, urgency: 2 });
     expect(p.tripRange).toBe('intercity');
     expect(p.basePrice).toBe(117600 + 2800);
   });
 
   it('fuel covers the empty return leg (base rate, no weight factor)', () => {
-    // 1000 км под грузом 0 кг: 12л/100км → 120л; + 1000 км порожняком → ещё 120л = 240л
     const p = calculatePrice({ vehicleType: 'truck', vehicleCount: 1, distance: 1000, pallets: emptyPallets, services: noServices, urgency: 2 });
     expect(p.fuelLiters).toBe(240);
   });
@@ -95,7 +89,6 @@ describe('move type affects cargo handling cost', () => {
     const apt = calculatePrice(regionalParams('apartment'));
     const office = calculatePrice(regionalParams('office'));
     const commercial = calculatePrice(regionalParams('commercial'));
-    // обработка 2 м³: 240 / 276 / 204
     expect(office.basePrice - apt.basePrice).toBe(36);
     expect(apt.basePrice - commercial.basePrice).toBe(36);
   });

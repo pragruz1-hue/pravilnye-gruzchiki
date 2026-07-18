@@ -26,7 +26,7 @@ export class AppErrorBoundary extends React.Component<React.PropsWithChildren, A
         <div className="max-w-xl rounded-[28px] border border-orange-400/30 bg-white/10 p-6 shadow-2xl backdrop-blur-xl">
           <div className="mb-3 inline-flex rounded-full bg-orange-500/20 px-3 py-1 text-xs font-black uppercase tracking-wide text-orange-200">Правильные грузчики · 3D калькулятор</div>
           <h1 className="mb-3 text-3xl font-black">Сцена не запустилась</h1>
-          <p className="mb-4 text-slate-200">Вместо белого экрана теперь показываем ошибку. Обычно помогает обновить страницу без кэша или перезапустить dev server.</p>
+          <p className="mb-4 text-slate-200">Что-то пошло не так при запуске 3D-сцены. Обычно помогает обновить страницу.</p>
           <pre className="max-h-40 overflow-auto rounded-2xl bg-black/40 p-3 text-xs text-orange-100">{this.state.message}</pre>
           <button className="mt-5 rounded-2xl bg-gradient-to-r from-[#ff6b00] to-[#d35400] px-5 py-3 font-black text-white" onClick={() => window.location.reload()}>Обновить страницу</button>
         </div>

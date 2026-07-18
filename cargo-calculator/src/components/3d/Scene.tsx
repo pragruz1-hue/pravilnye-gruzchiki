@@ -14,8 +14,6 @@ import { cameraTransition, cancelCameraTransition, startCameraTransition } from 
 import { useCalculatorStore } from '../../store/useCalculatorStore';
 import { VEHICLES } from '../../utils/calculations';
 
-// Максимальная длительность анимации перехода между режимами (страховка,
-// чтобы контроллер не держал камеру вечно и не блокировал свободный осмотр).
 const TRANSITION_TIMEOUT_MS = 2500;
 const SETTLE_EPSILON = 0.03;
 
@@ -39,14 +37,9 @@ function CameraController() {
       default: return { pos: new THREE.Vector3(L * 0.85 + 2.5, H + 2.8, W + 2.8), target: new THREE.Vector3(0, H * 0.45, 0), fov: 48 };
     }
   };
-  // Переход к пресету режима запускается ТОЛЬКО при смене режима/машины.
-  // После завершения перехода камера полностью свободна: ей управляют
-  // OrbitControls (drag/колесо) и FirstPersonController (WASD/джойстик).
   useEffect(() => {
     if (isFirstPerson) {
       cancelCameraTransition();
-      // Цель орбиты кладём прямо перед камерой, чтобы вращение мышью
-      // работало как осмотр с места в режиме первого лица.
       if (controls) {
         const dir = new THREE.Vector3();
         camera.getWorldDirection(dir);
@@ -77,7 +70,6 @@ function CameraController() {
       if (Math.abs(cam.fov - fov) >= 0.1) settled = false;
     }
 
-    // Переход закончился — отдаём управление пользователю
     if (settled || performance.now() - cameraTransition.startedAt > TRANSITION_TIMEOUT_MS) {
       cameraTransition.active = false;
     }

@@ -25,7 +25,6 @@ export function FirstPersonController() {
       if (k === 'q') keys.current.q = true;
       if (k === 'e') keys.current.e = true;
       if (e.shiftKey) keys.current.shift = true;
-      // Быстрые клавиши камеры
       if (k === '1') setCameraMode('overview');
       if (k === '2') setCameraMode('inside');
       if (k === '3') setCameraMode('cabin');
@@ -76,15 +75,12 @@ export function FirstPersonController() {
     if (keys.current.q) velocity.current.y -= speed * delta;
     if (keys.current.e) velocity.current.y += speed * delta;
 
-    // Джойстик мобилы
     if (joystick) {
       velocity.current.add(forward.clone().multiplyScalar(-joystick.y * speed * delta * 1.2));
       velocity.current.add(right.clone().multiplyScalar(joystick.x * speed * delta * 1.2));
     }
 
     if (velocity.current.length() > 0) {
-      // Пользователь взял управление на себя — отменяем анимацию перехода,
-      // иначе контроллер тянул бы камеру обратно к пресету.
       cancelCameraTransition();
       const newPos = camera.position.clone().add(velocity.current);
       const minX = -L / 2 + 0.25;

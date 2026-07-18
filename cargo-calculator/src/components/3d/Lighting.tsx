@@ -20,10 +20,10 @@ export function Lighting() {
       <directionalLight position={[-3, 3, -2]} intensity={isNightMode ? 0.15 : 0.55} color={isNightMode ? 0x4455aa : 0xf8fbff} />
       <directionalLight position={[0, 2.5, -5]} intensity={isNightMode ? 0.2 : 0.85} color={isNightMode ? 0x5566cc : 0xe0f2fe} />
       <ambientLight intensity={isNightMode ? 0.18 : 0.38} color={isNightMode ? '#1e293b' : '#ffffff'} />
-      {/* Cargo bay interior lights */}
+
       <pointLight position={[0, 1.5, 0]} intensity={isNightMode ? 2.2 : 0.65} color={isNightMode ? '#ff8c2a' : '#ffffee'} distance={12} decay={2} />
       <pointLight position={[-1, 1.2, 0]} intensity={isNightMode ? 1.2 : 0.25} color={isNightMode ? '#ff6b00' : '#fff7cc'} distance={6} />
-      {/* Glowing lamps when night */}
+
       {isNightMode && (
         <>
           <pointLight position={[-0.2, 2.0, 0]} intensity={1.0} color="#ffae4a" distance={5} />

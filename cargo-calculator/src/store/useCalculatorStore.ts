@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, PalletType, ServicesState, TripRange, VehicleType } from '../types';
-import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, generateFillBoxes, generateSharePayload, getStackHeightAt, orientedHeight, packItemsInVehicle, recommendVehicle, VEHICLES } from '../utils/calculations';
+import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, fillCargoWithBoxes, generateSharePayload, getStackHeightAt, orientedHeight, packItemsInVehicle, recommendVehicle, VEHICLES } from '../utils/calculations';
 
 interface CalculatorState {
   from: string;
@@ -293,12 +293,7 @@ export const useCalculatorStore = create<CalculatorState>()(
         const recommended = standard.recommendedVehicle;
         const st = get();
         const packed = packItemsInVehicle(rawItems, recommended);
-        // Auto-fill remaining empty space with boxes for realistic visualisation
-        const fillBoxes = generateFillBoxes(packed.placed, recommended);
-        const filledItems = fillBoxes.length > 0
-          ? packItemsInVehicle([...packed.placed, ...fillBoxes.map(b => ({ ...b, id: createId('fill') }))], recommended)
-          : packed;
-        const result = fillBoxes.length > 0 ? filledItems : packed;
+        const result = fillCargoWithBoxes(packed.placed, recommended, () => createId('fill'));
         const _oi5 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
         set({
           moveType: 'apartment',
@@ -335,7 +330,6 @@ export const useCalculatorStore = create<CalculatorState>()(
         if (get().isSoundEnabled) { try { window.pgPlaySound?.('remove'); if (navigator.vibrate) navigator.vibrate([20, 30, 20]); } catch {} }
       },
       updatePalletPosition: (id, position) => {
-        // Throttled history for drag
         const st = get();
         const hist = pushHistoryThrottled(st);
         set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, position } : pallet), activePreset: null, ...hist } as any));
@@ -410,17 +404,13 @@ export const useCalculatorStore = create<CalculatorState>()(
       fillEmptySpace: () => {
         const state = get();
         if (state.pallets.length === 0) return;
-        const fillBoxes = generateFillBoxes(state.pallets, state.vehicleType);
-        if (fillBoxes.length === 0) {
+        const st = get();
+        const packed = fillCargoWithBoxes(state.pallets, state.vehicleType, () => createId('fill'));
+        if (packed.placed.length === state.pallets.length) {
           if (get().isSoundEnabled) try { window.pgPlaySound?.('click'); } catch {}
           return;
         }
-        const st = get();
-        const itemsWithFill = [...state.pallets, ...fillBoxes.map(b => ({ ...b, id: createId('fill') }))];
-        const packed = packItemsInVehicle(itemsWithFill, state.vehicleType);
         const _oi = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
-        // If fill boxes created collisions (overflow has original items), warn is handled by overflow display
-        const fillCount = packed.placed.length - state.pallets.length;
         set({
           pallets: packed.placed,
           overflowItems: packed.overflow,
@@ -442,7 +432,6 @@ export const useCalculatorStore = create<CalculatorState>()(
         const vehicle = VEHICLES[state.vehicleType];
         const itemH = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
         const clampedY = Math.round(Math.min(targetY, vehicle.cargoHeight - itemH) / 0.05) * 0.05;
-        // Start smooth fall animation
         set((s) => ({ fallingTargets: { ...s.fallingTargets, [id]: clampedY } }));
       },
       commitLanding: (id) => {
@@ -465,7 +454,6 @@ export const useCalculatorStore = create<CalculatorState>()(
       name: 'pg-cargo-3d-v3',
       version: 3,
       migrate: (persisted: any, version: number) => {
-        // Миграция с v2 на v3: добавляем новые флаги, сохраняем pallets/vehicle
         if (version < 3) {
           return {
             ...persisted,

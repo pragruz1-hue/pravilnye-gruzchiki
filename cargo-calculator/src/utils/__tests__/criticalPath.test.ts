@@ -10,28 +10,25 @@ describe('critical path e2e: 2k.k. preset', () => {
 
   it('applies twoRoom preset -> 12m³ gazelle, no initial collision, empty start was fixed', () => {
     const store = useCalculatorStore.getState();
-    expect(store.pallets.length).toBe(0); // пустой старт
-    expect(store.vehicleType).toBe('gazelle12'); // дефолт
+    expect(store.pallets.length).toBe(0);
+    expect(store.vehicleType).toBe('gazelle12');
 
     store.applyApartmentPreset('twoRoom');
     const after = useCalculatorStore.getState();
 
     expect(after.activePreset).toBe('twoRoom');
-    expect(after.vehicleType).toBe('gazelle12'); // 12м³
+    expect(after.vehicleType).toBe('gazelle12');
     expect(after.recommendedVehicleType).toBe('gazelle12');
-    expect(after.pallets.length).toBeGreaterThan(8); // 8 base + extra + boxes
+    expect(after.pallets.length).toBeGreaterThan(8);
     expect(after.totalVolume).toBeGreaterThan(5);
-    expect(after.totalVolume).toBeLessThan(18); // должен влезать в 12-18
+    expect(after.totalVolume).toBeLessThan(18);
   });
 
   it('door fitting for fridge in 7m³ fails, in 12m³ passes', async () => {
     const { canFitThroughDoor } = await import('../calculations');
     const fridge = { dimensions: { length: 0.7, width: 0.7, height: 1.9 }, canLaySide: false, rotation: [0,0,0] } as any;
-    // Simulate orientedFootprint for fridge
     fridge.position = [0,0,0];
-    // For test we need full LoadItem shape
     const { orientedFootprint } = await import('../calculations');
-    // Just check our improved function works
     const res7 = canFitThroughDoor({ ...fridge, position: [0,0,0], rotation: [0,0,0], dimensions: fridge.dimensions, canLaySide: false } as any, 'gazelle7');
     const res12 = canFitThroughDoor({ ...fridge, position: [0,0,0], rotation: [0,0,0], dimensions: fridge.dimensions, canLaySide: false } as any, 'gazelle12');
     expect(res7.fits).toBe(false);

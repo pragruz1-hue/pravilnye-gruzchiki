@@ -40,7 +40,6 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
     doc.setFont('helvetica', 'bold');
     doc.text(`Total: ${totalPrice} RUB`, 14, 92);
 
-    // Скриншот 3D канваса в PDF
     try {
       const canvas = document.querySelector('canvas') as HTMLCanvasElement;
       if (canvas) {
@@ -48,11 +47,10 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
         doc.addImage(imgData, 'PNG', 14, 100, 180, 100);
         doc.setFontSize(9);
         doc.setFont('helvetica','normal');
-        doc.text('Скриншот кузова (день/ночь, лампы, COG)', 14, 205);
+        doc.text('Screenshot of the cargo bay loading', 14, 205);
       }
     } catch {}
 
-    // Список предметов
     doc.setFontSize(10);
     let y = 215;
     pallets.forEach((p, i) => {
@@ -75,7 +73,7 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
         <div className={`mb-1 text-sm font-black ${isNightMode ? 'text-orange-200' : 'text-gray-600'}`}>💰 Стоимость перевозки</div>
         <div className={`text-4xl font-black tracking-tight ${isNightMode ? 'text-white' : 'text-gray-950'}`}>{totalPrice.toLocaleString('ru-RU')} ₽</div>
         <div className="mt-1 text-xs font-semibold text-gray-500">включая НДС 20% · предварительно · {VEHICLES[vehicleType].capacityM3} м³ до 1500 кг</div>
-        <div className="mt-2 text-[11px] leading-snug text-gray-400">Газели 7/12/18 м³ — реальные габариты: 3.0×1.8×1.3, 3.2×1.9×2.0, 4.2×2.0×2.15 (kuzovspec, fb.ru). Цена не оферта.</div>
+
       </div>
       <div className="space-y-2 border-t border-gray-200 pt-4 text-sm">
         <Row label="Базовый тариф" value={basePrice} />

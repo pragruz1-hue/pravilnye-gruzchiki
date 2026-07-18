@@ -1,5 +1,6 @@
 import { CameraMode } from '../../types';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
+import { VEHICLES } from '../../utils/calculations';
 
 const modes: { id: CameraMode; label: string; icon: string; hint: string }[] = [
   { id: 'overview', label: 'Обзор', icon: '🎮', hint: 'вид снаружи' },
@@ -60,7 +61,7 @@ export function DayNightBadge() {
   return (
     <div className="pointer-events-none absolute left-4 top-4 z-20 flex flex-col gap-2 md:hidden">
       <div className="rounded-full bg-[#10131b]/80 px-3 py-1.5 text-[11px] font-black text-orange-200 ring-1 ring-orange-500/30 backdrop-blur">
-        {isNightMode ? '🌙 Освещение в кузове ВКЛ' : '💡 Лампы горят'} · {vehicleType}
+        {isNightMode ? '🌙 Освещение в кузове ВКЛ' : '💡 Лампы горят'} · {VEHICLES[vehicleType].label}
       </div>
     </div>
   );

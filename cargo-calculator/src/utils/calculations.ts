@@ -1,9 +1,6 @@
 import { LoadItem, MoveType, TripRange, VehicleSpec, VehicleType } from '../types';
 import { ApartmentStandard } from '../types';
 
-// === Классы перевозки по дальности ===
-// Городская — почасовая аренда (км включены в часы), региональная — минималка + км
-// по трассе со скидкой, междугородняя — покилометровая + обратный порожний пробег.
 export const TRIP_RANGE_LIMITS = { cityMaxKm: 60, regionalMaxKm: 300 } as const;
 
 export function getTripRange(distance: number): TripRange {
@@ -275,42 +272,30 @@ export function calculatePrice(params: {
   const count = params.vehicleCount;
   const distance = Math.max(0, params.distance);
 
-  // Тип переезда влияет на стоимость обработки груза:
-  // офис — техника/документы требуют аккуратности (+15%),
-  // коммерческий — паллеты грузятся механизированно (−15%).
   const moveCoef = params.moveType === 'office' ? 1.15 : params.moveType === 'commercial' ? 0.85 : 1;
-  // Учитываем упаковку как +15% объема в обработке
   const volumeHandling = Math.round(Math.ceil(totalsWithPacking.volume) * 120 * moveCoef);
   const heavyHandling = totals.weight > 900 ? Math.ceil((totals.weight - 900) / 100) * 180 : 0;
 
-  // Время езды (для почасовой тарификации): в городе ~25 км/ч с пробками
   const driveHours = distance / 25;
-  // Погрузка/разгрузка: бригада закрывает ~10 м³ в час
   const loadingHours = totalsWithPacking.volume / 10;
 
   let laborCost: number;
   let mileageCost: number;
   let workHours: number;
   let fuelMinPrice: number;
-  // Обратная подача порожняком имеет смысл только на дальних рейсах
   let emptyReturnKm = 0;
 
   if (tripRange === 'city') {
-    // Городской: почасовая аренда, километры уже сидят во времени работы.
-    // Старой двойной оплаты (минималка + каждый км) больше нет.
     workHours = Math.max(vehicle.minHours, Math.ceil(vehicle.minHours + driveHours + loadingHours));
     laborCost = vehicle.baseHourlyRate * workHours * count;
     mileageCost = 0;
     fuelMinPrice = 250;
   } else if (tripRange === 'regional') {
-    // Региональный: минималка по часам + трасса со скидкой 15% к ставке км.
     workHours = vehicle.minHours;
     laborCost = vehicle.baseHourlyRate * vehicle.minHours * count;
     mileageCost = distance * vehicle.kmRate * 0.85 * count;
     fuelMinPrice = 350;
   } else {
-    // Междугородний: половина минималки за подачу/приём + км со скидкой 10%
-    // + обратный порожний пробег по 30% ставки — машина возвращается пустой.
     workHours = Math.ceil(vehicle.minHours / 2);
     laborCost = vehicle.baseHourlyRate * workHours * 0.5 * count;
     mileageCost = distance * vehicle.kmRate * 0.9 * count;
@@ -321,12 +306,10 @@ export function calculatePrice(params: {
 
   const basePrice = Math.round((laborCost + mileageCost + volumeHandling + heavyHandling) * urgencyCoef);
 
-  // Топливо: 12л/100км + 0.3л на каждые 100кг на 100км (только под грузом);
-  // обратный порожний пробег считаем без весового фактора, но добавляем в литры.
-  const baseConsumption = 12; // л/100км пустая Газель
-  const weightFactor = (totals.weight / 100) * 0.3; // 0.3л на 100кг
+  const baseConsumption = 12;
+  const weightFactor = (totals.weight / 100) * 0.3;
   const fuelLiters = ((baseConsumption + weightFactor) * distance + baseConsumption * emptyReturnKm) / 100 * count;
-  const fuelPricePerLiter = 62; // руб
+  const fuelPricePerLiter = 62;
   const fuelPrice = Math.round(Math.max(fuelMinPrice, fuelLiters * fuelPricePerLiter));
 
   let additionalPrice = 0;
@@ -420,7 +403,6 @@ export function getStackHeightAt(palletId: string, x: number, z: number, pallets
       if (otherTopY > maxTopY) maxTopY = otherTopY;
     }
   });
-  // Snap Y to 5cm grid for even stacking
   return Math.round(maxTopY / 0.05) * 0.05;
 }
 
@@ -449,7 +431,6 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
   const WALL_SNAP = 0.06;
 
   sorted.forEach((item) => {
-    // Check basic volumetric / weight capacity first
     const totalsSoFar = calculateTotals(placed);
     const itemV = itemVolume(item);
     const itemW = itemWeight(item);
@@ -517,14 +498,12 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     }
 
     if (found) {
-      // Магнит к стенам с повторной проверкой коллизии
       let snappedX = bestX, snappedZ = bestZ;
       if (Math.abs(bestZ - (-W / 2 + fp.width / 2)) < WALL_SNAP) snappedZ = -W / 2 + fp.width / 2;
       if (Math.abs(bestZ - (W / 2 - fp.width / 2)) < WALL_SNAP) snappedZ = W / 2 - fp.width / 2;
       if (Math.abs(bestX - (-L / 2 + fp.length / 2)) < WALL_SNAP) snappedX = -L / 2 + fp.length / 2;
       if (Math.abs(bestX - (L / 2 - fp.length / 2)) < WALL_SNAP) snappedX = L / 2 - fp.length / 2;
 
-      // Проверяем не создаёт ли снап новую коллизию
       let snapCollision = false;
       for (const other of placed) {
         const otherFp = orientedFootprint(other);
@@ -535,21 +514,17 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
         if (overlap) { snapCollision = true; break; }
       }
       if (!snapCollision) { bestX = snappedX; bestZ = snappedZ; }
-      // Snap Y to 5cm grid
       bestY = Math.round(bestY / 0.05) * 0.05;
       item.position = [bestX, bestY, bestZ];
       placed.push(item);
     } else {
-      // Не нашли места — пробуем развернуть предмет на 180° вокруг Y
       if (item.canLaySide && Math.abs(item.rotation[2]) < 0.1) {
-        // Try laying on side if height exceeds and wasn't tried
         const altRot: [number, number, number] = [Math.PI / 2, item.rotation[1], 0];
         const origRot: [number, number, number] = [...item.rotation];
         item.rotation = altRot;
         const altFp = orientedFootprint(item);
         const altHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
         if (altHeight <= H) {
-          // Try again with new orientation (just one pass)
           let altFound = false;
           for (let x = -L / 2 + altFp.length / 2; x <= L / 2 - altFp.length / 2 && !altFound; x += 0.15) {
             for (const z of candidateZs) {
@@ -577,14 +552,11 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
         }
         item.rotation = origRot;
       }
-      // Не нашли места — предмет не помещается в этот кузов
       overflow.push(item);
     }
   });
   return { placed, overflow };
 }
-
-// === Инженерные расчеты ===
 
 export function computeCenterOfGravity(items: LoadItem[]): { x: number; y: number; z: number; weight: number } {
   if (items.length === 0) return { x: 0, y: 0, z: 0, weight: 0 };
@@ -638,10 +610,9 @@ export function computeAxleLoads(items: LoadItem[], vehicleType: VehicleType): {
 
 export function canFitThroughDoor(item: LoadItem, vehicleType: VehicleType): { fits: boolean; reason?: string; fitsRotated?: boolean } {
   const vehicle = VEHICLES[vehicleType];
-  // Реалистичный проем: ширина на 10-12% уже кузова, высота — на 8-12% ниже + ограничение порога 1.92м для высоких кузовов
-  const doorWidth = vehicle.cargoWidth * 0.90; // рама съедает 10%
+  const doorWidth = vehicle.cargoWidth * 0.90;
   const rawDoorHeight = vehicle.cargoHeight * 0.88;
-  const doorHeight = vehicle.cargoHeight > 1.9 ? Math.min(rawDoorHeight, 1.92) : rawDoorHeight; // порог 1.92м для Газели 4м+
+  const doorHeight = vehicle.cargoHeight > 1.9 ? Math.min(rawDoorHeight, 1.92) : rawDoorHeight;
   const fp = orientedFootprint(item);
   const h = orientedHeight(item);
   const diagDoor = Math.sqrt(doorWidth * doorWidth + doorHeight * doorHeight);
@@ -649,7 +620,6 @@ export function canFitThroughDoor(item: LoadItem, vehicleType: VehicleType): { f
   const diagItemFace2 = Math.sqrt(fp.width * fp.width + h * h);
   const diagItemBase = Math.sqrt(fp.length * fp.length + fp.width * fp.width);
 
-  // Проверка обеих ориентаций в плане + диагональ, с учетом canLaySide
   const orientations: Array<{ w: number; h: number }> = [
     { w: fp.length, h: h },
     { w: fp.width, h: h },
@@ -666,12 +636,10 @@ export function canFitThroughDoor(item: LoadItem, vehicleType: VehicleType): { f
     if (o.w <= doorHeight && o.h <= doorWidth) return { fits: true, fitsRotated: true };
   }
 
-  // Диагональная проверка — можно ли пронести под углом
   if (diagItemFace1 <= diagDoor && fp.width <= doorWidth) return { fits: true, fitsRotated: true };
   if (diagItemFace2 <= diagDoor && fp.length <= doorWidth) return { fits: true, fitsRotated: true };
   if (diagItemBase <= doorWidth && h <= doorHeight) return { fits: true, fitsRotated: true };
 
-  // Не проходит
   if (fp.width > doorWidth && fp.length > doorWidth) {
     return { fits: false, reason: `ширина ${Math.min(fp.width, fp.length).toFixed(2)}м > проем ${doorWidth.toFixed(2)}м` };
   }
@@ -739,8 +707,6 @@ export function checkOverload(items: LoadItem[], vehicleType: VehicleType): { ov
   return { overloaded: false, weightPercent, volumePercent };
 }
 
-// === Автозаполнение пустот коробками ===
-
 interface BoxTemplate {
   size: 'S' | 'M' | 'L';
   dims: { length: number; width: number; height: number };
@@ -754,53 +720,72 @@ const FILL_BOX_TEMPLATES: BoxTemplate[] = [
   { size: 'L', dims: { length: 0.8, width: 0.6, height: 0.6 }, weight: 22, volume: 0.8*0.6*0.6 }
 ];
 
-/** Generate virtual box items to fill remaining empty space in the vehicle.
- *  Returns an array of Omit<LoadItem, 'id'> that can be added and re-packed. */
+export function fillCargoWithBoxes(items: LoadItem[], vehicleType: VehicleType, makeId: () => string, maxIterations = 8): { placed: LoadItem[]; overflow: LoadItem[] } {
+  let placed = [...items];
+  let overflow: LoadItem[] = [];
+  const fillIds = new Set<string>();
+  let consecutiveEmpty = 0;
+  for (let i = 0; i < maxIterations; i++) {
+    placed.forEach((p) => { if (fillIds.has(p.id)) p.rotation = [0, 0, 0]; });
+    const fillBoxes = generateFillBoxes(placed, vehicleType);
+    if (fillBoxes.length === 0) break;
+    const withIds = fillBoxes.map((b) => ({ ...b, id: makeId() }));
+    const withIdSet = new Set(withIds.map((b) => b.id));
+    withIds.forEach((b) => fillIds.add(b.id));
+    const packed = packItemsInVehicle([...placed, ...withIds], vehicleType);
+    overflow = packed.overflow.filter((o) => !withIdSet.has(o.id));
+    placed = packed.placed;
+    const placedIds = new Set(placed.map((p) => p.id));
+    fillIds.forEach((id) => { if (!placedIds.has(id)) fillIds.delete(id); });
+    const added = withIds.filter((b) => placedIds.has(b.id)).length;
+    consecutiveEmpty = added === 0 ? consecutiveEmpty + 1 : 0;
+    if (consecutiveEmpty >= 2) break;
+  }
+  return { placed, overflow };
+}
+
 export function generateFillBoxes(items: LoadItem[], vehicleType: VehicleType): Array<Omit<LoadItem, 'id'>> {
   const vehicle = VEHICLES[vehicleType];
-  const MAX_FILL = 0.92; // fill up to 92% capacity to leave realistic margins
+  const MAX_FILL = 0.92;
   const totals = calculateTotals(items);
   const freeVol = vehicle.capacityM3 * MAX_FILL - totals.volume;
   const freeWeight = vehicle.capacityKg * MAX_FILL - totals.weight;
 
-  if (freeVol < 0.05 || freeWeight < 5) return []; // not enough room for even one box
+  if (freeVol < 0.05 || freeWeight < 5) return [];
 
   const boxes: Array<Omit<LoadItem, 'id'>> = [];
   let usedVol = 0;
   let usedWeight = 0;
 
-  // Mix of sizes: prefer M as most realistic, then S for small gaps, L for bulk
   const mix: Array<{ template: BoxTemplate; ratio: number }> = [
-    { template: FILL_BOX_TEMPLATES[1], ratio: 0.5 }, // M — 50%
-    { template: FILL_BOX_TEMPLATES[0], ratio: 0.3 }, // S — 30%
-    { template: FILL_BOX_TEMPLATES[2], ratio: 0.2 }, // L — 20%
+    { template: FILL_BOX_TEMPLATES[1], ratio: 0.5 },
+    { template: FILL_BOX_TEMPLATES[0], ratio: 0.3 },
+    { template: FILL_BOX_TEMPLATES[2], ratio: 0.2 },
   ];
 
   let iterations = 0;
-  const MAX_ITER = 200; // safety cap
+  const MAX_ITER = 200;
 
   while (usedVol < freeVol - 0.02 && usedWeight < freeWeight - 3 && iterations < MAX_ITER) {
     iterations++;
-    // Pick template based on remaining space
     let template: BoxTemplate;
     if (freeVol - usedVol < 0.15) {
-      template = FILL_BOX_TEMPLATES[0]; // only S size fits
+      template = FILL_BOX_TEMPLATES[0];
     } else if (freeVol - usedVol < 0.35) {
-      template = FILL_BOX_TEMPLATES[1]; // M
+      template = FILL_BOX_TEMPLATES[1];
     } else {
-      template = FILL_BOX_TEMPLATES[2]; // L for bulk
+      template = FILL_BOX_TEMPLATES[2];
     }
 
     const addVol = template.volume;
     const addWeight = template.weight;
     if (usedVol + addVol > freeVol || usedWeight + addWeight > freeWeight) {
-      // Try smaller box
       if (template.size === 'L') {
         template = FILL_BOX_TEMPLATES[1];
       } else if (template.size === 'M') {
         template = FILL_BOX_TEMPLATES[0];
       } else {
-        break; // even S doesn't fit
+        break;
       }
       if (usedVol + template.volume > freeVol || usedWeight + template.weight > freeWeight) break;
     }

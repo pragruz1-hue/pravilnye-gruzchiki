@@ -7,7 +7,7 @@
     <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
     <meta name="yandex" content="noindex, nofollow, noarchive" />
     <meta name="theme-color" content="#10131b" />
-    <title>Тестовый 3D калькулятор грузоперевозок — Правильные Грузчики v2 инженерный</title>
+    <title>3D калькулятор грузоперевозок — Правильные Грузчики</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <style>
@@ -62,29 +62,28 @@
           <div class="logo-mark">ПГ</div>
           <div>
             <div class="brand-title">ПРАВИЛЬНЫЕ</div>
-            <div class="brand-subtitle">ГРУЗЧИКИ v2</div>
+            <div class="brand-subtitle">ГРУЗЧИКИ</div>
           </div>
         </div>
         <div class="page-note">
-          Инженерный 3D-калькулятор: пустой старт, Газели 7/12/18 м³ (3.0×1.8×1.3, 3.2×1.9×2.0, 4.2×2.0×2.15, 1500 кг), камеры как в игре (в кузове, кабина), день/ночь с лампами, COG, оси, дверь, рулетка, мини-карта, WASD, магнит, звук, undo/redo, persist, share, скриншот в PDF, postMessage в сайт.
+          3D-калькулятор переезда: выберите квартиру или добавьте вещи, разложите их по кузову, осмотритесь камерами — калькулятор подберёт машину и посчитает стоимость с учётом типа переезда и расстояния.
         </div>
-        <div class="badge">noindex · v2 инженерный</div>
+        <div class="badge">онлайн-расчёт</div>
       </header>
 
       <div class="integration-bar" id="integrationBar">
-        <span>📦 Интеграция: <b id="ibCount">0</b> предметов · <b id="ibVol">0</b> м³ · <b id="ibWeight">0</b> кг · <b id="ibVehicle">-</b> · <b id="ibPrice">0</b> ₽ · <span id="ibStatus">ожидание postMessage...</span></span>
-        <button onclick="copyPayload()" style="margin-left:auto;background:#10131b;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer">📋 Копировать JSON для CRM</button>
-        <button onclick="document.getElementById('calcFrame').contentWindow?.postMessage({type:'pg-request-calculation'},'*')" style="background:#ff6b00;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer">🔄 Запросить расчет</button>
+        <span>📦 Ваш расчёт: <b id="ibCount">0</b> предметов · <b id="ibVol">0</b> м³ · <b id="ibWeight">0</b> кг · <b id="ibVehicle">-</b> · <b id="ibPrice">0</b> ₽ · <span id="ibStatus">ожидание расчёта...</span></span>
+        <button onclick="copyPayload()" style="margin-left:auto;background:#10131b;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer">📋 Скопировать данные заявки</button>
+        <button onclick="document.getElementById('calcFrame').contentWindow?.postMessage({type:'pg-request-calculation'},'*')" style="background:#ff6b00;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer">🔄 Обновить расчёт</button>
       </div>
 
       <section class="frame-wrap" aria-label="3D калькулятор грузоперевозок">
         <iframe id="calcFrame" class="calc-frame" src="cargo-3d-calculator/index.html" title="3D калькулятор грузоперевозок" loading="eager" allow="fullscreen; autoplay; clipboard-write"></iframe>
-        <div class="fallback"><strong>v2:</strong> пустой кузов на старте, выбор квартиры → авто-машина 7/12/18, WASD в кузове, мини-карта, рулетка, COG, оси, postMessage. Исходники — <code>/cargo-calculator/</code>.</div>
+        <div class="fallback"><strong>Подсказка:</strong> начните с выбора квартиры — подходящая Газель и набор вещей подставятся автоматически. Камера вращается мышью в любом режиме, кнопка «Автозаполнить» дозаполняет пустоты коробками.</div>
       </section>
 
       <div class="footer-note">
-        <b>Что исправлено по твоим 5 пунктам:</b> 1) пустой кузов, 2) рекомендация машины по стандарту квартиры, 3) авто-объем 7/12/18, 4) 3 панели вместо 2 перекрывающих, 5) drag не двигает камеру + WASD. Мобилка как игра. 
-        <b>Нововведения v2:</b> persist в localStorage, undo/redo, share ?share=, скриншот canvas.toDataURL в PDF, COG красный, нагрузка на оси, проверка двери, мини-карта, измерения, магнит 6см, звук/вибрация, first-person, интеграция postMessage в этот бар.
+        Указанные цены носят информационный характер и не являются публичной офертой. Точную стоимость перевозки рассчитает диспетчер при оформлении заказа.
       </div>
     </main>
 
@@ -94,7 +93,6 @@
         const data = event.data;
         if (!data || typeof data !== 'object') return;
         if (data.type && data.type.startsWith('cargo-')) {
-          console.log('[PG 3D] postMessage', data);
           lastPayload = data;
           const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
           el('ibCount', data.pallets ?? data.count ?? 0);
@@ -102,20 +100,15 @@
           el('ibWeight', data.weight ?? 0);
           el('ibVehicle', data.vehicle ?? '-');
           el('ibPrice', (data.price ?? 0).toLocaleString ? data.price.toLocaleString('ru-RU') : data.price ?? 0);
-          el('ibStatus', '✅ ' + data.type + ' в ' + new Date().toLocaleTimeString());
+          el('ibStatus', '✅ расчёт обновлён в ' + new Date().toLocaleTimeString());
           try { localStorage.setItem('pg_last_calculation_parent', JSON.stringify(data)); } catch {}
         }
       });
       function copyPayload() {
-        if (!lastPayload) { alert('Пока нет данных — походи в кузове, добавь мебель'); return; }
+        if (!lastPayload) { alert('Пока нет данных — добавьте вещи в калькуляторе'); return; }
         navigator.clipboard.writeText(JSON.stringify(lastPayload, null, 2));
-        alert('JSON скопирован — вставь в CRM / заявку');
+        alert('Данные расчёта скопированы');
       }
-      // Чтение из localStorage при загрузке
-      try {
-        const saved = localStorage.getItem('pg_last_calculation');
-        if (saved) console.log('last calc from iframe localStorage', JSON.parse(saved));
-      } catch {}
     </script>
   </body>
 </html>

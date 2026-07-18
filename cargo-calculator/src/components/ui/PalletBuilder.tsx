@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { ApartmentPreset, BoxSize, BoxType, LoadItem, PalletType } from '../../types';
 import { CATALOG, makePallet, useCalculatorStore } from '../../store/useCalculatorStore';
-import { APARTMENT_STANDARDS } from '../../utils/calculations';
+import { APARTMENT_STANDARDS, VEHICLES } from '../../utils/calculations';
 
 const presets: Array<{ id: ApartmentPreset; label: string; hint: string; volume: string }> = [
   { id: 'oneRoom', label: '1 к.к.', hint: 'эконом', volume: '7 м³ · 1500 кг' },
@@ -60,7 +60,7 @@ export function PalletBuilder() {
               <span className="block text-lg font-black text-gray-950">{preset.label}</span>
               <span className="block text-xs font-bold text-gray-600">{standard.description}</span>
               <span className="mt-1 block text-[11px] font-black text-[#d35400]">{preset.volume}</span>
-              <span className="mt-1 block text-[10px] text-gray-400">Авто: {standard.recommendedVehicle}</span>
+              <span className="mt-1 block text-[10px] text-gray-400">Машина: {VEHICLES[standard.recommendedVehicle].label}</span>
             </button>
           );
         })}
@@ -70,13 +70,13 @@ export function PalletBuilder() {
         <div className="mb-4 rounded-2xl bg-[#10131b] p-4 text-white">
           <div className="text-sm font-black">Кузов пустой — выбери квартиру</div>
           <div className="mt-1 text-xs leading-5 text-slate-300">
-            Раньше калькулятор грузился заполненным и предметы были с меткой “нельзя поставить”. Теперь старт пустой. Выбери 1/2/3 к.к. — подставится правильная Газель: 7 м³ (3.0×1.8×1.3), 12 м³ (3.2×1.9×2.0), 18 м³ (4.2×2.0×2.15) — размеры из открытых источников (kuzovspec.ru, FB.ru, pereezdporossii.ru). Все газели до 1500 кг.
+            Выбери 1/2/3 к.к. — подставится подходящая Газель: 7 м³ (3.0×1.8×1.3 м), 12 м³ (3.2×1.9×2.0 м) или 18 м³ (4.2×2.0×2.15 м). Грузоподъёмность любой газели — до 1500 кг.
           </div>
         </div>
       ) : (
         <div className="mb-4 rounded-2xl bg-emerald-50 p-3 ring-1 ring-emerald-200">
           <div className="text-xs font-black text-emerald-800">✅ Автозаполнение машины</div>
-          <div className="mt-1 text-xs text-emerald-700">При выборе квартиры пустоты автоматически заполняются коробками — видно как примерно будет выглядеть загруженная машина. Можно также нажать «Заполнить коробками» вручную. Вес до 1500 кг на любую газель.</div>
+          <div className="mt-1 text-xs text-emerald-700">Кнопка «Автозаполнить» над 3D-видом дозаполняет пустоты коробками — видно, как будет выглядеть загруженная машина. Грузоподъёмность любой газели — до 1500 кг.</div>
         </div>
       )}
 
@@ -112,7 +112,7 @@ export function PalletBuilder() {
             <button onClick={() => liftSelected(-0.1)} className="rounded-xl bg-white px-2 py-2 text-xs font-black text-red-700 shadow-sm">↓ опустить</button>
             <button onClick={rotateSelectedY} className="rounded-xl bg-white px-2 py-2 text-xs font-black text-blue-700 shadow-sm">R 90°</button>
           </div>
-          <div className="mt-2 text-xs font-semibold text-gray-600">Drag в 3D — перемещение (камера больше не едет), gizmo — вращение/XYZ, высота и коллизии проверяются.</div>
+          <div className="mt-2 text-xs font-semibold text-gray-600">Drag в 3D — перемещение предмета, цветные оси — точное смещение и поворот.</div>
         </div>
       )}
 
