@@ -32,6 +32,9 @@ interface CalculatorState {
   showMinimap: boolean;
   showMeasurements: boolean;
   isSoundEnabled: boolean;
+  isPerformanceMode: boolean;
+  isPhysicsEnabled: boolean;
+  isHeatmapEnabled: boolean;
   setRoute: (from: string, to: string) => void;
   setMoveType: (moveType: MoveType) => void;
   setVehicleType: (vehicleType: VehicleType) => void;
@@ -61,6 +64,9 @@ interface CalculatorState {
   toggleMinimap: () => void;
   toggleMeasurements: () => void;
   toggleSound: () => void;
+  togglePerformance: () => void;
+  togglePhysics: () => void;
+  toggleHeatmap: () => void;
   loadFromShare: (pallets: LoadItem[], vehicle: VehicleType) => void;
 }
 
@@ -140,6 +146,7 @@ function buildPreset(preset: ApartmentPreset): LoadItem[] {
 
 let lastPostTime = 0;
 let postDebounceTimer: any = null;
+let lastHistoryPush = 0;
 
 function recalculate(set: (partial: Partial<CalculatorState>) => void, state: CalculatorState): void {
   const totals = calculateTotals(state.pallets);
@@ -147,7 +154,6 @@ function recalculate(set: (partial: Partial<CalculatorState>) => void, state: Ca
   const price = calculatePrice({ vehicleType: state.vehicleType, vehicleCount: state.vehicleCount, distance: state.distance, pallets: state.pallets, services: state.services, urgency: state.urgency });
   set({ totalWeight: totals.weight, totalVolume: totals.volume, recommendedVehicleType, ...price });
 
-  // Throttled postMessage — не спамить при drag (макс 1 раз в 350мс)
   const now = Date.now();
   const shouldSend = now - lastPostTime > 350;
   const send = () => {
@@ -161,6 +167,7 @@ function recalculate(set: (partial: Partial<CalculatorState>) => void, state: Ca
         vehicle: state.vehicleType,
         recommended: recommendedVehicleType,
         price: price.totalPrice,
+        fuelLiters: (price as any).fuelLiters,
         share: payload,
         from: state.from,
         to: state.to
@@ -171,19 +178,24 @@ function recalculate(set: (partial: Partial<CalculatorState>) => void, state: Ca
       lastPostTime = Date.now();
     } catch {}
   };
-
-  if (shouldSend) {
-    send();
-  } else {
+  if (shouldSend) send();
+  else {
     if (postDebounceTimer) clearTimeout(postDebounceTimer);
     postDebounceTimer = setTimeout(send, 350);
   }
 }
 
 function pushHistory(state: CalculatorState): { history: LoadItem[][]; future: LoadItem[][] } {
-  const newHistory = [...state.history, state.pallets.map(p => ({ ...p, position: [...p.position] as any, rotation: [...p.rotation] as any }))];
+  const newHistory = [...state.history, state.pallets.map(p => ({ ...p, position: [...p.position] as any, rotation: [...p.rotation] as any, boxes: [...p.boxes] }))];
   if (newHistory.length > 30) newHistory.shift();
   return { history: newHistory, future: [] };
+}
+
+function pushHistoryThrottled(state: CalculatorState): { history: LoadItem[][]; future: LoadItem[][] } | {} {
+  const now = Date.now();
+  if (now - lastHistoryPush < 500) return {};
+  lastHistoryPush = now;
+  return pushHistory(state);
 }
 
 export const useCalculatorStore = create<CalculatorState>()(
@@ -193,6 +205,7 @@ export const useCalculatorStore = create<CalculatorState>()(
       pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7', vehicleCount: 1, urgency: 2, services: initialServices,
       basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', activePreset: null,
       cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
+      isPerformanceMode: false, isPhysicsEnabled: false, isHeatmapEnabled: true,
 
       setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
       setMoveType: (moveType) => { set({ moveType }); get().calculatePrice(); },
@@ -278,9 +291,10 @@ export const useCalculatorStore = create<CalculatorState>()(
         if (get().isSoundEnabled) { try { (window as any).pgPlaySound?.('remove'); if (navigator.vibrate) navigator.vibrate([20, 30, 20]); } catch {} }
       },
       updatePalletPosition: (id, position) => {
+        // Throttled history for drag
         const st = get();
-        // Не пушим историю на каждое движение, только если была пауза — упрощено: пушим раз в 10 движений через throttle? Пока без истории для плавности
-        set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, position } : pallet), activePreset: null }));
+        const hist = pushHistoryThrottled(st);
+        set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, position } : pallet), activePreset: null, ...hist } as any));
         get().calculatePrice();
       },
       updatePalletRotation: (id, rotation) => {
@@ -342,21 +356,52 @@ export const useCalculatorStore = create<CalculatorState>()(
       toggleMinimap: () => set((s) => ({ showMinimap: !s.showMinimap })),
       toggleMeasurements: () => set((s) => ({ showMeasurements: !s.showMeasurements })),
       toggleSound: () => set((s) => ({ isSoundEnabled: !s.isSoundEnabled })),
+      togglePerformance: () => set((s) => ({ isPerformanceMode: !s.isPerformanceMode })),
+      togglePhysics: () => set((s) => ({ isPhysicsEnabled: !s.isPhysicsEnabled })),
+      toggleHeatmap: () => set((s) => ({ isHeatmapEnabled: !s.isHeatmapEnabled })),
       loadFromShare: (pallets, vehicle) => {
         set({ pallets, vehicleType: vehicle, selectedPalletId: pallets[0]?.id ?? null });
         get().calculatePrice();
       }
     }),
     {
-      name: 'pg-cargo-3d-v2',
-      partialize: (state) => ({ pallets: state.pallets, vehicleType: state.vehicleType, from: state.from, to: state.to, activePreset: state.activePreset, cameraMode: state.cameraMode, isNightMode: state.isNightMode, showMinimap: state.showMinimap, showMeasurements: state.showMeasurements, isSoundEnabled: state.isSoundEnabled })
+      name: 'pg-cargo-3d-v3',
+      version: 3,
+      migrate: (persisted: any, version: number) => {
+        // Миграция с v2 на v3: добавляем новые флаги, сохраняем pallets/vehicle
+        if (version < 3) {
+          return {
+            ...persisted,
+            isPerformanceMode: false,
+            isPhysicsEnabled: false,
+            isHeatmapEnabled: true,
+            history: [],
+            future: []
+          };
+        }
+        return persisted;
+      },
+      partialize: (state) => ({
+        pallets: state.pallets,
+        vehicleType: state.vehicleType,
+        from: state.from,
+        to: state.to,
+        activePreset: state.activePreset,
+        cameraMode: state.cameraMode,
+        isNightMode: state.isNightMode,
+        showMinimap: state.showMinimap,
+        showMeasurements: state.showMeasurements,
+        isSoundEnabled: state.isSoundEnabled,
+        isPerformanceMode: state.isPerformanceMode,
+        isPhysicsEnabled: state.isPhysicsEnabled,
+        isHeatmapEnabled: state.isHeatmapEnabled
+      })
     }
   )
 );
 
 useCalculatorStore.getState().calculatePrice();
 
-// Загрузка из URL ?share=...
 if (typeof window !== 'undefined') {
   try {
     const params = new URLSearchParams(window.location.search);
@@ -366,7 +411,6 @@ if (typeof window !== 'undefined') {
         const data = parseSharePayload(share);
         if (data) {
           const store = useCalculatorStore.getState();
-          // Восстанавливаем предметы из каталога
           const items = data.items.map((i: any, idx: number) => {
             const cat = CATALOG.find(c => c.kind === i.k) || CATALOG[0];
             return { ...cat, id: `shared-${idx}`, kind: cat.kind as any, name: cat.name, position: i.p as any, rotation: i.r as any, type: 'STANDARD' as any, boxes: [], weight: cat.weight, dimensions: cat.dimensions, material: cat.material, wrapped: false, stackable: cat.stackable, maxStackWeight: cat.maxStackWeight, canLaySide: cat.canLaySide, fragile: cat.fragile };

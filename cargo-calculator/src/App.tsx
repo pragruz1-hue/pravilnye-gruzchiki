@@ -4,6 +4,7 @@ import { LeftPanel } from './components/ui/LeftPanel';
 import { RightPanel } from './components/ui/RightPanel';
 import { CameraSwitcher, DayNightBadge } from './components/ui/CameraSwitcher';
 import { MiniMap } from './components/ui/MiniMap';
+import { MobileJoystick } from './components/ui/MobileJoystick';
 import { useCalculatorStore } from './store/useCalculatorStore';
 
 function App() {
@@ -21,9 +22,16 @@ function App() {
   const toggleMeasurements = useCalculatorStore((s) => s.toggleMeasurements);
   const isSoundEnabled = useCalculatorStore((s) => s.isSoundEnabled);
   const toggleSound = useCalculatorStore((s) => s.toggleSound);
+  const isPerformanceMode = useCalculatorStore((s) => s.isPerformanceMode);
+  const togglePerformance = useCalculatorStore((s) => s.togglePerformance);
+  const isPhysicsEnabled = useCalculatorStore((s) => s.isPhysicsEnabled);
+  const togglePhysics = useCalculatorStore((s) => s.togglePhysics);
+  const isHeatmapEnabled = useCalculatorStore((s) => s.isHeatmapEnabled);
+  const toggleHeatmap = useCalculatorStore((s) => s.toggleHeatmap);
 
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
+  const [joystick, setJoystick] = useState({ x: 0, y: 0, up: 0 });
 
   return (
     <div className={`min-h-screen w-screen overflow-hidden text-gray-950 transition-colors duration-700 ${isNightMode ? 'bg-[#070a14]' : 'bg-gradient-to-br from-[#07090e] via-[#111827] to-[#e9ecef]'}`}>
@@ -35,42 +43,39 @@ function App() {
         )}
       </div>
 
-      {/* Top toolbar — engineering */}
-      <div className="relative z-30 hidden items-center justify-between gap-2 p-3 md:flex">
+      <div className="relative z-30 hidden flex-wrap items-center justify-between gap-2 p-2 md:flex">
         <div className="flex items-center gap-2">
           <div className="grid h-9 w-9 place-items-center rounded-xl bg-[#ff6b00] text-sm font-black text-white shadow">ПГ</div>
           <div className="leading-none">
             <div className="text-[10px] font-black tracking-widest text-orange-300">ПРАВИЛЬНЫЕ ГРУЗЧИКИ</div>
-            <div className="text-sm font-black text-white">3D Калькулятор v2 — инженерный</div>
+            <div className="text-sm font-black text-white">3D v3 — инженерный полный</div>
           </div>
-          <div className="ml-4 flex items-center gap-1 rounded-full bg-white/10 p-1 backdrop-blur">
-            <button onClick={undo} disabled={history.length===0} className="rounded-full bg-white px-3 py-1 text-xs font-black disabled:opacity-30">↩️ Undo</button>
-            <button onClick={redo} disabled={future.length===0} className="rounded-full bg-white px-3 py-1 text-xs font-black disabled:opacity-30">↪️ Redo</button>
-            <button onClick={()=>setFirstPerson(!isFirstPerson)} className={`rounded-full px-3 py-1 text-xs font-black ${isFirstPerson ? 'bg-[#ff6b00] text-white' : 'bg-white text-gray-700'}`}>🎮 {isFirstPerson ? 'WASD ВКЛ' : 'WASD'}</button>
-            <button onClick={toggleMinimap} className={`rounded-full px-3 py-1 text-xs font-black ${showMinimap ? 'bg-emerald-500 text-white' : 'bg-white text-gray-700'}`}>🗺 Карта</button>
-            <button onClick={toggleMeasurements} className={`rounded-full px-3 py-1 text-xs font-black ${showMeasurements ? 'bg-blue-500 text-white' : 'bg-white text-gray-700'}`}>📏 Рулетка</button>
-            <button onClick={toggleSound} className={`rounded-full px-3 py-1 text-xs font-black ${isSoundEnabled ? 'bg-white text-gray-700' : 'bg-gray-200 text-gray-500'}`}>{isSoundEnabled ? '🔊 Звук' : '🔇 Тихо'}</button>
+          <div className="ml-3 flex flex-wrap items-center gap-1 rounded-full bg-white/10 p-1 backdrop-blur">
+            <button onClick={undo} disabled={history.length===0} className="rounded-full bg-white px-2 py-1 text-[11px] font-black disabled:opacity-30">↩️</button>
+            <button onClick={redo} disabled={future.length===0} className="rounded-full bg-white px-2 py-1 text-[11px] font-black disabled:opacity-30">↪️</button>
+            <button onClick={()=>setFirstPerson(!isFirstPerson)} className={`rounded-full px-2 py-1 text-[11px] font-black ${isFirstPerson ? 'bg-[#ff6b00] text-white' : 'bg-white text-gray-700'}`}>WASD</button>
+            <button onClick={toggleMinimap} className={`rounded-full px-2 py-1 text-[11px] font-black ${showMinimap ? 'bg-emerald-500 text-white' : 'bg-white text-gray-700'}`}>🗺</button>
+            <button onClick={toggleMeasurements} className={`rounded-full px-2 py-1 text-[11px] font-black ${showMeasurements ? 'bg-blue-500 text-white' : 'bg-white text-gray-700'}`}>📏</button>
+            <button onClick={toggleSound} className={`rounded-full px-2 py-1 text-[11px] font-black ${isSoundEnabled ? 'bg-white text-gray-700' : 'bg-gray-200 text-gray-500'}`}>{isSoundEnabled ? '🔊' : '🔇'}</button>
+            <button onClick={togglePerformance} className={`rounded-full px-2 py-1 text-[11px] font-black ${isPerformanceMode ? 'bg-purple-600 text-white' : 'bg-white text-gray-700'}`}>⚡ {isPerformanceMode ? 'Perf ON' : 'Perf'}</button>
+            <button onClick={togglePhysics} className={`rounded-full px-2 py-1 text-[11px] font-black ${isPhysicsEnabled ? 'bg-red-600 text-white' : 'bg-white text-gray-700'}`}>🧪 Физи</button>
+            <button onClick={toggleHeatmap} className={`rounded-full px-2 py-1 text-[11px] font-black ${isHeatmapEnabled ? 'bg-orange-500 text-white' : 'bg-white text-gray-700'}`}>🔥 Heat</button>
           </div>
         </div>
-        <div className="text-[11px] font-bold text-white/60">WASD ходьба внутри кузова · 1-5 камеры · Shift быстрее · Q/E вверх/вниз · Магнит к стенам 6см · COG красный · Оси</div>
+        <div className="text-[10px] font-bold text-white/60">Дверь: обе ориентации + диагональ √(W²+H²) · Топливо: 12л +0.3л/100кг/100км · Упаковка +15% · История throttle 500мс · Магнит с ре-проверкой · perf dpr1 · v3 migrate</div>
       </div>
 
-      {/* Mobile top bar */}
       <div className="relative z-30 flex items-center justify-between gap-2 p-3 md:hidden">
         <div className="flex items-center gap-2">
           <div className="grid h-9 w-9 place-items-center rounded-xl bg-[#ff6b00] text-sm font-black text-white shadow">ПГ</div>
           <div className="leading-none">
             <div className="text-[10px] font-black tracking-widest text-orange-300">ПРАВИЛЬНЫЕ</div>
-            <div className="text-sm font-black text-white">ГРУЗЧИКИ · 3D</div>
+            <div className="text-sm font-black text-white">3D v3</div>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={() => setShowLeft(!showLeft)} className="rounded-full bg-white px-3 py-2 text-xs font-black text-gray-900 shadow">
-            {showLeft ? '✕' : '☰'} Инвентарь {pallets.length > 0 ? `· ${pallets.length}` : ''}
-          </button>
-          <button onClick={() => setShowRight(!showRight)} className="rounded-full bg-[#10131b] px-3 py-2 text-xs font-black text-white ring-1 ring-white/20">
-            💰 Цена
-          </button>
+          <button onClick={() => setShowLeft(!showLeft)} className="rounded-full bg-white px-3 py-2 text-xs font-black text-gray-900 shadow">☰ {pallets.length}</button>
+          <button onClick={() => setShowRight(!showRight)} className="rounded-full bg-[#10131b] px-3 py-2 text-xs font-black text-white ring-1 ring-white/20">💰</button>
         </div>
       </div>
 
@@ -78,12 +83,10 @@ function App() {
         <div className={`${showLeft ? 'flex' : 'hidden'} fixed inset-0 z-40 flex-col bg-[#0f121a]/95 p-3 backdrop-blur-xl md:static md:flex md:w-[420px] md:bg-transparent md:p-0`}>
           <div className="flex h-full flex-col overflow-hidden rounded-[24px] border border-white/10 bg-white/90 shadow-2xl backdrop-blur-xl md:rounded-[28px]">
             <div className="flex items-center justify-between border-b border-black/5 p-4 md:hidden">
-              <span className="font-black">Инвентарь и пресеты</span>
-              <button onClick={() => setShowLeft(false)} className="rounded-full bg-gray-100 px-3 py-1 text-sm font-bold">✕ закрыть</button>
+              <span className="font-black">Инвентарь</span>
+              <button onClick={() => setShowLeft(false)} className="rounded-full bg-gray-100 px-3 py-1 text-sm font-bold">✕</button>
             </div>
-            <div className="flex-1 overflow-hidden">
-              <LeftPanel />
-            </div>
+            <div className="flex-1 overflow-hidden"><LeftPanel /></div>
           </div>
         </div>
 
@@ -92,20 +95,13 @@ function App() {
           <CameraSwitcher />
           <DayNightBadge />
           <MiniMap />
-          {isFirstPerson && (
-            <div className="pointer-events-none absolute bottom-[88px] left-4 z-20 rounded-full bg-black/70 px-3 py-1 text-[11px] font-black text-white backdrop-blur">🎮 WASD ходьба · Shift бег · Q/E высота · Коллизия со стенами · Клик по предмету всё ещё работает</div>
-          )}
-          <div className="pointer-events-none absolute right-4 top-4 hidden rounded-full bg-[#10131b]/80 px-4 py-2 text-xs font-black text-white backdrop-blur-md ring-1 ring-white/10 md:block">
-            🎮 Drag ≠ камера · 📏 рулетка · 🔴 COG · 🚪 дверь · 🗺 мини-карта · 🔊 звук · history {history.length}
-          </div>
-          {pallets.length === 0 && (
-            <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 w-[92%] max-w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-[24px] border border-white/40 bg-white/90 p-5 text-center shadow-2xl backdrop-blur-xl">
-              <div className="text-4xl">🚚</div>
-              <div className="mt-2 text-lg font-black text-gray-900">Кузов пустой — начни с квартиры</div>
-              <div className="mt-2 text-sm leading-6 text-gray-600">
-                Выбери <b>1к.к. / 2к.к. / 3к.к.</b> → автоматом <b>7 м³</b> (3.0×1.8×1.3), <b>12 м³</b> (3.2×1.9×2.0), <b>18 м³</b> (4.2×2.0×2.15). Все до 1500 кг. Внутри — лампы, COG, нагрузка на оси, дверь, рулетка, карта, WASD, звук, undo, share.
-              </div>
+          {(isFirstPerson) && (
+            <div className="absolute bottom-[88px] left-4 z-20 md:hidden">
+              <MobileJoystick onMove={(dx, dy) => setJoystick({ x: dx, y: dy, up: 0 })} onUpDown={(up) => setJoystick((j) => ({ ...j, up }))} />
             </div>
+          )}
+          {isFirstPerson && (
+            <div className="pointer-events-none absolute bottom-[88px] left-4 z-20 hidden rounded-full bg-black/70 px-3 py-1 text-[11px] font-black text-white backdrop-blur md:block">WASD + Shift + Q/E · Коллизия · Джойстик на мобиле</div>
           )}
         </main>
 
@@ -113,11 +109,9 @@ function App() {
           <div className="flex h-full flex-col overflow-hidden rounded-[24px] border border-white/10 bg-white/90 shadow-2xl backdrop-blur-xl md:rounded-[28px]">
             <div className="flex items-center justify-between border-b border-black/5 p-4 md:hidden">
               <span className="font-black">Загрузка и цена</span>
-              <button onClick={() => setShowRight(false)} className="rounded-full bg-gray-100 px-3 py-1 text-sm font-bold">✕ закрыть</button>
+              <button onClick={() => setShowRight(false)} className="rounded-full bg-gray-100 px-3 py-1 text-sm font-bold">✕</button>
             </div>
-            <div className="flex-1 overflow-hidden">
-              <RightPanel />
-            </div>
+            <div className="flex-1 overflow-hidden"><RightPanel /></div>
           </div>
         </div>
       </div>

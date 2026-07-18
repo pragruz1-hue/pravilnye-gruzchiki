@@ -1,5 +1,4 @@
 import { LoadItem, VehicleSpec, VehicleType } from '../types';
-
 import { ApartmentStandard } from '../types';
 
 export const APARTMENT_STANDARDS: Record<string, ApartmentStandard> = {
@@ -33,12 +32,10 @@ export const APARTMENT_STANDARDS: Record<string, ApartmentStandard> = {
 };
 
 export const VEHICLES: Record<VehicleType, VehicleSpec> = {
-  // Квартирные Газели — основные для переездов (7, 12, 18 м³, все 1500 кг)
   gazelle7: {
     id: 'gazelle7',
     label: 'Газель 7 м³ (3м эконом)',
     shortLabel: '7 м³',
-    // Реальные габариты: ГАЗ 2705 компакт — ~3.0×1.8×1.3 = 7.02 м³ (источник kuzovspec.ru, fb.ru)
     cargoLength: 3.0,
     cargoWidth: 1.8,
     cargoHeight: 1.3,
@@ -53,7 +50,6 @@ export const VEHICLES: Record<VehicleType, VehicleSpec> = {
     id: 'gazelle12',
     label: 'Газель 12 м³ (4м стандарт)',
     shortLabel: '12 м³',
-    // 3.2×1.9×2.0 = 12.16 м³ — классическая тент Газель 4м (logisterra, pereezdporossii)
     cargoLength: 3.2,
     cargoWidth: 1.9,
     cargoHeight: 2.0,
@@ -68,7 +64,6 @@ export const VEHICLES: Record<VehicleType, VehicleSpec> = {
     id: 'gazelle18',
     label: 'Газель 18 м³ (4.2м макс)',
     shortLabel: '18 м³',
-    // 4.2×2.0×2.15 = 18.06 м³ — удлиненная Газель (FB.ru статья про 16-18 кубов)
     cargoLength: 4.2,
     cargoWidth: 2.0,
     cargoHeight: 2.15,
@@ -79,7 +74,6 @@ export const VEHICLES: Record<VehicleType, VehicleSpec> = {
     minHours: 3,
     kmRate: 42
   },
-  // Легаси типы (совместимость) — маппим на новые объемы
   gazelle3: {
     id: 'gazelle3',
     label: 'Газель 3 м (7 м³)',
@@ -201,19 +195,17 @@ export function itemWeight(item: LoadItem): number {
   return item.weight + item.boxes.reduce((sum, box) => sum + box.weight, 0);
 }
 
-export function calculatePalletVolume(item: LoadItem): number {
-  return itemVolume(item);
-}
-
-export function calculatePalletWeight(item: LoadItem): number {
-  return itemWeight(item);
-}
+export function calculatePalletVolume(item: LoadItem): number { return itemVolume(item); }
+export function calculatePalletWeight(item: LoadItem): number { return itemWeight(item); }
 
 export function calculateTotals(items: LoadItem[]): { weight: number; volume: number } {
-  return items.reduce(
-    (totals, item) => ({ weight: totals.weight + itemWeight(item), volume: totals.volume + itemVolume(item) }),
-    { weight: 0, volume: 0 }
-  );
+  return items.reduce((totals, item) => ({ weight: totals.weight + itemWeight(item), volume: totals.volume + itemVolume(item) }), { weight: 0, volume: 0 });
+}
+
+export function calculateTotalsWithPacking(items: LoadItem[], packing: boolean): { weight: number; volume: number; packingExtra: number } {
+  const base = calculateTotals(items);
+  const packingExtra = packing ? base.volume * 0.15 : 0;
+  return { weight: base.weight, volume: base.volume + packingExtra, packingExtra };
 }
 
 export function boxDimensions(size: 'S' | 'M' | 'L' | 'XL'): { length: number; width: number; height: number } {
@@ -239,19 +231,27 @@ export function calculatePrice(params: {
   pallets: LoadItem[];
   services: import('../types').ServicesState;
   urgency: number;
-}): { basePrice: number; additionalPrice: number; fuelPrice: number; insurancePrice: number; totalPrice: number; deliveryTime: string } {
+}): { basePrice: number; additionalPrice: number; fuelPrice: number; insurancePrice: number; totalPrice: number; deliveryTime: string; fuelLiters: number; packingVolume: number } {
   const vehicle = VEHICLES[params.vehicleType];
   const totals = calculateTotals(params.pallets);
+  const totalsWithPacking = calculateTotalsWithPacking(params.pallets, params.services.packing);
   const urgencyCoef = params.urgency === 1 ? 0.9 : params.urgency === 3 ? 1.35 : 1;
   const baseByTime = vehicle.baseHourlyRate * vehicle.minHours * params.vehicleCount;
   const distancePrice = Math.max(0, params.distance * vehicle.kmRate * params.vehicleCount);
-  const volumeHandling = Math.ceil(totals.volume) * 120;
+  // Учитываем упаковку как +15% объема в обработке
+  const volumeHandling = Math.ceil(totalsWithPacking.volume) * 120;
   const heavyHandling = totals.weight > 900 ? Math.ceil((totals.weight - 900) / 100) * 180 : 0;
   const basePrice = Math.round((baseByTime + distancePrice + volumeHandling + heavyHandling) * urgencyCoef);
-  const fuelPrice = Math.round(Math.max(700, params.distance * (vehicle.kmRate * 0.22) * params.vehicleCount));
+
+  // Топливо: база 12л/100км + 0.3л на каждые 100кг на 100км + упаковка
+  const baseConsumption = 12; // л/100км пустая Газель
+  const weightFactor = (totals.weight / 100) * 0.3; // 0.3л на 100кг
+  const fuelLiters = (baseConsumption + weightFactor) * params.distance / 100 * params.vehicleCount;
+  const fuelPricePerLiter = 62; // руб
+  const fuelPrice = Math.round(Math.max(700, fuelLiters * fuelPricePerLiter));
 
   let additionalPrice = 0;
-  if (params.services.packing) additionalPrice += 2000 + params.pallets.length * 220;
+  if (params.services.packing) additionalPrice += 2000 + params.pallets.length * 220 + Math.round(totalsWithPacking.packingExtra * 180);
   if (params.services.disassembly) additionalPrice += 1500 * Math.max(1, Math.ceil(params.pallets.length / 5));
   if (params.services.assembly) additionalPrice += 2000 * Math.max(1, Math.ceil(params.pallets.length / 5));
   if (params.services.loaders > 0) additionalPrice += params.services.loaders * 500 * vehicle.minHours;
@@ -260,18 +260,19 @@ export function calculatePrice(params: {
   if (params.services.nightMove) additionalPrice = Math.round((additionalPrice + basePrice) * 0.3 + additionalPrice);
 
   const insurancePrice = params.services.insurance ? Math.round((basePrice + fuelPrice + additionalPrice) * 0.05) : 0;
-  return { basePrice, additionalPrice, fuelPrice, insurancePrice, totalPrice: basePrice + fuelPrice + additionalPrice + insurancePrice, deliveryTime: calculateDeliveryTime(params.distance) };
+  return { basePrice, additionalPrice, fuelPrice, insurancePrice, totalPrice: basePrice + fuelPrice + additionalPrice + insurancePrice, deliveryTime: calculateDeliveryTime(params.distance), fuelLiters: Math.round(fuelLiters * 10) / 10, packingVolume: Math.round(totalsWithPacking.packingExtra * 100) / 100 };
 }
 
-export function getCapacity(params: { pallets: LoadItem[]; vehicleType: VehicleType }): { volumePercent: number; weightPercent: number; palletPercent: number; heightPercent: number } {
+export function getCapacity(params: { pallets: LoadItem[]; vehicleType: VehicleType; packing?: boolean }): { volumePercent: number; weightPercent: number; palletPercent: number; heightPercent: number; packingPercent: number } {
   const vehicle = VEHICLES[params.vehicleType];
-  const totals = calculateTotals(params.pallets);
+  const totals = params.packing ? calculateTotalsWithPacking(params.pallets, true) : calculateTotals(params.pallets);
   const maxTop = params.pallets.reduce((max, item) => Math.max(max, item.position[1] + orientedHeight(item)), 0);
   return {
     volumePercent: Math.round((totals.volume / vehicle.capacityM3) * 100),
     weightPercent: Math.round((totals.weight / vehicle.capacityKg) * 100),
     palletPercent: Math.round((params.pallets.filter((item) => item.kind === 'pallet').length / Math.max(1, vehicle.palletCapacity)) * 100),
-    heightPercent: Math.round((maxTop / vehicle.cargoHeight) * 100)
+    heightPercent: Math.round((maxTop / vehicle.cargoHeight) * 100),
+    packingPercent: params.packing ? Math.round((calculateTotalsWithPacking(params.pallets, true).packingExtra / vehicle.capacityM3) * 100) : 0
   };
 }
 
@@ -287,39 +288,26 @@ export function orientedHeight(item: LoadItem): number {
 }
 
 export function recommendVehicle(items: LoadItem[]): VehicleType {
-  // Для квартирных переездов используем только Газели 7/12/18 (все до 1500 кг)
   const gazelleOrder: VehicleType[] = ['gazelle7', 'gazelle12', 'gazelle18'];
   const fullOrder: VehicleType[] = ['gazelle7', 'gazelle12', 'gazelle18', 'van5', 'van6', 'truck'];
   const totals = calculateTotals(items);
-
-  // Если предметов нет — рекомендуем минимальную 7 м³
   if (items.length === 0) return 'gazelle7';
-
-  // Быстрый путь по объему: для квартирных переездов ориентируемся на стандарт 7/12/18
-  // Источники размеров: kuzovspec.ru (тент 3×1.9×1.5=~8м³), fb.ru (4.2×1.9×2.15=18м³), pereezdporossii.ru (3м-10-12м³, 4-5м-16-18м³)
   const volumeOrder = gazelleOrder.find((key) => {
     const v = VEHICLES[key];
-    // Учитываем только объем и вес (до 1500 кг для всех газелей)
     return totals.volume <= v.capacityM3 * 0.98 && totals.weight <= v.capacityKg * 0.98;
   });
   if (volumeOrder) {
-    // Дополнительная проверка высоты самого высокого предмета
     const maxItemHeight = items.reduce((max, item) => Math.max(max, orientedHeight(item)), 0);
     const fitsHeight = VEHICLES[volumeOrder].cargoHeight >= maxItemHeight;
     if (fitsHeight) return volumeOrder;
   }
-
-  // Если не влезло в газели — ищем по всем машинам с проверкой габаритов
   const maxTop = items.reduce((max, item) => Math.max(max, item.position[1] + orientedHeight(item)), 0);
   const maxX = items.reduce((max, item) => Math.max(max, Math.abs(item.position[0]) + orientedFootprint(item).length / 2), 0);
   const maxZ = items.reduce((max, item) => Math.max(max, Math.abs(item.position[2]) + orientedFootprint(item).width / 2), 0);
-
-  return (
-    fullOrder.find((key) => {
-      const v = VEHICLES[key];
-      return totals.volume <= v.capacityM3 * 0.94 && totals.weight <= v.capacityKg * 0.94 && maxTop <= v.cargoHeight && maxX <= v.cargoLength / 2 && maxZ <= v.cargoWidth / 2;
-    }) || 'gazelle18'
-  );
+  return (fullOrder.find((key) => {
+    const v = VEHICLES[key];
+    return totals.volume <= v.capacityM3 * 0.94 && totals.weight <= v.capacityKg * 0.94 && maxTop <= v.cargoHeight && maxX <= v.cargoLength / 2 && maxZ <= v.cargoWidth / 2;
+  }) || 'gazelle18');
 }
 
 export function recommendVehicleForVolume(volumeM3: number): VehicleType {
@@ -331,7 +319,6 @@ export function recommendVehicleForVolume(volumeM3: number): VehicleType {
 export function getStackHeightAt(palletId: string, x: number, z: number, pallets: LoadItem[]): number {
   const item = pallets.find((p) => p.id === palletId);
   if (!item) return 0.04;
-  
   const fp = orientedFootprint(item);
   const halfL = fp.length / 2;
   const halfW = fp.width / 2;
@@ -339,28 +326,21 @@ export function getStackHeightAt(palletId: string, x: number, z: number, pallets
   const maxX = x + halfL;
   const minZ = z - halfW;
   const maxZ = z + halfW;
-  
   let maxTopY = item.kind === 'pallet' ? 0.072 : 0.04;
-  
   pallets.forEach((other) => {
     if (other.id === palletId) return;
-    
     const otherFp = orientedFootprint(other);
     const otherMinX = other.position[0] - otherFp.length / 2;
     const otherMaxX = other.position[0] + otherFp.length / 2;
     const otherMinZ = other.position[2] - otherFp.width / 2;
     const otherMaxZ = other.position[2] + otherFp.width / 2;
-    
     const overlap = minX < otherMaxX && maxX > otherMinX && minZ < otherMaxZ && maxZ > otherMinZ;
     if (overlap) {
       const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
       const otherTopY = other.position[1] + otherHeight;
-      if (otherTopY > maxTopY) {
-        maxTopY = otherTopY;
-      }
+      if (otherTopY > maxTopY) maxTopY = otherTopY;
     }
   });
-  
   return maxTopY;
 }
 
@@ -369,13 +349,7 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
   const L = vehicle.cargoLength;
   const W = vehicle.cargoWidth;
   const H = vehicle.cargoHeight;
-
-  const rawItems = items.map(item => ({
-    ...item,
-    position: [0, 0, 0] as [number, number, number],
-    rotation: [0, 0, 0] as [number, number, number]
-  }));
-
+  const rawItems = items.map(item => ({ ...item, position: [0, 0, 0] as [number, number, number], rotation: [0, 0, 0] as [number, number, number] }));
   const getPriority = (kind: string) => {
     if (kind === 'fridge') return 1;
     if (kind === 'safe' || kind === 'piano') return 2;
@@ -384,48 +358,30 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     if (kind === 'pallet') return 5;
     return 6;
   };
-
   const sorted = [...rawItems].sort((a, b) => {
     const pA = getPriority(a.kind);
     const pB = getPriority(b.kind);
     if (pA !== pB) return pA - pB;
     return itemVolume(b) - itemVolume(a);
   });
-
   const placed: LoadItem[] = [];
-
-  // Магнит к стенам: если предмет в 5см от стены — прилипает
   const WALL_SNAP = 0.06;
 
   sorted.forEach((item) => {
-    if (item.dimensions.height > H && item.canLaySide) {
-      item.rotation = [0, 0, Math.PI / 2];
-    }
-
+    if (item.dimensions.height > H && item.canLaySide) item.rotation = [0, 0, Math.PI / 2];
     const isLong = item.kind === 'sofa' || item.kind === 'bed' || item.kind === 'bike' || item.kind === 'table';
-    if (isLong) {
-      item.rotation = [item.rotation[0], Math.PI / 2, item.rotation[2]];
-    }
+    if (isLong) item.rotation = [item.rotation[0], Math.PI / 2, item.rotation[2]];
 
     const fp = orientedFootprint(item);
     const itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
-
-    let bestX = 0;
-    let bestY = item.kind === 'pallet' ? 0.072 : 0.04;
-    let bestZ = 0;
-    let found = false;
-
+    let bestX = 0, bestY = item.kind === 'pallet' ? 0.072 : 0.04, bestZ = 0, found = false;
     const candidateZs: number[] = [];
     if (isLong) {
       candidateZs.push(-W / 2 + fp.width / 2 + WALL_SNAP);
       candidateZs.push(W / 2 - fp.width / 2 - WALL_SNAP);
-      for (let z = -W / 2 + fp.width / 2 + 0.1; z <= W / 2 - fp.width / 2; z += 0.2) {
-        candidateZs.push(z);
-      }
+      for (let z = -W / 2 + fp.width / 2 + 0.1; z <= W / 2 - fp.width / 2; z += 0.2) candidateZs.push(z);
     } else {
-      for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.15) {
-        candidateZs.push(z);
-      }
+      for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.15) candidateZs.push(z);
     }
 
     for (let x = -L / 2 + fp.length / 2; x <= L / 2 - fp.length / 2; x += 0.1) {
@@ -433,34 +389,25 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
       for (const z of candidateZs) {
         let maxTopY = item.kind === 'pallet' ? 0.072 : 0.04;
         let canStackOnTop = true;
-
         for (const other of placed) {
           const otherFp = orientedFootprint(other);
           const otherMinX = other.position[0] - otherFp.length / 2;
           const otherMaxX = other.position[0] + otherFp.length / 2;
           const otherMinZ = other.position[2] - otherFp.width / 2;
           const otherMaxZ = other.position[2] + otherFp.width / 2;
-
-          const overlap = (x - fp.length / 2) < otherMaxX && (x + fp.length / 2) > otherMinX &&
-                          (z - fp.width / 2) < otherMaxZ && (z + fp.width / 2) > otherMinZ;
-
+          const overlap = (x - fp.length / 2) < otherMaxX && (x + fp.length / 2) > otherMinX && (z - fp.width / 2) < otherMaxZ && (z + fp.width / 2) > otherMinZ;
           if (overlap) {
             const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
             const otherTopY = other.position[1] + otherHeight;
             if (otherTopY > maxTopY) {
               maxTopY = otherTopY;
-              if (!other.stackable || item.weight > other.maxStackWeight) {
-                canStackOnTop = false;
-              }
+              if (!other.stackable || item.weight > other.maxStackWeight) canStackOnTop = false;
             }
           }
         }
-
         if (canStackOnTop && (maxTopY + itemHeight) <= H) {
           let has3DCollision = false;
-          const aMinY = maxTopY;
-          const aMaxY = maxTopY + itemHeight;
-
+          const aMinY = maxTopY, aMaxY = maxTopY + itemHeight;
           for (const other of placed) {
             const otherFp = orientedFootprint(other);
             const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
@@ -470,39 +417,34 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
             const otherMaxZ = other.position[2] + otherFp.width / 2;
             const otherMinY = other.position[1];
             const otherMaxY = other.position[1] + otherHeight;
-
-            const overlapXZ = (x - fp.length / 2) < otherMaxX && (x + fp.length / 2) > otherMinX &&
-                              (z - fp.width / 2) < otherMaxZ && (z + fp.width / 2) > otherMinZ;
+            const overlapXZ = (x - fp.length / 2) < otherMaxX && (x + fp.length / 2) > otherMinX && (z - fp.width / 2) < otherMaxZ && (z + fp.width / 2) > otherMinZ;
             const overlapY = aMinY < otherMaxY && aMaxY > otherMinY;
-
-            if (overlapXZ && overlapY) {
-              has3DCollision = true;
-              break;
-            }
+            if (overlapXZ && overlapY) { has3DCollision = true; break; }
           }
-
-          if (!has3DCollision) {
-            bestX = x;
-            bestY = maxTopY;
-            bestZ = z;
-            found = true;
-            break;
-          }
+          if (!has3DCollision) { bestX = x; bestY = maxTopY; bestZ = z; found = true; break; }
         }
       }
     }
 
     if (found) {
-      // Прилипание к стенам
-      const distToLeft = Math.abs(bestZ - (-W / 2 + fp.width / 2));
-      const distToRight = Math.abs(bestZ - (W / 2 - fp.width / 2));
-      const distToFront = Math.abs(bestX - (-L / 2 + fp.length / 2));
-      const distToBack = Math.abs(bestX - (L / 2 - fp.length / 2));
-      if (distToLeft < WALL_SNAP) bestZ = -W / 2 + fp.width / 2;
-      if (distToRight < WALL_SNAP) bestZ = W / 2 - fp.width / 2;
-      if (distToFront < WALL_SNAP) bestX = -L / 2 + fp.length / 2;
-      if (distToBack < WALL_SNAP) bestX = L / 2 - fp.length / 2;
+      // Магнит к стенам с повторной проверкой коллизии
+      let snappedX = bestX, snappedZ = bestZ;
+      if (Math.abs(bestZ - (-W / 2 + fp.width / 2)) < WALL_SNAP) snappedZ = -W / 2 + fp.width / 2;
+      if (Math.abs(bestZ - (W / 2 - fp.width / 2)) < WALL_SNAP) snappedZ = W / 2 - fp.width / 2;
+      if (Math.abs(bestX - (-L / 2 + fp.length / 2)) < WALL_SNAP) snappedX = -L / 2 + fp.length / 2;
+      if (Math.abs(bestX - (L / 2 - fp.length / 2)) < WALL_SNAP) snappedX = L / 2 - fp.length / 2;
 
+      // Проверяем не создаёт ли снап новую коллизию
+      let snapCollision = false;
+      for (const other of placed) {
+        const otherFp = orientedFootprint(other);
+        const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
+        const overlap = (snappedX - fp.length / 2) < (other.position[0] + otherFp.length / 2) && (snappedX + fp.length / 2) > (other.position[0] - otherFp.length / 2) &&
+                        (snappedZ - fp.width / 2) < (other.position[2] + otherFp.width / 2) && (snappedZ + fp.width / 2) > (other.position[2] - otherFp.width / 2) &&
+                        bestY < (other.position[1] + otherHeight) && (bestY + itemHeight) > other.position[1];
+        if (overlap) { snapCollision = true; break; }
+      }
+      if (!snapCollision) { bestX = snappedX; bestZ = snappedZ; }
       item.position = [bestX, bestY, bestZ];
     } else {
       const idx = placed.length;
@@ -510,11 +452,10 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     }
     placed.push(item);
   });
-
   return placed;
 }
 
-// === Инженерные расчеты: центр тяжести, нагрузка на оси, дверь ===
+// === Инженерные расчеты ===
 
 export function computeCenterOfGravity(items: LoadItem[]): { x: number; y: number; z: number; weight: number } {
   if (items.length === 0) return { x: 0, y: 0, z: 0, weight: 0 };
@@ -530,45 +471,28 @@ export function computeCenterOfGravity(items: LoadItem[]): { x: number; y: numbe
   return { x: sumX / sumW, y: sumY / sumW, z: sumZ / sumW, weight: sumW };
 }
 
-export function computeAxleLoads(items: LoadItem[], vehicleType: VehicleType): { frontKg: number; rearKg: number; leftKg: number; rightKg: number; imbalancePercent: number; lateralPercent: number; isOverloadedFront: boolean; isOverloadedRear: boolean; isLateralRisk: boolean } {
+export function computeAxleLoads(items: LoadItem[], vehicleType: VehicleType): { frontKg: number; rearKg: number; leftKg: number; rightKg: number; imbalancePercent: number; lateralPercent: number; isOverloadedFront: boolean; isOverloadedRear: boolean; isLateralRisk: boolean; isTippingRisk: boolean } {
   const vehicle = VEHICLES[vehicleType];
   const L = vehicle.cargoLength;
   const W = vehicle.cargoWidth;
-  // Инженерная модель: передняя ось -L/2 -0.9м от начала кузова, задняя -L/2 + L*0.32 (типично для Газели, база ~3.1-3.7м)
   const frontAxleX = -L / 2 - 0.9;
   const rearAxleX = -L / 2 + L * 0.32;
   const wheelbase = Math.abs(rearAxleX - frontAxleX);
-
-  let totalWeight = 0;
-  let momentFront = 0; // момент относительно передней оси
-  let leftWeight = 0;
-  let rightWeight = 0;
-
+  let totalWeight = 0, momentFront = 0;
   items.forEach((item) => {
     const w = itemWeight(item);
-    const x = item.position[0];
-    const z = item.position[2];
     totalWeight += w;
-    const distFromFront = x - frontAxleX; // если x за задней осью, dist > wheelbase
+    const distFromFront = item.position[0] - frontAxleX;
     momentFront += w * distFromFront;
-    if (z < 0) leftWeight += w * (Math.abs(z) / (W/2)); else rightWeight += w * (Math.abs(z) / (W/2));
-    // Упрощенно для боковой: считаем вес на сторону пропорционально смещению от центра
   });
-
-  // Реакция на задней оси: Rr = sum(Wi * (Xi - Xf)) / wheelbase
   const rearKgRaw = wheelbase > 0 ? momentFront / wheelbase : totalWeight;
   const frontKgRaw = totalWeight - rearKgRaw;
-
-  // Боковой баланс: центр Z взвешенный
   const cog = computeCenterOfGravity(items);
-  const lateralPercent = W > 0 ? Math.abs(cog.z) / (W/2) * 100 : 0;
-
-  // Для отображения left/right используем распределение от COG
+  const lateralPercent = W > 0 ? Math.abs(cog.z) / (W / 2) * 100 : 0;
   const leftKg = totalWeight * (0.5 - cog.z / W);
   const rightKg = totalWeight * (0.5 + cog.z / W);
-
   const imbalance = totalWeight === 0 ? 0 : Math.abs(frontKgRaw - rearKgRaw) / Math.max(1, Math.abs(frontKgRaw) + Math.abs(rearKgRaw)) * 100;
-
+  const tippingRisk = lateralPercent > 35 && cog.y > vehicle.cargoHeight * 0.6;
   return {
     frontKg: Math.round(frontKgRaw),
     rearKg: Math.round(rearKgRaw),
@@ -578,68 +502,110 @@ export function computeAxleLoads(items: LoadItem[], vehicleType: VehicleType): {
     lateralPercent: Math.round(lateralPercent),
     isOverloadedFront: frontKgRaw > totalWeight * 0.65 || frontKgRaw < -totalWeight * 0.1,
     isOverloadedRear: rearKgRaw > totalWeight * 0.85,
-    isLateralRisk: lateralPercent > 35
+    isLateralRisk: lateralPercent > 35,
+    isTippingRisk: tippingRisk
   };
 }
 
-export function canFitThroughDoor(item: LoadItem, vehicleType: VehicleType): { fits: boolean; reason?: string } {
+export function canFitThroughDoor(item: LoadItem, vehicleType: VehicleType): { fits: boolean; reason?: string; fitsRotated?: boolean } {
   const vehicle = VEHICLES[vehicleType];
-  const doorWidth = vehicle.cargoWidth * 0.92; // проем чуть уже кузова
-  const doorHeight = vehicle.cargoHeight * 0.94;
+  // Реалистичный проем: ширина на 10-12% уже кузова, высота — на 8-12% ниже + ограничение порога 1.92м для высоких кузовов
+  const doorWidth = vehicle.cargoWidth * 0.90; // рама съедает 10%
+  const rawDoorHeight = vehicle.cargoHeight * 0.88;
+  const doorHeight = vehicle.cargoHeight > 1.9 ? Math.min(rawDoorHeight, 1.92) : rawDoorHeight; // порог 1.92м для Газели 4м+
   const fp = orientedFootprint(item);
   const h = orientedHeight(item);
+  const diagDoor = Math.sqrt(doorWidth * doorWidth + doorHeight * doorHeight);
+  const diagItemFace1 = Math.sqrt(fp.length * fp.length + h * h);
+  const diagItemFace2 = Math.sqrt(fp.width * fp.width + h * h);
+  const diagItemBase = Math.sqrt(fp.length * fp.length + fp.width * fp.width);
 
-  if (fp.width > doorWidth && fp.length > doorWidth) {
-    return { fits: false, reason: `ширина ${fp.width.toFixed(2)} м > проем ${doorWidth.toFixed(2)} м` };
+  // Проверка обеих ориентаций в плане + диагональ, с учетом canLaySide
+  const orientations: Array<{ w: number; h: number }> = [
+    { w: fp.length, h: h },
+    { w: fp.width, h: h },
+  ];
+  if (item.canLaySide) {
+    orientations.push({ w: fp.length, h: fp.width });
+    orientations.push({ w: fp.width, h: fp.length });
+    orientations.push({ w: h, h: fp.length });
+    orientations.push({ w: h, h: fp.width });
   }
-  if (h > doorHeight) {
-    return { fits: false, reason: `высота ${h.toFixed(2)} м > проем ${doorHeight.toFixed(2)} м` };
+
+  for (const o of orientations) {
+    if (o.w <= doorWidth && o.h <= doorHeight) return { fits: true, fitsRotated: o.w !== fp.length || o.h !== h };
+    if (o.w <= doorHeight && o.h <= doorWidth) return { fits: true, fitsRotated: true };
+  }
+
+  // Диагональная проверка — можно ли пронести под углом
+  if (diagItemFace1 <= diagDoor && fp.width <= doorWidth) return { fits: true, fitsRotated: true };
+  if (diagItemFace2 <= diagDoor && fp.length <= doorWidth) return { fits: true, fitsRotated: true };
+  if (diagItemBase <= doorWidth && h <= doorHeight) return { fits: true, fitsRotated: true };
+
+  // Не проходит
+  if (fp.width > doorWidth && fp.length > doorWidth) {
+    return { fits: false, reason: `ширина ${Math.min(fp.width, fp.length).toFixed(2)}м > проем ${doorWidth.toFixed(2)}м` };
+  }
+  if (h > doorHeight && Math.min(fp.length, fp.width) > doorWidth) {
+    return { fits: false, reason: `высота ${h.toFixed(2)}м > проем ${doorHeight.toFixed(2)}м, диагональ ${diagItemFace1.toFixed(2)}м > ${diagDoor.toFixed(2)}м` };
   }
   if (!item.canLaySide && (Math.abs(item.dimensions.length - fp.length) > 0.01 || Math.abs(item.dimensions.width - fp.width) > 0.01)) {
-    // предмет положили боком но нельзя
     return { fits: false, reason: 'нельзя класть боком' };
   }
-  return { fits: true };
+  return { fits: false, reason: `не проходит в проем ${doorWidth.toFixed(2)}×${doorHeight.toFixed(2)}м` };
 }
 
 export function getDistanceToWalls(item: LoadItem, vehicleType: VehicleType): { left: number; right: number; front: number; back: number; top: number } {
   const vehicle = VEHICLES[vehicleType];
-  const L = vehicle.cargoLength;
-  const W = vehicle.cargoWidth;
-  const H = vehicle.cargoHeight;
-  const fp = orientedFootprint(item);
-  const h = orientedHeight(item);
-
-  const minX = item.position[0] - fp.length / 2;
-  const maxX = item.position[0] + fp.length / 2;
-  const minZ = item.position[2] - fp.width / 2;
-  const maxZ = item.position[2] + fp.width / 2;
+  const L = vehicle.cargoLength; const W = vehicle.cargoWidth; const H = vehicle.cargoHeight;
+  const fp = orientedFootprint(item); const h = orientedHeight(item);
+  const minX = item.position[0] - fp.length / 2; const maxX = item.position[0] + fp.length / 2;
+  const minZ = item.position[2] - fp.width / 2; const maxZ = item.position[2] + fp.width / 2;
   const maxY = item.position[1] + h;
+  return { front: Math.abs(minX - (-L / 2)), back: Math.abs(L / 2 - maxX), left: Math.abs(minZ - (-W / 2)), right: Math.abs(W / 2 - maxZ), top: Math.abs(H - maxY) };
+}
 
-  return {
-    front: Math.abs(minX - (-L / 2)),
-    back: Math.abs(L / 2 - maxX),
-    left: Math.abs(minZ - (-W / 2)),
-    right: Math.abs(W / 2 - maxZ),
-    top: Math.abs(H - maxY)
-  };
+export function computeFloorHeatmap(items: LoadItem[], vehicleType: VehicleType, grid: number = 10): number[][] {
+  const vehicle = VEHICLES[vehicleType];
+  const L = vehicle.cargoLength; const W = vehicle.cargoWidth;
+  const heat: number[][] = Array.from({ length: grid }, () => Array.from({ length: grid }, () => 0));
+  const cellL = L / grid; const cellW = W / grid;
+  items.forEach((item) => {
+    const w = itemWeight(item);
+    const fp = orientedFootprint(item);
+    const minX = item.position[0] - fp.length / 2; const maxX = item.position[0] + fp.length / 2;
+    const minZ = item.position[2] - fp.width / 2; const maxZ = item.position[2] + fp.width / 2;
+    const x0 = Math.max(0, Math.floor((minX + L / 2) / cellL));
+    const x1 = Math.min(grid - 1, Math.floor((maxX + L / 2) / cellL));
+    const z0 = Math.max(0, Math.floor((minZ + W / 2) / cellW));
+    const z1 = Math.min(grid - 1, Math.floor((maxZ + W / 2) / cellW));
+    for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) heat[x][z] += w / ((x1 - x0 + 1) * (z1 - z0 + 1));
+  });
+  return heat;
 }
 
 export function generateSharePayload(pallets: LoadItem[], vehicleType: VehicleType): string {
   const minimal = pallets.map((p) => ({ k: p.kind, p: p.position.map((v) => Math.round(v * 100) / 100), r: p.rotation.map((v) => Math.round(v * 100) / 100) }));
-  const data = { v: vehicleType, items: minimal };
-  try {
-    return btoa(encodeURIComponent(JSON.stringify(data)));
-  } catch {
-    return '';
-  }
+  const data = { v: vehicleType, items: minimal, ver: 3 };
+  try { return btoa(encodeURIComponent(JSON.stringify(data))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); } catch { return ''; }
 }
 
 export function parseSharePayload(payload: string): { vehicleType: VehicleType; items: Array<{ kind: string; position: [number, number, number]; rotation: [number, number, number] }> } | null {
   try {
-    const json = decodeURIComponent(atob(payload));
-    return JSON.parse(json);
-  } catch {
-    return null;
-  }
+    let b64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    while (b64.length % 4) b64 += '=';
+    const json = decodeURIComponent(atob(b64));
+    const parsed = JSON.parse(json);
+    return parsed;
+  } catch { return null; }
+}
+
+export function checkOverload(items: LoadItem[], vehicleType: VehicleType): { overloaded: boolean; weightPercent: number; volumePercent: number; message?: string } {
+  const vehicle = VEHICLES[vehicleType];
+  const totals = calculateTotals(items);
+  const weightPercent = (totals.weight / vehicle.capacityKg) * 100;
+  const volumePercent = (totals.volume / vehicle.capacityM3) * 100;
+  if (weightPercent > 100) return { overloaded: true, weightPercent, volumePercent, message: `Перегруз по весу ${totals.weight}кг > ${vehicle.capacityKg}кг` };
+  if (volumePercent > 100) return { overloaded: true, weightPercent, volumePercent, message: `Перегруз по объему ${totals.volume.toFixed(1)}м³ > ${vehicle.capacityM3}м³` };
+  return { overloaded: false, weightPercent, volumePercent };
 }

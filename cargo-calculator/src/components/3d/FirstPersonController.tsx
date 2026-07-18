@@ -50,7 +50,9 @@ export function FirstPersonController() {
   }, [setCameraMode]);
 
   useFrame((_, delta) => {
-    if (!isFirstPerson && cameraMode !== 'inside' && cameraMode !== 'cabin') return;
+    const joystick = (window as any).__joystick as { x: number; y: number } | undefined;
+    const hasJoystick = joystick && (Math.abs(joystick.x) > 0.01 || Math.abs(joystick.y) > 0.01);
+    if (!isFirstPerson && cameraMode !== 'inside' && cameraMode !== 'cabin' && !hasJoystick) return;
     if (!controls) return;
 
     const vehicle = VEHICLES[vehicleType];
@@ -73,9 +75,14 @@ export function FirstPersonController() {
     if (keys.current.q) velocity.current.y -= speed * delta;
     if (keys.current.e) velocity.current.y += speed * delta;
 
+    // Джойстик мобилы
+    if (joystick) {
+      velocity.current.add(forward.clone().multiplyScalar(-joystick.y * speed * delta * 1.2));
+      velocity.current.add(right.clone().multiplyScalar(joystick.x * speed * delta * 1.2));
+    }
+
     if (velocity.current.length() > 0) {
       const newPos = camera.position.clone().add(velocity.current);
-      // Коллизия со стенами кузова (упрощенно)
       const minX = -L / 2 + 0.25;
       const maxX = L / 2 - 0.25;
       const minZ = -W / 2 + 0.25;
@@ -89,7 +96,6 @@ export function FirstPersonController() {
 
       camera.position.copy(newPos);
       if (controls.target) {
-        // Двигаем target вместе с камерой чтобы не крутилась
         controls.target.add(velocity.current);
         controls.target.x = THREE.MathUtils.clamp(controls.target.x, minX, maxX);
         controls.target.z = THREE.MathUtils.clamp(controls.target.z, minZ, maxZ);
