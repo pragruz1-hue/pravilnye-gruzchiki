@@ -21,6 +21,7 @@ export function PalletBuilder() {
   const liftSelected = useCalculatorStore((state) => state.liftSelected);
   const rotateSelectedY = useCalculatorStore((state) => state.rotateSelectedY);
   const clearCalculator = useCalculatorStore((state) => state.clearCalculator);
+  const fillEmptySpace = useCalculatorStore((state) => state.fillEmptySpace);
   const [palletType, setPalletType] = useState<PalletType>('EUR');
   const [boxCount, setBoxCount] = useState(8);
   const [boxSize, setBoxSize] = useState<BoxSize>('M');
@@ -75,12 +76,23 @@ export function PalletBuilder() {
       ) : (
         <div className="mb-4 rounded-2xl bg-emerald-50 p-3 ring-1 ring-emerald-200">
           <div className="text-xs font-black text-emerald-800">✅ Автозаполнение машины</div>
-          <div className="mt-1 text-xs text-emerald-700">При выборе квартиры машина подбирается автоматически под стандартный объем. Вес до 1500 кг на любую газель. Предметы теперь не перекрываются и не дают “нельзя поставить” при пустом старте — упаковка пересчитана.</div>
+          <div className="mt-1 text-xs text-emerald-700">При выборе квартиры пустоты автоматически заполняются коробками — видно как примерно будет выглядеть загруженная машина. Можно также нажать «Заполнить коробками» вручную. Вес до 1500 кг на любую газель.</div>
         </div>
       )}
 
       <div className="mb-4 rounded-2xl bg-slate-950 p-3 text-white">
-        <div className="mb-2 text-xs font-black uppercase tracking-wide text-orange-300">Библиотека квартирного переезда</div>
+        <div className="mb-2 flex items-center justify-between">
+          <div className="text-xs font-black uppercase tracking-wide text-orange-300">Библиотека квартирного переезда</div>
+          {pallets.length > 0 && (
+            <button
+              onClick={fillEmptySpace}
+              className="rounded-full bg-orange-500 px-3 py-1 text-[10px] font-black text-white shadow hover:bg-orange-600"
+              title="Заполнить пустоты коробками для наглядности"
+            >
+              📦 Заполнить коробками
+            </button>
+          )}
+        </div>
         <div className="grid grid-cols-2 gap-2 xl:grid-cols-3">
           {CATALOG.map((item) => (
             <button key={item.kind} onClick={() => addCatalogItem(item.kind)} className="rounded-xl bg-white/10 p-2 text-left transition hover:bg-white/20">

@@ -619,3 +619,92 @@ export function checkOverload(items: LoadItem[], vehicleType: VehicleType): { ov
   if (volumePercent > 100) return { overloaded: true, weightPercent, volumePercent, message: `Перегруз по объему ${totals.volume.toFixed(1)}м³ > ${vehicle.capacityM3}м³` };
   return { overloaded: false, weightPercent, volumePercent };
 }
+
+// === Автозаполнение пустот коробками ===
+
+interface BoxTemplate {
+  size: 'S' | 'M' | 'L';
+  dims: { length: number; width: number; height: number };
+  weight: number;
+  volume: number;
+}
+
+const FILL_BOX_TEMPLATES: BoxTemplate[] = [
+  { size: 'S', dims: { length: 0.4, width: 0.3, height: 0.3 }, weight: 6, volume: 0.4*0.3*0.3 },
+  { size: 'M', dims: { length: 0.6, width: 0.4, height: 0.4 }, weight: 12, volume: 0.6*0.4*0.4 },
+  { size: 'L', dims: { length: 0.8, width: 0.6, height: 0.6 }, weight: 22, volume: 0.8*0.6*0.6 }
+];
+
+/** Generate virtual box items to fill remaining empty space in the vehicle.
+ *  Returns an array of Omit<LoadItem, 'id'> that can be added and re-packed. */
+export function generateFillBoxes(items: LoadItem[], vehicleType: VehicleType): Array<Omit<LoadItem, 'id'>> {
+  const vehicle = VEHICLES[vehicleType];
+  const MAX_FILL = 0.92; // fill up to 92% capacity to leave realistic margins
+  const totals = calculateTotals(items);
+  const freeVol = vehicle.capacityM3 * MAX_FILL - totals.volume;
+  const freeWeight = vehicle.capacityKg * MAX_FILL - totals.weight;
+
+  if (freeVol < 0.05 || freeWeight < 5) return []; // not enough room for even one box
+
+  const boxes: Array<Omit<LoadItem, 'id'>> = [];
+  let usedVol = 0;
+  let usedWeight = 0;
+
+  // Mix of sizes: prefer M as most realistic, then S for small gaps, L for bulk
+  const mix: Array<{ template: BoxTemplate; ratio: number }> = [
+    { template: FILL_BOX_TEMPLATES[1], ratio: 0.5 }, // M — 50%
+    { template: FILL_BOX_TEMPLATES[0], ratio: 0.3 }, // S — 30%
+    { template: FILL_BOX_TEMPLATES[2], ratio: 0.2 }, // L — 20%
+  ];
+
+  let iterations = 0;
+  const MAX_ITER = 200; // safety cap
+
+  while (usedVol < freeVol - 0.02 && usedWeight < freeWeight - 3 && iterations < MAX_ITER) {
+    iterations++;
+    // Pick template based on remaining space
+    let template: BoxTemplate;
+    if (freeVol - usedVol < 0.15) {
+      template = FILL_BOX_TEMPLATES[0]; // only S size fits
+    } else if (freeVol - usedVol < 0.35) {
+      template = FILL_BOX_TEMPLATES[1]; // M
+    } else {
+      template = FILL_BOX_TEMPLATES[2]; // L for bulk
+    }
+
+    const addVol = template.volume;
+    const addWeight = template.weight;
+    if (usedVol + addVol > freeVol || usedWeight + addWeight > freeWeight) {
+      // Try smaller box
+      if (template.size === 'L') {
+        template = FILL_BOX_TEMPLATES[1];
+      } else if (template.size === 'M') {
+        template = FILL_BOX_TEMPLATES[0];
+      } else {
+        break; // even S doesn't fit
+      }
+      if (usedVol + template.volume > freeVol || usedWeight + template.weight > freeWeight) break;
+    }
+
+    usedVol += template.volume;
+    usedWeight += template.weight;
+    boxes.push({
+      kind: 'box',
+      name: `Коробка ${template.size}`,
+      type: 'STANDARD' as any,
+      position: [0, 0.04, 0],
+      rotation: [0, 0, 0],
+      weight: template.weight,
+      boxes: [],
+      dimensions: template.dims,
+      material: 'cardboard' as any,
+      wrapped: false,
+      stackable: true,
+      maxStackWeight: 60,
+      canLaySide: true,
+      fragile: false
+    });
+  }
+
+  return boxes;
+}
