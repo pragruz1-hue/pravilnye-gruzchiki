@@ -147,14 +147,16 @@ describe('packItemsInVehicle', () => {
   });
 
   it('multiple boxes stack on top of each other', () => {
-
-    const boxes = Array.from({ length: 5 }, (_, i) =>
+    
+    const boxes = Array.from({ length: 30 }, (_, i) =>
       makeItem({ id: `box${i}`, dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 10 })
     );
     const result = packItemsInVehicle(boxes, 'gazelle12');
-    expect(result.placed.length).toBe(5);
+    expect(result.placed.length).toBe(30);
     expect(result.overflow.length).toBe(0);
+    const onFloor = result.placed.filter(b => b.position[1] <= 0.05);
     const stacked = result.placed.filter(b => b.position[1] > 0.05);
+    expect(onFloor.length).toBeGreaterThan(0);
     expect(stacked.length).toBeGreaterThan(0);
   });
 });

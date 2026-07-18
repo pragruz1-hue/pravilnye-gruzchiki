@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ApartmentPreset, BoxSize, BoxType, LoadItem, OfficePreset, PalletType } from '../../types';
+import { ApartmentPreset, BoxSize, BoxType, LoadItem, OfficePreset, PalletType, TruckPreset } from '../../types';
 import { CATALOG, makePallet, useCalculatorStore } from '../../store/useCalculatorStore';
 import { APARTMENT_STANDARDS, OFFICE_STANDARDS, VEHICLES } from '../../utils/calculations';
 
@@ -15,11 +15,18 @@ const officePresets: Array<{ id: OfficePreset; label: string; hint: string; volu
   { id: 'officeL', label: 'Офис+', hint: '50 м²', volume: '16 м³ · 1500 кг' }
 ];
 
+const truckPresets: Array<{ id: TruckPreset; label: string; description: string; volume: string }> = [
+  { id: 'pallets', label: '🚛 Поддоны', description: 'европоддоны в стретч-плёнке по полу + коробки сверху', volume: '86 м³ · до 20 т' },
+  { id: 'bulk', label: '🚛 Навалом', description: 'коробки без поддонов — загрузка до потолка', volume: '86 м³ · до 20 т' }
+];
+
 export function PalletBuilder() {
   const addPallet = useCalculatorStore((state) => state.addPallet);
   const addCatalogItem = useCalculatorStore((state) => state.addCatalogItem);
   const applyApartmentPreset = useCalculatorStore((state) => state.applyApartmentPreset);
   const applyOfficePreset = useCalculatorStore((state) => state.applyOfficePreset);
+  const applyTruckPreset = useCalculatorStore((state) => state.applyTruckPreset);
+  const vehicleType = useCalculatorStore((state) => state.vehicleType);
   const moveType = useCalculatorStore((state) => state.moveType);
   const activePreset = useCalculatorStore((state) => state.activePreset);
   const removePallet = useCalculatorStore((state) => state.removePallet);
@@ -91,6 +98,23 @@ export function PalletBuilder() {
             </button>
           );
         })}
+      </div>
+
+      <div className="mb-2 text-[11px] font-black uppercase tracking-wide text-gray-500">Коммерческие перевозки — фура{vehicleType === 'refrigerator' ? ' / рефрижератор' : ''}</div>
+      <div className="mb-4 grid grid-cols-2 gap-2">
+        {truckPresets.map((preset) => (
+          <button
+            key={preset.id}
+            onClick={() => applyTruckPreset(preset.id)}
+            className={`rounded-2xl border border-gray-200 bg-white/70 p-3 text-left transition hover:border-emerald-300 ${moveType === 'commercial' && pallets.some((p) => p.kind === (preset.id === 'pallets' ? 'pallet' : 'box')) && pallets.length > 20 ? 'border-emerald-500 bg-emerald-50 shadow-md ring-2 ring-emerald-200' : ''}`}
+            title="Применится к выбранной фуре или рефрижератору — иначе подставится фура 20т"
+          >
+            <span className="block text-lg font-black text-gray-950">{preset.label}</span>
+            <span className="block text-xs font-bold text-gray-600">{preset.description}</span>
+            <span className="mt-1 block text-[11px] font-black text-emerald-700">{preset.volume}</span>
+            <span className="mt-1 block text-[10px] text-gray-400">Машина: {vehicleType === 'refrigerator' ? 'Рефрижератор' : VEHICLES.truck.label}</span>
+          </button>
+        ))}
       </div>
 
       {pallets.length === 0 ? (

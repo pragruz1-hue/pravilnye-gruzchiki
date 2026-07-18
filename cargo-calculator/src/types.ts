@@ -19,6 +19,7 @@ export type LoadItemKind = 'pallet' | 'box' | 'sofa' | 'wardrobe' | 'fridge' | '
 export type ApartmentPreset = 'oneRoom' | 'twoRoom' | 'threeRoom';
 export type OfficePreset = 'officeS' | 'officeM' | 'officeL';
 export type StandardPreset = ApartmentPreset | OfficePreset;
+export type TruckPreset = 'pallets' | 'bulk';
 
 export interface CargoBox {
   id: string;

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, OfficePreset, PalletType, ServicesState, StandardPreset, TripRange, VehicleType } from '../types';
+import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, OfficePreset, PalletType, ServicesState, StandardPreset, TripRange, TruckPreset, VehicleType } from '../types';
 import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, fillCargoWithBoxes, generateSharePayload, getStackHeightAt, OFFICE_STANDARDS, orientedHeight, packItemsInVehicle, recommendVehicle, STANDARDS, VEHICLES } from '../utils/calculations';
 
 interface CalculatorState {
@@ -56,6 +56,7 @@ interface CalculatorState {
   addCatalogItem: (kind: LoadItemKind) => void;
   applyApartmentPreset: (preset: ApartmentPreset) => void;
   applyOfficePreset: (preset: OfficePreset) => void;
+  applyTruckPreset: (preset: TruckPreset) => void;
   removePallet: (id: string) => void;
   updatePalletPosition: (id: string, position: [number, number, number]) => void;
   updatePalletRotation: (id: string, rotation: [number, number, number]) => void;
@@ -189,6 +190,23 @@ function buildOfficePreset(preset: OfficePreset): LoadItem[] {
   };
   const vehicle = OFFICE_STANDARDS[preset].recommendedVehicle;
   return layouts[preset].map(([kind, name], index) => ({ ...createLoadItem(kind, gridPosition(index, vehicle)), name, id: createId(kind) }));
+}
+
+function buildPalletLoad(vehicleType: VehicleType): LoadItem[] {
+  const vehicle = VEHICLES[vehicleType];
+  const items: LoadItem[] = [];
+  for (let i = 0; i < vehicle.palletCapacity; i += 1) {
+    items.push({
+      ...makePallet({ type: 'EUR', boxCount: 16, boxSize: 'M', boxType: 'standard', material: 'wood', wrapped: true, position: gridPosition(i, vehicleType) }),
+      id: createId('pallet')
+    });
+  }
+  return items;
+}
+
+function buildTruckLoad(preset: TruckPreset, vehicleType: VehicleType): LoadItem[] {
+  if (preset === 'pallets') return buildPalletLoad(vehicleType);
+  return [];
 }
 
 let lastPostTime = 0;
@@ -330,11 +348,15 @@ export const useCalculatorStore = create<CalculatorState>()(
         const st = get();
         const packed = packItemsInVehicle(rawItems, recommended);
         const result = fillCargoWithBoxes(packed.placed, recommended, () => createId('fill'));
-        const _oi5 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        const placedIds5 = new Set(result.placed.map((p) => p.id));
+        const mergedOverflow5 = [...packed.overflow, ...result.overflow]
+          .filter((o, i, arr) => arr.findIndex((x) => x.id === o.id) === i)
+          .filter((o) => !placedIds5.has(o.id));
+        const _oi5 = mergedOverflow5.length > 0 ? computeOverflowInfo(mergedOverflow5, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
         set({
           moveType: 'apartment',
           pallets: result.placed,
-          overflowItems: result.overflow,
+          overflowItems: mergedOverflow5,
           selectedPalletId: result.placed[0]?.id ?? null,
           activePreset: preset,
           recommendedVehicleType: recommended,
@@ -351,11 +373,15 @@ export const useCalculatorStore = create<CalculatorState>()(
         const st = get();
         const packed = packItemsInVehicle(rawItems, recommended);
         const result = fillCargoWithBoxes(packed.placed, recommended, () => createId('fill'));
-        const _oi5 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        const placedIds5 = new Set(result.placed.map((p) => p.id));
+        const mergedOverflow5 = [...packed.overflow, ...result.overflow]
+          .filter((o, i, arr) => arr.findIndex((x) => x.id === o.id) === i)
+          .filter((o) => !placedIds5.has(o.id));
+        const _oi5 = mergedOverflow5.length > 0 ? computeOverflowInfo(mergedOverflow5, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
         set({
           moveType: 'office',
           pallets: result.placed,
-          overflowItems: result.overflow,
+          overflowItems: mergedOverflow5,
           selectedPalletId: result.placed[0]?.id ?? null,
           activePreset: preset,
           recommendedVehicleType: recommended,
@@ -364,6 +390,32 @@ export const useCalculatorStore = create<CalculatorState>()(
           ...pushHistory(st)
         });
         get().calculatePrice();
+      },
+      applyTruckPreset: (preset) => {
+        const st = get();
+        const current = st.vehicleType;
+        const recommended = current === 'refrigerator' || current === 'truck' ? current : 'truck';
+        const rawItems = buildTruckLoad(preset, recommended);
+        const packed = packItemsInVehicle(rawItems, recommended);
+        const result = fillCargoWithBoxes(packed.placed, recommended, () => createId('fill'));
+        const placedIds = new Set(result.placed.map((p) => p.id));
+        const mergedOverflow = [...packed.overflow, ...result.overflow]
+          .filter((o, i, arr) => arr.findIndex((x) => x.id === o.id) === i)
+          .filter((o) => !placedIds.has(o.id));
+        const _oi = mergedOverflow.length > 0 ? computeOverflowInfo(mergedOverflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        set({
+          moveType: 'commercial',
+          pallets: result.placed,
+          overflowItems: mergedOverflow,
+          selectedPalletId: result.placed[0]?.id ?? null,
+          activePreset: null,
+          recommendedVehicleType: recommended,
+          vehicleType: recommended,
+          ..._oi,
+          ...pushHistory(st)
+        });
+        get().calculatePrice();
+        if (get().isSoundEnabled) { try { window.pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(40); } catch {} }
       },
       removePallet: (id) => {
         const st = get();
