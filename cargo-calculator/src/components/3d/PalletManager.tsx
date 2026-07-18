@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
 import { hasPalletCollision, isInsideCargoBay } from '../../hooks/usePalletCollision';
 import { orientedFootprint, VEHICLES, getStackHeightAt } from '../../utils/calculations';
@@ -18,7 +19,7 @@ export function PalletManager() {
   const landItem = useCalculatorStore((state) => state.landItem);
   const vehicle = VEHICLES[vehicleType];
   const { camera, raycaster, gl } = useThree();
-  const controls = useThree((state) => state.controls as any);
+  const controls = useThree((state) => state.controls) as OrbitControlsImpl | null;
   const [isDragging, setIsDragging] = useState(false);
   const dragPlaneRef = useRef<THREE.Plane>(new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.04));
   const dragOffset = useRef(new THREE.Vector3());

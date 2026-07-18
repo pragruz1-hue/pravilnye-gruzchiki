@@ -35,7 +35,7 @@ export function MobileJoystick({ onMove, onUpDown }: JoystickProps) {
       if (dist > 1) { dx /= dist; dy /= dist; }
       setPos({ x: dx * 40, y: dy * 40 });
       onMove(dx, dy);
-      (window as any).__joystick = { x: dx, y: dy };
+      window.__joystick = { x: dx, y: dy };
       e.preventDefault();
     };
 
@@ -46,7 +46,7 @@ export function MobileJoystick({ onMove, onUpDown }: JoystickProps) {
       setActive(false);
       setPos({ x: 0, y: 0 });
       onMove(0, 0);
-      (window as any).__joystick = { x: 0, y: 0 };
+      window.__joystick = { x: 0, y: 0 };
     };
 
     base.addEventListener('touchstart', handleStart, { passive: false });

@@ -59,7 +59,7 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
     });
 
     doc.save(`cargo-${vehicleType}-${Date.now()}.pdf`);
-    try { (window as any).pgPlaySound?.('click'); } catch {}
+    try { window.pgPlaySound?.('click'); } catch {}
   }
 
   const wrapperClass = embedded
@@ -86,18 +86,16 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
       </div>
       <div className="mt-4 rounded-2xl bg-blue-50 p-3 text-sm font-bold text-blue-800">⏱ {deliveryTime} · {distance} км · {pallets.length} предметов · {VEHICLES[vehicleType].label}</div>
 
-      {overflowCount > 0 && (
-        <div className="mt-3 rounded-2xl border-2 border-orange-400 bg-orange-50 p-3 text-xs leading-5 text-orange-900">
-          <div className="mb-1 font-black">⚠️ Не все предметы поместились — {overflowCount} шт. ({Math.round(overflowWeight)} кг) не влезли</div>
-          <p className="font-semibold text-orange-700">Потребуется ~{estimatedTrips} рейс{estimatedTrips === 1 ? '' : 'ов'}. Финальное количество рейсов и тип машины определит диспетчер.</p>
-        </div>
-      )}
-
       <div className="mt-3 rounded-2xl bg-amber-50 p-3 text-[11px] leading-5 text-amber-900 ring-1 ring-amber-200">
         <span className="font-black">⚠️ Предварительный расчёт.</span> Калькулятор помогает визуально
         оценить загрузку кузова. Реальная вместимость, необходимое количество машин, точный тип
         транспорта и итоговая стоимость определяются <strong>диспетчером при оформлении заказа</strong>.
         Данные расчёта носят ознакомительный характер и не являются публичной офертой.
+        {overflowCount > 0 && (
+          <span className="mt-1 block font-bold text-orange-600">
+            {overflowCount} предмет{overflowCount === 1 ? '' : overflowCount < 5 ? 'а' : 'ов'} (≈{Math.round(overflowWeight)} кг) не поместил{overflowCount === 1 ? 'сь' : 'ись'} — потребуется ~{estimatedTrips} рейс{estimatedTrips === 1 ? '' : 'ов'}.
+          </span>
+        )}
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-2">

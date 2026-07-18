@@ -269,7 +269,7 @@ export const useCalculatorStore = create<CalculatorState>()(
           return { pallets: packed.placed, overflowItems: packed.overflow, ..._oi3, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
         });
         get().calculatePrice();
-        if (get().isSoundEnabled) { try { (window as any).pgPlaySound?.('add'); } catch {} }
+        if (get().isSoundEnabled) { try { window.pgPlaySound?.('add'); } catch {} }
       },
       addCatalogItem: (kind) => {
         const id = createId(kind);
@@ -282,7 +282,7 @@ export const useCalculatorStore = create<CalculatorState>()(
           return { pallets: packed.placed, overflowItems: packed.overflow, ..._oi4, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
         });
         get().calculatePrice();
-        if (get().isSoundEnabled) { try { (window as any).pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {} }
+        if (get().isSoundEnabled) { try { window.pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {} }
       },
       applyApartmentPreset: (preset) => {
         const standard = APARTMENT_STANDARDS[preset];
@@ -329,7 +329,7 @@ export const useCalculatorStore = create<CalculatorState>()(
           };
         });
         get().calculatePrice();
-        if (get().isSoundEnabled) { try { (window as any).pgPlaySound?.('remove'); if (navigator.vibrate) navigator.vibrate([20, 30, 20]); } catch {} }
+        if (get().isSoundEnabled) { try { window.pgPlaySound?.('remove'); if (navigator.vibrate) navigator.vibrate([20, 30, 20]); } catch {} }
       },
       updatePalletPosition: (id, position) => {
         // Throttled history for drag
@@ -408,11 +408,16 @@ export const useCalculatorStore = create<CalculatorState>()(
         const state = get();
         if (state.pallets.length === 0) return;
         const fillBoxes = generateFillBoxes(state.pallets, state.vehicleType);
-        if (fillBoxes.length === 0) return;
+        if (fillBoxes.length === 0) {
+          if (get().isSoundEnabled) try { window.pgPlaySound?.('click'); } catch {}
+          return;
+        }
         const st = get();
         const itemsWithFill = [...state.pallets, ...fillBoxes.map(b => ({ ...b, id: createId('fill') }))];
         const packed = packItemsInVehicle(itemsWithFill, state.vehicleType);
         const _oi = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        // If fill boxes created collisions (overflow has original items), warn is handled by overflow display
+        const fillCount = packed.placed.length - state.pallets.length;
         set({
           pallets: packed.placed,
           overflowItems: packed.overflow,
@@ -423,7 +428,7 @@ export const useCalculatorStore = create<CalculatorState>()(
         });
         get().calculatePrice();
         if (get().isSoundEnabled) {
-          try { (window as any).pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {}
+          try { window.pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {}
         }
       },
       landItem: (id) => {
@@ -449,7 +454,7 @@ export const useCalculatorStore = create<CalculatorState>()(
         }));
         get().calculatePrice();
         if (get().isSoundEnabled) {
-          try { (window as any).pgPlaySound?.('click'); if (navigator.vibrate) navigator.vibrate(20); } catch {}
+          try { window.pgPlaySound?.('click'); if (navigator.vibrate) navigator.vibrate(20); } catch {}
         }
       }
     }),

@@ -341,7 +341,8 @@ export function getStackHeightAt(palletId: string, x: number, z: number, pallets
       if (otherTopY > maxTopY) maxTopY = otherTopY;
     }
   });
-  return maxTopY;
+  // Snap Y to 5cm grid for even stacking
+  return Math.round(maxTopY / 0.05) * 0.05;
 }
 
 export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType): { placed: LoadItem[]; overflow: LoadItem[] } {
@@ -455,9 +456,48 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
         if (overlap) { snapCollision = true; break; }
       }
       if (!snapCollision) { bestX = snappedX; bestZ = snappedZ; }
+      // Snap Y to 5cm grid
+      bestY = Math.round(bestY / 0.05) * 0.05;
       item.position = [bestX, bestY, bestZ];
       placed.push(item);
     } else {
+      // Не нашли места — пробуем развернуть предмет на 180° вокруг Y
+      if (item.canLaySide && Math.abs(item.rotation[2]) < 0.1) {
+        // Try laying on side if height exceeds and wasn't tried
+        const altRot: [number, number, number] = [Math.PI / 2, item.rotation[1], 0];
+        const origRot: [number, number, number] = [...item.rotation];
+        item.rotation = altRot;
+        const altFp = orientedFootprint(item);
+        const altHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
+        if (altHeight <= H) {
+          // Try again with new orientation (just one pass)
+          let altFound = false;
+          for (let x = -L / 2 + altFp.length / 2; x <= L / 2 - altFp.length / 2 && !altFound; x += 0.15) {
+            for (const z of candidateZs) {
+              let maxTopY = item.kind === 'pallet' ? 0.072 : 0.04;
+              let canStack = true;
+              for (const other of placed) {
+                const otherFp = orientedFootprint(other);
+                const overlap = (x - altFp.length / 2) < (other.position[0] + otherFp.length / 2) && (x + altFp.length / 2) > (other.position[0] - otherFp.length / 2) &&
+                                (z - altFp.width / 2) < (other.position[2] + otherFp.width / 2) && (z + altFp.width / 2) > (other.position[2] - otherFp.width / 2);
+                if (overlap) {
+                  const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
+                  const otherTopY = other.position[1] + otherHeight;
+                  if (otherTopY > maxTopY) maxTopY = otherTopY;
+                }
+              }
+              if (canStack && maxTopY + altHeight <= H) {
+                const snapZ = Math.abs(z - (-W / 2 + altFp.width / 2)) < WALL_SNAP ? -W / 2 + altFp.width / 2 : z;
+                item.position = [Math.round(x / 0.05) * 0.05, Math.round(maxTopY / 0.05) * 0.05, snapZ];
+                altFound = true;
+                break;
+              }
+            }
+          }
+          if (altFound) { placed.push(item); return; }
+        }
+        item.rotation = origRot;
+      }
       // Не нашли места — предмет не помещается в этот кузов
       overflow.push(item);
     }

@@ -10,14 +10,14 @@ export function OverflowWarning() {
   const vehicleType = useCalculatorStore((s) => s.vehicleType);
   const pallets = useCalculatorStore((s) => s.pallets);
 
-  if (overflowCount === 0 && pallets.length > 0) return null;
-  if (pallets.length === 0 && overflowCount === 0) return null;
+  const show = overflowCount > 0 || (pallets.length > 0 && overflowCount === 0);
+  if (!show) return null;
 
   const vehicle = VEHICLES[vehicleType];
 
   if (overflowCount > 0) {
     return (
-      <section className="mb-4 rounded-3xl border-2 border-orange-400 bg-orange-50 p-4 shadow-xl">
+      <section className="mb-4 animate-[fadeIn_0.25s_ease-out] rounded-3xl border-2 border-orange-400 bg-orange-50 p-4 shadow-xl">
         <div className="mb-2 flex items-center gap-2">
           <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-orange-500 text-sm font-black text-white">⚠</span>
           <span className="text-sm font-black text-orange-900">Не все предметы поместились</span>
@@ -76,7 +76,7 @@ export function OverflowWarning() {
   // Все предметы поместились — показываем информационный блок
   if (pallets.length > 0 && overflowCount === 0) {
     return (
-      <section className="mb-4 rounded-3xl bg-emerald-50 p-4 ring-1 ring-emerald-200">
+      <section className="mb-4 animate-[fadeIn_0.25s_ease-out] rounded-3xl bg-emerald-50 p-4 ring-1 ring-emerald-200">
         <div className="mb-2 flex items-center gap-2">
           <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-xs font-black text-white">✓</span>
           <span className="text-sm font-black text-emerald-900">Все предметы поместились в {vehicle.label}</span>

@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { CargoBox, LoadItem } from '../../types';
 import { boxDimensions, orientedHeight, orientedFootprint, VEHICLES, getStackHeightAt } from '../../utils/calculations';
 import { createCardboardMaterial, createChromeMaterial, createGlassMaterial, createPlasticMaterial, createStretchWrapMaterial, createWoodMaterial } from '../../materials/pbrMaterials';
+import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
 import { Box3D } from './Box3D';
 
@@ -401,7 +402,7 @@ function SelectionBox({ dimensions, height, hasCollision }: { dimensions: LoadIt
 
 function InteractiveGizmo({ id, position, rotation, height }: { id: string; position: [number, number, number]; rotation: [number, number, number]; height: number }) {
   const { camera, raycaster, gl } = useThree();
-  const controls = useThree((state) => state.controls);
+  const controls = useThree((state) => state.controls) as OrbitControlsImpl | null;
   const vehicleType = useCalculatorStore((state) => state.vehicleType);
   const pallets = useCalculatorStore((state) => state.pallets);
   const updatePalletPosition = useCalculatorStore((state) => state.updatePalletPosition);
@@ -419,8 +420,8 @@ function InteractiveGizmo({ id, position, rotation, height }: { id: string; posi
     initialItemRot: [number, number, number];
   } | null>(null);
 
-  const disableControls = () => { if (controls) (controls as any).enabled = false; };
-  const enableControls = () => { if (controls) (controls as any).enabled = true; };
+  const disableControls = () => { if (controls) controls.enabled = false; };
+  const enableControls = () => { if (controls) controls.enabled = true; };
 
   const handlePointerDown = (axis: 'X' | 'Y' | 'Z' | 'rotY', event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();

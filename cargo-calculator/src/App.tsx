@@ -55,11 +55,17 @@ function App() {
             <button onClick={redo} disabled={future.length===0} className="rounded-full bg-white px-2 py-1 text-[11px] font-black disabled:opacity-30">↪️</button>
             <button onClick={()=>setFirstPerson(!isFirstPerson)} className={`rounded-full px-2 py-1 text-[11px] font-black ${isFirstPerson ? 'bg-[#ff6b00] text-white' : 'bg-white text-gray-700'}`}>WASD</button>
             <button onClick={toggleMinimap} className={`rounded-full px-2 py-1 text-[11px] font-black ${showMinimap ? 'bg-emerald-500 text-white' : 'bg-white text-gray-700'}`}>🗺</button>
-            <button onClick={toggleMeasurements} className={`rounded-full px-2 py-1 text-[11px] font-black ${showMeasurements ? 'bg-blue-500 text-white' : 'bg-white text-gray-700'}`}>📏</button>
             <button onClick={toggleSound} className={`rounded-full px-2 py-1 text-[11px] font-black ${isSoundEnabled ? 'bg-white text-gray-700' : 'bg-gray-200 text-gray-500'}`}>{isSoundEnabled ? '🔊' : '🔇'}</button>
-            <button onClick={togglePerformance} className={`rounded-full px-2 py-1 text-[11px] font-black ${isPerformanceMode ? 'bg-purple-600 text-white' : 'bg-white text-gray-700'}`}>⚡ {isPerformanceMode ? 'Perf ON' : 'Perf'}</button>
-            <button onClick={togglePhysics} className={`rounded-full px-2 py-1 text-[11px] font-black ${isPhysicsEnabled ? 'bg-red-600 text-white' : 'bg-white text-gray-700'}`}>🧪 Физи</button>
-            <button onClick={toggleHeatmap} className={`rounded-full px-2 py-1 text-[11px] font-black ${isHeatmapEnabled ? 'bg-orange-500 text-white' : 'bg-white text-gray-700'}`}>🔥 Heat</button>
+            <div className="group relative">
+              <button className="rounded-full bg-white/50 px-2 py-1 text-[11px] font-black text-white/80 hover:bg-white/80 hover:text-gray-900">⚙️</button>
+              <div className="invisible absolute left-0 top-full z-50 mt-1 flex flex-col gap-1 rounded-2xl bg-[#10131b]/95 p-2 opacity-0 shadow-2xl backdrop-blur-xl transition-all group-hover:visible group-hover:opacity-100">
+                <span className="px-2 py-1 text-[10px] font-black uppercase tracking-wider text-orange-300">Для экспертов</span>
+                <button onClick={toggleMeasurements} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${showMeasurements ? 'bg-blue-500 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>📏 Рулетка</button>
+                <button onClick={togglePerformance} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${isPerformanceMode ? 'bg-purple-600 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>⚡ Perf режим</button>
+                <button onClick={togglePhysics} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${isPhysicsEnabled ? 'bg-red-600 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>🧪 Физика</button>
+                <button onClick={toggleHeatmap} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${isHeatmapEnabled ? 'bg-orange-500 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>🔥 Heatmap</button>
+              </div>
+            </div>
           </div>
         </div>
         <div className="text-[10px] font-bold text-white/60">Дверь: обе ориентации + диагональ √(W²+H²) · Топливо: 12л +0.3л/100кг/100км · Упаковка +15% · История throttle 500мс · Магнит с ре-проверкой · perf dpr1 · v3 migrate</div>
