@@ -56,13 +56,19 @@ export const Pallet = React.memo(function Pallet(props: PalletProps) {
           <div className="rounded-full bg-red-500 px-3 py-1 text-xs font-black text-white shadow-lg">нельзя поставить</div>
         </Html>
       )}
-      {isSelected && (
+      {isSelected ? (
         <>
           <InteractiveGizmo id={id} position={position} rotation={rotation} height={cargoHeight} />
           <Html position={[0, cargoHeight + 0.08, 0]} center distanceFactor={8} className="pointer-events-none">
             <div className="rounded-2xl bg-slate-900/85 px-3 py-2 text-center text-xs font-black text-white shadow-xl">{name}<br />{Math.round(props.weight)} кг</div>
           </Html>
         </>
+      ) : (
+        <Html position={[0, cargoHeight + 0.05, 0]} center distanceFactor={8} className="pointer-events-none">
+          <div className="rounded-full bg-black/50 px-2 py-0.5 text-[10px] font-black text-white/80 backdrop-blur-sm shadow-sm">
+            {Math.round(props.weight)} кг
+          </div>
+        </Html>
       )}
     </group>
   );

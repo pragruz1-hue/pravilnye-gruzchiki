@@ -26,7 +26,7 @@ function CameraController() {
     if (isFirstPerson) return null;
     switch (cameraMode) {
       case 'inside': return { pos: new THREE.Vector3(-L / 2 + 0.6, H * 0.55 + 0.3, 0.15), target: new THREE.Vector3(L / 2 - 0.4, H * 0.35, 0), fov: 68 };
-      case 'cabin': return { pos: new THREE.Vector3(-L / 2 - 0.9, 1.45, 0.4), target: new THREE.Vector3(L / 2 * 0.2, 0.8, 0), fov: 62 };
+      case 'cabin': return { pos: new THREE.Vector3(L / 2 + 0.8, 1.15, 0), target: new THREE.Vector3(-L * 0.15, 0.6, 0), fov: 62 };
       case 'top': return { pos: new THREE.Vector3(0, Math.max(6, H + 5.5), 0.3), target: new THREE.Vector3(0, 0.5, 0), fov: 52 };
       case 'side': return { pos: new THREE.Vector3(0.6, H * 0.75 + 0.8, W + 3.8), target: new THREE.Vector3(0, H * 0.5, 0), fov: 48 };
       default: return { pos: new THREE.Vector3(L * 0.85 + 2.5, H + 2.8, W + 2.8), target: new THREE.Vector3(0, H * 0.45, 0), fov: 48 };
@@ -48,9 +48,11 @@ function ControlsWrapper() {
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
   const cameraMode = useCalculatorStore((s) => s.cameraMode);
   const isFirstPerson = useCalculatorStore((s) => s.isFirstPerson);
-  const isInside = cameraMode === 'inside' || cameraMode === 'cabin' || isFirstPerson;
+  const isInside = cameraMode === 'inside' || isFirstPerson;
+  const isRestricted = cameraMode === 'inside' || isFirstPerson;
+  const isCabin = cameraMode === 'cabin';
   return (
-    <OrbitControls ref={controlsRef} enabled={!isFirstPerson} enablePan={!isInside} enableZoom={!isFirstPerson} enableRotate={!isFirstPerson} minDistance={isInside ? 0.3 : 1.2} maxDistance={isInside ? 6 : 20} maxPolarAngle={isInside ? Math.PI / 1.6 : Math.PI / 2.02} minPolarAngle={isInside ? 0.1 : 0.1} target={[0, 1.0, 0]} makeDefault enableDamping dampingFactor={0.12} />
+    <OrbitControls ref={controlsRef} enabled={!isFirstPerson} enablePan={!isRestricted} enableZoom={!isFirstPerson} enableRotate={!isFirstPerson} minDistance={isRestricted ? 0.3 : isCabin ? 0.5 : 1.2} maxDistance={isRestricted ? 6 : isCabin ? 12 : 20} maxPolarAngle={isRestricted ? Math.PI / 1.6 : isCabin ? Math.PI / 1.8 : Math.PI / 2.02} minPolarAngle={isRestricted ? 0.1 : 0.05} target={[0, 1.0, 0]} makeDefault enableDamping dampingFactor={0.12} />
   );
 }
 

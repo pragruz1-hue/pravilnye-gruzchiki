@@ -86,6 +86,7 @@ export function PalletBuilder() {
             <button key={item.kind} onClick={() => addCatalogItem(item.kind)} className="rounded-xl bg-white/10 p-2 text-left transition hover:bg-white/20">
               <span className="block text-base font-black">{item.emoji} {item.name}</span>
               <span className="block text-[11px] font-semibold text-slate-300">{item.description}</span>
+              <span className="mt-0.5 inline-block rounded-full bg-white/15 px-1.5 py-0.5 text-[10px] font-black text-orange-300">{item.weight} кг</span>
             </button>
           ))}
         </div>
@@ -122,7 +123,8 @@ export function PalletBuilder() {
           <div key={item.id} className={`flex items-center justify-between gap-2 rounded-2xl p-3 text-sm ${selectedPalletId === item.id ? 'bg-orange-50 ring-2 ring-[#ff6b00]' : 'bg-white/70'}`}>
             <button className="text-left" onClick={() => selectPallet(item.id)}>
               <span className="block font-black text-gray-900">#{index + 1} {item.name}</span>
-              <span className="text-xs text-gray-500">{item.dimensions.length}×{item.dimensions.width}×{item.dimensions.height} м · {item.weight} кг</span>
+              <span className="text-xs text-gray-500">{item.dimensions.length}×{item.dimensions.width}×{item.dimensions.height} м</span>
+              <span className="text-xs font-black text-[#d35400]">⚖ {item.weight} кг</span>
             </button>
             <button className="rounded-xl bg-red-50 px-3 py-2 font-bold text-red-600 hover:bg-red-100" onClick={() => removePallet(item.id)}>Удалить</button>
           </div>
