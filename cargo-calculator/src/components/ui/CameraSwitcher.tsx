@@ -46,7 +46,7 @@ export function CameraSwitcher() {
         </button>
       </div>
       <div className="hidden rounded-full bg-black/50 px-3 py-1 text-[10px] font-bold text-white/70 backdrop-blur md:block">
-        ЛКМ — выбрать · Drag — переместить · колесо — zoom · XYZ gizmo — точное перемещение · От ворот — LMB drag для осмотра
+        Drag — свободный осмотр в любом режиме · колесо — zoom · клик по грузу — выбрать · WASD — ходить · 1–5 — виды
       </div>
     </div>
   );

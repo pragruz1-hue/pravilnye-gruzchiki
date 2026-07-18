@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
 import { VEHICLES } from '../../utils/calculations';
+import { cancelCameraTransition } from './cameraTransition';
 
 export function FirstPersonController() {
   const isFirstPerson = useCalculatorStore((s) => s.isFirstPerson);
@@ -82,6 +83,9 @@ export function FirstPersonController() {
     }
 
     if (velocity.current.length() > 0) {
+      // Пользователь взял управление на себя — отменяем анимацию перехода,
+      // иначе контроллер тянул бы камеру обратно к пресету.
+      cancelCameraTransition();
       const newPos = camera.position.clone().add(velocity.current);
       const minX = -L / 2 + 0.25;
       const maxX = L / 2 - 0.25;
