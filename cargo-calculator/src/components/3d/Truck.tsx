@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
 import { VEHICLES } from '../../utils/calculations';
 import { createChromeMaterial, createGlassMaterial, createTireMaterial, createTruckPaintMaterial } from '../../materials/pbrMaterials';
+import { TruckCab } from './Cab';
 
 interface TruckProps { position: [number, number, number]; }
 
@@ -38,7 +39,8 @@ export function Truck({ position }: TruckProps) {
     lampOn: new THREE.MeshStandardMaterial({ color: '#ffedd5', emissive: '#ff6b00', emissiveIntensity: isNightMode ? 3.0 : 1.2, roughness: 0.2 }),
     lampOff: new THREE.MeshStandardMaterial({ color: '#94a3b8', emissive: '#000000', emissiveIntensity: 0, roughness: 0.4 })
   }), [isInside, isNightMode]);
-  const cabinX = -L / 2 - 0.92;
+  const cabStyle = vehicleType.startsWith('gazelle') ? 'gazelle' as const : (vehicleType === 'van5' || vehicleType === 'van6') ? 'van' as const : 'truck' as const;
+  const cargoTopY = H + 0.23; // верх кузова с учётом рейлингов
   const isGazelle = vehicleType.startsWith('gazelle');
   const wheelXs = isGazelle
     ? [-L / 2 - 1.08, L / 2 - 0.62]
@@ -104,11 +106,14 @@ export function Truck({ position }: TruckProps) {
         </>
       )}
 
-      <mesh position={[cabinX, 0.98, 0]} castShadow receiveShadow><boxGeometry args={[1.65, 1.86, Math.min(2.22, W + 0.2)]} /><primitive object={materials.brandOrange} attach="material" /></mesh>
-      <mesh position={[cabinX - 0.37, 2.02, 0]} castShadow receiveShadow><boxGeometry args={[1.12, 0.32, Math.min(2.04, W)]} /><primitive object={materials.dark} attach="material" /></mesh>
-      <mesh position={[cabinX - 0.82, 1.36, 0]} castShadow receiveShadow><boxGeometry args={[0.08, 0.72, Math.min(1.45, W * 0.72)]} /><primitive object={materials.glass} attach="material" /></mesh>
-      <mesh position={[cabinX - 0.88, 0.62, -0.62]} castShadow receiveShadow><boxGeometry args={[0.08, 0.22, 0.38]} /><primitive object={materials.light} attach="material" /></mesh>
-      <mesh position={[cabinX - 0.88, 0.62, 0.62]} castShadow receiveShadow><boxGeometry args={[0.08, 0.22, 0.38]} /><primitive object={materials.light} attach="material" /></mesh>
+      <TruckCab
+        style={cabStyle}
+        frontWallX={-L / 2}
+        cargoW={W}
+        cargoTopY={cargoTopY}
+        isNightMode={isNightMode}
+        body={{ paint: materials.paint, glass: materials.glass, chrome: materials.chrome, dark: materials.dark, light: materials.light }}
+      />
       {wheelXs.map((x) => <group key={x}><Wheel x={x} z={-W / 2 - 0.15} tire={materials.tire} chrome={materials.chrome} /><Wheel x={x} z={W / 2 + 0.15} tire={materials.tire} chrome={materials.chrome} /></group>)}
 
 
