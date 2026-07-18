@@ -468,6 +468,7 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
   interface PlacedRect {
     minX: number; maxX: number; minZ: number; maxZ: number;
     minY: number; maxY: number; stackable: boolean; maxStackWeight: number;
+    kind: string; // для проверки совместимости штабелирования
   }
   const placedRects: PlacedRect[] = [];
   let placedVolume = 0;
@@ -479,7 +480,8 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
       minX: o.position[0] - f.length / 2, maxX: o.position[0] + f.length / 2,
       minZ: o.position[2] - f.width / 2, maxZ: o.position[2] + f.width / 2,
       minY: o.position[1], maxY: o.position[1] + h,
-      stackable: o.stackable, maxStackWeight: o.maxStackWeight
+      stackable: o.stackable, maxStackWeight: o.maxStackWeight,
+      kind: o.kind
     };
   };
 
@@ -497,7 +499,11 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
 
     const fp = orientedFootprint(item);
     const baseY = item.kind === 'pallet' ? 0.072 : 0.04;
-    const itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
+    let itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
+
+    /** Определяем, можно ли перевернуть стол при штабелировании на другой стол */
+    let flipForStacking = false;
+
     let bestX = 0, bestY = baseY, bestZ = 0, found = false;
     let stackX = 0, stackY = 0, stackZ = 0, stackFound = false;
     const candidateZs: number[] = [];
@@ -515,23 +521,43 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
 
     const halfL = fp.length / 2;
     const halfW = fp.width / 2;
-    for (let x = -L / 2 + halfL; x <= L / 2 - halfL; x += 0.1) {
+
+    // Для nearDoor предметов сканируем от дверей (+X) к кабине (-X)
+    const scanFromFront = !item.nearDoor;
+    const xStart = scanFromFront ? -L / 2 + halfL : L / 2 - halfL;
+    const xEnd = scanFromFront ? L / 2 - halfL : -L / 2 + halfL;
+    const xStep = scanFromFront ? 0.1 : -0.1;
+
+    for (let x = xStart; scanFromFront ? x <= xEnd + 0.001 : x >= xEnd - 0.001; x += xStep) {
       if (found) break;
       const minX = x - halfL, maxX = x + halfL;
       for (const z of candidateZs) {
         const minZ = z - halfW, maxZ = z + halfW;
         let maxTopY = baseY;
         let canStackOnTop = true;
+        let belowKind = '';
         for (const r of placedRects) {
           if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
           if (r.maxY > maxTopY) {
             maxTopY = r.maxY;
+            belowKind = r.kind;
             if (!r.stackable || item.weight > r.maxStackWeight) canStackOnTop = false;
           }
         }
-        if (canStackOnTop && (maxTopY + itemHeight) <= H) {
+
+        // Специальная логика: стол на столе — переворачиваем
+        let adjustedHeight = itemHeight;
+        let doFlip = false;
+        if (item.kind === 'table' && belowKind === 'table' && canStackOnTop && maxTopY > baseY + 0.001) {
+          // Переворачиваем стол — ножки вверх, столешница на столешницу
+          // Эффективная высота = только толщина столешницы (~0.06м)
+          doFlip = true;
+          adjustedHeight = 0.06;
+        }
+
+        if (canStackOnTop && (maxTopY + adjustedHeight) <= H) {
           const isFloorSlot = maxTopY <= baseY + 0.001;
-          const aMinY = maxTopY, aMaxY = maxTopY + itemHeight;
+          const aMinY = maxTopY, aMaxY = maxTopY + adjustedHeight;
           let has3DCollision = false;
           for (const r of placedRects) {
             if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
@@ -539,18 +565,31 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
           }
           if (!has3DCollision) {
             if (isFloorSlot) {
-              bestX = x; bestY = maxTopY; bestZ = z; found = true; break;
+              bestX = x; bestY = maxTopY; bestZ = z; found = true;
+              flipForStacking = doFlip;
+              itemHeight = adjustedHeight;
+              break;
             }
-            if (!stackFound) { stackX = x; stackY = maxTopY; stackZ = z; stackFound = true; }
+            if (!stackFound) {
+              stackX = x; stackY = maxTopY; stackZ = z;
+              if (doFlip) { flipForStacking = true; itemHeight = adjustedHeight; }
+              stackFound = true;
+            }
           }
         }
       }
     }
     if (!found && stackFound) {
       bestX = stackX; bestY = stackY; bestZ = stackZ; found = true;
+      if (flipForStacking) itemHeight = 0.06;
     }
 
     if (found) {
+      // Применяем переворот стола (ножки вверх) при штабелировании
+      if (flipForStacking) {
+        item.rotation = [Math.PI, item.rotation[1], item.rotation[2]];
+      }
+
       let snappedX = bestX, snappedZ = bestZ;
       if (Math.abs(bestZ - (-W / 2 + halfW)) < WALL_SNAP) snappedZ = -W / 2 + halfW;
       if (Math.abs(bestZ - (W / 2 - halfW)) < WALL_SNAP) snappedZ = W / 2 - halfW;
@@ -884,7 +923,8 @@ export function placeNewItem(existingItems: LoadItem[], newItem: LoadItem, vehic
       minX: o.position[0] - f.length / 2, maxX: o.position[0] + f.length / 2,
       minZ: o.position[2] - f.width / 2, maxZ: o.position[2] + f.width / 2,
       minY: o.position[1], maxY: o.position[1] + h,
-      stackable: o.stackable, maxStackWeight: o.maxStackWeight
+      stackable: o.stackable, maxStackWeight: o.maxStackWeight,
+      kind: o.kind
     };
   });
 
@@ -902,32 +942,51 @@ export function placeNewItem(existingItems: LoadItem[], newItem: LoadItem, vehic
 
   const fp = orientedFootprint(item);
   const baseY = item.kind === 'pallet' ? 0.072 : 0.04;
-  const itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
+  let itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
 
   let bestX = 0, bestY = baseY, bestZ = 0, found = false;
   let stackX = 0, stackY = 0, stackZ = 0, stackFound = false;
+  let flipForStacking = false;
   const candidateZs: number[] = [];
   for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.15) candidateZs.push(z);
   if (fp.width <= W && !candidateZs.some((z) => Math.abs(z) < 1e-9)) candidateZs.push(0);
 
   const halfL = fp.length / 2;
   const halfW = fp.width / 2;
-  for (let x = -L / 2 + halfL; x <= L / 2 - halfL && !found; x += 0.1) {
+
+  // Для nearDoor предметов сканируем от дверей (+X) к кабине (-X)
+  const scanFromFront = !item.nearDoor;
+  const xStart = scanFromFront ? -L / 2 + halfL : L / 2 - halfL;
+  const xEnd = scanFromFront ? L / 2 - halfL : -L / 2 + halfL;
+  const xStep = scanFromFront ? 0.1 : -0.1;
+
+  for (let x = xStart; scanFromFront ? x <= xEnd + 0.001 : x >= xEnd - 0.001 && !found; x += xStep) {
     const minX = x - halfL, maxX = x + halfL;
     for (const z of candidateZs) {
       const minZ = z - halfW, maxZ = z + halfW;
       let maxTopY = baseY;
       let canStackOnTop = true;
+      let belowKind = '';
       for (const r of placedRects) {
         if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
         if (r.maxY > maxTopY) {
           maxTopY = r.maxY;
+          belowKind = r.kind;
           if (!r.stackable || item.weight > r.maxStackWeight) canStackOnTop = false;
         }
       }
-      if (canStackOnTop && (maxTopY + itemHeight) <= H) {
+
+      // Специальная логика: стол на столе — переворачиваем
+      let adjustedHeight = itemHeight;
+      let doFlip = false;
+      if (item.kind === 'table' && belowKind === 'table' && canStackOnTop && maxTopY > baseY + 0.001) {
+        doFlip = true;
+        adjustedHeight = 0.06;
+      }
+
+      if (canStackOnTop && (maxTopY + adjustedHeight) <= H) {
         const isFloorSlot = maxTopY <= baseY + 0.001;
-        const aMinY = maxTopY, aMaxY = maxTopY + itemHeight;
+        const aMinY = maxTopY, aMaxY = maxTopY + adjustedHeight;
         let has3DCollision = false;
         for (const r of placedRects) {
           if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
@@ -935,9 +994,15 @@ export function placeNewItem(existingItems: LoadItem[], newItem: LoadItem, vehic
         }
         if (!has3DCollision) {
           if (isFloorSlot) {
-            bestX = x; bestY = maxTopY; bestZ = z; found = true; break;
+            bestX = x; bestY = maxTopY; bestZ = z; found = true;
+            flipForStacking = doFlip;
+            break;
           }
-          if (!stackFound) { stackX = x; stackY = maxTopY; stackZ = z; stackFound = true; }
+          if (!stackFound) {
+            stackX = x; stackY = maxTopY; stackZ = z;
+            if (doFlip) flipForStacking = true;
+            stackFound = true;
+          }
         }
       }
     }
@@ -947,6 +1012,10 @@ export function placeNewItem(existingItems: LoadItem[], newItem: LoadItem, vehic
   }
 
   if (found) {
+    // Применяем переворот стола при штабелировании
+    if (flipForStacking) {
+      item.rotation = [Math.PI, item.rotation[1], item.rotation[2]];
+    }
     bestY = Math.round(bestY / 0.05) * 0.05;
     item.position = [bestX, bestY, bestZ];
     return { pallets: [...existingItems, item], overflow: [], placed: true };

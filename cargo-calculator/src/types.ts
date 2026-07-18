@@ -50,6 +50,8 @@ export interface LoadItem {
   maxStackWeight: number;
   canLaySide: boolean;
   fragile: boolean;
+  /** Предмет должен стоять ближе к дверям (заднему борту), а не к кабине */
+  nearDoor?: boolean;
 }
 
 export type Pallet = LoadItem;
@@ -92,4 +94,6 @@ export interface CatalogItem {
   canLaySide: boolean;
   fragile: boolean;
   description: string;
+  /** Предмет должен стоять ближе к дверям (заднему борту), а не к кабине */
+  nearDoor?: boolean;
 }

@@ -93,10 +93,10 @@ export const CATALOG: CatalogItem[] = [
   { kind: 'bed', name: 'Кровать разобранная', emoji: '🛏', dimensions: { length: 2.05, width: 0.25, height: 0.75 }, weight: 70, material: 'wood', stackable: true, maxStackWeight: 90, canLaySide: true, fragile: false, description: 'плоский груз' },
   { kind: 'table', name: 'Стол', emoji: '🪑', dimensions: { length: 1.3, width: 0.8, height: 0.75 }, weight: 38, material: 'wood', stackable: true, maxStackWeight: 75, canLaySide: true, fragile: false, description: 'можно ставить друг на друга (столешница к столешнице)' },
   { kind: 'chairs', name: '4 стула', emoji: '🪑', dimensions: { length: 0.8, width: 0.8, height: 0.95 }, weight: 28, material: 'wood', stackable: true, maxStackWeight: 50, canLaySide: true, fragile: false, description: 'стопка стульев' },
-  { kind: 'tv', name: 'Телевизор', emoji: '📺', dimensions: { length: 1.2, width: 0.16, height: 0.75 }, weight: 18, material: 'glass', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, description: 'хрупкий экран' },
+  { kind: 'tv', name: 'Телевизор', emoji: '📺', dimensions: { length: 1.2, width: 0.16, height: 0.75 }, weight: 18, material: 'glass', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, nearDoor: true, description: 'хрупкий экран — ставить у дверей' },
   { kind: 'piano', name: 'Пианино', emoji: '🎹', dimensions: { length: 1.45, width: 0.62, height: 1.15 }, weight: 210, material: 'dark', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, description: 'особый тяжёлый груз' },
   { kind: 'safe', name: 'Сейф', emoji: '🔒', dimensions: { length: 0.6, width: 0.55, height: 0.8 }, weight: 180, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: false, description: 'только низ кузова' },
-  { kind: 'plant', name: 'Растение', emoji: '🪴', dimensions: { length: 0.45, width: 0.45, height: 1.2 }, weight: 18, material: 'plant', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, description: 'не штабелировать' },
+  { kind: 'plant', name: 'Растение', emoji: '🪴', dimensions: { length: 0.45, width: 0.45, height: 1.2 }, weight: 18, material: 'plant', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, nearDoor: true, description: 'не штабелировать — ставить у дверей' },
   { kind: 'bike', name: 'Велосипед', emoji: '🚲', dimensions: { length: 1.75, width: 0.28, height: 1.05 }, weight: 16, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, description: 'узкий длинный груз' },
   { kind: 'box', name: 'Коробка M', emoji: '📦', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 14, material: 'cardboard', stackable: true, maxStackWeight: 45, canLaySide: true, fragile: false, description: 'можно ставить друг на друга' }
 ];
@@ -127,7 +127,8 @@ function createLoadItem(kind: LoadItemKind, position: [number, number, number]):
     stackable: catalog.stackable,
     maxStackWeight: catalog.maxStackWeight,
     canLaySide: catalog.canLaySide,
-    fragile: catalog.fragile
+    fragile: catalog.fragile,
+    nearDoor: catalog.nearDoor
   };
 }
 
@@ -615,7 +616,7 @@ if (typeof window !== 'undefined') {
           const store = useCalculatorStore.getState();
           const items = data.items.map((i: any, idx: number) => {
             const cat = CATALOG.find(c => c.kind === i.k) || CATALOG[0];
-            return { ...cat, id: `shared-${idx}`, kind: cat.kind as any, name: cat.name, position: i.p as any, rotation: i.r as any, type: 'STANDARD' as any, boxes: [], weight: cat.weight, dimensions: cat.dimensions, material: cat.material, wrapped: false, stackable: cat.stackable, maxStackWeight: cat.maxStackWeight, canLaySide: cat.canLaySide, fragile: cat.fragile };
+            return { ...cat, id: `shared-${idx}`, kind: cat.kind as any, name: cat.name, position: i.p as any, rotation: i.r as any, type: 'STANDARD' as any, boxes: [], weight: cat.weight, dimensions: cat.dimensions, material: cat.material, wrapped: false, stackable: cat.stackable, maxStackWeight: cat.maxStackWeight, canLaySide: cat.canLaySide, fragile: cat.fragile, nearDoor: cat.nearDoor };
           });
           store.loadFromShare(items as any, data.vehicleType as any);
         }

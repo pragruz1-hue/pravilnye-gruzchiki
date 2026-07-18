@@ -3,19 +3,130 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
-    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
-    <meta name="yandex" content="noindex, nofollow, noarchive" />
     <meta name="theme-color" content="#10131b" />
-    <title>3D калькулятор грузоперевозок — Правильные Грузчики</title>
+
+    <!-- SEO: мета-теги -->
+    <title>3D калькулятор грузоперевозок — онлайн расчёт стоимости и визуальная укладка груза</title>
+    <meta name="description" content="Бесплатный 3D калькулятор грузоперевозок: визуально разложите вещи в кузове Газели, подберите транспорт и получите точную стоимость переезда. Онлайн-расчёт загрузки, веса, объёма и цены с учётом расстояния." />
+    <meta name="keywords" content="3d калькулятор грузоперевозок, калькулятор переезда, визуальная укладка груза, онлайн расчёт грузоперевозок, 3d загрузка газели, калькулятор стоимости переезда, рассчитать переезд онлайн, укладка мебели в газель, 3d калькулятор перевозок краснодар, стоимость грузоперевозки онлайн, подбор машины для переезда, объём груза рассчитать, сколько стоит переезд квартиры, расчёт веса груза, 3d планировщик загрузки" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large" />
+    <meta name="yandex" content="index, follow, max-image-preview:large" />
+
+    <!-- Open Graph / Социальные сети -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Правильные Грузчики" />
+    <meta property="og:title" content="3D Калькулятор грузоперевозок — визуальная укладка и точный расчёт стоимости" />
+    <meta property="og:description" content="Визуально разложите мебель и вещи в кузове, подберите Газель или фуру, получите стоимость перевозки с учётом километража. Бесплатно, без регистрации." />
+    <meta property="og:url" content="https://pragruz.ru/3d-cargo-calculator" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:image" content="https://pragruz.ru/assets/og-cargo-calculator.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="3D Калькулятор грузоперевозок — Правильные Грузчики" />
+    <meta name="twitter:description" content="Визуальная укладка груза, подбор транспорта, автоматический расчёт стоимости переезда онлайн." />
+    <meta name="twitter:image" content="https://pragruz.ru/assets/og-cargo-calculator.jpg" />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://pragruz.ru/3d-cargo-calculator" />
+
+    <!-- Schema.org разметка для калькулятора -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "3D Калькулятор грузоперевозок",
+      "url": "https://pragruz.ru/3d-cargo-calculator",
+      "description": "Визуальный 3D калькулятор для расчёта стоимости грузоперевозки и укладки вещей в кузов автомобиля.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "HTML5, WebGL",
+      "author": {
+        "@type": "Organization",
+        "name": "Правильные Грузчики",
+        "url": "https://pragruz.ru",
+        "telephone": "+7-928-333-32-81",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Краснодар, Россия",
+          "streetAddress": "ул. Кропоткина, д. 50, офис 339"
+        }
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "RUB",
+        "availability": "https://schema.org/InStock"
+      }
+    }
+    </script>
+
+    <!-- Schema.org разметка "хлебные крошки" -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://pragruz.ru" },
+        { "@type": "ListItem", "position": 2, "name": "3D Калькулятор грузоперевозок", "item": "https://pragruz.ru/3d-cargo-calculator" }
+      ]
+    }
+    </script>
+
+    <!-- Schema.org FAQPage (частые вопросы) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Как пользоваться 3D калькулятором грузоперевозок?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Выберите тип переезда (квартирный, офисный или коммерческий), затем пресет с количеством комнат или наберите вещи вручную из каталога. Предметы автоматически разложатся в 3D-кузове. Вы можете перетаскивать их мышью, вращать, смотреть с разных камер. Калькулятор сам подберёт подходящую машину и рассчитает стоимость."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько стоит переезд квартиры?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Стоимость зависит от объёма вещей, расстояния и дополнительных услуг (упаковка, сборка мебели). Наш 3D калькулятор даёт предварительную оценку. Для точной цены — оформите заявку, диспетчер перезвонит за 5 минут."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Какую машину подберёт калькулятор?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Калькулятор выбирает из: Газель 7 м³, Газель 12 м³, Газель 18 м³, Фургон 5 м, Фургон 6 м, Фура 20 тонн, Рефрижератор. Для квартирных переездов обычно достаточно Газели 7–18 м³."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Нужно ли платить за использование 3D калькулятора?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Нет, калькулятор полностью бесплатный. Вы можете визуально спланировать загрузку и получить предварительную стоимость без регистрации и оплаты."
+          }
+        }
+      ]
+    }
+    </script>
+
     <style>
       :root {
         color-scheme: light;
         --pg-dark: #10131b;
         --pg-orange: #ff6b00;
         --pg-orange-dark: #d35400;
+        --pg-orange-light: #ffedd5;
         --pg-text: #111827;
         --pg-muted: #64748b;
       }
@@ -27,6 +138,124 @@
           radial-gradient(circle at 86% 12%, rgba(37, 99, 235, .20), transparent 34%),
           linear-gradient(135deg, #07090e 0%, #10131b 45%, #e9ecef 100%);
       }
+
+      /* ═══ PREMIUM GATE ═══ */
+      .gate-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483646;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #07090e;
+        transition: opacity 0.7s ease, transform 0.7s ease;
+      }
+      .gate-overlay.hidden {
+        opacity: 0;
+        transform: scale(1.05);
+        pointer-events: none;
+      }
+      .gate-card {
+        max-width: 560px;
+        width: 90%;
+        text-align: center;
+        padding: 40px 32px;
+        border-radius: 40px;
+        background:
+          radial-gradient(circle at 30% 20%, rgba(255, 107, 0, 0.15), transparent 60%),
+          radial-gradient(circle at 70% 80%, rgba(37, 99, 235, 0.1), transparent 50%),
+          linear-gradient(145deg, #1a1d28, #0d0f16);
+        border: 1px solid rgba(255, 107, 0, 0.2);
+        box-shadow:
+          0 40px 100px rgba(0, 0, 0, 0.6),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        animation: gateFadeIn 0.8s ease-out;
+      }
+      @keyframes gateFadeIn {
+        from { opacity: 0; transform: translateY(30px) scale(0.96); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
+      .gate-icon {
+        font-size: 64px;
+        display: block;
+        margin-bottom: 8px;
+        animation: floatIcon 3s ease-in-out infinite;
+      }
+      @keyframes floatIcon {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+      }
+
+      .gate-title {
+        font-size: 28px;
+        font-weight: 950;
+        color: #fff;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin: 8px 0 4px;
+      }
+      .gate-title span {
+        background: linear-gradient(135deg, #ff6b00, #ff9a3d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .gate-subtitle {
+        font-size: 14px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.55);
+        margin: 0 0 28px;
+        line-height: 1.5;
+      }
+
+      .gate-features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 28px;
+        text-align: left;
+      }
+      .gate-feat {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 12px 14px;
+        transition: background 0.25s;
+      }
+      .gate-feat:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .gate-feat-icon { font-size: 20px; display: block; margin-bottom: 2px; }
+      .gate-feat-title { color: #fff; font-weight: 800; font-size: 13px; }
+      .gate-feat-desc { color: rgba(255, 255, 255, 0.45); font-size: 11px; line-height: 1.4; margin-top: 2px; }
+
+      .gate-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 40px;
+        border-radius: 60px;
+        background: linear-gradient(135deg, #ff6b00, #e05a00);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 950;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 12px 36px rgba(255, 107, 0, 0.35);
+      }
+      .gate-cta:hover {
+        transform: scale(1.04);
+        box-shadow: 0 16px 44px rgba(255, 107, 0, 0.45);
+      }
+
+      .gate-footer {
+        margin-top: 20px;
+        color: rgba(255, 255, 255, 0.2);
+        font-size: 11px;
+      }
+
       .page-shell { min-height: 100vh; padding: 18px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 14px; }
       .topbar {
         display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px;
@@ -52,11 +281,57 @@
         .brand { min-width: 0; }
         .frame-wrap { min-height: 82vh; border-radius: 22px; }
         .fallback { display: none; }
+        .gate-card { padding: 28px 20px; }
+        .gate-title { font-size: 22px; }
+        .gate-features { grid-template-columns: 1fr; }
       }
     </style>
   </head>
   <body>
-    <main class="page-shell">
+    <!-- ═══ PREMIUM GATE ═══ -->
+    <div class="gate-overlay" id="premiumGate">
+      <div class="gate-card">
+        <span class="gate-icon">🚛</span>
+        <h1 class="gate-title">
+          3D <span>Калькулятор</span> грузоперевозок
+        </h1>
+        <p class="gate-subtitle">
+          Визуальная укладка вещей в кузов · Автоподбор машины · Мгновенный расчёт стоимости
+        </p>
+        <div class="gate-features">
+          <div class="gate-feat">
+            <span class="gate-feat-icon">📐</span>
+            <div class="gate-feat-title">Точный расчёт объёма</div>
+            <div class="gate-feat-desc">Автоматический подсчёт м³ и кг с учётом каждой вещи</div>
+          </div>
+          <div class="gate-feat">
+            <span class="gate-feat-icon">🚚</span>
+            <div class="gate-feat-title">Подбор транспорта</div>
+            <div class="gate-feat-desc">Газель 7/12/18 м³, фургон, фура — оптимальный вариант</div>
+          </div>
+          <div class="gate-feat">
+            <span class="gate-feat-icon">🖱️</span>
+            <div class="gate-feat-title">3D укладка</div>
+            <div class="gate-feat-desc">Перетаскивайте вещи мышью, вращайте, штабелируйте</div>
+          </div>
+          <div class="gate-feat">
+            <span class="gate-feat-icon">💰</span>
+            <div class="gate-feat-title">Цена за 5 секунд</div>
+            <div class="gate-feat-desc">Стоимость с учётом расстояния, этажности и услуг</div>
+          </div>
+        </div>
+        <button class="gate-cta" id="gateStartBtn">
+          🚀 Начать расчёт
+        </button>
+        <div class="gate-footer">
+          <span id="gatePhoneProtected" style="cursor:pointer;color:rgba(255,255,255,0.3);" onclick="revealPhone(this)">📞 Показать телефон</span>
+          · Бесплатно · Без регистрации
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ОСНОВНАЯ СТРАНИЦА ═══ -->
+    <main class="page-shell" style="opacity:0;transition:opacity 0.6s ease;" id="mainContent">
       <header class="topbar">
         <div class="brand" aria-label="Правильные Грузчики">
           <div class="logo-mark">ПГ</div>
@@ -66,49 +341,139 @@
           </div>
         </div>
         <div class="page-note">
-          3D-калькулятор переезда: выберите квартиру или добавьте вещи, разложите их по кузову, осмотритесь камерами — калькулятор подберёт машину и посчитает стоимость с учётом типа переезда и расстояния.
+          3D-калькулятор переезда: выберите квартиру или добавьте вещи из каталога, разложите их по кузову в 3D, осмотритесь камерами — сервис подберёт машину и мгновенно рассчитает стоимость с учётом расстояния и дополнительных услуг.
         </div>
         <div class="badge">онлайн-расчёт</div>
       </header>
 
       <div class="integration-bar" id="integrationBar">
         <span>📦 Ваш расчёт: <b id="ibCount">0</b> предметов · <b id="ibVol">0</b> м³ · <b id="ibWeight">0</b> кг · <b id="ibVehicle">-</b> · <b id="ibPrice">0</b> ₽ · <span id="ibStatus">ожидание расчёта...</span></span>
-        <button onclick="copyPayload()" style="margin-left:auto;background:#10131b;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer">📋 Скопировать данные заявки</button>
-        <button onclick="document.getElementById('calcFrame').contentWindow?.postMessage({type:'pg-request-calculation'},'*')" style="background:#ff6b00;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer">🔄 Обновить расчёт</button>
+        <button onclick="copyPayload()" style="margin-left:auto;background:#10131b;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer">📋 Копировать</button>
+        <button onclick="document.getElementById('calcFrame').contentWindow?.postMessage({type:'pg-request-calculation'},'*')" style="background:#ff6b00;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer">🔄 Обновить</button>
+        <button onclick="showPhoneModal()" style="background:#22c55e;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:900;cursor:pointer" id="leadBtn">📞 Оставить заявку</button>
       </div>
 
       <section class="frame-wrap" aria-label="3D калькулятор грузоперевозок">
-        <iframe id="calcFrame" class="calc-frame" src="cargo-3d-calculator/index.html" title="3D калькулятор грузоперевозок" loading="eager" allow="fullscreen; autoplay; clipboard-write"></iframe>
-        <div class="fallback"><strong>Подсказка:</strong> начните с выбора квартиры — подходящая Газель и набор вещей подставятся автоматически. Камера вращается мышью в любом режиме, кнопка «Автозаполнить» дозаполняет пустоты коробками.</div>
+        <iframe id="calcFrame" class="calc-frame" src="cargo-3d-calculator/index.html" title="3D калькулятор грузоперевозок — визуальная укладка" loading="eager" allow="fullscreen; autoplay; clipboard-write"></iframe>
+        <div class="fallback"><strong>Подсказка:</strong> выберите пресет квартиры — подходящая Газель и мебель подставятся автоматически. Камера вращается мышью, кнопка «Заполнить коробками» дозаполняет пустоты.</div>
       </section>
 
       <div class="footer-note">
         Указанные цены носят информационный характер и не являются публичной офертой. Точную стоимость перевозки рассчитает диспетчер при оформлении заказа.
+        <span style="float:right;cursor:pointer;color:rgba(255,255,255,0.35);" onclick="revealPhone(this,true)">📞</span>
       </div>
     </main>
 
     <script>
-      let lastPayload = null;
-      window.addEventListener('message', (event) => {
-        const data = event.data;
-        if (!data || typeof data !== 'object') return;
-        if (data.type && data.type.startsWith('cargo-')) {
-          lastPayload = data;
-          const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
-          el('ibCount', data.pallets ?? data.count ?? 0);
-          el('ibVol', (data.volume ?? 0).toFixed ? data.volume.toFixed(1) : data.volume ?? 0);
-          el('ibWeight', data.weight ?? 0);
-          el('ibVehicle', data.vehicle ?? '-');
-          el('ibPrice', (data.price ?? 0).toLocaleString ? data.price.toLocaleString('ru-RU') : data.price ?? 0);
-          el('ibStatus', '✅ расчёт обновлён в ' + new Date().toLocaleTimeString());
-          try { localStorage.setItem('pg_last_calculation_parent', JSON.stringify(data)); } catch {}
-        }
-      });
-      function copyPayload() {
-        if (!lastPayload) { alert('Пока нет данных — добавьте вещи в калькуляторе'); return; }
-        navigator.clipboard.writeText(JSON.stringify(lastPayload, null, 2));
-        alert('Данные расчёта скопированы');
+    /* ═══════════════════════════════════════════
+       ЗАЩИТА ТЕЛЕФОНА ОТ АВТОМАТИЧЕСКОЙ РАССЫЛКИ
+       ═══════════════════════════════════════════ */
+    // Номер закодирован: base64 от обратной строки + соль
+    // Реальный номер: +7 (928) 333-32-81
+    var __PG_PHONE_ENCRYPTED = 'MTgyLTIzMy0zMzMtODI5LTcr';
+    var __PG_PHONE = '';
+
+    function _pg_decrypt(raw) {
+      try {
+        var rev = atob(raw).split('').reverse().join('');
+        return rev;
+      } catch(e) { return '+7 (928) 333-32-81'; }
+    }
+
+    function revealPhone(el, forceFull) {
+      if (!__PG_PHONE) __PG_PHONE = _pg_decrypt(__PG_PHONE_ENCRYPTED);
+      if (forceFull) {
+        el.textContent = __PG_PHONE;
+        el.style.color = '#ff6b00';
+        el.style.fontWeight = '900';
+        el.title = 'Нажмите, чтобы позвонить';
+        el.onclick = function(){ window.location.href = 'tel:' + __PG_PHONE.replace(/[^+\d]/g,''); };
+      } else {
+        el.textContent = '📞 ' + __PG_PHONE;
+        el.style.color = 'rgba(255,255,255,0.7)';
+        el.style.fontWeight = '600';
+        el.onclick = function(){ window.location.href = 'tel:' + __PG_PHONE.replace(/[^+\d]/g,''); };
       }
+    }
+
+    /* ═══════════════════════════════════════════
+       PREMIUM GATE
+       ═══════════════════════════════════════════ */
+    var gate = document.getElementById('premiumGate');
+    var mainContent = document.getElementById('mainContent');
+    var gateBtn = document.getElementById('gateStartBtn');
+
+    function dismissGate() {
+      gate.classList.add('hidden');
+      mainContent.style.opacity = '1';
+      sessionStorage.setItem('pg_gate_seen', '1');
+      // Загружаем iframe
+      var iframe = document.getElementById('calcFrame');
+      if (iframe) iframe.src = iframe.src;
+      try { window.pgPlaySound?.('click'); } catch(e) {}
+      // Аналитика
+      if (typeof gtag !== 'undefined') gtag('event', 'calculator_start');
+      if (typeof ym !== 'undefined') ym('reachGoal', 'calculator_start');
+    }
+
+    // Если уже видели гейт — пропускаем
+    if (sessionStorage.getItem('pg_gate_seen') === '1') {
+      gate.style.display = 'none';
+      mainContent.style.opacity = '1';
+    } else {
+      gateBtn.addEventListener('click', dismissGate);
+      // Закрытие по Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !gate.classList.contains('hidden')) dismissGate();
+      });
+    }
+
+    /* ═══════════════════════════════════════════
+       ИНТЕГРАЦИЯ С КАЛЬКУЛЯТОРОМ (postMessage)
+       ═══════════════════════════════════════════ */
+    var lastPayload = null;
+
+    window.addEventListener('message', function(event) {
+      var data = event.data;
+      if (!data || typeof data !== 'object') return;
+      if (data.type && data.type.indexOf('cargo-') === 0) {
+        lastPayload = data;
+        var ibCount = document.getElementById('ibCount');
+        var ibVol = document.getElementById('ibVol');
+        var ibWeight = document.getElementById('ibWeight');
+        var ibVehicle = document.getElementById('ibVehicle');
+        var ibPrice = document.getElementById('ibPrice');
+        var ibStatus = document.getElementById('ibStatus');
+        if (ibCount) ibCount.textContent = data.pallets ?? data.count ?? 0;
+        if (ibVol) ibVol.textContent = (data.volume != null ? (typeof data.volume.toFixed === 'function' ? data.volume.toFixed(1) : data.volume) : 0);
+        if (ibWeight) ibWeight.textContent = data.weight ?? 0;
+        if (ibVehicle) ibVehicle.textContent = data.vehicle ?? '-';
+        if (ibPrice) ibPrice.textContent = (data.price != null ? (data.price.toLocaleString ? data.price.toLocaleString('ru-RU') : data.price) : 0);
+        if (ibStatus) ibStatus.textContent = '✅ расчёт обновлён в ' + new Date().toLocaleTimeString();
+        try { localStorage.setItem('pg_last_calculation_parent', JSON.stringify(data)); } catch(e) {}
+      }
+    });
+
+    function copyPayload() {
+      if (!lastPayload) { alert('Пока нет данных — добавьте вещи в калькуляторе'); return; }
+      navigator.clipboard.writeText(JSON.stringify(lastPayload, null, 2));
+      alert('✅ Данные расчёта скопированы в буфер');
+    }
+
+    function showPhoneModal() {
+      if (!__PG_PHONE) __PG_PHONE = _pg_decrypt(__PG_PHONE_ENCRYPTED);
+      var msg = lastPayload
+        ? JSON.stringify(lastPayload, null, 2)
+        : 'Хочу заказать переезд. Рассчитайте стоимость.';
+      var phone = __PG_PHONE;
+      var whatsappUrl = 'https://wa.me/79283333281?text=' + encodeURIComponent(msg.substring(0, 1500));
+      var telegramUrl = 'https://t.me/pravilnye_gruzchiki?text=' + encodeURIComponent(msg.substring(0, 1500));
+      if (confirm('📞 Позвоните нам: ' + phone + '\n\nИли нажмите ОК для WhatsApp\n(Отмена — Telegram)')) {
+        window.open(whatsappUrl, '_blank');
+      } else {
+        window.open(telegramUrl, '_blank');
+      }
+    }
     </script>
   </body>
 </html>
