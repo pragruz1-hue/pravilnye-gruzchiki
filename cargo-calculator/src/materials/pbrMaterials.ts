@@ -22,7 +22,7 @@ function loadTexture(url: string): THREE.Texture {
 }
 
 export function createTruckPaintMaterial(): THREE.MeshPhysicalMaterial {
-  const normalMap = loadTexture('/textures/metallic_flake_normal.png');
+  const normalMap = loadTexture('textures/metallic_flake_normal.png');
   normalMap.repeat.set(6, 6);
   return new THREE.MeshPhysicalMaterial({
     color: '#ffffff',
@@ -35,7 +35,7 @@ export function createTruckPaintMaterial(): THREE.MeshPhysicalMaterial {
 }
 
 export function createTireMaterial(): THREE.MeshStandardMaterial {
-  const normalMap = loadTexture('/textures/tire_tread_normal.png');
+  const normalMap = loadTexture('textures/tire_tread_normal.png');
   normalMap.repeat.set(3, 3);
   return new THREE.MeshStandardMaterial({
     color: '#1a1a1a',
@@ -57,7 +57,7 @@ export function createGlassMaterial(): THREE.MeshPhysicalMaterial {
 }
 
 export function createChromeMaterial(): THREE.MeshStandardMaterial {
-  const normalMap = loadTexture('/textures/brushed_metal_normal.png');
+  const normalMap = loadTexture('textures/brushed_metal_normal.png');
   normalMap.repeat.set(5, 5);
   return new THREE.MeshStandardMaterial({
     color: '#c0c0c0',
@@ -68,7 +68,7 @@ export function createChromeMaterial(): THREE.MeshStandardMaterial {
 }
 
 export function createWoodMaterial(): THREE.MeshStandardMaterial {
-  const normalMap = loadTexture('/textures/wood_grain_normal.png');
+  const normalMap = loadTexture('textures/wood_grain_normal.png');
   normalMap.repeat.set(2, 2);
   return new THREE.MeshStandardMaterial({
     color: '#8B7355',
@@ -78,8 +78,8 @@ export function createWoodMaterial(): THREE.MeshStandardMaterial {
 }
 
 export function createCardboardMaterial(color = '#B8956B'): THREE.MeshStandardMaterial {
-  const normalMap = loadTexture('/textures/cardboard_wave_normal.png');
-  const map = loadTexture('/textures/cardboard_wave.png');
+  const normalMap = loadTexture('textures/cardboard_wave_normal.png');
+  const map = loadTexture('textures/cardboard_wave.png');
   normalMap.repeat.set(2, 2);
   map.repeat.set(2, 2);
   return new THREE.MeshStandardMaterial({
