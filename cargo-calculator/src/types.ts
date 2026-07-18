@@ -2,6 +2,7 @@ export type MoveType = 'apartment' | 'office' | 'commercial';
 export type TripRange = 'city' | 'regional' | 'intercity';
 export type VehicleType = 'gazelle7' | 'gazelle12' | 'gazelle18' | 'gazelle3' | 'gazelle42' | 'van5' | 'van6' | 'truck' | 'refrigerator';
 export type CameraMode = 'overview' | 'inside' | 'top' | 'side' | 'cabin';
+export type RenderQuality = 'auto' | 'lite' | 'detailed';
 
 export interface ApartmentStandard {
   id: string;

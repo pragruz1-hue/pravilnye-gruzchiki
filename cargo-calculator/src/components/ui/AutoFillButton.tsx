@@ -38,7 +38,7 @@ export function AutoFillButton() {
       </button>
       {!disabled && (
         <span className="mt-1 hidden rounded-full bg-black/55 px-3 py-0.5 text-[10px] font-bold text-white/75 backdrop-blur md:block">
-          дозаполнит кузов коробками до предела
+          дозаполнит кузов коробками до предела · крупные наборы объединяются для плавного 3D
         </span>
       )}
     </div>

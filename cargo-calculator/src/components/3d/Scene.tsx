@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
@@ -100,35 +100,94 @@ function ControlsWrapper() {
   );
 }
 
+function AdaptiveQuality({ onSlowFrames }: { onSlowFrames: () => void }) {
+  const slowSince = useRef<number | null>(null);
+  const reported = useRef(false);
+  useFrame((state, delta) => {
+    if (reported.current) return;
+    if (delta > 1 / 30) {
+      slowSince.current ??= state.clock.elapsedTime;
+      if (state.clock.elapsedTime - slowSince.current > 2) {
+        reported.current = true;
+        onSlowFrames();
+      }
+    } else {
+      slowSince.current = null;
+    }
+  });
+  return null;
+}
+
+function SceneFallback({ reason }: { reason: string }) {
+  const pallets = useCalculatorStore((s) => s.pallets);
+  const vehicleType = useCalculatorStore((s) => s.vehicleType);
+  const vehicle = VEHICLES[vehicleType];
+  const visible = pallets.slice(0, 80);
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-slate-950 p-5 text-white">
+      <div className="max-w-md text-center">
+        <div className="text-3xl">📦</div>
+        <h2 className="mt-2 text-lg font-black">Включён безопасный 2D-план кузова</h2>
+        <p className="mt-1 text-xs leading-5 text-slate-300">{reason} Расчёт, список вещей и отправка заявки продолжают работать. Обновите страницу, чтобы попробовать вернуть 3D.</p>
+      </div>
+      <div className="relative max-h-[60%] w-full max-w-xl overflow-hidden rounded-xl border-4 border-orange-400 bg-slate-100" style={{ aspectRatio: `${vehicle.cargoLength}/${vehicle.cargoWidth}` }}>
+        {visible.map((item) => {
+          const left = ((item.position[0] + vehicle.cargoLength / 2) / vehicle.cargoLength) * 100;
+          const top = ((item.position[2] + vehicle.cargoWidth / 2) / vehicle.cargoWidth) * 100;
+          return <span key={item.id} title={`${item.name}, ${item.weight} кг`} className="absolute h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-sm bg-blue-600 ring-1 ring-white" style={{ left: `${left}%`, top: `${top}%` }} />;
+        })}
+      </div>
+      <div className="text-xs font-bold text-orange-200">{vehicle.label} · {pallets.length} позиций{pallets.length > visible.length ? ` · на плане первые ${visible.length}` : ''}</div>
+      <button onClick={() => window.location.reload()} className="rounded-full bg-[#ff6b00] px-4 py-2 text-xs font-black text-white">Обновить 3D</button>
+    </div>
+  );
+}
+
 export function Scene() {
   const cameraMode = useCalculatorStore((s) => s.cameraMode);
   const isFirstPerson = useCalculatorStore((s) => s.isFirstPerson);
   const isPerformanceMode = useCalculatorStore((s) => s.isPerformanceMode);
+  const renderQuality = useCalculatorStore((s) => s.renderQuality);
   const isHeatmapEnabled = useCalculatorStore((s) => s.isHeatmapEnabled);
+  const [webglLost, setWebglLost] = useState(false);
+  const [autoDegraded, setAutoDegraded] = useState(false);
   const isInside = cameraMode === 'inside' || cameraMode === 'cabin' || isFirstPerson;
-  // A full HDR environment, soft shadows and high device-pixel-ratio are not a
-  // safe default for phones and entry-level laptops. The manual quality switch
-  // still works, while constrained devices start with the lighter renderer.
   const isLowPowerDevice = useMemo(() => {
     if (typeof navigator === 'undefined') return false;
     const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
     return window.matchMedia('(pointer: coarse)').matches || (memory !== undefined && memory <= 4) || navigator.hardwareConcurrency <= 4;
   }, []);
-  const renderLite = isPerformanceMode || isLowPowerDevice;
+  const renderLite = isPerformanceMode || renderQuality === 'lite' || (renderQuality === 'auto' && (isLowPowerDevice || autoDegraded));
+
+  if (webglLost) return <SceneFallback reason="Браузер освободил WebGL-память для стабильной работы." />;
+
   return (
-    <Canvas shadows={!renderLite} dpr={renderLite ? [1, 1] : [1, 1.8]} gl={{ antialias: !renderLite, alpha: true, preserveDrawingBuffer: false }} className="h-full w-full touch-none">
+    <Canvas
+      shadows={!renderLite}
+      dpr={renderLite ? [1, 1] : [1, 1.8]}
+      gl={{ antialias: !renderLite, alpha: true, preserveDrawingBuffer: false }}
+      onCreated={({ gl }) => {
+        gl.domElement.addEventListener('webglcontextlost', (event) => {
+          event.preventDefault();
+          setWebglLost(true);
+        }, { once: true });
+      }}
+      fallback={<SceneFallback reason="WebGL не поддерживается этим браузером." />}
+      className="h-full w-full touch-none"
+    >
       <PerspectiveCamera makeDefault position={[6.8, 4.3, 6.2]} fov={48} />
       <Suspense fallback={null}>
         <Lighting />
         {!renderLite && <Environment preset={isInside ? 'apartment' : 'warehouse'} />}
         <Truck position={[0, 0, 0]} />
-        {isHeatmapEnabled && <FloorHeatmap />}
+        {isHeatmapEnabled && !renderLite && <FloorHeatmap />}
         <PalletManager />
         <EngineeringOverlay />
         {!renderLite && <ContactShadows position={[0, -0.02, 0]} opacity={isInside ? 0.22 : 0.42} scale={12} blur={2.5} far={5} />}
         <CameraController />
         <FirstPersonController />
         <SoundManager />
+        {renderQuality === 'auto' && !renderLite && <AdaptiveQuality onSlowFrames={() => setAutoDegraded(true)} />}
       </Suspense>
       <ControlsWrapper />
     </Canvas>

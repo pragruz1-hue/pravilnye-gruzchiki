@@ -51,15 +51,15 @@ export function EngineeringOverlay() {
         <MeasurementForItem item={selected as any} vehicleType={vehicleType} />
       )}
 
-      {pallets.map((item) => {
-        const check = canFitThroughDoor(item as any, vehicleType);
+      {selected && (() => {
+        const check = canFitThroughDoor(selected as any, vehicleType);
         if (check.fits) return null;
         return (
-          <Html key={`door-${item.id}`} position={[item.position[0], item.position[1] + 0.8, item.position[2]]} center distanceFactor={7}>
+          <Html position={[selected.position[0], selected.position[1] + 0.8, selected.position[2]]} center distanceFactor={7}>
             <div className="rounded-full bg-amber-500 px-2 py-0.5 text-[9px] font-black text-black">🚪 {check.reason}</div>
           </Html>
         );
-      })}
+      })()}
     </group>
   );
 }

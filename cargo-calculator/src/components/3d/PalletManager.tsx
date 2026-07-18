@@ -6,8 +6,10 @@ import { useCalculatorStore } from '../../store/useCalculatorStore';
 import { hasPalletCollision, isInsideCargoBay } from '../../hooks/usePalletCollision';
 import { orientedFootprint, VEHICLES, getStackHeightAt } from '../../utils/calculations';
 import { Pallet } from './Pallet';
+import { InstancedCargoBoxes } from './InstancedCargoBoxes';
 
 const GRID_SIZE = 0.1;
+const DETAILED_BOX_LIMIT = 48;
 
 export function PalletManager() {
   const pallets = useCalculatorStore((state) => state.pallets);
@@ -30,6 +32,18 @@ export function PalletManager() {
     pallets.forEach((pallet) => map.set(pallet.id, hasPalletCollision(pallet, pallets) || !isInsideCargoBay(pallet, vehicleType)));
     return map;
   }, [pallets, vehicleType]);
+
+  // Keep furniture and the selected box fully interactive. Excess auto-filled
+  // boxes stay in the calculation, but are rendered with InstancedMesh.
+  const { detailedItems, instancedBoxes } = useMemo(() => {
+    const boxes = pallets.filter((item) => item.kind === 'box');
+    const detailedBoxIds = new Set(boxes.slice(0, DETAILED_BOX_LIMIT).map((item) => item.id));
+    if (selectedPalletId && boxes.some((item) => item.id === selectedPalletId)) detailedBoxIds.add(selectedPalletId);
+    return {
+      detailedItems: pallets.filter((item) => item.kind !== 'box' || detailedBoxIds.has(item.id)),
+      instancedBoxes: boxes.filter((item) => !detailedBoxIds.has(item.id))
+    };
+  }, [pallets, selectedPalletId]);
 
   useFrame((state) => {
     if (!isDragging || !selectedPalletId) return;
@@ -90,9 +104,10 @@ export function PalletManager() {
 
   return (
     <group onPointerMissed={() => selectPallet(null)}>
-      {pallets.map((pallet) => (
+      {detailedItems.map((pallet) => (
         <Pallet key={pallet.id} {...pallet} isSelected={pallet.id === selectedPalletId} hasCollision={collisionMap.get(pallet.id) ?? false} onPointerDown={handlePalletPointerDown} onPointerUp={stopDragging} onSelect={selectPallet} onRotateCommit={updatePalletRotation} />
       ))}
+      {instancedBoxes.length > 0 && <InstancedCargoBoxes items={instancedBoxes} onSelect={selectPallet} />}
       <mesh position={[0, 0.071, 0]} rotation={[-Math.PI / 2, 0, 0]} visible={false} onPointerUp={stopDragging}>
         <planeGeometry args={[vehicle.cargoLength, vehicle.cargoWidth]} />
         <meshBasicMaterial transparent opacity={0} />
