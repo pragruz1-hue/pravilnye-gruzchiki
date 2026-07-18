@@ -23,7 +23,7 @@ export function RightPanel() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
     // Шаринг как игра — звук
-    try { (window as any).pgPlaySound?.('click'); if (navigator.vibrate) navigator.vibrate(40); } catch {}
+    try { window.pgPlaySound?.('click'); if (navigator.vibrate) navigator.vibrate(40); } catch {}
   }
 
   function handleScreenshot() {
@@ -35,7 +35,7 @@ export function RightPanel() {
       a.href = dataUrl;
       a.download = `cargo-${vehicleType}-${pallets.length}items.png`;
       a.click();
-      (window as any).pgPlaySound?.('snap');
+      window.pgPlaySound?.('snap');
     } catch {}
   }
 
@@ -94,6 +94,12 @@ export function RightPanel() {
           📨 Отправить расчет менеджеру (postMessage)
         </button>
       </div>
+
+      {useCalculatorStore((s) => s.overflowCount) > 0 && (
+        <div className="rounded-full border border-orange-400 bg-orange-50 px-3 py-1.5 text-xs font-black text-orange-700 shadow-sm">
+          ⚠️ {useCalculatorStore((s) => s.overflowCount)} не влез{useCalculatorStore((s) => s.overflowCount) === 1 ? 'ло' : 'ли'} · подробнее в левой панели
+        </div>
+      )}
 
       {pallets.length > 0 && (
         <div className={`rounded-[20px] p-3 text-xs ${isNightMode ? 'bg-orange-500/10 text-orange-200 ring-1 ring-orange-500/20' : 'bg-orange-50 text-orange-900 ring-1 ring-orange-200'}`}>

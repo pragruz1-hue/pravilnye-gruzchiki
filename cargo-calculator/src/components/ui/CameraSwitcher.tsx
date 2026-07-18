@@ -4,7 +4,7 @@ import { useCalculatorStore } from '../../store/useCalculatorStore';
 const modes: { id: CameraMode; label: string; icon: string; hint: string }[] = [
   { id: 'overview', label: 'Обзор', icon: '🎮', hint: 'вид снаружи' },
   { id: 'inside', label: 'В кузове', icon: '📦', hint: 'изнутри кузова' },
-  { id: 'cabin', label: 'Кабина', icon: '🚚', hint: 'из кабины' },
+  { id: 'cabin', label: 'От ворот', icon: '🚪', hint: 'от задних ворот — вид на загрузку' },
   { id: 'side', label: 'Сбоку', icon: '👁', hint: 'боковой вид' },
   { id: 'top', label: 'Сверху', icon: '🗺', hint: 'вид сверху' }
 ];
@@ -46,7 +46,7 @@ export function CameraSwitcher() {
         </button>
       </div>
       <div className="hidden rounded-full bg-black/50 px-3 py-1 text-[10px] font-bold text-white/70 backdrop-blur md:block">
-        ЛКМ — выбрать · Drag — переместить · колесо — zoom · XYZ gizmo — точное перемещение
+        ЛКМ — выбрать · Drag — переместить · колесо — zoom · XYZ gizmo — точное перемещение · От ворот — LMB drag для осмотра
       </div>
     </div>
   );

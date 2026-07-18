@@ -341,10 +341,11 @@ export function getStackHeightAt(palletId: string, x: number, z: number, pallets
       if (otherTopY > maxTopY) maxTopY = otherTopY;
     }
   });
-  return maxTopY;
+  // Snap Y to 5cm grid for even stacking
+  return Math.round(maxTopY / 0.05) * 0.05;
 }
 
-export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType): LoadItem[] {
+export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType): { placed: LoadItem[]; overflow: LoadItem[] } {
   const vehicle = VEHICLES[vehicleType];
   const L = vehicle.cargoLength;
   const W = vehicle.cargoWidth;
@@ -365,9 +366,19 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     return itemVolume(b) - itemVolume(a);
   });
   const placed: LoadItem[] = [];
+  const overflow: LoadItem[] = [];
   const WALL_SNAP = 0.06;
 
   sorted.forEach((item) => {
+    // Check basic volumetric / weight capacity first
+    const totalsSoFar = calculateTotals(placed);
+    const itemV = itemVolume(item);
+    const itemW = itemWeight(item);
+    if (totalsSoFar.volume + itemV > vehicle.capacityM3 * 1.0 || totalsSoFar.weight + itemW > vehicle.capacityKg * 1.0) {
+      overflow.push(item);
+      return;
+    }
+
     if (item.dimensions.height > H && item.canLaySide) item.rotation = [0, 0, Math.PI / 2];
     const isLong = item.kind === 'sofa' || item.kind === 'bed' || item.kind === 'bike' || item.kind === 'table';
     if (isLong) item.rotation = [item.rotation[0], Math.PI / 2, item.rotation[2]];
@@ -445,14 +456,53 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
         if (overlap) { snapCollision = true; break; }
       }
       if (!snapCollision) { bestX = snappedX; bestZ = snappedZ; }
+      // Snap Y to 5cm grid
+      bestY = Math.round(bestY / 0.05) * 0.05;
       item.position = [bestX, bestY, bestZ];
+      placed.push(item);
     } else {
-      const idx = placed.length;
-      item.position = [-L / 2 + 0.5 + idx * 0.4, 0.04, 0];
+      // Не нашли места — пробуем развернуть предмет на 180° вокруг Y
+      if (item.canLaySide && Math.abs(item.rotation[2]) < 0.1) {
+        // Try laying on side if height exceeds and wasn't tried
+        const altRot: [number, number, number] = [Math.PI / 2, item.rotation[1], 0];
+        const origRot: [number, number, number] = [...item.rotation];
+        item.rotation = altRot;
+        const altFp = orientedFootprint(item);
+        const altHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
+        if (altHeight <= H) {
+          // Try again with new orientation (just one pass)
+          let altFound = false;
+          for (let x = -L / 2 + altFp.length / 2; x <= L / 2 - altFp.length / 2 && !altFound; x += 0.15) {
+            for (const z of candidateZs) {
+              let maxTopY = item.kind === 'pallet' ? 0.072 : 0.04;
+              let canStack = true;
+              for (const other of placed) {
+                const otherFp = orientedFootprint(other);
+                const overlap = (x - altFp.length / 2) < (other.position[0] + otherFp.length / 2) && (x + altFp.length / 2) > (other.position[0] - otherFp.length / 2) &&
+                                (z - altFp.width / 2) < (other.position[2] + otherFp.width / 2) && (z + altFp.width / 2) > (other.position[2] - otherFp.width / 2);
+                if (overlap) {
+                  const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
+                  const otherTopY = other.position[1] + otherHeight;
+                  if (otherTopY > maxTopY) maxTopY = otherTopY;
+                }
+              }
+              if (canStack && maxTopY + altHeight <= H) {
+                const snapZ = Math.abs(z - (-W / 2 + altFp.width / 2)) < WALL_SNAP ? -W / 2 + altFp.width / 2 : z;
+                item.position = [Math.round(x / 0.05) * 0.05, Math.round(maxTopY / 0.05) * 0.05, snapZ];
+                altFound = true;
+                break;
+              }
+            }
+          }
+          if (altFound) { placed.push(item); return; }
+        }
+        item.rotation = origRot;
+      }
+      // Не нашли места — предмет не помещается в этот кузов
+      overflow.push(item);
     }
-    placed.push(item);
   });
-  return placed;
+  return { placed, overflow };
 }
 
 // === Инженерные расчеты ===
@@ -608,4 +658,93 @@ export function checkOverload(items: LoadItem[], vehicleType: VehicleType): { ov
   if (weightPercent > 100) return { overloaded: true, weightPercent, volumePercent, message: `Перегруз по весу ${totals.weight}кг > ${vehicle.capacityKg}кг` };
   if (volumePercent > 100) return { overloaded: true, weightPercent, volumePercent, message: `Перегруз по объему ${totals.volume.toFixed(1)}м³ > ${vehicle.capacityM3}м³` };
   return { overloaded: false, weightPercent, volumePercent };
+}
+
+// === Автозаполнение пустот коробками ===
+
+interface BoxTemplate {
+  size: 'S' | 'M' | 'L';
+  dims: { length: number; width: number; height: number };
+  weight: number;
+  volume: number;
+}
+
+const FILL_BOX_TEMPLATES: BoxTemplate[] = [
+  { size: 'S', dims: { length: 0.4, width: 0.3, height: 0.3 }, weight: 6, volume: 0.4*0.3*0.3 },
+  { size: 'M', dims: { length: 0.6, width: 0.4, height: 0.4 }, weight: 12, volume: 0.6*0.4*0.4 },
+  { size: 'L', dims: { length: 0.8, width: 0.6, height: 0.6 }, weight: 22, volume: 0.8*0.6*0.6 }
+];
+
+/** Generate virtual box items to fill remaining empty space in the vehicle.
+ *  Returns an array of Omit<LoadItem, 'id'> that can be added and re-packed. */
+export function generateFillBoxes(items: LoadItem[], vehicleType: VehicleType): Array<Omit<LoadItem, 'id'>> {
+  const vehicle = VEHICLES[vehicleType];
+  const MAX_FILL = 0.92; // fill up to 92% capacity to leave realistic margins
+  const totals = calculateTotals(items);
+  const freeVol = vehicle.capacityM3 * MAX_FILL - totals.volume;
+  const freeWeight = vehicle.capacityKg * MAX_FILL - totals.weight;
+
+  if (freeVol < 0.05 || freeWeight < 5) return []; // not enough room for even one box
+
+  const boxes: Array<Omit<LoadItem, 'id'>> = [];
+  let usedVol = 0;
+  let usedWeight = 0;
+
+  // Mix of sizes: prefer M as most realistic, then S for small gaps, L for bulk
+  const mix: Array<{ template: BoxTemplate; ratio: number }> = [
+    { template: FILL_BOX_TEMPLATES[1], ratio: 0.5 }, // M — 50%
+    { template: FILL_BOX_TEMPLATES[0], ratio: 0.3 }, // S — 30%
+    { template: FILL_BOX_TEMPLATES[2], ratio: 0.2 }, // L — 20%
+  ];
+
+  let iterations = 0;
+  const MAX_ITER = 200; // safety cap
+
+  while (usedVol < freeVol - 0.02 && usedWeight < freeWeight - 3 && iterations < MAX_ITER) {
+    iterations++;
+    // Pick template based on remaining space
+    let template: BoxTemplate;
+    if (freeVol - usedVol < 0.15) {
+      template = FILL_BOX_TEMPLATES[0]; // only S size fits
+    } else if (freeVol - usedVol < 0.35) {
+      template = FILL_BOX_TEMPLATES[1]; // M
+    } else {
+      template = FILL_BOX_TEMPLATES[2]; // L for bulk
+    }
+
+    const addVol = template.volume;
+    const addWeight = template.weight;
+    if (usedVol + addVol > freeVol || usedWeight + addWeight > freeWeight) {
+      // Try smaller box
+      if (template.size === 'L') {
+        template = FILL_BOX_TEMPLATES[1];
+      } else if (template.size === 'M') {
+        template = FILL_BOX_TEMPLATES[0];
+      } else {
+        break; // even S doesn't fit
+      }
+      if (usedVol + template.volume > freeVol || usedWeight + template.weight > freeWeight) break;
+    }
+
+    usedVol += template.volume;
+    usedWeight += template.weight;
+    boxes.push({
+      kind: 'box',
+      name: `Коробка ${template.size}`,
+      type: 'STANDARD' as any,
+      position: [0, 0.04, 0],
+      rotation: [0, 0, 0],
+      weight: template.weight,
+      boxes: [],
+      dimensions: template.dims,
+      material: 'cardboard' as any,
+      wrapped: false,
+      stackable: true,
+      maxStackWeight: 60,
+      canLaySide: true,
+      fragile: false
+    });
+  }
+
+  return boxes;
 }

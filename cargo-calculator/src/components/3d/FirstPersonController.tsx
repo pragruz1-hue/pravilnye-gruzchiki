@@ -50,7 +50,7 @@ export function FirstPersonController() {
   }, [setCameraMode]);
 
   useFrame((_, delta) => {
-    const joystick = (window as any).__joystick as { x: number; y: number } | undefined;
+    const joystick = window.__joystick as { x: number; y: number } | undefined;
     const hasJoystick = joystick && (Math.abs(joystick.x) > 0.01 || Math.abs(joystick.y) > 0.01);
     if (!isFirstPerson && cameraMode !== 'inside' && cameraMode !== 'cabin' && !hasJoystick) return;
     if (!controls) return;

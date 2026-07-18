@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ApartmentPreset, BoxSize, BoxType, CameraMode, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, PalletType, ServicesState, VehicleType } from '../types';
-import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, generateSharePayload, packItemsInVehicle, recommendVehicle } from '../utils/calculations';
+import { APARTMENT_STANDARDS, calculateDistance, calculatePrice, calculateTotals, generateFillBoxes, generateSharePayload, getStackHeightAt, orientedHeight, packItemsInVehicle, recommendVehicle, VEHICLES } from '../utils/calculations';
 
 interface CalculatorState {
   from: string;
@@ -35,6 +35,14 @@ interface CalculatorState {
   isPerformanceMode: boolean;
   isPhysicsEnabled: boolean;
   isHeatmapEnabled: boolean;
+  overflowCount: number;
+  overflowItems: LoadItem[];
+  overflowWeight: number;
+  overflowVolume: number;
+  estimatedTrips: number;
+  fallingTargets: Record<string, number>;
+  landItem: (id: string) => void;
+  commitLanding: (id: string) => void;
   setRoute: (from: string, to: string) => void;
   setMoveType: (moveType: MoveType) => void;
   setVehicleType: (vehicleType: VehicleType) => void;
@@ -68,6 +76,7 @@ interface CalculatorState {
   togglePhysics: () => void;
   toggleHeatmap: () => void;
   loadFromShare: (pallets: LoadItem[], vehicle: VehicleType) => void;
+  fillEmptySpace: () => void;
 }
 
 export const CATALOG: CatalogItem[] = [
@@ -148,6 +157,21 @@ let lastPostTime = 0;
 let postDebounceTimer: any = null;
 let lastHistoryPush = 0;
 
+function computeOverflowInfo(overflow: LoadItem[], vehicleType: VehicleType): { overflowCount: number; overflowWeight: number; overflowVolume: number; estimatedTrips: number } {
+  const vehicle = VEHICLES[vehicleType];
+  const totals = calculateTotals(overflow);
+  const capM3 = vehicle.capacityM3 || 1;
+  const capKg = vehicle.capacityKg || 1;
+  const tripsByVol = Math.ceil(totals.volume / capM3);
+  const tripsByWeight = Math.ceil(totals.weight / capKg);
+  return {
+    overflowCount: overflow.length,
+    overflowWeight: Math.round(totals.weight),
+    overflowVolume: Math.round(totals.volume * 100) / 100,
+    estimatedTrips: Math.max(1, Math.min(10, Math.max(tripsByVol, tripsByWeight)))
+  };
+}
+
 function recalculate(set: (partial: Partial<CalculatorState>) => void, state: CalculatorState): void {
   const totals = calculateTotals(state.pallets);
   const recommendedVehicleType = state.activePreset ? APARTMENT_STANDARDS[state.activePreset].recommendedVehicle : recommendVehicle(state.pallets);
@@ -205,7 +229,8 @@ export const useCalculatorStore = create<CalculatorState>()(
       pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7', vehicleCount: 1, urgency: 2, services: initialServices,
       basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', activePreset: null,
       cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
-      isPerformanceMode: false, isPhysicsEnabled: false, isHeatmapEnabled: true,
+      isPerformanceMode: false, isPhysicsEnabled: false, isHeatmapEnabled: true, fallingTargets: {},
+      overflowCount: 0, overflowItems: [], overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0,
 
       setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
       setMoveType: (moveType) => { set({ moveType }); get().calculatePrice(); },
@@ -216,7 +241,8 @@ export const useCalculatorStore = create<CalculatorState>()(
         const currentItems = get().pallets;
         if (currentItems.length === 0) { get().calculatePrice(); return; }
         const packed = packItemsInVehicle(currentItems, vehicleType);
-        set({ pallets: packed, selectedPalletId: packed.length > 0 ? packed[0].id : null });
+        const _oi = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        set({ pallets: packed.placed, overflowItems: packed.overflow, selectedPalletId: packed.placed.length > 0 ? packed.placed[0].id : null, ..._oi });
         get().calculatePrice();
       },
       useRecommendedVehicle: () => {
@@ -226,7 +252,8 @@ export const useCalculatorStore = create<CalculatorState>()(
         const currentItems = get().pallets;
         if (currentItems.length === 0) { get().calculatePrice(); return; }
         const packed = packItemsInVehicle(currentItems, recommended);
-        set({ pallets: packed, selectedPalletId: packed.length > 0 ? packed[0].id : null });
+        const _oi2 = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        set({ pallets: packed.placed, overflowItems: packed.overflow, selectedPalletId: packed.placed.length > 0 ? packed.placed[0].id : null, ..._oi2 });
         get().calculatePrice();
       },
       setVehicleCount: (vehicleCount) => { set({ vehicleCount: Math.max(1, Math.min(10, vehicleCount)) }); get().calculatePrice(); },
@@ -238,10 +265,11 @@ export const useCalculatorStore = create<CalculatorState>()(
         set((state) => {
           const items = [...state.pallets, { ...palletData, id }];
           const packed = packItemsInVehicle(items, state.vehicleType);
-          return { pallets: packed, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
+          const _oi3 = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+          return { pallets: packed.placed, overflowItems: packed.overflow, ..._oi3, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
         });
         get().calculatePrice();
-        if (get().isSoundEnabled) { try { (window as any).pgPlaySound?.('add'); } catch {} }
+        if (get().isSoundEnabled) { try { window.pgPlaySound?.('add'); } catch {} }
       },
       addCatalogItem: (kind) => {
         const id = createId(kind);
@@ -250,10 +278,11 @@ export const useCalculatorStore = create<CalculatorState>()(
           const dummyPos: [number, number, number] = [0, 0.04, 0];
           const items = [...state.pallets, { ...createLoadItem(kind, dummyPos), id }];
           const packed = packItemsInVehicle(items, state.vehicleType);
-          return { pallets: packed, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
+          const _oi4 = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+          return { pallets: packed.placed, overflowItems: packed.overflow, ..._oi4, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
         });
         get().calculatePrice();
-        if (get().isSoundEnabled) { try { (window as any).pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {} }
+        if (get().isSoundEnabled) { try { window.pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {} }
       },
       applyApartmentPreset: (preset) => {
         const standard = APARTMENT_STANDARDS[preset];
@@ -261,13 +290,22 @@ export const useCalculatorStore = create<CalculatorState>()(
         const recommended = standard.recommendedVehicle;
         const st = get();
         const packed = packItemsInVehicle(rawItems, recommended);
+        // Auto-fill remaining empty space with boxes for realistic visualisation
+        const fillBoxes = generateFillBoxes(packed.placed, recommended);
+        const filledItems = fillBoxes.length > 0
+          ? packItemsInVehicle([...packed.placed, ...fillBoxes.map(b => ({ ...b, id: createId('fill') }))], recommended)
+          : packed;
+        const result = fillBoxes.length > 0 ? filledItems : packed;
+        const _oi5 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
         set({
           moveType: 'apartment',
-          pallets: packed,
-          selectedPalletId: packed[0]?.id ?? null,
+          pallets: result.placed,
+          overflowItems: result.overflow,
+          selectedPalletId: result.placed[0]?.id ?? null,
           activePreset: preset,
           recommendedVehicleType: recommended,
           vehicleType: recommended,
+          ..._oi5,
           ...pushHistory(st)
         });
         get().calculatePrice();
@@ -280,15 +318,18 @@ export const useCalculatorStore = create<CalculatorState>()(
             return { pallets: [], selectedPalletId: null, activePreset: null, ...pushHistory(st) };
           }
           const packed = packItemsInVehicle(remaining, state.vehicleType);
+          const _oi6 = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
           return {
-            pallets: packed,
-            selectedPalletId: state.selectedPalletId === id ? (packed[0]?.id ?? null) : state.selectedPalletId,
+            pallets: packed.placed,
+            overflowItems: packed.overflow,
+            ..._oi6,
+            selectedPalletId: state.selectedPalletId === id ? (packed.placed[0]?.id ?? null) : state.selectedPalletId,
             activePreset: null,
             ...pushHistory(st)
           };
         });
         get().calculatePrice();
-        if (get().isSoundEnabled) { try { (window as any).pgPlaySound?.('remove'); if (navigator.vibrate) navigator.vibrate([20, 30, 20]); } catch {} }
+        if (get().isSoundEnabled) { try { window.pgPlaySound?.('remove'); if (navigator.vibrate) navigator.vibrate([20, 30, 20]); } catch {} }
       },
       updatePalletPosition: (id, position) => {
         // Throttled history for drag
@@ -362,6 +403,59 @@ export const useCalculatorStore = create<CalculatorState>()(
       loadFromShare: (pallets, vehicle) => {
         set({ pallets, vehicleType: vehicle, selectedPalletId: pallets[0]?.id ?? null });
         get().calculatePrice();
+      },
+      fillEmptySpace: () => {
+        const state = get();
+        if (state.pallets.length === 0) return;
+        const fillBoxes = generateFillBoxes(state.pallets, state.vehicleType);
+        if (fillBoxes.length === 0) {
+          if (get().isSoundEnabled) try { window.pgPlaySound?.('click'); } catch {}
+          return;
+        }
+        const st = get();
+        const itemsWithFill = [...state.pallets, ...fillBoxes.map(b => ({ ...b, id: createId('fill') }))];
+        const packed = packItemsInVehicle(itemsWithFill, state.vehicleType);
+        const _oi = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+        // If fill boxes created collisions (overflow has original items), warn is handled by overflow display
+        const fillCount = packed.placed.length - state.pallets.length;
+        set({
+          pallets: packed.placed,
+          overflowItems: packed.overflow,
+          selectedPalletId: packed.placed[0]?.id ?? null,
+          activePreset: null,
+          ..._oi,
+          ...pushHistory(st)
+        });
+        get().calculatePrice();
+        if (get().isSoundEnabled) {
+          try { window.pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {}
+        }
+      },
+      landItem: (id) => {
+        const state = get();
+        const item = state.pallets.find(p => p.id === id);
+        if (!item) return;
+        const targetY = getStackHeightAt(id, item.position[0], item.position[2], state.pallets);
+        const vehicle = VEHICLES[state.vehicleType];
+        const itemH = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
+        const clampedY = Math.round(Math.min(targetY, vehicle.cargoHeight - itemH) / 0.05) * 0.05;
+        // Start smooth fall animation
+        set((s) => ({ fallingTargets: { ...s.fallingTargets, [id]: clampedY } }));
+      },
+      commitLanding: (id) => {
+        const state = get();
+        const targetY = state.fallingTargets[id];
+        if (targetY === undefined) return;
+        const newFalling = { ...state.fallingTargets };
+        delete newFalling[id];
+        set((s) => ({
+          fallingTargets: newFalling,
+          pallets: s.pallets.map(p => p.id === id ? { ...p, position: [p.position[0], targetY, p.position[2]] } : p)
+        }));
+        get().calculatePrice();
+        if (get().isSoundEnabled) {
+          try { window.pgPlaySound?.('click'); if (navigator.vibrate) navigator.vibrate(20); } catch {}
+        }
       }
     }),
     {
