@@ -3,7 +3,7 @@ import { ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
 import { hasPalletCollision, isInsideCargoBay } from '../../hooks/usePalletCollision';
-import { orientedFootprint, VEHICLES } from '../../utils/calculations';
+import { orientedFootprint, VEHICLES, getStackHeightAt } from '../../utils/calculations';
 import { Pallet } from './Pallet';
 
 const GRID_SIZE = 0.1;
@@ -37,11 +37,12 @@ export function PalletManager() {
     if (!hit) return;
     const fp = orientedFootprint(item);
     const snapped = snapToGrid(intersection.current.sub(dragOffset.current), GRID_SIZE);
-    updatePalletPosition(selectedPalletId, [
-      THREE.MathUtils.clamp(snapped.x, -vehicle.cargoLength / 2 + fp.length / 2, vehicle.cargoLength / 2 - fp.length / 2),
-      Math.max(0.04, item.position[1]),
-      THREE.MathUtils.clamp(snapped.z, -vehicle.cargoWidth / 2 + fp.width / 2, vehicle.cargoWidth / 2 - fp.width / 2)
-    ]);
+    
+    const targetX = THREE.MathUtils.clamp(snapped.x, -vehicle.cargoLength / 2 + fp.length / 2, vehicle.cargoLength / 2 - fp.length / 2);
+    const targetZ = THREE.MathUtils.clamp(snapped.z, -vehicle.cargoWidth / 2 + fp.width / 2, vehicle.cargoWidth / 2 - fp.width / 2);
+    const targetY = getStackHeightAt(selectedPalletId, targetX, targetZ, pallets);
+    
+    updatePalletPosition(selectedPalletId, [targetX, targetY, targetZ]);
   });
 
   function handlePalletPointerDown(id: string, event: ThreeEvent<PointerEvent>) {

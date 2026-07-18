@@ -218,3 +218,176 @@ export function recommendVehicle(items: LoadItem[]): VehicleType {
     return totals.volume <= v.capacityM3 * 0.94 && totals.weight <= v.capacityKg * 0.94 && maxTop <= v.cargoHeight && maxX <= v.cargoLength / 2 && maxZ <= v.cargoWidth / 2;
   }) || 'truck';
 }
+
+export function getStackHeightAt(palletId: string, x: number, z: number, pallets: LoadItem[]): number {
+  const item = pallets.find((p) => p.id === palletId);
+  if (!item) return 0.04;
+  
+  const fp = orientedFootprint(item);
+  const halfL = fp.length / 2;
+  const halfW = fp.width / 2;
+  const minX = x - halfL;
+  const maxX = x + halfL;
+  const minZ = z - halfW;
+  const maxZ = z + halfW;
+  
+  let maxTopY = item.kind === 'pallet' ? 0.072 : 0.04;
+  
+  pallets.forEach((other) => {
+    if (other.id === palletId) return;
+    
+    const otherFp = orientedFootprint(other);
+    const otherMinX = other.position[0] - otherFp.length / 2;
+    const otherMaxX = other.position[0] + otherFp.length / 2;
+    const otherMinZ = other.position[2] - otherFp.width / 2;
+    const otherMaxZ = other.position[2] + otherFp.width / 2;
+    
+    const overlap = minX < otherMaxX && maxX > otherMinX && minZ < otherMaxZ && maxZ > otherMinZ;
+    if (overlap) {
+      const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
+      const otherTopY = other.position[1] + otherHeight;
+      if (otherTopY > maxTopY) {
+        maxTopY = otherTopY;
+      }
+    }
+  });
+  
+  return maxTopY;
+}
+
+export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType): LoadItem[] {
+  const vehicle = VEHICLES[vehicleType];
+  const L = vehicle.cargoLength;
+  const W = vehicle.cargoWidth;
+  const H = vehicle.cargoHeight;
+
+  const rawItems = items.map(item => ({
+    ...item,
+    position: [0, 0, 0] as [number, number, number],
+    rotation: [0, 0, 0] as [number, number, number]
+  }));
+
+  const getPriority = (kind: string) => {
+    if (kind === 'fridge') return 1;
+    if (kind === 'safe' || kind === 'piano') return 2;
+    if (kind === 'wardrobe' || kind === 'sofa' || kind === 'bed' || kind === 'table') return 3;
+    if (kind === 'washer' || kind === 'chairs' || kind === 'tv' || kind === 'bike') return 4;
+    if (kind === 'pallet') return 5;
+    return 6;
+  };
+
+  const sorted = [...rawItems].sort((a, b) => {
+    const pA = getPriority(a.kind);
+    const pB = getPriority(b.kind);
+    if (pA !== pB) return pA - pB;
+    return itemVolume(b) - itemVolume(a);
+  });
+
+  const placed: LoadItem[] = [];
+
+  sorted.forEach((item) => {
+    if (item.dimensions.height > H && item.canLaySide) {
+      item.rotation = [0, 0, Math.PI / 2];
+    }
+
+    const isLong = item.kind === 'sofa' || item.kind === 'bed' || item.kind === 'bike' || item.kind === 'table';
+    if (isLong) {
+      item.rotation = [item.rotation[0], Math.PI / 2, item.rotation[2]];
+    }
+
+    const fp = orientedFootprint(item);
+    const itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
+
+    let bestX = 0;
+    let bestY = item.kind === 'pallet' ? 0.072 : 0.04;
+    let bestZ = 0;
+    let found = false;
+
+    const candidateZs: number[] = [];
+    if (isLong) {
+      candidateZs.push(-W / 2 + fp.width / 2);
+      candidateZs.push(W / 2 - fp.width / 2);
+      for (let z = -W / 2 + fp.width / 2 + 0.1; z <= W / 2 - fp.width / 2; z += 0.2) {
+        candidateZs.push(z);
+      }
+    } else {
+      for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.15) {
+        candidateZs.push(z);
+      }
+    }
+
+    for (let x = -L / 2 + fp.length / 2; x <= L / 2 - fp.length / 2; x += 0.1) {
+      if (found) break;
+      for (const z of candidateZs) {
+        let maxTopY = item.kind === 'pallet' ? 0.072 : 0.04;
+        let canStackOnTop = true;
+
+        for (const other of placed) {
+          const otherFp = orientedFootprint(other);
+          const otherMinX = other.position[0] - otherFp.length / 2;
+          const otherMaxX = other.position[0] + otherFp.length / 2;
+          const otherMinZ = other.position[2] - otherFp.width / 2;
+          const otherMaxZ = other.position[2] + otherFp.width / 2;
+
+          const overlap = (x - fp.length / 2) < otherMaxX && (x + fp.length / 2) > otherMinX &&
+                          (z - fp.width / 2) < otherMaxZ && (z + fp.width / 2) > otherMinZ;
+
+          if (overlap) {
+            const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
+            const otherTopY = other.position[1] + otherHeight;
+            if (otherTopY > maxTopY) {
+              maxTopY = otherTopY;
+              if (!other.stackable || item.weight > other.maxStackWeight) {
+                canStackOnTop = false;
+              }
+            }
+          }
+        }
+
+        if (canStackOnTop && (maxTopY + itemHeight) <= H) {
+          let has3DCollision = false;
+          const aMinY = maxTopY;
+          const aMaxY = maxTopY + itemHeight;
+
+          for (const other of placed) {
+            const otherFp = orientedFootprint(other);
+            const otherHeight = other.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(other.boxes.length / 4) * 0.28) : orientedHeight(other);
+            const otherMinX = other.position[0] - otherFp.length / 2;
+            const otherMaxX = other.position[0] + otherFp.length / 2;
+            const otherMinZ = other.position[2] - otherFp.width / 2;
+            const otherMaxZ = other.position[2] + otherFp.width / 2;
+            const otherMinY = other.position[1];
+            const otherMaxY = other.position[1] + otherHeight;
+
+            const overlapXZ = (x - fp.length / 2) < otherMaxX && (x + fp.length / 2) > otherMinX &&
+                              (z - fp.width / 2) < otherMaxZ && (z + fp.width / 2) > otherMinZ;
+            const overlapY = aMinY < otherMaxY && aMaxY > otherMinY;
+
+            if (overlapXZ && overlapY) {
+              has3DCollision = true;
+              break;
+            }
+          }
+
+          if (!has3DCollision) {
+            bestX = x;
+            bestY = maxTopY;
+            bestZ = z;
+            found = true;
+            break;
+          }
+        }
+      }
+    }
+
+    if (found) {
+      item.position = [bestX, bestY, bestZ];
+    } else {
+      const idx = placed.length;
+      item.position = [-L / 2 + 0.5 + idx * 0.4, 0.04, 0];
+    }
+    placed.push(item);
+  });
+
+  return placed;
+}

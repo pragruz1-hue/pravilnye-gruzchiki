@@ -33,6 +33,57 @@ export function Truck({ position }: TruckProps) {
       <mesh position={[-L / 2 - 0.02, H / 2 + 0.12, 0]} castShadow receiveShadow><boxGeometry args={[0.12, H, W]} /><primitive object={materials.paint} attach="material" /></mesh>
       <mesh position={[0, H / 2 + 0.12, -W / 2 - 0.02]} castShadow receiveShadow><boxGeometry args={[L, H, 0.08]} /><primitive object={materials.wall} attach="material" /></mesh>
       <mesh position={[0, H / 2 + 0.12, W / 2 + 0.02]} castShadow receiveShadow><boxGeometry args={[L, H, 0.08]} /><primitive object={materials.wall} attach="material" /></mesh>
+      
+      {/* Branded Decals on side walls */}
+      <Html
+        transform
+        occlude
+        position={[0, H / 2 + 0.12, W / 2 + 0.07]}
+        rotation={[0, 0, 0]}
+        scale={0.08}
+        className="pointer-events-none"
+      >
+        <div style={{
+          background: '#10131b',
+          color: '#ff6b00',
+          padding: '8px 18px',
+          borderRadius: '12px',
+          border: '2.5px solid #ff6b00',
+          fontWeight: 950,
+          fontSize: '22px',
+          whiteSpace: 'nowrap',
+          fontFamily: 'Inter, sans-serif',
+          boxShadow: '0 8px 20px rgba(0,0,0,0.5)',
+          letterSpacing: '0.12em'
+        }}>
+          ПРАВИЛЬНЫЕ ГРУЗЧИКИ
+        </div>
+      </Html>
+
+      <Html
+        transform
+        occlude
+        position={[0, H / 2 + 0.12, -W / 2 - 0.07]}
+        rotation={[0, Math.PI, 0]}
+        scale={0.08}
+        className="pointer-events-none"
+      >
+        <div style={{
+          background: '#10131b',
+          color: '#ff6b00',
+          padding: '8px 18px',
+          borderRadius: '12px',
+          border: '2.5px solid #ff6b00',
+          fontWeight: 950,
+          fontSize: '22px',
+          whiteSpace: 'nowrap',
+          fontFamily: 'Inter, sans-serif',
+          boxShadow: '0 8px 20px rgba(0,0,0,0.5)',
+          letterSpacing: '0.12em'
+        }}>
+          ПРАВИЛЬНЫЕ ГРУЗЧИКИ
+        </div>
+      </Html>
       <mesh position={[0, H + 0.18, -W / 2]} castShadow receiveShadow><boxGeometry args={[L, 0.1, 0.12]} /><primitive object={materials.chrome} attach="material" /></mesh>
       <mesh position={[0, H + 0.18, W / 2]} castShadow receiveShadow><boxGeometry args={[L, 0.1, 0.12]} /><primitive object={materials.chrome} attach="material" /></mesh>
 

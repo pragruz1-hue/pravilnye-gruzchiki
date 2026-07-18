@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { ApartmentPreset, BoxSize, BoxType, CargoBox, CatalogItem, LoadItem, LoadItemKind, MoveType, PalletType, ServicesState, VehicleType } from '../types';
-import { calculateDistance, calculatePrice, calculateTotals, recommendVehicle } from '../utils/calculations';
+import { calculateDistance, calculatePrice, calculateTotals, recommendVehicle, packItemsInVehicle } from '../utils/calculations';
 
 interface CalculatorState {
   from: string;
@@ -125,7 +125,8 @@ function recalculate(set: (partial: Partial<CalculatorState>) => void, state: Ca
   set({ totalWeight: totals.weight, totalVolume: totals.volume, recommendedVehicleType, ...price });
 }
 
-const initialItems = buildPreset('oneRoom');
+const initialItemsRaw = buildPreset('oneRoom');
+const initialItems = packItemsInVehicle(initialItemsRaw, 'gazelle42');
 
 export const useCalculatorStore = create<CalculatorState>((set, get) => ({
   from: 'Краснодар', to: 'Сочи', distance: 286, moveType: 'apartment', totalWeight: calculateTotals(initialItems).weight, totalVolume: calculateTotals(initialItems).volume,
@@ -134,15 +135,70 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => ({
 
   setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
   setMoveType: (moveType) => { set({ moveType }); get().calculatePrice(); },
-  setVehicleType: (vehicleType) => { set({ vehicleType }); get().calculatePrice(); },
-  useRecommendedVehicle: () => { set({ vehicleType: get().recommendedVehicleType }); get().calculatePrice(); },
+  setVehicleType: (vehicleType) => {
+    set({ vehicleType });
+    // Pack current items when vehicle changes so they always sit nicely
+    const currentItems = get().pallets;
+    const packed = packItemsInVehicle(currentItems, vehicleType);
+    set({ pallets: packed, selectedPalletId: packed.length > 0 ? packed[0].id : null });
+    get().calculatePrice();
+  },
+  useRecommendedVehicle: () => {
+    const recommended = get().recommendedVehicleType;
+    set({ vehicleType: recommended });
+    const currentItems = get().pallets;
+    const packed = packItemsInVehicle(currentItems, recommended);
+    set({ pallets: packed, selectedPalletId: packed.length > 0 ? packed[0].id : null });
+    get().calculatePrice();
+  },
   setVehicleCount: (vehicleCount) => { set({ vehicleCount: Math.max(1, Math.min(10, vehicleCount)) }); get().calculatePrice(); },
   setUrgency: (urgency) => { set({ urgency }); get().calculatePrice(); },
   setService: (key, value) => { set((state) => ({ services: { ...state.services, [key]: value } })); get().calculatePrice(); },
-  addPallet: (palletData) => { const id = createId('pallet'); set((state) => ({ pallets: [...state.pallets, { ...palletData, id }], selectedPalletId: id, activePreset: null })); get().calculatePrice(); },
-  addCatalogItem: (kind) => { const index = get().pallets.length; const id = createId(kind); set((state) => ({ pallets: [...state.pallets, { ...createLoadItem(kind, gridPosition(index, state.vehicleType)), id }], selectedPalletId: id, activePreset: null })); get().calculatePrice(); },
-  applyApartmentPreset: (preset) => { const items = buildPreset(preset); const recommended = recommendVehicle(items); set({ moveType: 'apartment', pallets: items, selectedPalletId: items[0]?.id ?? null, activePreset: preset, recommendedVehicleType: recommended, vehicleType: recommended }); get().calculatePrice(); },
-  removePallet: (id) => { set((state) => ({ pallets: state.pallets.filter((pallet) => pallet.id !== id), selectedPalletId: state.selectedPalletId === id ? null : state.selectedPalletId, activePreset: null })); get().calculatePrice(); },
+  addPallet: (palletData) => {
+    const id = createId('pallet');
+    set((state) => {
+      const items = [...state.pallets, { ...palletData, id }];
+      const packed = packItemsInVehicle(items, state.vehicleType);
+      return { pallets: packed, selectedPalletId: id, activePreset: null };
+    });
+    get().calculatePrice();
+  },
+  addCatalogItem: (kind) => {
+    const id = createId(kind);
+    set((state) => {
+      const dummyPos: [number, number, number] = [0, 0.04, 0];
+      const items = [...state.pallets, { ...createLoadItem(kind, dummyPos), id }];
+      const packed = packItemsInVehicle(items, state.vehicleType);
+      return { pallets: packed, selectedPalletId: id, activePreset: null };
+    });
+    get().calculatePrice();
+  },
+  applyApartmentPreset: (preset) => {
+    const rawItems = buildPreset(preset);
+    const recommended = recommendVehicle(rawItems);
+    const packed = packItemsInVehicle(rawItems, recommended);
+    set({
+      moveType: 'apartment',
+      pallets: packed,
+      selectedPalletId: packed[0]?.id ?? null,
+      activePreset: preset,
+      recommendedVehicleType: recommended,
+      vehicleType: recommended
+    });
+    get().calculatePrice();
+  },
+  removePallet: (id) => {
+    set((state) => {
+      const remaining = state.pallets.filter((pallet) => pallet.id !== id);
+      const packed = packItemsInVehicle(remaining, state.vehicleType);
+      return {
+        pallets: packed,
+        selectedPalletId: state.selectedPalletId === id ? (packed[0]?.id ?? null) : state.selectedPalletId,
+        activePreset: null
+      };
+    });
+    get().calculatePrice();
+  },
   updatePalletPosition: (id, position) => { set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, position } : pallet), activePreset: null })); get().calculatePrice(); },
   updatePalletRotation: (id, rotation) => { set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, rotation } : pallet), activePreset: null })); get().calculatePrice(); },
   liftSelected: (delta) => { const id = get().selectedPalletId; if (!id) return; set((state) => ({ pallets: state.pallets.map((item) => item.id === id ? { ...item, position: [item.position[0], Math.max(0.04, item.position[1] + delta), item.position[2]] } : item), activePreset: null })); get().calculatePrice(); },
@@ -150,7 +206,26 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => ({
   selectPallet: (id) => set({ selectedPalletId: id }),
   updatePalletBoxes: (id, boxes) => { set((state) => ({ pallets: state.pallets.map((pallet) => pallet.id === id ? { ...pallet, boxes } : pallet) })); get().calculatePrice(); },
   calculatePrice: () => recalculate(set, get()),
-  resetCalculator: () => { const items = buildPreset('oneRoom'); const recommended = recommendVehicle(items); set({ from: 'Краснодар', to: 'Сочи', distance: 286, moveType: 'apartment', pallets: items, selectedPalletId: items[0]?.id ?? null, vehicleType: recommended, recommendedVehicleType: recommended, vehicleCount: 1, urgency: 2, services: initialServices, activePreset: 'oneRoom' }); get().calculatePrice(); }
+  resetCalculator: () => {
+    const rawItems = buildPreset('oneRoom');
+    const recommended = recommendVehicle(rawItems);
+    const packed = packItemsInVehicle(rawItems, recommended);
+    set({
+      from: 'Краснодар',
+      to: 'Сочи',
+      distance: 286,
+      moveType: 'apartment',
+      pallets: packed,
+      selectedPalletId: packed[0]?.id ?? null,
+      vehicleType: recommended,
+      recommendedVehicleType: recommended,
+      vehicleCount: 1,
+      urgency: 2,
+      services: initialServices,
+      activePreset: 'oneRoom'
+    });
+    get().calculatePrice();
+  }
 }));
 
 useCalculatorStore.getState().calculatePrice();
