@@ -114,13 +114,66 @@ export function Truck({ position }: TruckProps) {
         isNightMode={isNightMode}
         body={{ paint: materials.paint, glass: materials.glass, chrome: materials.chrome, dark: materials.dark, light: materials.light }}
       />
-      {wheelXs.map((x) => <group key={x}><Wheel x={x} z={-W / 2 - 0.15} tire={materials.tire} chrome={materials.chrome} /><Wheel x={x} z={W / 2 + 0.15} tire={materials.tire} chrome={materials.chrome} /></group>)}
+      {wheelXs.map((x) => <group key={x}><Wheel x={x} z={-W / 2 - 0.15} tire={materials.tire} chrome={materials.chrome} dual={x !== wheelXs[0]} /><Wheel x={x} z={W / 2 + 0.15} tire={materials.tire} chrome={materials.chrome} dual={x !== wheelXs[0]} /></group>)}
 
-
+      <RearCluster L={L} W={W} H={H} lastAxleX={wheelXs[wheelXs.length - 1]} isNightMode={isNightMode} dark={materials.dark} chrome={materials.chrome} paint={materials.paint} />
     </group>
   );
 }
 
-function Wheel({ x, z, tire, chrome }: { x: number; z: number; tire: THREE.Material; chrome: THREE.Material }) {
+/** Задняя часть: рама, противоподкатный брус, фонари, брызговики, распахнутые створки ворот, отражатели. */
+function RearCluster({ L, W, H, lastAxleX, isNightMode, dark, chrome, paint }: { L: number; W: number; H: number; lastAxleX: number; isNightMode: boolean; dark: THREE.Material; chrome: THREE.Material; paint: THREE.Material }) {
+  const R = L / 2;
+  const railZ = Math.min(0.55, W / 2 - 0.35);
+  const doorH = H - 0.03;
+  const doorY = 0.16 + doorH / 2;
+  return (
+    <group name="rear-cluster">
+      {/* рама шасси */}
+      <mesh position={[0, 0.05, railZ]}><boxGeometry args={[L - 0.3, 0.14, 0.08]} /><primitive object={dark} attach="material" /></mesh>
+      <mesh position={[0, 0.05, -railZ]}><boxGeometry args={[L - 0.3, 0.14, 0.08]} /><primitive object={dark} attach="material" /></mesh>
+      {/* противоподкатный брус */}
+      <mesh position={[R + 0.08, 0.35, 0]} castShadow><boxGeometry args={[0.14, 0.18, W - 0.05]} /><primitive object={dark} attach="material" /></mesh>
+      {/* брызговики задней оси */}
+      {[1, -1].map((s) => <mesh key={`rmf-${s}`} position={[lastAxleX + 0.46, 0.24, s * (W / 2 + 0.15)]}><boxGeometry args={[0.035, 0.42, 0.34]} /><primitive object={dark} attach="material" /></mesh>)}
+      {/* задние фонари */}
+      {[1, -1].map((s) => (
+        <group key={`tl-${s}`}>
+          <mesh position={[R + 0.06, 0.48, s * (W / 2 - 0.24)]} castShadow><boxGeometry args={[0.05, 0.26, 0.32]} /><primitive object={dark} attach="material" /></mesh>
+          <mesh position={[R + 0.09, 0.56, s * (W / 2 - 0.24)]}><boxGeometry args={[0.02, 0.08, 0.26]} /><meshStandardMaterial color="#ef4444" emissive="#ef4444" emissiveIntensity={isNightMode ? 2.2 : 0.6} roughness={0.3} /></mesh>
+          <mesh position={[R + 0.09, 0.47, s * (W / 2 - 0.24)]}><boxGeometry args={[0.02, 0.06, 0.26]} /><meshStandardMaterial color="#f59e0b" emissive="#f59e0b" emissiveIntensity={isNightMode ? 1.8 : 0.5} roughness={0.3} /></mesh>
+          <mesh position={[R + 0.09, 0.40, s * (W / 2 - 0.24)]}><boxGeometry args={[0.02, 0.05, 0.26]} /><meshStandardMaterial color="#f8fafc" emissive="#f8fafc" emissiveIntensity={isNightMode ? 1.4 : 0.25} roughness={0.3} /></mesh>
+        </group>
+      ))}
+      {/* распахнутые створки ворот на петлях */}
+      {[1, -1].map((s) => (
+        <group key={`door-${s}`}>
+          <mesh position={[R + 0.03 - (W / 2 - 0.02) / 2, doorY, s * (W / 2 + 0.055)]} castShadow receiveShadow><boxGeometry args={[W / 2 - 0.02, doorH, 0.05]} /><primitive object={paint} attach="material" /></mesh>
+          <mesh position={[R + 0.05, H / 2 + 0.12, s * (W / 2 - 0.01)]}><cylinderGeometry args={[0.025, 0.025, H + 0.04, 12]} /><primitive object={dark} attach="material" /></mesh>
+        </group>
+      ))}
+      {/* боковые отражатели */}
+      {[1, -1].map((s) => (
+        <group key={`ref-${s}`}>
+          {[-0.3, 0, 0.3].map((k) => (
+            <mesh key={k} position={[k * (L - 1.2), 0.22, s * (W / 2 + 0.045)]}><boxGeometry args={[0.10, 0.04, 0.02]} /><meshStandardMaterial color="#ef4444" emissive="#ef4444" emissiveIntensity={isNightMode ? 1.4 : 0.35} roughness={0.3} /></mesh>
+          ))}
+        </group>
+      ))}
+    </group>
+  );
+}
+
+function Wheel({ x, z, tire, chrome, dual }: { x: number; z: number; tire: THREE.Material; chrome: THREE.Material; dual?: boolean }) {
+  const off = Math.sign(z) * 0.17;
+  if (dual) {
+    return (
+      <group position={[x, 0.12, z]} rotation={[Math.PI / 2, 0, 0]}>
+        <mesh castShadow receiveShadow position={[0, off, 0]}><cylinderGeometry args={[0.39, 0.39, 0.24, 48]} /><primitive object={tire} attach="material" /></mesh>
+        <mesh castShadow receiveShadow position={[0, -off, 0]}><cylinderGeometry args={[0.39, 0.39, 0.24, 48]} /><primitive object={tire} attach="material" /></mesh>
+        <mesh castShadow receiveShadow position={[0, off + Math.sign(z) * 0.02, 0]}><cylinderGeometry args={[0.17, 0.17, 0.26, 36]} /><primitive object={chrome} attach="material" /></mesh>
+      </group>
+    );
+  }
   return <group position={[x, 0.12, z]} rotation={[Math.PI / 2, 0, 0]}><mesh castShadow receiveShadow><cylinderGeometry args={[0.39, 0.39, 0.28, 48]} /><primitive object={tire} attach="material" /></mesh><mesh castShadow receiveShadow position={[0, 0, 0.01]}><cylinderGeometry args={[0.17, 0.17, 0.3, 36]} /><primitive object={chrome} attach="material" /></mesh></group>;
 }
