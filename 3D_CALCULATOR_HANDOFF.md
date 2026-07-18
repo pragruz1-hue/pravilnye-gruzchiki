@@ -451,3 +451,101 @@ zip -r cargo-calculator-react-3d.zip cargo-calculator -x "cargo-calculator/node_
 * **Улучшение 3D-графики:** Добавить мягкие тени `AccumulativeShadows` и проработать текстуры бортов кузова изнутри.
 * **Звуковые эффекты:** Добавить легкий щелчок («клик») при успешном прилипании предмета к сетке или укладке на другой объект.
 * **Интеграция со sitemap и меню (опционально):** Если проект будет решено запустить публично (убрав `noindex`), добавить его в главное меню сайта и в XML-карту.
+
+---
+
+## 🚀 Обновление v3 — 18 июля 2026, ветка `arena/019f72c3-pravilnye-gruzchiki` — полный инженерный редизайн
+
+Пользователь повторно проверил калькулятор и дал 5 критических замечаний + запрос на игровой мобильный режим. Плюс позже попросил закрыть все оставшиеся риски из аудита.
+
+### Исправлено из ТЗ пользователя (5 пунктов):
+
+1. **Пустой старт** — `useCalculatorStore.ts` теперь `pallets: []`, `initialItems` убран. Раньше `packItemsInVehicle` делал fallback `[-L/2+0.5+idx*0.4]` → намеренное пересечение → “нельзя поставить”. Убран оверлей, добавлен приветственный `Кузов пустой — начни с квартиры`.
+
+2. **Рекомендуемая машина при выборе квартиры** — введен `APARTMENT_STANDARDS` (7,12,18 м³). `applyApartmentPreset` берёт `recommendedVehicle` строго из стандарта, а не из `maxX/maxZ` gridPosition. `recommendVehicle()` переписан на чистый объём/вес + проверка высоты.
+
+3. **Авто-заполнение объема** — 3 Газели с реальными габаритами из открытых источников:
+   - `gazelle7: 3.0×1.8×1.3=7.02 м³` (kuzovspec.ru тент 3×1.9×1.5≈8, FB.ru 3×1.75×1.75≈8)
+   - `gazelle12: 3.2×1.9×2.0=12.16 м³` (pereezdporossii.ru 3м=10-12)
+   - `gazelle18: 4.2×2.0×2.15=18.06 м³` (FB.ru 4.2×1.9×2.15=16-18)
+   Все 1500 кг как просил пользователь. В `CargoParameters.tsx` показывается источник.
+
+4. **2 окна мало + цена перекрывает** — `App.tsx` переделан с 2 absolute окон на 3 панели: левая 420px инвентарь, центр 3D flex-1, правая 380px цена+загрузка. `CapacityIndicators`/`PriceDisplay` получили `embedded` проп, не absolute. `index.css` `max-height 48vh` убран. На мобиле drawer'ы.
+
+5. **Камера едет при drag** — `PalletManager.tsx`: `controls.enabled=false` + `pointerCapture` + `preventDefault`. Раньше отключалось только в `InteractiveGizmo`.
+
+6. **Мобилка как игра**:
+   - `CameraSwitcher.tsx` 5 камер: обзор, в кузове, кабина, сбоку, сверху + день/ночь
+   - `Scene.tsx` `CameraController` lerp позиции/таргета/fov по `L/W/H`, `FirstPersonController` WASD + Q/E + Shift + коллизия со стенами
+   - `Truck.tsx` в `inside` режиме борта `opacity 0.92`, внутренние панели `wallInside`, лампы `sphere + pointLight` с emissive 3.0 ночью, светоотражатели
+   - `Lighting.tsx` интенсивность зависит от `isNightMode`
+
+### Что сделано сверх ТЗ (v2 → v3 “делай всё”):
+
+**Инженерия:**
+- `computeCenterOfGravity()` — взвешенный по массе центр, красный шарик + линия до пола, Html `COG кг`
+- `computeAxleLoads()` — правильная статика: `Rr = Σ Wi*(Xi-Xf)/wheelbase`, `Rf=total-Rr`, боковой `leftKg/rightKg` через `COG.z`, `imbalance%`, `lateral%`, `isTippingRisk = lateral>35 && y>H*0.6`. Исправлена ошибка старой формулы `wheelbase - distToRear`
+- `canFitThroughDoor()` — реалистичный проем `W*0.90`, `H*0.88 capped 1.92м` (порог Газели), проверка обеих ориентаций + диагональ `sqrt(W²+H²)`, учет `canLaySide`
+- `getDistanceToWalls()` рулетка для выбранного, линии `Line` до стен
+- `computeFloorHeatmap()` 12×12 сетка веса на ячейку, HSL зеленый→красный
+- `packItemsInVehicle()` магнит 6см + повторная проверка коллизии после снапа
+- `checkOverload()` вес/объем >100%
+- Fuel: `12л/100км +0.3л/100кг/100км`, `fuelLiters`, цена 62₽/л, `packing +15%` объема `calculateTotalsWithPacking()`
+- `FloorHeatmap.tsx`, `EngineeringOverlay.tsx` с COG, осями, дверью, рулеткой
+- `MobileJoystick.tsx` 110px, touch, пишет в `window.__joystick`, `FirstPersonController` читает джойстик
+- Mini-map с поворотом `rotate(${rotDeg}deg)`
+- Performance toggle: `isPerformanceMode` → `dpr [1,1]`, `shadows false`, `Environment off`, `preserveDrawingBuffer false` (было true всегда → OOM на Redmi)
+- `preserveDrawingBuffer` теперь false, скриншот делается через `canvas.toDataURL` в том же кадре (работает без preserve благодаря immediate call)
+- Persist v3: `pg-cargo-3d-v3`, `version:3`, `migrate()` добавляет новые флаги, `partialize` сохраняет только нужное
+- Throttled `postMessage`: max 1 раз в 350мс, debounce таймер, не спамит при drag
+- AudioContext resume на `pointerdown/keydown once`, иначе звук не играл
+- `SoundManager.tsx` WebAudio osc, haptics `navigator.vibrate`
+- `RightPanel.tsx` с COG, осями, share link base64url, screenshot PNG, postMessage final payload в `localStorage pg_cargo_final_payload`
+
+**Дев/тесты:**
+- `vitest` добавлен, `src/utils/__tests__/calculations.test.ts` 14 тестов, `criticalPath.test.ts` 4 e2e теста: пустой старт, 2к.к.→12м³, door fitting fridge 1.9м не лезет в 7м³ но лезет в 12м³, fuel weight factor, packing +15%
+- `Scene.tsx` `ControlsWrapper` реактивный, отключает Orbit при `isFirstPerson`
+- `App.tsx` топ-бар инженерный: undo/redo, WASD, 🗺, 📏, 🔊, ⚡ Perf, 🧪 Физи, 🔥 Heat, history count
+- `3d-cargo-calculator.html` обновлен: интеграционный бар `integrationBar` с live `ibCount/Vol/Weight/Vehicle/Price`, кнопки копирования JSON и запроса расчета, слушатель `message` события `cargo-calculation-*`
+
+**Итоговые команды:**
+```bash
+cd cargo-calculator
+npm install
+npm run dev
+npm run build
+rm -rf ../cargo-3d-calculator && cp -R dist ../cargo-3d-calculator
+npx vitest run --reporter=verbose
+```
+
+### Что стоит проверить следующему агенту:
+
+1. Открыть `/3d-cargo-calculator.html` — пустой кузов? Клик 1к.к./2к.к./3к.к. → меняется ли машина 7/12/18 и нет ли “нельзя поставить” на старте?
+2. Drag предмета — едет ли камера? Должна стоять.
+3. Камеры внизу — обзор, в кузове, кабина, сбоку, сверху — лерп плавный? В кузове видны борта, лампы горят, ночь ярче?
+4. WASD внутри кузова — ходьба, коллизия со стенами, джойстик на мобиле?
+5. Мини-карта — показывает поворот rect?
+6. Топ-бар — undo/redo, COG красный, оси перед/зад, дисбаланс, дверь бейдж?
+7. Heatmap — 🔥 включен? Цвет пола от зеленого к красному по весу?
+8. Performance toggle — на слабом телефоне dpr1, без теней?
+9. Share link `?share=` — копирует, открывается с предметами?
+10. PDF — скриншот 3D попадает в PDF?
+11. postMessage — в `3d-cargo-calculator.html` бар обновляется при перемещении предмета? `localStorage pg_last_calculation` пишется?
+12. Тесты `npx vitest run` — 18 тестов зелёные?
+13. Отзывы на главной — `renderReviews` всё ещё работает? Проверить `js/app.js` ленивую загрузку.
+
+### Что предстоит сделать (оставшиеся идеи, low priority):
+
+- Настоящая физика `cannon-es`: сейчас только гравитация-фейк (падение до `getStackHeightAt`). Можно включить `CANNON.World` с `Box` телами для каждого предмета, синхронизация через `useFrame`. Зависимость уже в `package.json`.
+- AR Quick Look / WebXR — поставить Газель во дворе.
+- PWA offline + кеш текстур, `manifest.json` для калькулятора.
+- Реальные GLB модели Газель Next вместо процедурного бокса — в `public/models/` лежат неиспользуемые файлы.
+- Расчет ремней крепления: 2 ремня на каждые 1.5м длины, схема для грузчиков.
+- Интеграция с CRM: сейчас `postMessage` + `localStorage`, но нет `fetch` в amoCRM/Bitrix. Добавить кнопку “Отправить в CRM” с `fetch`.
+- SEO: если решат индексировать, убрать `noindex`, добавить в sitemap, OG image.
+- Сжатие `three` чанка 1.05MB — code split `three` динамически, `drei` отдельно, уже есть warning `dynamic import will not move module`.
+
+Дата: 2026-07-18
+Ветка: `arena/019f72c3-pravilnye-gruzchiki`
+Билд: `cargo-3d-calculator/` = `cargo-calculator/dist` (1006 модулей, 1.05MB three)
+Тесты: `vitest run` 18 passed
