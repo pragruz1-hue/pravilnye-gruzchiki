@@ -101,7 +101,7 @@ export const CATALOG: CatalogItem[] = [
   { kind: 'box', name: 'Коробка M', emoji: '📦', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 14, material: 'cardboard', stackable: true, maxStackWeight: 45, canLaySide: true, fragile: false, description: 'можно ставить друг на друга' }
 ];
 
-const initialServices: ServicesState = { packing: true, disassembly: false, assembly: false, loaders: 2, insurance: true, nightMove: false, documentsPacking: false, itSupport: false };
+const initialServices: ServicesState = { packing: false, disassembly: false, assembly: false, loaders: 2, insurance: false, nightMove: false, documentsPacking: false, itSupport: false };
 
 function createId(prefix: string): string { return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`; }
 
