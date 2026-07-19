@@ -446,8 +446,10 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
   const L = vehicle.cargoLength;
   const W = vehicle.cargoWidth;
   const H = vehicle.cargoHeight;
+
   const rawItems = items.map(item => ({ ...item, position: [0, 0, 0] as [number, number, number], rotation: [0, 0, 0] as [number, number, number] }));
-  const getPriority = (kind: string) => {
+
+  const getPriority = (kind: string): number => {
     if (kind === 'fridge') return 1;
     if (kind === 'safe' || kind === 'piano') return 2;
     if (kind === 'wardrobe' || kind === 'sofa' || kind === 'bed' || kind === 'table') return 3;
@@ -455,12 +457,32 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     if (kind === 'pallet') return 5;
     return 6;
   };
-  const sorted = [...rawItems].sort((a, b) => {
+
+  // === ЧЕЛОВЕЧЕСКАЯ ЛОГИКА: Сначала САМОЕ ТЯЖЁЛОЕ И ГАБАРИТНОЕ ===
+  const superHeavy = new Set(['fridge', 'piano', 'safe', 'wardrobe', 'sofa', 'bed', 'washer']);
+  
+  const superHeavyItems = rawItems.filter(i => superHeavy.has(i.kind));
+  const otherHeavy = rawItems.filter(i => !superHeavy.has(i.kind) && getPriority(i.kind) <= 4);
+  const lightItems = rawItems.filter(i => getPriority(i.kind) > 4);
+
+  superHeavyItems.sort((a, b) => {
     const pA = getPriority(a.kind);
     const pB = getPriority(b.kind);
     if (pA !== pB) return pA - pB;
     return itemVolume(b) - itemVolume(a);
   });
+
+  otherHeavy.sort((a, b) => {
+    const pA = getPriority(a.kind);
+    const pB = getPriority(b.kind);
+    if (pA !== pB) return pA - pB;
+    return itemVolume(b) - itemVolume(a);
+  });
+
+  lightItems.sort((a, b) => itemVolume(b) - itemVolume(a));
+
+  const sorted = [...superHeavyItems, ...otherHeavy, ...lightItems];
+
   const placed: LoadItem[] = [];
   const overflow: LoadItem[] = [];
   const WALL_SNAP = 0.06;
@@ -468,11 +490,12 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
   interface PlacedRect {
     minX: number; maxX: number; minZ: number; maxZ: number;
     minY: number; maxY: number; stackable: boolean; maxStackWeight: number;
-    kind: string; // для проверки совместимости штабелирования
+    kind: string;
   }
   const placedRects: PlacedRect[] = [];
   let placedVolume = 0;
   let placedWeight = 0;
+
   const rectOf = (o: LoadItem): PlacedRect => {
     const f = orientedFootprint(o);
     const h = o.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(o.boxes.length / 4) * 0.28) : orientedHeight(o);
@@ -485,173 +508,235 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     };
   };
 
+  // === УЛУЧШЕННАЯ ФУНКЦИЯ ПОИСКА ЛУЧШЕЙ ПОЗИЦИИ (Best-Fit + Поперёк) ===
+  function findBestPosition(item: LoadItem, currentRects: PlacedRect[]) {
+    const isSuperHeavy = superHeavy.has(item.kind);
+    const isLong = item.kind === 'sofa' || item.kind === 'bed' || item.kind === 'bike' || item.kind === 'table';
+
+    // Для супер-тяжёлых пробуем оба варианта ориентации (вдоль + поперёк)
+    const orientationsToTry: [number, number, number][] = [[0, 0, 0]];
+    
+    if (isSuperHeavy || isLong) {
+      orientationsToTry.push([0, Math.PI / 2, 0]); // поперёк
+    }
+
+    let bestResult: any = null;
+    let bestScore = Infinity;
+
+    for (const rot of orientationsToTry) {
+      const testItem = { ...item, rotation: [...rot] as [number, number, number] };
+
+      if (testItem.dimensions.height > H && testItem.canLaySide) {
+        testItem.rotation = [0, 0, Math.PI / 2];
+      }
+
+      const fp = orientedFootprint(testItem);
+      const baseY = testItem.kind === 'pallet' ? 0.072 : 0.04;
+      let itemHeight = testItem.kind === 'pallet' 
+        ? Math.max(0.42, 0.144 + Math.ceil(testItem.boxes.length / 4) * 0.28) 
+        : orientedHeight(testItem);
+
+      const halfL = fp.length / 2;
+      const halfW = fp.width / 2;
+
+      const candidateZs: number[] = [];
+      for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.11) candidateZs.push(z);
+      if (!candidateZs.some(z => Math.abs(z) < 1e-6)) candidateZs.push(0);
+
+      const scanFromFront = !testItem.nearDoor;
+      const xStart = scanFromFront ? -L / 2 + halfL : L / 2 - halfL;
+      const xEnd = scanFromFront ? L / 2 - halfL : -L / 2 + halfL;
+      const xStep = scanFromFront ? 0.085 : -0.085;
+
+      type Candidate = { x: number; y: number; z: number; score: number; flip: boolean; adjHeight: number; rotation: [number,number,number] };
+
+      const candidates: Candidate[] = [];
+
+      for (let x = xStart; scanFromFront ? x <= xEnd + 0.001 : x >= xEnd - 0.001; x += xStep) {
+        const minX = x - halfL, maxX = x + halfL;
+
+        for (const z of candidateZs) {
+          const minZ = z - halfW, maxZ = z + halfW;
+          let maxTopY = baseY;
+          let canStack = true;
+          let belowKind = '';
+
+          for (const r of currentRects) {
+            if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
+            if (r.maxY > maxTopY) {
+              maxTopY = r.maxY;
+              belowKind = r.kind;
+              if (!r.stackable || testItem.weight > r.maxStackWeight || belowKind === 'plant') canStack = false;
+            }
+          }
+
+          let adjHeight = itemHeight;
+          let doFlip = false;
+
+          if (testItem.kind === 'table' && belowKind === 'table' && canStack && maxTopY > baseY + 0.001) {
+            doFlip = true;
+            adjHeight = 0.06;
+          }
+
+          if (canStack && (maxTopY + adjHeight) <= H) {
+            const aMinY = maxTopY;
+            const aMaxY = maxTopY + adjHeight;
+
+            let hasCollision = false;
+            for (const r of currentRects) {
+              if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
+              if (aMinY < r.maxY && aMaxY > r.minY) { hasCollision = true; break; }
+            }
+
+            if (!hasCollision) {
+              const gap = maxTopY - baseY;
+              const wallBonus = (Math.abs(z) > W / 2 - 0.35 ? 0.9 : 0) + (Math.abs(x) > L / 2 - 0.55 ? 0.5 : 0);
+              const score = maxTopY * 10 + gap * 3 - wallBonus * 2;
+
+              candidates.push({
+                x, y: maxTopY, z,
+                score,
+                flip: doFlip,
+                adjHeight,
+                rotation: testItem.rotation
+              });
+            }
+          }
+        }
+      }
+
+      if (candidates.length > 0) {
+        candidates.sort((a, b) => a.score - b.score);
+        const best = candidates[0];
+        if (best.score < bestScore) {
+          bestScore = best.score;
+          bestResult = best;
+        }
+      }
+    }
+
+    if (!bestResult) return null;
+
+    // Применяем лучшую ориентацию
+    item.rotation = bestResult.rotation;
+
+    return {
+      x: bestResult.x,
+      y: bestResult.y,
+      z: bestResult.z,
+      flip: bestResult.flip,
+      itemHeight: bestResult.adjHeight
+    };
+  }
+
+  // === Основной цикл размещения ===
   sorted.forEach((item) => {
     const itemV = itemVolume(item);
     const itemW = itemWeight(item);
+
     if (placedVolume + itemV > vehicle.capacityM3 * 1.0 || placedWeight + itemW > vehicle.capacityKg * 1.0) {
       overflow.push(item);
       return;
     }
 
-    if (item.dimensions.height > H && item.canLaySide) item.rotation = [0, 0, Math.PI / 2];
-    const isLong = item.kind === 'sofa' || item.kind === 'bed' || item.kind === 'bike' || item.kind === 'table';
-    if (isLong) item.rotation = [item.rotation[0], Math.PI / 2, item.rotation[2]];
+    const result = findBestPosition(item, placedRects);
 
-    const fp = orientedFootprint(item);
-    const baseY = item.kind === 'pallet' ? 0.072 : 0.04;
-    let itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
-
-    /** Определяем, можно ли перевернуть стол при штабелировании на другой стол */
-    let flipForStacking = false;
-
-    let bestX = 0, bestY = baseY, bestZ = 0, found = false;
-    let stackX = 0, stackY = 0, stackZ = 0, stackFound = false;
-    const candidateZs: number[] = [];
-    if (isLong) {
-      candidateZs.push(-W / 2 + fp.width / 2 + WALL_SNAP);
-      candidateZs.push(W / 2 - fp.width / 2 - WALL_SNAP);
-      for (let z = -W / 2 + fp.width / 2 + 0.1; z <= W / 2 - fp.width / 2; z += 0.2) candidateZs.push(z);
-    } else {
-      for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.15) candidateZs.push(z);
-      if (fp.width <= W && !candidateZs.some((z) => Math.abs(z) < 1e-9)) {
-        candidateZs.push(0);
-        candidateZs.sort((a, b) => a - b);
-      }
-    }
-
-    const halfL = fp.length / 2;
-    const halfW = fp.width / 2;
-
-    // Для nearDoor предметов сканируем от дверей (+X) к кабине (-X)
-    const scanFromFront = !item.nearDoor;
-    const xStart = scanFromFront ? -L / 2 + halfL : L / 2 - halfL;
-    const xEnd = scanFromFront ? L / 2 - halfL : -L / 2 + halfL;
-    const xStep = scanFromFront ? 0.1 : -0.1;
-
-    for (let x = xStart; scanFromFront ? x <= xEnd + 0.001 : x >= xEnd - 0.001; x += xStep) {
-      if (found) break;
-      const minX = x - halfL, maxX = x + halfL;
-      for (const z of candidateZs) {
-        const minZ = z - halfW, maxZ = z + halfW;
-        let maxTopY = baseY;
-        let canStackOnTop = true;
-        let belowKind = '';
-        for (const r of placedRects) {
-          if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
-          if (r.maxY > maxTopY) {
-            maxTopY = r.maxY;
-            belowKind = r.kind;
-            if (!r.stackable || item.weight > r.maxStackWeight) canStackOnTop = false;
-          }
-        }
-
-        // Специальная логика: стол на столе — переворачиваем
-        let adjustedHeight = itemHeight;
-        let doFlip = false;
-        if (item.kind === 'table' && belowKind === 'table' && canStackOnTop && maxTopY > baseY + 0.001) {
-          // Переворачиваем стол — ножки вверх, столешница на столешницу
-          // Эффективная высота = только толщина столешницы (~0.06м)
-          doFlip = true;
-          adjustedHeight = 0.06;
-        }
-
-        if (canStackOnTop && (maxTopY + adjustedHeight) <= H) {
-          const isFloorSlot = maxTopY <= baseY + 0.001;
-          const aMinY = maxTopY, aMaxY = maxTopY + adjustedHeight;
-          let has3DCollision = false;
-          for (const r of placedRects) {
-            if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
-            if (aMinY < r.maxY && aMaxY > r.minY) { has3DCollision = true; break; }
-          }
-          if (!has3DCollision) {
-            if (isFloorSlot) {
-              bestX = x; bestY = maxTopY; bestZ = z; found = true;
-              flipForStacking = doFlip;
-              itemHeight = adjustedHeight;
-              break;
-            }
-            if (!stackFound) {
-              stackX = x; stackY = maxTopY; stackZ = z;
-              if (doFlip) { flipForStacking = true; itemHeight = adjustedHeight; }
-              stackFound = true;
-            }
-          }
-        }
-      }
-    }
-    if (!found && stackFound) {
-      bestX = stackX; bestY = stackY; bestZ = stackZ; found = true;
-      if (flipForStacking) itemHeight = 0.06;
-    }
-
-    if (found) {
-      // Применяем переворот стола (ножки вверх) при штабелировании
-      if (flipForStacking) {
+    if (result) {
+      if (result.flip) {
         item.rotation = [Math.PI, item.rotation[1], item.rotation[2]];
       }
 
-      let snappedX = bestX, snappedZ = bestZ;
-      if (Math.abs(bestZ - (-W / 2 + halfW)) < WALL_SNAP) snappedZ = -W / 2 + halfW;
-      if (Math.abs(bestZ - (W / 2 - halfW)) < WALL_SNAP) snappedZ = W / 2 - halfW;
-      if (Math.abs(bestX - (-L / 2 + halfL)) < WALL_SNAP) snappedX = -L / 2 + halfL;
-      if (Math.abs(bestX - (L / 2 - halfL)) < WALL_SNAP) snappedX = L / 2 - halfL;
+      // Прилипание к стенам
+      let snappedX = result.x;
+      let snappedZ = result.z;
+      const halfL = orientedFootprint(item).length / 2;
+      const halfW = orientedFootprint(item).width / 2;
 
-      let snapCollision = false;
-      const sMinX = snappedX - halfL, sMaxX = snappedX + halfL;
-      const sMinZ = snappedZ - halfW, sMaxZ = snappedZ + halfW;
-      for (const r of placedRects) {
-        if (sMaxX <= r.minX || sMinX >= r.maxX || sMaxZ <= r.minZ || sMinZ >= r.maxZ) continue;
-        if (bestY < r.maxY && (bestY + itemHeight) > r.minY) { snapCollision = true; break; }
-      }
-      if (!snapCollision) { bestX = snappedX; bestZ = snappedZ; }
-      bestY = Math.round(bestY / 0.05) * 0.05;
-      item.position = [bestX, bestY, bestZ];
+      if (Math.abs(result.z - (-W / 2 + halfW)) < WALL_SNAP) snappedZ = -W / 2 + halfW;
+      if (Math.abs(result.z - (W / 2 - halfW)) < WALL_SNAP) snappedZ = W / 2 - halfW;
+      if (Math.abs(result.x - (-L / 2 + halfL)) < WALL_SNAP) snappedX = -L / 2 + halfL;
+      if (Math.abs(result.x - (L / 2 - halfL)) < WALL_SNAP) snappedX = L / 2 - halfL;
+
+      item.position = [Math.round(snappedX / 0.05) * 0.05, Math.round(result.y / 0.05) * 0.05, snappedZ];
       placed.push(item);
       placedRects.push(rectOf(item));
       placedVolume += itemV;
       placedWeight += itemW;
-    } else {
-      if (item.canLaySide && Math.abs(item.rotation[2]) < 0.1) {
-        const altRot: [number, number, number] = [Math.PI / 2, item.rotation[1], 0];
-        const origRot: [number, number, number] = [...item.rotation];
-        item.rotation = altRot;
-        const altFp = orientedFootprint(item);
-        const altHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
-        if (altHeight <= H) {
-          let altFound = false;
-          const aHalfL = altFp.length / 2;
-          const aHalfW = altFp.width / 2;
-          for (let x = -L / 2 + aHalfL; x <= L / 2 - aHalfL && !altFound; x += 0.15) {
-            for (const z of candidateZs) {
-              let maxTopY = item.kind === 'pallet' ? 0.072 : 0.04;
-              let canStack = true;
-              const minX = x - aHalfL, maxX = x + aHalfL;
-              const minZ = z - aHalfW, maxZ = z + aHalfW;
-              for (const r of placedRects) {
-                if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
-                if (r.maxY > maxTopY) maxTopY = r.maxY;
-              }
-              if (canStack && maxTopY + altHeight <= H) {
-                const snapZ = Math.abs(z - (-W / 2 + aHalfW)) < WALL_SNAP ? -W / 2 + aHalfW : z;
-                item.position = [Math.round(x / 0.05) * 0.05, Math.round(maxTopY / 0.05) * 0.05, snapZ];
-                altFound = true;
-                break;
-              }
-            }
-          }
-          if (altFound) {
-            placed.push(item);
-            placedRects.push(rectOf(item));
-            placedVolume += itemV;
-            placedWeight += itemW;
-            return;
-          }
+
+      // === НОВАЯ ЛОГИКА: Дозаполнение пространства НАД крупным предметом ===
+      const itemHeightFinal = result.adjHeight ?? itemHeight;
+      const topY = result.y + itemHeightFinal;
+      const availableHeight = H - topY;
+
+      if (availableHeight > 0.35 && itemHeightFinal >= 0.75) {
+        // Ищем подходящие предметы для размещения сверху
+        const remaining = sorted.filter(s => 
+          !placed.some(p => p.id === s.id) && 
+          !overflow.some(o => o.id === s.id)
+        );
+
+        for (let i = 0; i < remaining.length && availableHeight > 0.35; i++) {
+          const smallItem = remaining[i];
+          const smallV = itemVolume(smallItem);
+          const smallW = itemWeight(smallItem);
+
+          if (placedVolume + smallV > vehicle.capacityM3 * 0.98 || placedWeight + smallW > vehicle.capacityKg * 0.98) continue;
+          if (smallItem.dimensions.height > availableHeight) continue;
+          if (smallItem.kind === 'plant') continue; // не ставим на растение
+
+          const smallFp = orientedFootprint(smallItem);
+          const smallHalfL = smallFp.length / 2;
+          const smallHalfW = smallFp.width / 2;
+
+          // Проверяем, влезает ли по footprint текущего предмета
+          const itemFp = orientedFootprint(item);
+          if (smallFp.length > itemFp.length + 0.08 || smallFp.width > itemFp.width + 0.08) continue;
+
+          // Проверяем штабелируемость
+          const belowRect = placedRects[placedRects.length - 1];
+          if (!belowRect.stackable || smallW > belowRect.maxStackWeight) continue;
+
+          // Размещаем прямо над текущим предметом (с небольшим центрированием)
+          const newX = item.position[0] + (Math.random() - 0.5) * 0.15;
+          const newZ = item.position[2] + (Math.random() - 0.5) * 0.15;
+
+          smallItem.position = [
+            Math.round(newX / 0.05) * 0.05,
+            Math.round(topY / 0.05) * 0.05,
+            Math.round(newZ / 0.05) * 0.05
+          ];
+          smallItem.rotation = [0, 0, 0];
+
+          placed.push(smallItem);
+          placedRects.push(rectOf(smallItem));
+          placedVolume += smallV;
+          placedWeight += smallW;
+
+          // Удаляем из sorted, чтобы не обрабатывать повторно
+          const idx = sorted.findIndex(s => s.id === smallItem.id);
+          if (idx !== -1) sorted.splice(idx, 1);
         }
-        item.rotation = origRot;
+      }
+    } else {
+      // Попытка положить на бок
+      if (item.canLaySide && Math.abs(item.rotation[2]) < 0.1) {
+        const origRot = [...item.rotation];
+        item.rotation = [Math.PI / 2, item.rotation[1], 0];
+        const altResult = findBestPosition(item, placedRects);
+        if (altResult) {
+          item.position = [Math.round(altResult.x / 0.05) * 0.05, Math.round(altResult.y / 0.05) * 0.05, altResult.z];
+          placed.push(item);
+          placedRects.push(rectOf(item));
+          placedVolume += itemV;
+          placedWeight += itemW;
+          return;
+        }
+        item.rotation = origRot as [number, number, number];
       }
       overflow.push(item);
     }
   });
+
   return { placed, overflow };
 }
 
@@ -936,91 +1021,99 @@ export function placeNewItem(existingItems: LoadItem[], newItem: LoadItem, vehic
     return { pallets: existingItems, overflow: [item], placed: false };
   }
 
-  if (item.dimensions.height > H && item.canLaySide) item.rotation = [0, 0, Math.PI / 2];
-  const isLong = item.kind === 'sofa' || item.kind === 'bed' || item.kind === 'bike' || item.kind === 'table';
-  if (isLong) item.rotation = [item.rotation[0], Math.PI / 2, item.rotation[2]];
+  // Используем ту же улучшенную Best-Fit логику
+  const result = (function findBest(item: LoadItem, currentRects: any[]) {
+    if (item.dimensions.height > H && item.canLaySide) item.rotation = [0, 0, Math.PI / 2];
+    const isLong = item.kind === 'sofa' || item.kind === 'bed' || item.kind === 'bike' || item.kind === 'table';
+    if (isLong) item.rotation = [item.rotation[0], Math.PI / 2, item.rotation[2]];
 
-  const fp = orientedFootprint(item);
-  const baseY = item.kind === 'pallet' ? 0.072 : 0.04;
-  let itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
+    const fp = orientedFootprint(item);
+    const baseY = item.kind === 'pallet' ? 0.072 : 0.04;
+    let itemHeight = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
 
-  let bestX = 0, bestY = baseY, bestZ = 0, found = false;
-  let stackX = 0, stackY = 0, stackZ = 0, stackFound = false;
-  let flipForStacking = false;
-  const candidateZs: number[] = [];
-  for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.15) candidateZs.push(z);
-  if (fp.width <= W && !candidateZs.some((z) => Math.abs(z) < 1e-9)) candidateZs.push(0);
+    const halfL = fp.length / 2;
+    const halfW = fp.width / 2;
 
-  const halfL = fp.length / 2;
-  const halfW = fp.width / 2;
+    const candidateZs: number[] = [];
+    if (isLong) {
+      candidateZs.push(-W / 2 + fp.width / 2 + 0.06);
+      candidateZs.push(W / 2 - fp.width / 2 - 0.06);
+      for (let z = -W / 2 + fp.width / 2 + 0.1; z <= W / 2 - fp.width / 2; z += 0.14) candidateZs.push(z);
+    } else {
+      for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.11) candidateZs.push(z);
+      if (!candidateZs.some(z => Math.abs(z) < 1e-6)) candidateZs.push(0);
+    }
 
-  // Для nearDoor предметов сканируем от дверей (+X) к кабине (-X)
-  const scanFromFront = !item.nearDoor;
-  const xStart = scanFromFront ? -L / 2 + halfL : L / 2 - halfL;
-  const xEnd = scanFromFront ? L / 2 - halfL : -L / 2 + halfL;
-  const xStep = scanFromFront ? 0.1 : -0.1;
+    const scanFromFront = !item.nearDoor;
+    const xStart = scanFromFront ? -L / 2 + halfL : L / 2 - halfL;
+    const xEnd = scanFromFront ? L / 2 - halfL : -L / 2 + halfL;
+    const xStep = scanFromFront ? 0.085 : -0.085;
 
-  for (let x = xStart; scanFromFront ? x <= xEnd + 0.001 : x >= xEnd - 0.001 && !found; x += xStep) {
-    const minX = x - halfL, maxX = x + halfL;
-    for (const z of candidateZs) {
-      const minZ = z - halfW, maxZ = z + halfW;
-      let maxTopY = baseY;
-      let canStackOnTop = true;
-      let belowKind = '';
-      for (const r of placedRects) {
-        if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
-        if (r.maxY > maxTopY) {
-          maxTopY = r.maxY;
-          belowKind = r.kind;
-          if (!r.stackable || item.weight > r.maxStackWeight) canStackOnTop = false;
-        }
-      }
+    type Cand = { x: number; y: number; z: number; score: number; flip: boolean; h: number };
+    const cands: Cand[] = [];
 
-      // Специальная логика: стол на столе — переворачиваем
-      let adjustedHeight = itemHeight;
-      let doFlip = false;
-      if (item.kind === 'table' && belowKind === 'table' && canStackOnTop && maxTopY > baseY + 0.001) {
-        doFlip = true;
-        adjustedHeight = 0.06;
-      }
+    for (let x = xStart; scanFromFront ? x <= xEnd + 0.001 : x >= xEnd - 0.001; x += xStep) {
+      const minX = x - halfL, maxX = x + halfL;
+      for (const z of candidateZs) {
+        const minZ = z - halfW, maxZ = z + halfW;
+        let maxTopY = baseY;
+        let canStack = true;
+        let belowKind = '';
 
-      if (canStackOnTop && (maxTopY + adjustedHeight) <= H) {
-        const isFloorSlot = maxTopY <= baseY + 0.001;
-        const aMinY = maxTopY, aMaxY = maxTopY + adjustedHeight;
-        let has3DCollision = false;
-        for (const r of placedRects) {
+        for (const r of currentRects) {
           if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
-          if (aMinY < r.maxY && aMaxY > r.minY) { has3DCollision = true; break; }
-        }
-        if (!has3DCollision) {
-          if (isFloorSlot) {
-            bestX = x; bestY = maxTopY; bestZ = z; found = true;
-            flipForStacking = doFlip;
-            break;
+          if (r.maxY > maxTopY) {
+            maxTopY = r.maxY;
+            belowKind = r.kind;
+            if (!r.stackable || item.weight > r.maxStackWeight || belowKind === 'plant') canStack = false;
           }
-          if (!stackFound) {
-            stackX = x; stackY = maxTopY; stackZ = z;
-            if (doFlip) flipForStacking = true;
-            stackFound = true;
+        }
+
+        let adjH = itemHeight;
+        let doFlip = false;
+        if (item.kind === 'table' && belowKind === 'table' && canStack && maxTopY > baseY + 0.001) {
+          doFlip = true; adjH = 0.06;
+        }
+
+        if (canStack && maxTopY + adjH <= H) {
+          const aMinY = maxTopY, aMaxY = maxTopY + adjH;
+          let collision = false;
+          for (const r of currentRects) {
+            if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
+            if (aMinY < r.maxY && aMaxY > r.minY) { collision = true; break; }
+          }
+          if (!collision) {
+            const gap = maxTopY - baseY;
+            const wallBonus = (Math.abs(z) > W / 2 - 0.35 ? 0.7 : 0) + (Math.abs(x) > L / 2 - 0.55 ? 0.35 : 0);
+            const score = maxTopY * 10 + gap * 3 - wallBonus * 2;
+            cands.push({ x, y: maxTopY, z, score, flip: doFlip, h: adjH });
           }
         }
       }
     }
-  }
-  if (!found && stackFound) {
-    bestX = stackX; bestY = stackY; bestZ = stackZ; found = true;
+
+    if (cands.length === 0) return null;
+    cands.sort((a, b) => a.score - b.score);
+    return cands[0];
+  })(item, placedRects);
+
+  if (result) {
+    if (result.flip) item.rotation = [Math.PI, item.rotation[1], item.rotation[2]];
+
+    let snappedX = result.x;
+    let snappedZ = result.z;
+    const halfL = orientedFootprint(item).length / 2;
+    const halfW = orientedFootprint(item).width / 2;
+
+    if (Math.abs(result.z - (-W / 2 + halfW)) < 0.06) snappedZ = -W / 2 + halfW;
+    if (Math.abs(result.z - (W / 2 - halfW)) < 0.06) snappedZ = W / 2 - halfW;
+    if (Math.abs(result.x - (-L / 2 + halfL)) < 0.06) snappedX = -L / 2 + halfL;
+    if (Math.abs(result.x - (L / 2 - halfL)) < 0.06) snappedX = L / 2 - halfL;
+
+    item.position = [Math.round(snappedX / 0.05) * 0.05, Math.round(result.y / 0.05) * 0.05, snappedZ];
+    return { pallets: [...existingItems, item], overflow: [], placed: true };
   }
 
-  if (found) {
-    // Применяем переворот стола при штабелировании
-    if (flipForStacking) {
-      item.rotation = [Math.PI, item.rotation[1], item.rotation[2]];
-    }
-    bestY = Math.round(bestY / 0.05) * 0.05;
-    item.position = [bestX, bestY, bestZ];
-    return { pallets: [...existingItems, item], overflow: [], placed: true };
-  } else {
-    return { pallets: [...existingItems, item], overflow: [item], placed: false };
-  }
+  return { pallets: [...existingItems, item], overflow: [item], placed: false };
 }
 

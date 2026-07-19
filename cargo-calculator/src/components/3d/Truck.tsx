@@ -48,6 +48,11 @@ export function Truck({ position }: TruckProps) {
 
   return (
     <group position={position} name="procedural-truck-dynamic">
+      {/* Асфальт под машиной */}
+      <mesh position={[0, -0.015, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[L + 9, W + 7]} />
+        <meshStandardMaterial color="#3a3f47" roughness={0.92} metalness={0.08} />
+      </mesh>
       <mesh position={[0, 0.08, 0]} castShadow receiveShadow><boxGeometry args={[L, 0.16, W]} /><primitive object={materials.floor} attach="material" /></mesh>
       <mesh position={[-L / 2 - 0.02, H / 2 + 0.12, 0]} castShadow receiveShadow><boxGeometry args={[0.12, H, W]} /><primitive object={materials.paint} attach="material" /></mesh>
       <mesh position={[0, H / 2 + 0.12, -W / 2 - 0.02]} castShadow receiveShadow><boxGeometry args={[L, H, 0.08]} /><primitive object={materials.wall} attach="material" /></mesh>
@@ -86,11 +91,11 @@ export function Truck({ position }: TruckProps) {
         const isOn = isNightMode || isInside;
         return (
           <group key={`lamp-${i}`} position={[x, H - 0.08, 0]}>
-            <mesh castShadow>
+            <mesh castShadow rotation={[Math.PI, 0, 0]}>
               <sphereGeometry args={[0.07, 16, 16]} />
               <primitive object={isOn ? materials.lampOn : materials.lampOff} attach="material" />
             </mesh>
-            <mesh position={[0, -0.04, 0]}>
+            <mesh position={[0, -0.04, 0]} rotation={[Math.PI, 0, 0]}>
               <cylinderGeometry args={[0.09, 0.09, 0.06, 16]} />
               <primitive object={materials.chrome} attach="material" />
             </mesh>
