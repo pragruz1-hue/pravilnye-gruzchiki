@@ -12,7 +12,7 @@ interface CalculatorState {
   totalVolume: number;
   pallets: LoadItem[];
   selectedPalletId: string | null;
-  vehicleType: VehicleType;
+  vehicleType: VehicleType | null;
   recommendedVehicleType: VehicleType;
   vehicleCount: number;
   urgency: 1 | 2 | 3;
@@ -286,7 +286,7 @@ export const useCalculatorStore = create<CalculatorState>()(
   persist(
     (set, get) => ({
       from: 'Краснодар', to: 'Сочи', distance: 286, moveType: 'apartment', totalWeight: 0, totalVolume: 0,
-      pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7', vehicleCount: 1, urgency: 2, services: initialServices,
+      pallets: [], selectedPalletId: null, vehicleType: null, recommendedVehicleType: null as any, vehicleCount: 1, urgency: 2, services: initialServices,
       basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', tripRange: 'regional', workHours: 0, activePreset: null,
       cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
       isPerformanceMode: false, renderQuality: 'auto', isPhysicsEnabled: false, isHeatmapEnabled: false, fallingTargets: {},
@@ -603,7 +603,8 @@ export const useCalculatorStore = create<CalculatorState>()(
   )
 );
 
-useCalculatorStore.getState().calculatePrice();
+// Убрано автоматическое вычисление при загрузке — калькулятор теперь стартует пустым
+// useCalculatorStore.getState().calculatePrice();
 
 if (typeof window !== 'undefined') {
   try {

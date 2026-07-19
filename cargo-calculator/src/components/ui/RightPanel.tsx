@@ -84,16 +84,57 @@ export function RightPanel() {
         <PriceDisplay embedded />
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
-        <button onClick={handleShare} className="col-span-2 rounded-2xl bg-[#10131b] px-3 py-3 text-xs font-black text-white shadow hover:bg-black">
-          {copied ? '✅ Ссылка скопирована в буфер обмена!' : '📋 Скопировать ссылку на расстановку'}
-        </button>
-        <button onClick={handleScreenshot} className="rounded-2xl bg-white px-3 py-3 text-xs font-black text-gray-800 ring-1 ring-black/10 hover:bg-gray-50">
-          📸 Скриншот 3D
-        </button>
-        <button onClick={handleSendToSite} className="rounded-2xl bg-gradient-to-r from-[#ff6b00] to-[#d35400] px-3 py-3 text-xs font-black text-white shadow hover:opacity-90">
-          📨 Отправить менеджеру
-        </button>
+      {/* === ПРЕМИУМ БЛОК ДЕЙСТВИЙ === */}
+      <div className={`rounded-3xl p-4 ${isNightMode ? 'bg-white/5 ring-1 ring-white/10' : 'bg-white/95 shadow-sm ring-1 ring-black/5'}`}>
+        <div className="mb-3 text-[10px] font-black uppercase tracking-[1px] text-orange-500/80">
+          Действия с расчётом
+        </div>
+
+        <div className="space-y-2.5">
+          {/* Кнопка "Скопировать ссылку" — полная ширина */}
+          <button
+            onClick={handleShare}
+            className={`group flex w-full items-center justify-center gap-2.5 rounded-2xl px-5 py-3.5 text-sm font-black transition-all active:scale-[0.985] ${
+              copied 
+                ? 'bg-emerald-500 text-white shadow-lg' 
+                : isNightMode 
+                  ? 'bg-[#10131b] text-white hover:bg-black ring-1 ring-white/10' 
+                  : 'bg-slate-900 text-white hover:bg-black shadow-md'
+            }`}
+          >
+            <span className="text-lg transition-transform group-active:scale-110">
+              {copied ? '✅' : '🔗'}
+            </span>
+            <span>
+              {copied ? 'Ссылка скопирована!' : 'Скопировать ссылку на расстановку'}
+            </span>
+          </button>
+
+          {/* Две премиальные кнопки рядом */}
+          <div className="grid grid-cols-2 gap-2.5">
+            {/* Скриншот */}
+            <button
+              onClick={handleScreenshot}
+              className={`group flex flex-col items-center justify-center gap-1.5 rounded-2xl px-4 py-3.5 text-xs font-black transition-all active:scale-[0.985] ${
+                isNightMode 
+                  ? 'bg-white/5 text-white ring-1 ring-white/10 hover:bg-white/10' 
+                  : 'bg-white text-gray-900 ring-1 ring-black/10 shadow-sm hover:bg-gray-50'
+              }`}
+            >
+              <span className="text-xl transition-transform group-active:scale-110">📸</span>
+              <span>Скриншот 3D</span>
+            </button>
+
+            {/* Отправить менеджеру */}
+            <button
+              onClick={handleSendToSite}
+              className="group flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-gradient-to-br from-[#ff6b00] via-[#ff6b00] to-[#d35400] px-4 py-3.5 text-xs font-black text-white shadow-lg transition-all active:scale-[0.985] hover:brightness-110"
+            >
+              <span className="text-xl transition-transform group-active:scale-110">📨</span>
+              <span>Отправить менеджеру</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       {pallets.length > 0 && (
