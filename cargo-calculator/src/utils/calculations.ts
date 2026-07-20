@@ -38,7 +38,7 @@ export const APARTMENT_STANDARDS: Record<string, ApartmentStandard> = {
     volumeM3: 7,
     weightKg: 900,
     recommendedVehicle: 'gazelle7',
-    description: 'эконом — коробки, мелкая мебель'
+    description: 'эконом — матрас 2-сп, шкаф, стиралка, стол, стулья, ТВ, коробки'
   },
   twoRoom: {
     id: 'twoRoom',
@@ -47,7 +47,7 @@ export const APARTMENT_STANDARDS: Record<string, ApartmentStandard> = {
     volumeM3: 12,
     weightKg: 1200,
     recommendedVehicle: 'gazelle12',
-    description: 'стандарт — шкафы, техника, коробки'
+    description: 'стандарт — матрас 2-сп, матрас 1.5-сп, кровать, шкаф, холодильник, стиралка, стол, стулья, ТВ, коробки'
   },
   threeRoom: {
     id: 'threeRoom',
@@ -56,7 +56,7 @@ export const APARTMENT_STANDARDS: Record<string, ApartmentStandard> = {
     volumeM3: 18,
     weightKg: 1500,
     recommendedVehicle: 'gazelle18',
-    description: 'максимум — пианино, много мебели'
+    description: 'максимум — 2 матраса 2-сп, матрас 1.5-сп, 2 кровати, 2 шкафа, холодильник, стиралка, стол, стулья, ТВ, коробки'
   }
 };
 
@@ -278,6 +278,7 @@ export function boxDimensions(size: 'S' | 'M' | 'L' | 'XL'): { length: number; w
     case 'M': return { length: 0.6, width: 0.4, height: 0.4 };
     case 'L': return { length: 0.8, width: 0.6, height: 0.6 };
     case 'XL': return { length: 1.0, width: 0.8, height: 0.8 };
+    default: return { length: 0.6, width: 0.4, height: 0.4 };
   }
 }
 
@@ -308,6 +309,12 @@ export function calculatePrice(params: {
   const distance = Math.max(0, params.distance);
 
   const moveCoef = params.moveType === 'office' ? 1.15 : params.moveType === 'commercial' ? 0.85 : 1;
+  
+  // === РЕАЛЬНЫЕ ТАРИФЫ ПО ЗОНАМ ===
+  // Город: почасовой тариф (мин. заказ) + время погрузки/разгрузки
+  // Регионал: мин. заказ (часы) + км тариф (со скидкой 15% на трассе)
+  // Межгород: за км (со скидкой 10%) + обратная подача 30% + время погрузки
+  
   const volumeHandling = Math.round(Math.ceil(totalsWithPacking.volume) * 120 * moveCoef);
   const heavyHandling = totals.weight > 900 ? Math.ceil((totals.weight - 900) / 100) * 180 : 0;
 
@@ -321,20 +328,26 @@ export function calculatePrice(params: {
   let emptyReturnKm = 0;
 
   if (tripRange === 'city') {
+    // ГОРОД: Почасовой тариф
+    // Мин. заказ = minHours * baseHourlyRate
+    // Время = max(minHours, minHours + driveHours + loadingHours)
     workHours = Math.max(vehicle.minHours, Math.ceil(vehicle.minHours + driveHours + loadingHours));
     laborCost = vehicle.baseHourlyRate * workHours * count;
-    mileageCost = 0;
+    mileageCost = 0; // км включены в почасовой тариф
     fuelMinPrice = 250;
   } else if (tripRange === 'regional') {
+    // РЕГИОНАЛЬНЫЙ: мин. заказ (minHours) + км тариф
+    // Работа = minHours (водитель едет, км оплачиваются отдельно)
     workHours = vehicle.minHours;
     laborCost = vehicle.baseHourlyRate * vehicle.minHours * count;
-    mileageCost = distance * vehicle.kmRate * 0.85 * count;
+    mileageCost = distance * vehicle.kmRate * 0.85 * count; // скидка 15% на трассе
     fuelMinPrice = 350;
   } else {
+    // МЕЖГОРОДНИЙ: за км + обратная подача + время погрузки
     workHours = Math.ceil(vehicle.minHours / 2);
-    laborCost = vehicle.baseHourlyRate * workHours * 0.5 * count;
-    mileageCost = distance * vehicle.kmRate * 0.9 * count;
-    mileageCost += distance * vehicle.kmRate * 0.3 * count;
+    laborCost = vehicle.baseHourlyRate * workHours * 0.5 * count; // только погрузка/разгрузка
+    mileageCost = distance * vehicle.kmRate * 0.9 * count; // скидка 10% на дальние рейсы
+    mileageCost += distance * vehicle.kmRate * 0.3 * count; // обратная подача 30%
     emptyReturnKm = distance;
     fuelMinPrice = 700;
   }
@@ -426,6 +439,8 @@ export function getStackHeightAt(palletId: string, x: number, z: number, pallets
   let maxTopY = item.kind === 'pallet' ? 0.072 : 0.04;
   pallets.forEach((other) => {
     if (other.id === palletId) return;
+    // Нельзя ставить на растения, хрупкие предметы и нештабелируемые
+    if (!other.stackable || other.fragile || !other.canLaySide) return;
     const otherFp = orientedFootprint(other);
     const otherMinX = other.position[0] - otherFp.length / 2;
     const otherMaxX = other.position[0] + otherFp.length / 2;
@@ -491,6 +506,8 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     minX: number; maxX: number; minZ: number; maxZ: number;
     minY: number; maxY: number; stackable: boolean; maxStackWeight: number;
     kind: string;
+    fragile: boolean;
+    canLaySide: boolean;
   }
   const placedRects: PlacedRect[] = [];
   let placedVolume = 0;
@@ -504,7 +521,9 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
       minZ: o.position[2] - f.width / 2, maxZ: o.position[2] + f.width / 2,
       minY: o.position[1], maxY: o.position[1] + h,
       stackable: o.stackable, maxStackWeight: o.maxStackWeight,
-      kind: o.kind
+      kind: o.kind,
+      fragile: o.fragile,
+      canLaySide: o.canLaySide
     };
   };
 
@@ -539,6 +558,11 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
       const halfL = fp.length / 2;
       const halfW = fp.width / 2;
 
+      // СТРОГАЯ ПРОВЕРКА: предмет должен влезать в кузов по габаритам
+      if (fp.length > L || fp.width > W || itemHeight > H) {
+        continue; // этот вариант ориентации не подходит
+      }
+
       const candidateZs: number[] = [];
       for (let z = -W / 2 + fp.width / 2; z <= W / 2 - fp.width / 2; z += 0.11) candidateZs.push(z);
       if (!candidateZs.some(z => Math.abs(z) < 1e-6)) candidateZs.push(0);
@@ -557,6 +581,10 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
 
         for (const z of candidateZs) {
           const minZ = z - halfW, maxZ = z + halfW;
+          
+          // СТРОГАЯ ПРОВЕРКА ГРАНИЦ: предмет должен полностью помещаться в кузов
+          if (minX < -L/2 || maxX > L/2 || minZ < -W/2 || maxZ > W/2) continue;
+
           let maxTopY = baseY;
           let canStack = true;
           let belowKind = '';
@@ -566,7 +594,8 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
             if (r.maxY > maxTopY) {
               maxTopY = r.maxY;
               belowKind = r.kind;
-              if (!r.stackable || testItem.weight > r.maxStackWeight || belowKind === 'plant') canStack = false;
+              // Нельзя ставить на: нештабелируемые, хрупкие, не ложащиеся на бок, растения
+              if (!r.stackable || r.fragile || !r.canLaySide || r.kind === 'plant') canStack = false;
             }
           }
 
@@ -578,6 +607,7 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
             adjHeight = 0.06;
           }
 
+          // СТРОГАЯ ПРОВЕРКА ВЫСОТЫ
           if (canStack && (maxTopY + adjHeight) <= H) {
             const aMinY = maxTopY;
             const aMaxY = maxTopY + adjHeight;
@@ -634,7 +664,7 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
     const itemV = itemVolume(item);
     const itemW = itemWeight(item);
 
-    if (placedVolume + itemV > vehicle.capacityM3 * 1.0 || placedWeight + itemW > vehicle.capacityKg * 1.0) {
+    if (placedVolume + itemV > vehicle.capacityM3 * 0.98 || placedWeight + itemW > vehicle.capacityKg * 0.98) {
       overflow.push(item);
       return;
     }
@@ -657,6 +687,20 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
       if (Math.abs(result.x - (-L / 2 + halfL)) < WALL_SNAP) snappedX = -L / 2 + halfL;
       if (Math.abs(result.x - (L / 2 - halfL)) < WALL_SNAP) snappedX = L / 2 - halfL;
 
+      // ФИНАЛЬНАЯ ПРОВЕРКА: предмет не должен вылезать за границы
+      const fp = orientedFootprint(item);
+      const finalHalfL = fp.length / 2;
+      const finalHalfW = fp.width / 2;
+      const finalMinX = snappedX - finalHalfL;
+      const finalMaxX = snappedX + finalHalfL;
+      const finalMinZ = snappedZ - finalHalfW;
+      const finalMaxZ = snappedZ + finalHalfW;
+
+      if (finalMinX < -L/2 || finalMaxX > L/2 || finalMinZ < -W/2 || finalMaxZ > W/2) {
+        overflow.push(item);
+        return;
+      }
+
       item.position = [Math.round(snappedX / 0.05) * 0.05, Math.round(result.y / 0.05) * 0.05, snappedZ];
       placed.push(item);
       placedRects.push(rectOf(item));
@@ -664,12 +708,11 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
       placedWeight += itemW;
 
       // === НОВАЯ ЛОГИКА: Дозаполнение пространства НАД крупным предметом ===
-      const itemHeightFinal = result.adjHeight ?? itemHeight;
+      const itemHeightFinal = result.itemHeight ?? orientedHeight(item);
       const topY = result.y + itemHeightFinal;
       const availableHeight = H - topY;
 
       if (availableHeight > 0.35 && itemHeightFinal >= 0.75) {
-        // Ищем подходящие предметы для размещения сверху
         const remaining = sorted.filter(s => 
           !placed.some(p => p.id === s.id) && 
           !overflow.some(o => o.id === s.id)
@@ -682,7 +725,7 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
 
           if (placedVolume + smallV > vehicle.capacityM3 * 0.98 || placedWeight + smallW > vehicle.capacityKg * 0.98) continue;
           if (smallItem.dimensions.height > availableHeight) continue;
-          if (smallItem.kind === 'plant') continue; // не ставим на растение
+          if (smallItem.kind === 'plant') continue;
 
           const smallFp = orientedFootprint(smallItem);
           const smallHalfL = smallFp.length / 2;
@@ -700,6 +743,14 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
           const newX = item.position[0] + (Math.random() - 0.5) * 0.15;
           const newZ = item.position[2] + (Math.random() - 0.5) * 0.15;
 
+          // Проверяем границы для маленького предмета
+          const smallMinX = newX - smallHalfL;
+          const smallMaxX = newX + smallHalfL;
+          const smallMinZ = newZ - smallHalfW;
+          const smallMaxZ = newZ + smallHalfW;
+          
+          if (smallMinX < -L/2 || smallMaxX > L/2 || smallMinZ < -W/2 || smallMaxZ > W/2) continue;
+
           smallItem.position = [
             Math.round(newX / 0.05) * 0.05,
             Math.round(topY / 0.05) * 0.05,
@@ -712,7 +763,6 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
           placedVolume += smallV;
           placedWeight += smallW;
 
-          // Удаляем из sorted, чтобы не обрабатывать повторно
           const idx = sorted.findIndex(s => s.id === smallItem.id);
           if (idx !== -1) sorted.splice(idx, 1);
         }
@@ -928,12 +978,12 @@ export function fillCargoWithBoxes(items: LoadItem[], vehicleType: VehicleType, 
 
 export function generateFillBoxes(items: LoadItem[], vehicleType: VehicleType): Array<Omit<LoadItem, 'id'>> {
   const vehicle = VEHICLES[vehicleType];
-  const MAX_FILL = 0.92;
+  const MAX_FILL = 0.95;
   const totals = calculateTotals(items);
   const freeVol = vehicle.capacityM3 * MAX_FILL - totals.volume;
   const freeWeight = vehicle.capacityKg * MAX_FILL - totals.weight;
 
-  if (freeVol < 0.05 || freeWeight < 5) return [];
+  if (freeVol < 0.03 || freeWeight < 3) return [];
 
   const boxes: Array<Omit<LoadItem, 'id'>> = [];
   let usedVol = 0;
@@ -1009,7 +1059,9 @@ export function placeNewItem(existingItems: LoadItem[], newItem: LoadItem, vehic
       minZ: o.position[2] - f.width / 2, maxZ: o.position[2] + f.width / 2,
       minY: o.position[1], maxY: o.position[1] + h,
       stackable: o.stackable, maxStackWeight: o.maxStackWeight,
-      kind: o.kind
+      kind: o.kind,
+      fragile: o.fragile,
+      canLaySide: o.canLaySide
     };
   });
 
@@ -1017,11 +1069,11 @@ export function placeNewItem(existingItems: LoadItem[], newItem: LoadItem, vehic
   const itemV = itemVolume(item);
   const itemW = itemWeight(item);
   const totals = calculateTotals(existingItems);
-  if (totals.volume + itemV > vehicle.capacityM3 * 1.0 || totals.weight + itemW > vehicle.capacityKg * 1.0) {
+  if (totals.volume + itemV > vehicle.capacityM3 * 0.98 || totals.weight + itemW > vehicle.capacityKg * 0.98) {
     return { pallets: existingItems, overflow: [item], placed: false };
   }
 
-  // Используем ту же улучшенную Best-Fit логику
+  // Используем ту же улучшенную Best-Fit логику с проверками границ
   const result = (function findBest(item: LoadItem, currentRects: any[]) {
     if (item.dimensions.height > H && item.canLaySide) item.rotation = [0, 0, Math.PI / 2];
     const isLong = item.kind === 'sofa' || item.kind === 'bed' || item.kind === 'bike' || item.kind === 'table';
@@ -1056,16 +1108,24 @@ export function placeNewItem(existingItems: LoadItem[], newItem: LoadItem, vehic
       const minX = x - halfL, maxX = x + halfL;
       for (const z of candidateZs) {
         const minZ = z - halfW, maxZ = z + halfW;
+        
+        // СТРОГАЯ ПРОВЕРКА ГРАНИЦ
+        if (minX < -L/2 || maxX > L/2 || minZ < -W/2 || maxZ > W/2) continue;
+
         let maxTopY = baseY;
         let canStack = true;
         let belowKind = '';
+
+        // Хрупкие, не ложащиеся на бок, растения — всегда на полу
+        const mustBeOnFloor = item.fragile || !item.canLaySide || item.kind === 'plant';
+        if (mustBeOnFloor) canStack = false;
 
         for (const r of currentRects) {
           if (maxX <= r.minX || minX >= r.maxX || maxZ <= r.minZ || minZ >= r.maxZ) continue;
           if (r.maxY > maxTopY) {
             maxTopY = r.maxY;
             belowKind = r.kind;
-            if (!r.stackable || item.weight > r.maxStackWeight || belowKind === 'plant') canStack = false;
+            if (!r.stackable || r.fragile || !r.canLaySide || r.kind === 'plant' || item.weight > r.maxStackWeight) canStack = false;
           }
         }
 
@@ -1110,10 +1170,24 @@ export function placeNewItem(existingItems: LoadItem[], newItem: LoadItem, vehic
     if (Math.abs(result.x - (-L / 2 + halfL)) < 0.06) snappedX = -L / 2 + halfL;
     if (Math.abs(result.x - (L / 2 - halfL)) < 0.06) snappedX = L / 2 - halfL;
 
+    // ФИНАЛЬНАЯ ПРОВЕРКА ГРАНИЦ
+    const fp = orientedFootprint(item);
+    const finalHalfL = fp.length / 2;
+    const finalHalfW = fp.width / 2;
+    const finalMinX = snappedX - finalHalfL;
+    const finalMaxX = snappedX + finalHalfL;
+    const finalMinZ = snappedZ - finalHalfW;
+    const finalMaxZ = snappedZ + finalHalfW;
+
+    if (finalMinX < -L/2 || finalMaxX > L/2 || finalMinZ < -W/2 || finalMaxZ > W/2) {
+      return { pallets: existingItems, overflow: [item], placed: false };
+    }
+
     item.position = [Math.round(snappedX / 0.05) * 0.05, Math.round(result.y / 0.05) * 0.05, snappedZ];
     return { pallets: [...existingItems, item], overflow: [], placed: true };
   }
 
-  return { pallets: [...existingItems, item], overflow: [item], placed: false };
+  // Не нашли валидную позицию — не добавляем в pallets, только в overflow
+  return { pallets: existingItems, overflow: [item], placed: false };
 }
 
