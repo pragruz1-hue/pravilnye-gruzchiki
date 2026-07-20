@@ -7,11 +7,11 @@ export function FloorHeatmap() {
   const pallets = useCalculatorStore((s) => s.pallets);
   const vehicleType = useCalculatorStore((s) => s.vehicleType);
   const showMinimap = useCalculatorStore((s) => s.showMinimap);
-  const vehicle = VEHICLES[vehicleType];
+  const vehicle = vehicleType ? VEHICLES[vehicleType] : null;
 
   const heatmap = useMemo(() => computeFloorHeatmap(pallets, vehicleType, 12), [pallets, vehicleType]);
 
-  if (pallets.length === 0) return null;
+  if (pallets.length === 0 || !vehicle) return null;
 
   const maxWeight = Math.max(...heatmap.flat(), 1);
   const grid = heatmap.length;

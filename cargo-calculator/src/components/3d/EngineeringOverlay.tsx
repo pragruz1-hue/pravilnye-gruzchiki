@@ -4,19 +4,20 @@ import { useMemo } from 'react';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
 import { VEHICLES, computeCenterOfGravity, computeAxleLoads, getDistanceToWalls, canFitThroughDoor } from '../../utils/calculations';
 import { useFrame } from '@react-three/fiber';
+import { VehicleType } from '../../types';
 
 export function EngineeringOverlay() {
   const pallets = useCalculatorStore((s) => s.pallets);
   const selectedId = useCalculatorStore((s) => s.selectedPalletId);
   const vehicleType = useCalculatorStore((s) => s.vehicleType);
   const showMeasurements = useCalculatorStore((s) => s.showMeasurements);
-  const vehicle = VEHICLES[vehicleType];
+  const vehicle = vehicleType ? VEHICLES[vehicleType] : null;
 
   const cog = useMemo(() => computeCenterOfGravity(pallets), [pallets]);
   const axle = useMemo(() => computeAxleLoads(pallets, vehicleType), [pallets, vehicleType]);
   const selected = pallets.find((p) => p.id === selectedId);
 
-  if (pallets.length === 0) return null;
+  if (pallets.length === 0 || !vehicle) return null;
 
   return (
     <group>
@@ -64,14 +65,16 @@ export function EngineeringOverlay() {
   );
 }
 
-function MeasurementForItem({ item, vehicleType }: { item: any; vehicleType: any }) {
+function MeasurementForItem({ item, vehicleType }: { item: any; vehicleType: VehicleType }) {
+  const vehicle = vehicleType ? VEHICLES[vehicleType] : null;
+  if (!vehicle) return null;
   const dist = getDistanceToWalls(item, vehicleType);
 
   return (
     <group>
 
-      <Line points={[[item.position[0], item.position[1] + 0.02, item.position[2]], [item.position[0], item.position[1] + 0.02, -vehicleType.cargoWidth / 2]]} color="#10b981" lineWidth={1} />
-      <Line points={[[item.position[0], item.position[1] + 0.02, item.position[2]], [item.position[0], item.position[1] + 0.02, vehicleType.cargoWidth / 2]]} color="#10b981" lineWidth={1} />
+      <Line points={[[item.position[0], item.position[1] + 0.02, item.position[2]], [item.position[0], item.position[1] + 0.02, -vehicle.cargoWidth / 2]]} color="#10b981" lineWidth={1} />
+      <Line points={[[item.position[0], item.position[1] + 0.02, item.position[2]], [item.position[0], item.position[1] + 0.02, vehicle.cargoWidth / 2]]} color="#10b981" lineWidth={1} />
       <Html position={[item.position[0], 0.15, item.position[2] - 0.4]} center distanceFactor={8}>
         <div className="flex gap-1">
           <span className="rounded bg-emerald-500 px-1.5 py-0.5 text-[9px] font-black text-white">L {dist.left.toFixed(2)}м</span>

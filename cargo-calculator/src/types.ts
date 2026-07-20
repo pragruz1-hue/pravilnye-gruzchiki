@@ -16,7 +16,7 @@ export interface ApartmentStandard {
 export type PalletType = 'EUR' | 'FIN' | 'STANDARD';
 export type BoxSize = 'S' | 'M' | 'L' | 'XL';
 export type BoxType = 'standard' | 'fragile' | 'heavy' | 'cold' | 'danger';
-export type LoadItemKind = 'pallet' | 'box' | 'sofa' | 'wardrobe' | 'fridge' | 'washer' | 'bed' | 'table' | 'chairs' | 'tv' | 'piano' | 'safe' | 'plant' | 'bike';
+export type LoadItemKind = 'pallet' | 'box' | 'sofa' | 'wardrobe' | 'fridge' | 'washer' | 'bed' | 'table' | 'chairs' | 'tv' | 'piano' | 'safe' | 'plant' | 'bike' | 'crate' | 'bigBox' | 'drum' | 'roll' | 'machinery';
 export type ApartmentPreset = 'oneRoom' | 'twoRoom' | 'threeRoom';
 export type OfficePreset = 'officeS' | 'officeM' | 'officeL';
 export type StandardPreset = ApartmentPreset | OfficePreset;
@@ -96,4 +96,6 @@ export interface CatalogItem {
   description: string;
   /** Предмет должен стоять ближе к дверям (заднему борту), а не к кабине */
   nearDoor?: boolean;
+  /** Типы переездов, для которых доступен этот предмет */
+  moveTypes?: MoveType[];
 }

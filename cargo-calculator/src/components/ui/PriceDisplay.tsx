@@ -20,6 +20,7 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
   const tripRange = useCalculatorStore((state) => state.tripRange);
   const workHours = useCalculatorStore((state) => state.workHours);
   const rangeInfo = TRIP_RANGE_INFO[tripRange];
+  const vehicle = vehicleType ? VEHICLES[vehicleType] : VEHICLES.gazelle12;
 
   async function exportPdf() {
     const { default: jsPDF } = await import('jspdf');
@@ -29,7 +30,6 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
     doc.text('Cargo calculation - Pravilnye Gruzchiki', 14, 18);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(11);
-    const vehicle = VEHICLES[vehicleType];
     doc.text(`Vehicle: ${vehicle.label} ${vehicle.cargoLength}x${vehicle.cargoWidth}x${vehicle.cargoHeight} m ${vehicle.capacityM3} m3`, 14, 28);
     doc.text(`Distance: ${distance} km (${tripRange})`, 14, 34);
     doc.text(`Items: ${pallets.length} - Weight: ${pallets.reduce((s,p)=>s+p.weight,0)}kg`, 14, 42);
@@ -84,7 +84,7 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
       <div className="mb-4">
         <div className={`mb-1 text-sm font-black ${isNightMode ? 'text-orange-200' : 'text-gray-600'}`}>💰 Стоимость перевозки</div>
         <div className={`text-4xl font-black tracking-tight ${isNightMode ? 'text-white' : 'text-gray-950'}`}>{totalPrice.toLocaleString('ru-RU')} ₽</div>
-        <div className="mt-1 text-xs font-semibold text-gray-500">включая НДС 20% · предварительно · {VEHICLES[vehicleType].capacityM3} м³ до 1500 кг</div>
+        <div className="mt-1 text-xs font-semibold text-gray-500">включая НДС 20% · предварительно · {vehicle.capacityM3} м³ до 1500 кг</div>
 
       </div>
       <div className="space-y-2 border-t border-gray-200 pt-4 text-sm">
@@ -97,11 +97,11 @@ export function PriceDisplay({ embedded = false }: { embedded?: boolean }) {
           <span>{totalPrice.toLocaleString('ru-RU')} ₽</span>
         </div>
       </div>
-      <div className="mt-4 rounded-2xl bg-blue-50 p-3 text-sm font-bold text-blue-800">⏱ {deliveryTime} · {distance} км · {pallets.length} предметов · {VEHICLES[vehicleType].label}</div>
+      <div className="mt-4 rounded-2xl bg-blue-50 p-3 text-sm font-bold text-blue-800">⏱ {deliveryTime} · {distance} км · {pallets.length} предметов · {vehicle.label}</div>
       <div className="mt-2 rounded-2xl bg-indigo-50 p-3 text-[11px] font-bold leading-5 text-indigo-800 ring-1 ring-indigo-100" title={rangeInfo.description}>
         {rangeInfo.icon} {rangeInfo.label} перевозка · {rangeInfo.tariffLabel}
-        {tripRange === 'city' && workHours > 0 && <span className="block font-semibold text-indigo-600">⏳ ~{workHours} ч работы экипажа (мин. {VEHICLES[vehicleType].minHours} ч), км включены</span>}
-        {tripRange === 'regional' && <span className="block font-semibold text-indigo-600">минималка {VEHICLES[vehicleType].minHours} ч + трасса −15% к ставке км</span>}
+        {tripRange === 'city' && workHours > 0 && <span className="block font-semibold text-indigo-600">⏳ ~{workHours} ч работы экипажа (мин. {vehicle.minHours} ч), км включены</span>}
+        {tripRange === 'regional' && <span className="block font-semibold text-indigo-600">минималка {vehicle.minHours} ч + трасса −15% к ставке км</span>}
         {tripRange === 'intercity' && <span className="block font-semibold text-indigo-600">км −10% + обратная подача порожняком ×30%</span>}
       </div>
 

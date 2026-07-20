@@ -700,7 +700,7 @@ export function packItemsInVehicle(items: LoadItem[], vehicleType: VehicleType):
       placedWeight += itemW;
 
       // === НОВАЯ ЛОГИКА: Дозаполнение пространства НАД крупным предметом ===
-      const itemHeightFinal = result.adjHeight ?? itemHeight;
+      const itemHeightFinal = result.itemHeight ?? orientedHeight(item);
       const topY = result.y + itemHeightFinal;
       const availableHeight = H - topY;
 

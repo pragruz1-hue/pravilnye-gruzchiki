@@ -19,7 +19,7 @@ export function PalletManager() {
   const updatePalletRotation = useCalculatorStore((state) => state.updatePalletRotation);
   const selectPallet = useCalculatorStore((state) => state.selectPallet);
   const landItem = useCalculatorStore((state) => state.landItem);
-  const vehicle = VEHICLES[vehicleType];
+  const vehicle = vehicleType ? VEHICLES[vehicleType] : null;
   const { camera, raycaster, gl } = useThree();
   const controls = useThree((state) => state.controls) as OrbitControlsImpl | null;
   const [isDragging, setIsDragging] = useState(false);
@@ -32,6 +32,8 @@ export function PalletManager() {
     pallets.forEach((pallet) => map.set(pallet.id, hasPalletCollision(pallet, pallets) || !isInsideCargoBay(pallet, vehicleType)));
     return map;
   }, [pallets, vehicleType]);
+
+  if (!vehicle) return <group />;
 
   // Keep furniture and the selected box fully interactive. Excess auto-filled
   // boxes stay in the calculation, but are rendered with InstancedMesh.

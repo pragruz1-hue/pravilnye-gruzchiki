@@ -29,18 +29,17 @@ const descriptions: Record<MoveType, string> = {
   commercial: 'Коммерческий перевоз',
 };
 
+const types: MoveType[] = ['apartment', 'office', 'commercial'];
+
 export function MoveTypeTabs({ current, onRequestChange, disabled, hasData }: MoveTypeTabsProps) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [pendingType, setPendingType] = useState<MoveType | null>(null);
   const setMoveType = useCalculatorStore((state) => state.setMoveType);
 
-  const types: MoveType[] = ['apartment', 'office', 'commercial'];
-
   const handleClick = (type: MoveType) => {
     if (type === current) return;
     if (disabled) return;
 
-    // Если есть данные — показываем подтверждение
     if (hasData) {
       setPendingType(type);
       setShowConfirm(true);
@@ -62,8 +61,6 @@ export function MoveTypeTabs({ current, onRequestChange, disabled, hasData }: Mo
     setPendingType(null);
   };
 
-  const types: MoveType[] = ['apartment', 'office', 'commercial'];
-
   return (
     <>
       <div className="flex bg-gray-100 rounded-xl p-1" role="tablist" aria-label="Тип переезда">
@@ -75,7 +72,8 @@ export function MoveTypeTabs({ current, onRequestChange, disabled, hasData }: Mo
             aria-label={descriptions[type]}
             onClick={() => handleClick(type)}
             disabled={disabled || current === type}
-            className={`flex-1 flex flex-col items-center justify-center gap-1.5 px-4 py-3.5 rounded-xl font-medium text-sm transition-all ${current === type
+            className={`flex-1 flex flex-col items-center justify-center gap-1.5 px-4 py-3.5 rounded-xl font-medium text-sm transition-all ${
+              current === type
                 ? 'bg-white shadow-md text-[#ff6b00] border border-[#ff6b00]/20'
                 : 'text-gray-600 hover:bg-white/50'
             }`}
@@ -90,22 +88,9 @@ export function MoveTypeTabs({ current, onRequestChange, disabled, hasData }: Mo
       {hasData && (
         <ConfirmModal
           isOpen={showConfirm}
-          onClose={() => setShowConfirm(false)}
-          onConfirm={() => {
-            if (pendingType) {
-              onRequestChange(pendingType);
-              setShowConfirm(false);
-              setPendingType(null);
-            }
-          }}
-          onCancel={() => {
-            setShowConfirm(false);
-            setPendingType(null);
-          }}
+          onClose={handleCancel}
+          onConfirm={handleConfirm}
           title="Сменить тип переезда?"
-          confirmText="Да, сбросить и переключить"
-          cancelText="Отмена"
-          showScreenshot
           message={
             <>
               <p className="mb-3">При смене типа переезда сбросятся:</p>
@@ -135,21 +120,3 @@ export function MoveTypeTabs({ current, onRequestChange, disabled, hasData }: Mo
     </>
   );
 }
-
-const labels: Record<MoveType, string> = {
-  apartment: 'Квартирный',
-  office: 'Офисный',
-  commercial: 'Коммерческий',
-};
-
-const icons: Record<MoveType, string> = {
-  apartment: '🏠',
-  office: '🏢',
-  commercial: '🏭',
-};
-
-const descriptions: Record<MoveType, string> = {
-  apartment: 'Квартирный переезд',
-  office: 'Офисный переезд',
-  commercial: 'Коммерческий перевоз',
-};

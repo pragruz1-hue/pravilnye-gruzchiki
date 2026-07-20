@@ -16,8 +16,10 @@ export function hasPalletCollision(candidate: LoadItem, items: LoadItem[]): bool
   });
 }
 
-export function isInsideCargoBay(item: LoadItem, vehicleType: VehicleType): boolean {
+export function isInsideCargoBay(item: LoadItem, vehicleType: VehicleType | null): boolean {
+  if (!vehicleType) return true;
   const vehicle = VEHICLES[vehicleType];
+  if (!vehicle) return true;
   const b = bounds(item);
   const inBay = b.minX >= -vehicle.cargoLength / 2 && b.maxX <= vehicle.cargoLength / 2 && b.minZ >= -vehicle.cargoWidth / 2 && b.maxZ <= vehicle.cargoWidth / 2 && b.minY >= 0 && b.maxY <= vehicle.cargoHeight;
   const laidIllegally = !item.canLaySide && (Math.abs(Math.sin(item.rotation[0])) > 0.5 || Math.abs(Math.sin(item.rotation[2])) > 0.5);

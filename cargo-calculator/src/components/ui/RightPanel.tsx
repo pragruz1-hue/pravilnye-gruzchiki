@@ -7,7 +7,7 @@ import { useState } from 'react';
 export function RightPanel() {
   const pallets = useCalculatorStore((s) => s.pallets);
   const vehicleType = useCalculatorStore((s) => s.vehicleType);
-  const vehicle = VEHICLES[vehicleType];
+  const vehicle = vehicleType ? VEHICLES[vehicleType] : VEHICLES.gazelle12;
   const isNightMode = useCalculatorStore((s) => s.isNightMode);
   const totalWeight = useCalculatorStore((s) => s.totalWeight);
   const totalVolume = useCalculatorStore((s) => s.totalVolume);

@@ -23,7 +23,8 @@ function CameraController() {
   const vehicleType = useCalculatorStore((s) => s.vehicleType);
   const camera = useThree((s) => s.camera);
   const controls = useThree((s) => s.controls) as OrbitControlsImpl | null;
-  const vehicle = VEHICLES[vehicleType];
+  const vehicle = vehicleType ? VEHICLES[vehicleType] : null;
+  if (!vehicle) return null;
   const L = vehicle.cargoLength;
   const W = vehicle.cargoWidth;
   const H = vehicle.cargoHeight;
@@ -147,7 +148,7 @@ function SafeEnvironment({ preset }: { preset: 'apartment' | 'warehouse' }) {
 function SceneFallback({ reason }: { reason: string }) {
   const pallets = useCalculatorStore((s) => s.pallets);
   const vehicleType = useCalculatorStore((s) => s.vehicleType);
-  const vehicle = VEHICLES[vehicleType];
+  const vehicle = vehicleType ? VEHICLES[vehicleType] : VEHICLES.gazelle12;
   const visible = pallets.slice(0, 80);
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-slate-950 p-5 text-white">

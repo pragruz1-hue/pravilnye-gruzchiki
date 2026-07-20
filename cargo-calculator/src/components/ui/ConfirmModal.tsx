@@ -1,5 +1,6 @@
 import { useRef, useCallback } from 'react';
 import { Html } from '@react-three/drei';
+import html2canvas from 'html2canvas';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -134,7 +135,7 @@ export function ConfirmModal({
                     });
                     
                     const blob = await new Promise<Blob>((resolve) => {
-                      canvas.toBlob((b) => resolve(b!), 'image/png', 0.9);
+                      canvas.toBlob((b: Blob | null) => resolve(b!), 'image/png', 0.9);
                     });
                     
                     const url = URL.createObjectURL(blob);
@@ -209,7 +210,7 @@ export function ConfirmModal({
                 Работает на компьютере и телефоне. Сохранится как PNG.
               </p>
             </div>
-          </div>
+          )}
 
           <div style={{ display: 'flex', gap: '0.75rem' }}>
             <button

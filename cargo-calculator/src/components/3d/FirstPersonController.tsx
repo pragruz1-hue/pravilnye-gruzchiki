@@ -55,7 +55,8 @@ export function FirstPersonController() {
     if (!isFirstPerson && cameraMode !== 'inside' && cameraMode !== 'cabin' && !hasJoystick) return;
     if (!controls) return;
 
-    const vehicle = VEHICLES[vehicleType];
+    const vehicle = vehicleType ? VEHICLES[vehicleType] : null;
+    if (!vehicle) return;
     const L = vehicle.cargoLength;
     const W = vehicle.cargoWidth;
     const H = vehicle.cargoHeight;

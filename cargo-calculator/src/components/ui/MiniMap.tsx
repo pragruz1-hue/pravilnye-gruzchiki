@@ -10,7 +10,7 @@ export function MiniMap() {
   const toggleMinimap = useCalculatorStore((s) => s.toggleMinimap);
   const isHeatmapEnabled = useCalculatorStore((s) => s.isHeatmapEnabled);
 
-  const vehicle = VEHICLES[vehicleType];
+  const vehicle = vehicleType ? VEHICLES[vehicleType] : VEHICLES.gazelle12;
   const L = vehicle.cargoLength;
   const W = vehicle.cargoWidth;
 

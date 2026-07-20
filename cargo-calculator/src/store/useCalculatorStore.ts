@@ -12,7 +12,7 @@ interface CalculatorState {
   totalVolume: number;
   pallets: LoadItem[];
   selectedPalletId: string | null;
-  vehicleType: VehicleType | null;
+  vehicleType: VehicleType;
   recommendedVehicleType: VehicleType;
   vehicleCount: number;
   urgency: 1 | 2 | 3;
@@ -305,37 +305,35 @@ export const useCalculatorStore = create<CalculatorState>()(
   persist(
     (set, get) => ({
       from: 'Краснодар', to: 'Сочи', distance: 286, moveType: 'apartment', totalWeight: 0, totalVolume: 0,
-      pallets: [], selectedPalletId: null, vehicleType: null, recommendedVehicleType: null as any, vehicleCount: 1, urgency: 2, services: initialServices,
+      pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7', vehicleCount: 1, urgency: 2, services: initialServices,
       basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', tripRange: 'regional', workHours: 0, activePreset: null,
       cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
       isPerformanceMode: false, renderQuality: 'auto', isPhysicsEnabled: false, isHeatmapEnabled: false, fallingTargets: {},
       overflowCount: 0, overflowItems: [], overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0,
       filteredCatalog: getFilteredCatalog('apartment'),
+      _pendingMoveType: null,
+      _needsConfirm: false,
 
       setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
-      setMoveType: (moveType) => {
+      setMoveType: (moveType, skipConfirm = false) => {
         const state = get();
-        const hasData = state.pallets.length > 0 || state.vehicleType || state.activePreset;
-        
-        // Если есть данные, но мы вызываем setMoveType напрямую (после подтверждения) — делаем чистый сброс
-        // Флаг _skipConfirm используется для пропуска модалки
-        const skipConfirm = (arguments as any)[1] === true;
+        const hasData = state.pallets.length > 0 || state.activePreset;
         
         if (hasData && !skipConfirm) {
-          // Сигнал UI: нужно подтверждение
           set({ _pendingMoveType: moveType, _needsConfirm: true });
           return;
         }
         
-        // Чистый переход (нет данных или подтверждено)
         const filteredCatalog = getFilteredCatalog(moveType);
         const recommendedVehicleType = moveType === 'apartment' ? 'gazelle7' : 
                                       moveType === 'office' ? 'gazelle7' : 'gazelle18';
+        const defaultVehicleType = moveType === 'apartment' ? 'gazelle12' : 
+                                   moveType === 'office' ? 'gazelle12' : 'gazelle18';
         
         set({ 
           moveType, 
-          vehicleType: null, 
-          recommendedVehicleType: recommendedVehicleType as any,
+          vehicleType: defaultVehicleType, 
+          recommendedVehicleType,
           activePreset: null,
           filteredCatalog,
           pallets: [],
@@ -602,11 +600,13 @@ export const useCalculatorStore = create<CalculatorState>()(
         const filteredCatalog = getFilteredCatalog(moveType);
         const recommendedVehicleType = moveType === 'apartment' ? 'gazelle7' : 
                                       moveType === 'office' ? 'gazelle7' : 'gazelle18';
+        const defaultVehicleType = moveType === 'apartment' ? 'gazelle12' : 
+                                   moveType === 'office' ? 'gazelle12' : 'gazelle18';
         
         set({ 
           moveType,
-          vehicleType: null,
-          recommendedVehicleType: recommendedVehicleType as any,
+          vehicleType: defaultVehicleType,
+          recommendedVehicleType,
           activePreset: null,
           filteredCatalog,
           pallets: [],
@@ -628,6 +628,8 @@ export const useCalculatorStore = create<CalculatorState>()(
       },
       landItem: (id) => {
         const state = get();
+        const item = state.pallets.find(p => p.id === id);
+        if (!item) return;
         const targetY = getStackHeightAt(id, item.position[0], item.position[2], state.pallets);
         const vehicle = VEHICLES[state.vehicleType];
         const itemH = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
