@@ -12,6 +12,12 @@ export function Truck({ position }: TruckProps) {
   const vehicleType = useCalculatorStore((state) => state.vehicleType);
   const cameraMode = useCalculatorStore((state) => state.cameraMode);
   const isNightMode = useCalculatorStore((state) => state.isNightMode);
+  
+  // Guard: vehicleType может быть null при первом заходе
+  if (!vehicleType || !VEHICLES[vehicleType]) {
+    return <group position={position} name="truck-placeholder" />;
+  }
+  
   const vehicle = VEHICLES[vehicleType];
   const L = vehicle.cargoLength;
   const W = vehicle.cargoWidth;
@@ -48,12 +54,13 @@ export function Truck({ position }: TruckProps) {
 
   return (
     <group position={position} name="procedural-truck-dynamic">
-      {/* Асфальт под машиной */}
-      <mesh position={[0, -0.015, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+      {/* Асфальт под машиной — понижен ниже колёс */}
+      <mesh position={[0, -0.06, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[L + 9, W + 7]} />
         <meshStandardMaterial color="#3a3f47" roughness={0.92} metalness={0.08} />
       </mesh>
-      <mesh position={[0, 0.08, 0]} castShadow receiveShadow><boxGeometry args={[L, 0.16, W]} /><primitive object={materials.floor} attach="material" /></mesh>
+      {/* Пол кузова — ниже, чтобы колёса не проваливались и машина не "тонула" */}
+      <mesh position={[0, 0, 0]} castShadow receiveShadow><boxGeometry args={[L, 0.04, W]} /><primitive object={materials.floor} attach="material" /></mesh>
       <mesh position={[-L / 2 - 0.02, H / 2 + 0.12, 0]} castShadow receiveShadow><boxGeometry args={[0.12, H, W]} /><primitive object={materials.paint} attach="material" /></mesh>
       <mesh position={[0, H / 2 + 0.12, -W / 2 - 0.02]} castShadow receiveShadow><boxGeometry args={[L, H, 0.08]} /><primitive object={materials.wall} attach="material" /></mesh>
       <mesh position={[0, H / 2 + 0.12, W / 2 + 0.02]} castShadow receiveShadow><boxGeometry args={[L, H, 0.08]} /><primitive object={materials.wall} attach="material" /></mesh>
@@ -141,13 +148,29 @@ function RearCluster({ L, W, H, lastAxleX, isNightMode, dark, chrome, paint }: {
       <mesh position={[R + 0.08, 0.35, 0]} castShadow><boxGeometry args={[0.14, 0.18, W - 0.05]} /><primitive object={dark} attach="material" /></mesh>
       {/* брызговики задней оси */}
       {[1, -1].map((s) => <mesh key={`rmf-${s}`} position={[lastAxleX + 0.46, 0.24, s * (W / 2 + 0.15)]}><boxGeometry args={[0.035, 0.42, 0.34]} /><primitive object={dark} attach="material" /></mesh>)}
-      {/* задние фонари */}
+      {/* задние фонари — правильно размещены по углам кузова */}
       {[1, -1].map((s) => (
         <group key={`tl-${s}`}>
-          <mesh position={[R + 0.06, 0.48, s * (W / 2 - 0.24)]} castShadow><boxGeometry args={[0.05, 0.26, 0.32]} /><primitive object={dark} attach="material" /></mesh>
-          <mesh position={[R + 0.09, 0.56, s * (W / 2 - 0.24)]}><boxGeometry args={[0.02, 0.08, 0.26]} /><meshStandardMaterial color="#ef4444" emissive="#ef4444" emissiveIntensity={isNightMode ? 2.2 : 0.6} roughness={0.3} /></mesh>
-          <mesh position={[R + 0.09, 0.47, s * (W / 2 - 0.24)]}><boxGeometry args={[0.02, 0.06, 0.26]} /><meshStandardMaterial color="#f59e0b" emissive="#f59e0b" emissiveIntensity={isNightMode ? 1.8 : 0.5} roughness={0.3} /></mesh>
-          <mesh position={[R + 0.09, 0.40, s * (W / 2 - 0.24)]}><boxGeometry args={[0.02, 0.05, 0.26]} /><meshStandardMaterial color="#f8fafc" emissive="#f8fafc" emissiveIntensity={isNightMode ? 1.4 : 0.25} roughness={0.3} /></mesh>
+          {/* Корпус фонаря — в углах задней стенки */}
+          <mesh position={[R + 0.04, 0.55, s * (W / 2 - 0.18)]} castShadow>
+            <boxGeometry args={[0.04, 0.3, 0.25]} />
+            <primitive object={dark} attach="material" />
+          </mesh>
+          {/* Стоп-сигнал (красный, верх) */}
+          <mesh position={[R + 0.065, 0.62, s * (W / 2 - 0.18)]}>
+            <boxGeometry args={[0.015, 0.07, 0.18]} />
+            <meshStandardMaterial color="#ef4444" emissive="#ef4444" emissiveIntensity={isNightMode ? 2.5 : 0.8} roughness={0.2} />
+          </mesh>
+          {/* Габаритный/задний ход (белый, низ) */}
+          <mesh position={[R + 0.065, 0.48, s * (W / 2 - 0.18)]}>
+            <boxGeometry args={[0.015, 0.07, 0.18]} />
+            <meshStandardMaterial color="#f8fafc" emissive="#f8fafc" emissiveIntensity={isNightMode ? 1.5 : 0.3} roughness={0.2} />
+          </mesh>
+          {/* Поворотник (оранжевый, середина) */}
+          <mesh position={[R + 0.065, 0.55, s * (W / 2 - 0.18)]}>
+            <boxGeometry args={[0.015, 0.07, 0.18]} />
+            <meshStandardMaterial color="#f59e0b" emissive="#f59e0b" emissiveIntensity={isNightMode ? 1.8 : 0.5} roughness={0.2} />
+          </mesh>
         </group>
       ))}
       {/* распахнутые створки ворот на петлях */}
@@ -176,7 +199,7 @@ function Wheel({ x, z, tire, chrome, dual }: { x: number; z: number; tire: THREE
       <group position={[x, 0.12, z]} rotation={[Math.PI / 2, 0, 0]}>
         <mesh castShadow receiveShadow position={[0, off, 0]}><cylinderGeometry args={[0.39, 0.39, 0.24, 48]} /><primitive object={tire} attach="material" /></mesh>
         <mesh castShadow receiveShadow position={[0, -off, 0]}><cylinderGeometry args={[0.39, 0.39, 0.24, 48]} /><primitive object={tire} attach="material" /></mesh>
-        <mesh castShadow receiveShadow position={[0, off + Math.sign(z) * 0.02, 0]}><cylinderGeometry args={[0.17, 0.17, 0.26, 36]} /><primitive object={chrome} attach="material" /></mesh>
+        <mesh castShadow receiveShadow position={[0, off + Math.sign(z) * 0, 0]}><cylinderGeometry args={[0.17, 0.17, 0.26, 36]} /><primitive object={chrome} attach="material" /></mesh>
       </group>
     );
   }

@@ -1,13 +1,13 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useEffect, useState } from 'react';
 import { Html, RoundedBox } from '@react-three/drei';
 import { ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { CargoBox, LoadItem } from '../../types';
 import { boxDimensions, orientedHeight, orientedFootprint, VEHICLES, getStackHeightAt } from '../../utils/calculations';
 import { createCardboardMaterial, createChromeMaterial, createGlassMaterial, createPlasticMaterial, createStretchWrapMaterial, createWoodMaterial } from '../../materials/pbrMaterials';
-import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { useCalculatorStore } from '../../store/useCalculatorStore';
 import { Box3D } from './Box3D';
+import { TransformOperator, SelectionHighlight } from './TransformOperator';
 
 interface PalletProps extends LoadItem {
   isSelected: boolean;
@@ -81,10 +81,8 @@ export const Pallet = React.memo(function Pallet(props: PalletProps) {
           <primitive object={wrapMaterial} attach="material" />
         </mesh>
       )}
-      {isSelected && <SelectionBox dimensions={dimensions} height={cargoHeight} hasCollision={hasCollision} />}
-      {isSelected ? (
-        <InteractiveGizmo id={id} position={position} rotation={rotation} height={cargoHeight} />
-      ) : null}
+      {isSelected && <SelectionHighlight dimensions={dimensions} height={cargoHeight} hasCollision={hasCollision} position={position} />}
+      {isSelected && <TransformOperator />}
     </group>
   );
 });
@@ -109,23 +107,18 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
   if (item.kind === 'sofa') {
     return (
       <group>
-
         <RoundedBox args={[d.length, d.height * 0.45, d.width]} radius={0.08} smoothness={5} position={[0, d.height * 0.22, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-
         <RoundedBox args={[d.length, d.height * 0.55, 0.18]} radius={0.06} smoothness={5} position={[0, d.height * 0.58, -d.width / 2 + 0.08]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-
         <RoundedBox args={[0.16, d.height * 0.52, d.width]} radius={0.05} smoothness={4} position={[-d.length / 2 + 0.08, d.height * 0.5, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-
         <RoundedBox args={[0.16, d.height * 0.52, d.width]} radius={0.05} smoothness={4} position={[d.length / 2 - 0.08, d.height * 0.5, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-
         <RoundedBox args={[0.55, 0.35, 0.1]} radius={0.04} smoothness={4} position={[-0.45, d.height * 0.58, -d.width / 2 + 0.16]} castShadow receiveShadow>
           <meshStandardMaterial color="#3b4252" roughness={0.9} />
         </RoundedBox>
@@ -142,12 +135,10 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
         <RoundedBox args={[d.length, d.height, d.width]} radius={0.03} smoothness={4} position={[0, d.height / 2, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-
         <mesh position={[0, d.height * 0.35, d.width / 2 + 0.005]}>
           <boxGeometry args={[d.length * 0.96, 0.008, 0.005]} />
           <meshStandardMaterial color="#94a3b8" />
         </mesh>
-
         <mesh position={[d.length / 2 - 0.06, d.height * 0.65, d.width / 2 + 0.014]} castShadow>
           <boxGeometry args={[0.02, 0.28, 0.02]} />
           <meshStandardMaterial color="#cbd5e1" metalness={0.9} roughness={0.1} />
@@ -166,29 +157,23 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
         <RoundedBox args={[d.length, d.height, d.width]} radius={0.045} smoothness={4} position={[0, d.height / 2, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-
         <mesh position={[0, d.height * 0.85, d.width / 2 + 0.006]}>
           <boxGeometry args={[d.length * 0.9, 0.12, 0.008]} />
           <meshStandardMaterial color="#e2e8f0" roughness={0.4} />
         </mesh>
-
         <mesh position={[d.length * 0.22, d.height * 0.85, d.width / 2 + 0.011]}>
           <boxGeometry args={[0.12, 0.05, 0.005]} />
           <meshBasicMaterial color="#0284c7" />
         </mesh>
-
         <mesh position={[-d.length * 0.22, d.height * 0.85, d.width / 2 + 0.013]} rotation={[Math.PI / 2, 0, 0]}>
           <cylinderGeometry args={[0.024, 0.024, 0.012, 24]} />
           <meshStandardMaterial color="#64748b" metalness={0.5} roughness={0.2} />
         </mesh>
-
         <group position={[0, d.height * 0.44, d.width / 2 + 0.006]} rotation={[Math.PI / 2, 0, 0]}>
-
           <mesh castShadow>
             <torusGeometry args={[0.16, 0.018, 12, 36]} />
             <meshStandardMaterial color="#cbd5e1" metalness={0.9} roughness={0.1} />
           </mesh>
-
           <mesh position={[0, 0.004, 0]}>
             <cylinderGeometry args={[0.14, 0.14, 0.008, 24]} />
             <meshPhysicalMaterial color="#38bdf8" transparent opacity={0.65} roughness={0.02} transmission={0.9} />
@@ -204,12 +189,10 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
         <RoundedBox args={[d.length, d.height, d.width]} radius={0.02} smoothness={3} position={[0, d.height / 2, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-
         <mesh position={[0, d.height / 2, d.width / 2 + 0.005]}>
           <boxGeometry args={[0.006, d.height * 0.95, 0.006]} />
           <meshStandardMaterial color="#111827" roughness={0.8} />
         </mesh>
-
         <mesh position={[-0.04, d.height / 2, d.width / 2 + 0.012]} castShadow>
           <cylinderGeometry args={[0.008, 0.01, 0.14, 12]} />
           <meshStandardMaterial color="#cbd5e1" metalness={0.9} roughness={0.2} />
@@ -239,17 +222,14 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
   if (item.kind === 'plant') {
     return (
       <group>
-
         <mesh position={[0, 0.16, 0]} castShadow receiveShadow>
           <cylinderGeometry args={[0.18, 0.24, 0.32, 24]} />
           <meshStandardMaterial color="#8B7355" roughness={0.8} />
         </mesh>
-
         <mesh position={[0, d.height * 0.4, 0]} castShadow receiveShadow>
           <cylinderGeometry args={[0.02, 0.02, d.height * 0.5, 8]} />
           <meshStandardMaterial color="#78350f" roughness={0.9} />
         </mesh>
-
         {Array.from({ length: 5 }).map((_, idx) => {
           const rot = (idx * Math.PI * 2) / 5;
           return (
@@ -270,22 +250,7 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
   }
 
   if (item.kind === 'bike') {
-    return (
-      <group>
-        <mesh position={[0, 0.45, 0]} castShadow receiveShadow>
-          <boxGeometry args={[d.length, 0.06, 0.06]} />
-          <primitive object={itemMaterial} attach="material" />
-        </mesh>
-        <mesh position={[-d.length * 0.34, 0.28, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.28, 0.025, 12, 32]} />
-          <primitive object={itemMaterial} attach="material" />
-        </mesh>
-        <mesh position={[d.length * 0.34, 0.28, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.28, 0.025, 12, 32]} />
-          <primitive object={itemMaterial} attach="material" />
-        </mesh>
-      </group>
-    );
+    return <Bicycle d={d} material={itemMaterial} />;
   }
 
   if (item.kind === 'box') {
@@ -294,7 +259,6 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
         <RoundedBox args={[d.length, d.height, d.width]} radius={0.025} smoothness={3} position={[0, d.height / 2, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-
         <mesh position={[0, d.height + 0.003, 0]}>
           <boxGeometry args={[d.length * 1.01, 0.002, 0.051]} />
           <meshStandardMaterial color="#854d0e" roughness={0.7} />
@@ -307,7 +271,6 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
           <boxGeometry args={[0.002, d.height * 0.8, 0.051]} />
           <meshStandardMaterial color="#854d0e" roughness={0.7} />
         </mesh>
-
         <mesh position={[0, d.height / 2, d.width / 2 + 0.004]}>
           <planeGeometry args={[0.16, 0.1]} />
           <meshBasicMaterial color="#ffffff" />
@@ -319,11 +282,9 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
   if (item.kind === 'table') {
     return (
       <group>
-
         <RoundedBox args={[d.length, 0.06, d.width]} radius={0.012} smoothness={3} position={[0, d.height - 0.03, 0]} castShadow receiveShadow>
           <primitive object={itemMaterial} attach="material" />
         </RoundedBox>
-
         {[-d.length / 2 + 0.08, d.length / 2 - 0.08].map((x) =>
           [-d.width / 2 + 0.08, d.width / 2 - 0.08].map((z) => (
             <mesh key={`leg-${x}-${z}`} position={[x, (d.height - 0.06) / 2, z]} castShadow receiveShadow>
@@ -343,15 +304,12 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
           const yOffset = idx * 0.12;
           return (
             <group key={`chair-${idx}`} position={[0, yOffset, 0]}>
-
               <RoundedBox args={[0.42, 0.04, 0.42]} radius={0.01} smoothness={2} position={[0, 0.4, 0]} castShadow receiveShadow>
                 <primitive object={itemMaterial} attach="material" />
               </RoundedBox>
-
               <RoundedBox args={[0.42, 0.38, 0.04]} radius={0.01} smoothness={2} position={[0, 0.6, -0.19]} castShadow receiveShadow>
                 <primitive object={itemMaterial} attach="material" />
               </RoundedBox>
-
               {[-0.18, 0.18].map((x) =>
                 [-0.18, 0.18].map((z) => (
                   <mesh key={`leg-${x}-${z}`} position={[x, 0.2, z]} castShadow receiveShadow>
@@ -374,6 +332,199 @@ function FurnitureLoad({ item, itemMaterial }: { item: LoadItem; itemMaterial: T
   );
 }
 
+function Bicycle({ d, material }: { d: LoadItem['dimensions']; material: THREE.Material }) {
+  const frameColor = '#1a1a2e';
+  const metalMaterial = new THREE.MeshPhysicalMaterial({ color: frameColor, roughness: 0.3, metalness: 0.7, clearcoat: 0.5 });
+  const tireMaterial = new THREE.MeshStandardMaterial({ color: '#0a0a0a', roughness: 0.9 });
+  const rimMaterial = new THREE.MeshPhysicalMaterial({ color: '#cbd5e1', roughness: 0.2, metalness: 0.8, clearcoat: 0.6 });
+  const saddleMaterial = new THREE.MeshStandardMaterial({ color: '#1a1a1a', roughness: 0.8 });
+  const gripMaterial = new THREE.MeshStandardMaterial({ color: '#2d1b0e', roughness: 0.9 });
+
+  return (
+    <group>
+      {/* Frame - main triangle */}
+      <group>
+        {/* Top tube */}
+        <mesh position={[0, 0.78, 0]} rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.022, 0.022, d.length * 0.55, 16]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Down tube */}
+        <mesh position={[-d.length * 0.2, 0.42, 0]} rotation={[0, 0, Math.atan2(0.4, d.length * 0.35)]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.025, 0.025, Math.sqrt(0.4 * 0.4 + (d.length * 0.35) * (d.length * 0.35)), 16]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Seat tube */}
+        <mesh position={[d.length * 0.18, 0.45, 0]} rotation={[0, 0, 0]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.022, 0.022, 0.4, 16]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Chain stays (rear triangle bottom) */}
+        <mesh position={[d.length * 0.28, 0.2, 0.04]} rotation={[0, 0, Math.atan2(0.2, d.length * 0.15)]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.014, 0.014, Math.sqrt(0.2 * 0.2 + (d.length * 0.15) * (d.length * 0.15)), 12]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        <mesh position={[d.length * 0.28, 0.2, -0.04]} rotation={[0, 0, Math.atan2(0.2, d.length * 0.15)]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.014, 0.014, Math.sqrt(0.2 * 0.2 + (d.length * 0.15) * (d.length * 0.15)), 12]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Seat stays (rear triangle top) */}
+        <mesh position={[d.length * 0.18, 0.6, 0.04]} rotation={[0, 0, -Math.atan2(0.3, d.length * 0.1)]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.012, 0.012, Math.sqrt(0.3 * 0.3 + (d.length * 0.1) * (d.length * 0.1)), 12]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        <mesh position={[d.length * 0.18, 0.6, -0.04]} rotation={[0, 0, -Math.atan2(0.3, d.length * 0.1)]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.012, 0.012, Math.sqrt(0.3 * 0.3 + (d.length * 0.1) * (d.length * 0.1)), 12]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Head tube */}
+        <mesh position={[-d.length * 0.38, 0.62, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.028, 0.028, 0.12, 16]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+      </group>
+
+      {/* Front wheel */}
+      <group position={[-d.length * 0.38, 0.35, 0]}>
+        {/* Tire */}
+        <mesh rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
+          <torusGeometry args={[0.33, 0.028, 12, 32]} />
+          <primitive object={tireMaterial} attach="material" />
+        </mesh>
+        {/* Rim */}
+        <mesh rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
+          <torusGeometry args={[0.29, 0.012, 12, 32]} />
+          <primitive object={rimMaterial} attach="material" />
+        </mesh>
+        {/* Spokes */}
+        <group rotation={[0, 0, Math.PI / 2]}>
+          {Array.from({ length: 12 }).map((_, i) => (
+            <mesh key={`spoke-f-${i}`} rotation={[0, 0, (i * Math.PI) / 6]} castShadow>
+              <cylinderGeometry args={[0.0015, 0.0015, 0.3, 6]} />
+              <primitive object={rimMaterial} attach="material" />
+            </mesh>
+          ))}
+        </group>
+        {/* Hub */}
+        <mesh rotation={[0, 0, Math.PI / 2]} castShadow>
+          <cylinderGeometry args={[0.025, 0.025, 0.06, 16]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Fork */}
+        <mesh position={[-0.02, 0, 0.04]} rotation={[0, 0, -0.15]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.016, 0.016, 0.35, 12]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        <mesh position={[-0.02, 0, -0.04]} rotation={[0, 0, -0.15]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.016, 0.016, 0.35, 12]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+      </group>
+
+      {/* Rear wheel */}
+      <group position={[d.length * 0.32, 0.35, 0]}>
+        <mesh rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
+          <torusGeometry args={[0.33, 0.028, 12, 32]} />
+          <primitive object={tireMaterial} attach="material" />
+        </mesh>
+        <mesh rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
+          <torusGeometry args={[0.29, 0.012, 12, 32]} />
+          <primitive object={rimMaterial} attach="material" />
+        </mesh>
+        <group rotation={[0, 0, Math.PI / 2]}>
+          {Array.from({ length: 12 }).map((_, i) => (
+            <mesh key={`spoke-r-${i}`} rotation={[0, 0, (i * Math.PI) / 6]} castShadow>
+              <cylinderGeometry args={[0.0015, 0.0015, 0.3, 6]} />
+              <primitive object={rimMaterial} attach="material" />
+            </mesh>
+          ))}
+        </group>
+        <mesh rotation={[0, 0, Math.PI / 2]} castShadow>
+          <cylinderGeometry args={[0.025, 0.025, 0.06, 16]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Rear cassette */}
+        <mesh position={[0, 0, -0.05]} rotation={[0, 0, Math.PI / 2]} castShadow>
+          <cylinderGeometry args={[0.03, 0.015, 0.02, 16]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+      </group>
+
+      {/* Handlebars */}
+      <group position={[-d.length * 0.38, 0.95, 0]}>
+        {/* Stem */}
+        <mesh position={[0, -0.08, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.018, 0.018, 0.12, 12]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Bar */}
+        <mesh position={[0, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.016, 0.016, 0.55, 12]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Grips */}
+        <mesh position={[-0.28, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+          <cylinderGeometry args={[0.02, 0.02, 0.1, 12]} />
+          <primitive object={gripMaterial} attach="material" />
+        </mesh>
+        <mesh position={[0.28, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+          <cylinderGeometry args={[0.02, 0.02, 0.1, 12]} />
+          <primitive object={gripMaterial} attach="material" />
+        </mesh>
+        {/* Brake levers (simple) */}
+        <mesh position={[-0.22, 0.02, 0.02]} rotation={[0, Math.PI / 4, Math.PI / 2]} castShadow>
+          <boxGeometry args={[0.04, 0.015, 0.03]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        <mesh position={[0.22, 0.02, 0.02]} rotation={[0, -Math.PI / 4, Math.PI / 2]} castShadow>
+          <boxGeometry args={[0.04, 0.015, 0.03]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+      </group>
+
+      {/* Saddle */}
+      <group position={[d.length * 0.15, 0.88, 0]}>
+        <mesh position={[0, 0, 0]} rotation={[Math.PI / 12, 0, 0]} castShadow receiveShadow>
+          <RoundedBox args={[0.22, 0.03, 0.14]} radius={0.02} smoothness={3} />
+          <primitive object={saddleMaterial} attach="material" />
+        </mesh>
+        {/* Seat post */}
+        <mesh position={[0, -0.15, 0]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.018, 0.018, 0.35, 12]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+      </group>
+
+      {/* Crankset / Pedals */}
+      <group position={[d.length * 0.15, 0.35, 0]}>
+        {/* Crank arms */}
+        <mesh position={[-0.17, 0, 0.04]} rotation={[0, 0, 0]} castShadow>
+          <cylinderGeometry args={[0.012, 0.012, 0.17, 8]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        <mesh position={[0.17, 0, -0.04]} rotation={[0, 0, 0]} castShadow>
+          <cylinderGeometry args={[0.012, 0.012, 0.17, 8]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Chainring */}
+        <mesh position={[0, 0, 0.04]} rotation={[0, 0, Math.PI / 2]} castShadow>
+          <torusGeometry args={[0.09, 0.01, 8, 24]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        {/* Pedals */}
+        <mesh position={[-0.17, -0.02, 0.04]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+          <boxGeometry args={[0.1, 0.01, 0.035]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+        <mesh position={[0.17, -0.02, -0.04]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+          <boxGeometry args={[0.1, 0.01, 0.035]} />
+          <primitive object={metalMaterial} attach="material" />
+        </mesh>
+      </group>
+    </group>
+  );
+}
+
 function PalletLoad({ item, itemMaterial, wrapMaterial }: { item: LoadItem; itemMaterial: THREE.Material; wrapMaterial: THREE.Material }) {
   const boxPositions = layoutBoxes(item.boxes, item.dimensions);
   const cargoHeight = Math.max(0.42, ...boxPositions.map((entry) => entry.position[1] + boxDimensions(entry.box.size).height / 2));
@@ -386,213 +537,6 @@ function ProceduralPallet({ length, width, material }: { length: number; width: 
   const blocksX = [-length / 2 + 0.16, 0, length / 2 - 0.16];
   const blocksZ = [-width / 2 + 0.13, 0, width / 2 - 0.13];
   return <group>{topPlanks.map((z, index) => <mesh key={`top-${index}`} position={[0, 0.144, z]} castShadow receiveShadow><boxGeometry args={[length, 0.04, Math.min(0.12, width / 7)]} /><primitive object={material} attach="material" /></mesh>)}{bottomPlanks.map((z, index) => <mesh key={`bottom-${index}`} position={[0, 0.025, z]} castShadow receiveShadow><boxGeometry args={[length, 0.035, Math.min(0.1, width / 8)]} /><primitive object={material} attach="material" /></mesh>)}{blocksX.map((x) => blocksZ.map((z) => <mesh key={`block-${x}-${z}`} position={[x, 0.08, z]} castShadow receiveShadow><boxGeometry args={[0.16, 0.09, 0.14]} /><primitive object={material} attach="material" /></mesh>))}</group>;
-}
-
-function SelectionBox({ dimensions, height, hasCollision }: { dimensions: LoadItem['dimensions']; height: number; hasCollision: boolean }) {
-  return <lineSegments position={[0, height / 2, 0]}><edgesGeometry args={[new THREE.BoxGeometry(dimensions.length + 0.1, height + 0.1, dimensions.width + 0.1)]} /><lineBasicMaterial color={hasCollision ? '#ef4444' : '#ff6b00'} linewidth={2} /></lineSegments>;
-}
-
-function InteractiveGizmo({ id, position, rotation, height }: { id: string; position: [number, number, number]; rotation: [number, number, number]; height: number }) {
-  const { camera, raycaster, gl } = useThree();
-  const controls = useThree((state) => state.controls) as OrbitControlsImpl | null;
-  const vehicleType = useCalculatorStore((state) => state.vehicleType);
-  const pallets = useCalculatorStore((state) => state.pallets);
-  const updatePalletPosition = useCalculatorStore((state) => state.updatePalletPosition);
-  const updatePalletRotation = useCalculatorStore((state) => state.updatePalletRotation);
-  const landItem = useCalculatorStore((state) => state.landItem);
-
-  const vehicle = VEHICLES[vehicleType];
-  const item = pallets.find((p) => p.id === id);
-
-  const dragRef = useRef<{
-    axis: 'X' | 'Y' | 'Z' | 'rotY';
-    pointerId: number;
-    initialPoint: THREE.Vector3;
-    initialItemPos: [number, number, number];
-    initialItemRot: [number, number, number];
-  } | null>(null);
-
-  const disableControls = () => { if (controls) controls.enabled = false; };
-  const enableControls = () => { if (controls) controls.enabled = true; };
-
-  const handlePointerDown = (axis: 'X' | 'Y' | 'Z' | 'rotY', event: ThreeEvent<PointerEvent>) => {
-    event.stopPropagation();
-    (event.target as HTMLElement).setPointerCapture(event.pointerId);
-    disableControls();
-
-    dragRef.current = {
-      axis,
-      pointerId: event.pointerId,
-      initialPoint: event.point.clone(),
-      initialItemPos: [...position],
-      initialItemRot: [...rotation]
-    };
-  };
-
-  const handlePointerMove = (event: ThreeEvent<PointerEvent>) => {
-    if (!dragRef.current || !item) return;
-    event.stopPropagation();
-
-    const drag = dragRef.current;
-    raycaster.setFromCamera(event.pointer, camera);
-
-    if (drag.axis === 'X' || drag.axis === 'Z') {
-      const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -drag.initialPoint.y);
-      const hitPoint = new THREE.Vector3();
-      raycaster.ray.intersectPlane(plane, hitPoint);
-
-      const delta = hitPoint.sub(drag.initialPoint);
-      const fp = orientedFootprint(item);
-      const maxL = vehicle.cargoLength / 2 - fp.length / 2;
-      const maxW = vehicle.cargoWidth / 2 - fp.width / 2;
-
-      let newX = drag.initialItemPos[0];
-      let newZ = drag.initialItemPos[2];
-
-      if (drag.axis === 'X') {
-        newX = Math.round((drag.initialItemPos[0] + delta.x) / 0.1) * 0.1;
-        newX = THREE.MathUtils.clamp(newX, -maxL, maxL);
-      } else {
-        newZ = Math.round((drag.initialItemPos[2] + delta.z) / 0.1) * 0.1;
-        newZ = THREE.MathUtils.clamp(newZ, -maxW, maxW);
-      }
-
-      const newY = getStackHeightAt(id, newX, newZ, pallets);
-      updatePalletPosition(id, [newX, newY, newZ]);
-    } else if (drag.axis === 'Y') {
-      const camDir = new THREE.Vector3();
-      camera.getWorldDirection(camDir);
-      camDir.y = 0;
-      camDir.normalize();
-
-      const plane = new THREE.Plane(camDir, -camDir.dot(drag.initialPoint));
-      const hitPoint = new THREE.Vector3();
-      raycaster.ray.intersectPlane(plane, hitPoint);
-
-      const deltaY = hitPoint.y - drag.initialPoint.y;
-      let newY = Math.round((drag.initialItemPos[1] + deltaY) / 0.1) * 0.1;
-      const itemH = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
-      newY = THREE.MathUtils.clamp(newY, 0.04, vehicle.cargoHeight - itemH);
-
-      updatePalletPosition(id, [position[0], newY, position[2]]);
-    } else if (drag.axis === 'rotY') {
-      const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -drag.initialPoint.y);
-      const hitPoint = new THREE.Vector3();
-      raycaster.ray.intersectPlane(plane, hitPoint);
-
-      const center = new THREE.Vector3(position[0], 0, position[2]);
-      const initDir = drag.initialPoint.clone().sub(center);
-      initDir.y = 0;
-      const initAngle = Math.atan2(initDir.z, initDir.x);
-
-      const currentDir = hitPoint.clone().sub(center);
-      currentDir.y = 0;
-      const currentAngle = Math.atan2(currentDir.z, currentDir.x);
-
-      const deltaAngle = currentAngle - initAngle;
-      let newRotY = drag.initialItemRot[1] - deltaAngle;
-
-      const step = Math.PI / 2;
-      newRotY = Math.round(newRotY / step) * step;
-
-      updatePalletRotation(id, [rotation[0], newRotY, rotation[2]]);
-    }
-  };
-
-  const handlePointerUp = (event: ThreeEvent<PointerEvent>) => {
-    event.stopPropagation();
-    (event.target as HTMLElement).releasePointerCapture(event.pointerId);
-    enableControls();
-    dragRef.current = null;
-    landItem(id);
-  };
-
-  return (
-    <group position={[0, height + 0.04, 0]}>
-
-      <group rotation={[0, 0, -Math.PI / 2]}>
-        <mesh
-          position={[0.34, 0, 0]}
-          onPointerDown={(e) => handlePointerDown('X', e)}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerOver={(e) => { e.stopPropagation(); gl.domElement.style.cursor = 'ew-resize'; }}
-          onPointerOut={(e) => { e.stopPropagation(); gl.domElement.style.cursor = 'auto'; }}
-        >
-          <cylinderGeometry args={[0.035, 0.035, 0.68, 12]} />
-          <meshBasicMaterial color="#ef4444" transparent opacity={0.85} />
-        </mesh>
-        <mesh
-          position={[0.72, 0, 0]}
-          onPointerDown={(e) => handlePointerDown('X', e)}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-        >
-          <coneGeometry args={[0.09, 0.2, 16]} />
-          <meshBasicMaterial color="#ef4444" />
-        </mesh>
-      </group>
-
-      <group>
-        <mesh
-          position={[0, 0.34, 0]}
-          onPointerDown={(e) => handlePointerDown('Y', e)}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerOver={(e) => { e.stopPropagation(); gl.domElement.style.cursor = 'ns-resize'; }}
-          onPointerOut={(e) => { e.stopPropagation(); gl.domElement.style.cursor = 'auto'; }}
-        >
-          <cylinderGeometry args={[0.035, 0.035, 0.68, 12]} />
-          <meshBasicMaterial color="#10b981" transparent opacity={0.85} />
-        </mesh>
-        <mesh
-          position={[0, 0.72, 0]}
-          onPointerDown={(e) => handlePointerDown('Y', e)}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-        >
-          <coneGeometry args={[0.09, 0.2, 16]} />
-          <meshBasicMaterial color="#10b981" />
-        </mesh>
-      </group>
-
-      <group rotation={[Math.PI / 2, 0, 0]}>
-        <mesh
-          position={[0, 0, 0.34]}
-          onPointerDown={(e) => handlePointerDown('Z', e)}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerOver={(e) => { e.stopPropagation(); gl.domElement.style.cursor = 'ns-resize'; }}
-          onPointerOut={(e) => { e.stopPropagation(); gl.domElement.style.cursor = 'auto'; }}
-        >
-          <cylinderGeometry args={[0.035, 0.035, 0.68, 12]} />
-          <meshBasicMaterial color="#2563eb" transparent opacity={0.85} />
-        </mesh>
-        <mesh
-          position={[0, 0, 0.72]}
-          rotation={[Math.PI / 2, 0, 0]}
-          onPointerDown={(e) => handlePointerDown('Z', e)}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-        >
-          <coneGeometry args={[0.09, 0.2, 16]} />
-          <meshBasicMaterial color="#2563eb" />
-        </mesh>
-      </group>
-
-      <mesh
-        rotation={[Math.PI / 2, 0, 0]}
-        onPointerDown={(e) => handlePointerDown('rotY', e)}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerOver={(e) => { e.stopPropagation(); gl.domElement.style.cursor = 'pointer'; }}
-        onPointerOut={(e) => { e.stopPropagation(); gl.domElement.style.cursor = 'auto'; }}
-      >
-        <torusGeometry args={[0.54, 0.024, 8, 48]} />
-        <meshBasicMaterial color="#f59e0b" transparent opacity={0.9} />
-      </mesh>
-    </group>
-  );
 }
 
 function layoutBoxes(boxes: CargoBox[], dimensions: LoadItem['dimensions']): Array<{ box: CargoBox; position: [number, number, number] }> {

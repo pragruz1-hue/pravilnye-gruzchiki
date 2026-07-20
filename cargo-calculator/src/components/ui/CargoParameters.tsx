@@ -41,7 +41,7 @@ export function CargoParameters() {
     <section className="mb-6 rounded-3xl bg-white/60 p-4 ring-1 ring-black/5 backdrop-blur">
       <div className="mb-3 flex items-center justify-between gap-2">
         <h2 className="text-lg font-semibold text-gray-800">🚚 Выбор транспорта</h2>
-        {pallets.length > 0 && (
+        {pallets.length > 0 && recommendedVehicleType && (
           <button onClick={useRecommendedVehicle} className="rounded-full bg-[#ff6b00] px-3 py-1 text-xs font-black text-white shadow ring-1 ring-[#ff6b00]/30 hover:bg-[#d35400]">
             Лучшая: {VEHICLES[recommendedVehicleType].shortLabel}
           </button>

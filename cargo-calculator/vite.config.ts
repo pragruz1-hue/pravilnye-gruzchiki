@@ -1,41 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { obfuscator } from 'vite-plugin-obfuscator';
 
 export default defineConfig({
-  plugins: [
-    react(),
-    obfuscator({
-      compact: true,
-      controlFlowFlattening: true,
-      controlFlowFlatteningThreshold: 0.8,
-      deadCodeInjection: true,
-      deadCodeInjectionThreshold: 0.4,
-      debugProtection: true,
-      debugProtectionInterval: 3000,
-      disableConsoleOutput: true,
-      identifierNamesGenerator: 'hexadecimal',
-      log: false,
-      numbersToExpressions: true,
-      renameGlobals: false,
-      selfDefending: true,
-      simplify: true,
-      splitStrings: true,
-      stringArray: true,
-      stringArrayCallsTransform: true,
-      stringArrayEncoding: ['base64'],
-      stringArrayIndexShift: true,
-      stringArrayRotate: true,
-      stringArrayShuffle: true,
-      stringArrayWrappersCount: 3,
-      stringArrayWrappersChainedCalls: true,
-      stringArrayWrappersParametersMaxCount: 5,
-      stringArrayWrappersType: 'variable',
-      stringArrayThreshold: 0.8,
-      transformObjectKeys: true,
-      unicodeEscapeSequence: false
-    })
-  ],
+  base: '/3d-cargo-calculator/',
+  plugins: [react()],
   build: {
     sourcemap: false,
     minify: 'terser',
@@ -43,22 +11,45 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug']
+        pure_funcs: ['console.log', 'console.info', 'console.debug'],
+        passes: 2
       },
-      mangle: {
-        safari10: true
-      }
+      mangle: { safari10: true },
+      format: { comments: false }
     },
     rollupOptions: {
       output: {
         manualChunks: {
-          three: ['three', '@react-three/fiber', '@react-three/drei'],
-          vendor: ['react', 'react-dom', 'zustand']
+          'three': ['three', '@react-three/fiber', '@react-three/drei'],
+          'vendor': ['react', 'react-dom', 'zustand'],
+          'pdf': ['jspdf', 'html2canvas', 'dompurify'],
+          'calculations': ['src/utils/calculations.ts'],
+        },
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1];
+          if (/\.(png|jpe?g|gif|svg|webp|avif)$/.test(assetInfo.name)) {
+            return `assets/images/[name]-[hash].${ext}`;
+          }
+          if (/\.(glb|gltf)$/.test(assetInfo.name)) {
+            return `assets/models/[name]-[hash].${ext}`;
+          }
+          if (/\.(woff2?|ttf|eot)$/.test(assetInfo.name)) {
+            return `assets/fonts/[name]-[hash].${ext}`;
+          }
+          return `assets/[name]-[hash].${ext}`;
         }
       }
-    }
+    },
+    chunkSizeWarningLimit: 1000,
+    cssCodeSplit: true,
+    modulePreload: { polyfill: false }
   },
-  server: {
-    host: true
+  server: { host: true },
+  optimizeDeps: {
+    include: ['three', '@react-three/fiber', '@react-three/drei', 'react', 'react-dom', 'zustand'],
+    exclude: ['jspdf', 'html2canvas', 'dompurify']
   }
 });

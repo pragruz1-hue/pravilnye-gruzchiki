@@ -25,7 +25,7 @@ interface CalculatorState {
   deliveryTime: string;
   tripRange: TripRange;
   workHours: number;
-  activePreset: StandardPreset | null;
+      activePreset: StandardPreset | null;
   cameraMode: CameraMode;
   isNightMode: boolean;
   history: LoadItem[][];
@@ -44,6 +44,8 @@ interface CalculatorState {
   overflowVolume: number;
   estimatedTrips: number;
   fallingTargets: Record<string, number>;
+  // Computed
+  filteredCatalog: CatalogItem[];
   landItem: (id: string) => void;
   commitLanding: (id: string) => void;
   setRoute: (from: string, to: string) => void;
@@ -86,22 +88,34 @@ interface CalculatorState {
 }
 
 export const CATALOG: CatalogItem[] = [
-  { kind: 'sofa', name: 'Диван прямой', emoji: '🛋', dimensions: { length: 2.1, width: 0.9, height: 0.85 }, weight: 85, material: 'fabric', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, description: 'ткань, можно поставить на бок' },
-  { kind: 'wardrobe', name: 'Шкаф', emoji: '🚪', dimensions: { length: 1.2, width: 0.6, height: 2.1 }, weight: 90, material: 'wood', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, description: 'высокий, проверка потолка' },
-  { kind: 'fridge', name: 'Холодильник', emoji: '🧊', dimensions: { length: 0.7, width: 0.7, height: 1.9 }, weight: 80, material: 'whiteGoods', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, description: 'нельзя класть боком' },
-  { kind: 'washer', name: 'Стиральная машина', emoji: '🧺', dimensions: { length: 0.6, width: 0.6, height: 0.85 }, weight: 65, material: 'whiteGoods', stackable: true, maxStackWeight: 30, canLaySide: false, fragile: true, description: 'тяжёлая техника' },
-  { kind: 'bed', name: 'Кровать разобранная', emoji: '🛏', dimensions: { length: 2.05, width: 0.25, height: 0.75 }, weight: 70, material: 'wood', stackable: true, maxStackWeight: 90, canLaySide: true, fragile: false, description: 'плоский груз' },
-  { kind: 'table', name: 'Стол', emoji: '🪑', dimensions: { length: 1.3, width: 0.8, height: 0.75 }, weight: 38, material: 'wood', stackable: true, maxStackWeight: 75, canLaySide: true, fragile: false, description: 'можно ставить друг на друга (столешница к столешнице)' },
-  { kind: 'chairs', name: '4 стула', emoji: '🪑', dimensions: { length: 0.8, width: 0.8, height: 0.95 }, weight: 28, material: 'wood', stackable: true, maxStackWeight: 50, canLaySide: true, fragile: false, description: 'стопка стульев' },
-  { kind: 'tv', name: 'Телевизор', emoji: '📺', dimensions: { length: 1.2, width: 0.16, height: 0.75 }, weight: 18, material: 'glass', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, nearDoor: true, description: 'хрупкий экран — ставить у дверей' },
-  { kind: 'piano', name: 'Пианино', emoji: '🎹', dimensions: { length: 1.45, width: 0.62, height: 1.15 }, weight: 210, material: 'dark', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, description: 'особый тяжёлый груз' },
-  { kind: 'safe', name: 'Сейф', emoji: '🔒', dimensions: { length: 0.6, width: 0.55, height: 0.8 }, weight: 180, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: false, description: 'только низ кузова' },
-  { kind: 'plant', name: 'Растение', emoji: '🪴', dimensions: { length: 0.45, width: 0.45, height: 1.2 }, weight: 18, material: 'plant', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, nearDoor: true, description: 'не штабелировать — ставить у дверей' },
-  { kind: 'bike', name: 'Велосипед', emoji: '🚲', dimensions: { length: 1.75, width: 0.28, height: 1.05 }, weight: 16, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, description: 'узкий длинный груз' },
-  { kind: 'box', name: 'Коробка M', emoji: '📦', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 14, material: 'cardboard', stackable: true, maxStackWeight: 45, canLaySide: true, fragile: false, description: 'можно ставить друг на друга' }
+  { kind: 'sofa', name: 'Диван прямой', emoji: '🛋', dimensions: { length: 2.1, width: 0.9, height: 0.85 }, weight: 85, material: 'fabric', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, moveTypes: ['apartment', 'office'], description: 'ткань, можно поставить на бок' },
+  { kind: 'wardrobe', name: 'Шкаф', emoji: '🚪', dimensions: { length: 1.2, width: 0.6, height: 2.1 }, weight: 90, material: 'wood', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, moveTypes: ['apartment', 'office'], description: 'высокий, проверка потолка' },
+  { kind: 'fridge', name: 'Холодильник', emoji: '🧊', dimensions: { length: 0.7, width: 0.7, height: 1.9 }, weight: 80, material: 'whiteGoods', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, moveTypes: ['apartment'], description: 'нельзя класть боком' },
+  { kind: 'washer', name: 'Стиральная машина', emoji: '🧺', dimensions: { length: 0.6, width: 0.6, height: 0.85 }, weight: 65, material: 'whiteGoods', stackable: true, maxStackWeight: 30, canLaySide: false, fragile: true, moveTypes: ['apartment'], description: 'тяжёлая техника' },
+  { kind: 'bed', name: 'Кровать разобранная', emoji: '🛏', dimensions: { length: 2.05, width: 0.25, height: 0.75 }, weight: 70, material: 'wood', stackable: true, maxStackWeight: 90, canLaySide: true, fragile: false, moveTypes: ['apartment'], description: 'плоский груз' },
+  { kind: 'table', name: 'Стол', emoji: '🪑', dimensions: { length: 1.3, width: 0.8, height: 0.75 }, weight: 38, material: 'wood', stackable: true, maxStackWeight: 75, canLaySide: true, fragile: false, moveTypes: ['apartment', 'office'], description: 'можно ставить друг на друга (столешница к столешнице)' },
+  { kind: 'chairs', name: '4 стула', emoji: '🪑', dimensions: { length: 0.8, width: 0.8, height: 0.95 }, weight: 28, material: 'wood', stackable: true, maxStackWeight: 50, canLaySide: true, fragile: false, moveTypes: ['apartment', 'office', 'commercial'], description: 'стопка стульев' },
+  { kind: 'tv', name: 'Телевизор', emoji: '📺', dimensions: { length: 1.2, width: 0.16, height: 0.75 }, weight: 18, material: 'glass', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, nearDoor: true, moveTypes: ['apartment', 'office'], description: 'хрупкий экран — ставить у дверей' },
+  { kind: 'piano', name: 'Пианино', emoji: '🎹', dimensions: { length: 1.45, width: 0.62, height: 1.15 }, weight: 210, material: 'dark', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, moveTypes: ['apartment'], description: 'особый тяжёлый груз' },
+  { kind: 'safe', name: 'Сейф', emoji: '🔒', dimensions: { length: 0.6, width: 0.55, height: 0.8 }, weight: 180, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: false, moveTypes: ['apartment', 'office'], description: 'только низ кузова' },
+  { kind: 'plant', name: 'Растение', emoji: '🪴', dimensions: { length: 0.45, width: 0.45, height: 1.2 }, weight: 18, material: 'plant', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, nearDoor: true, moveTypes: ['apartment', 'office'], description: 'не штабелировать — ставить у дверей' },
+  { kind: 'bike', name: 'Велосипед', emoji: '🚲', dimensions: { length: 1.75, width: 0.28, height: 1.05 }, weight: 16, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, moveTypes: ['apartment'], description: 'узкий длинный груз' },
+  { kind: 'box', name: 'Коробка M', emoji: '📦', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 14, material: 'cardboard', stackable: true, maxStackWeight: 45, canLaySide: true, fragile: false, moveTypes: ['apartment', 'office', 'commercial'], description: 'можно ставить друг на друга' },
+  // Коммерческие предметы
+  { kind: 'pallet', name: 'Евро-паллет', emoji: '📦', dimensions: { length: 1.2, width: 0.8, height: 0.144 }, weight: 25, material: 'wood', stackable: true, maxStackWeight: 1200, canLaySide: false, fragile: false, moveTypes: ['commercial'], description: 'стандартная паллета' },
+  { kind: 'crate', name: 'Деревянный ящик', emoji: '📦', dimensions: { length: 1.0, width: 0.6, height: 0.6 }, weight: 40, material: 'wood', stackable: true, maxStackWeight: 200, canLaySide: true, fragile: false, moveTypes: ['commercial'], description: 'для оборудования, запчастей' },
+  { kind: 'bigBox', name: 'Большая коробка', emoji: '📦', dimensions: { length: 1.0, width: 0.8, height: 0.8 }, weight: 35, material: 'cardboard', stackable: true, maxStackWeight: 60, canLaySide: true, fragile: false, moveTypes: ['commercial'], description: 'для крупногабаритного груза' },
+  { kind: 'drum', name: 'Бочка/Канистра', emoji: '🛢', dimensions: { length: 0.6, width: 0.6, height: 0.9 }, weight: 50, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: false, moveTypes: ['commercial'], description: 'жидкости, химикаты' },
+  { kind: 'roll', name: 'Рулон/Катушка', emoji: '🌀', dimensions: { length: 1.2, width: 0.4, height: 0.4 }, weight: 30, material: 'metal', stackable: true, maxStackWeight: 100, canLaySide: true, fragile: false, moveTypes: ['commercial'], description: 'провода, кабели, ткани' },
+  { kind: 'machinery', name: 'Оборудование', emoji: '⚙️', dimensions: { length: 1.5, width: 0.8, height: 1.2 }, weight: 300, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: false, moveTypes: ['commercial'], description: 'станки, агрегаты — только низ' },
 ];
 
 const initialServices: ServicesState = { packing: false, disassembly: false, assembly: false, loaders: 2, insurance: false, nightMove: false, documentsPacking: false, itSupport: false };
+
+// Фильтрация каталога по типу переезда
+function getFilteredCatalog(moveType: MoveType): CatalogItem[] {
+  return CATALOG.filter(item => item.moveTypes?.includes(moveType));
+}
 
 function createId(prefix: string): string { return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`; }
 
@@ -291,9 +305,13 @@ export const useCalculatorStore = create<CalculatorState>()(
       cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
       isPerformanceMode: false, renderQuality: 'auto', isPhysicsEnabled: false, isHeatmapEnabled: false, fallingTargets: {},
       overflowCount: 0, overflowItems: [], overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0,
+      filteredCatalog: getFilteredCatalog('apartment'),
 
       setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
-      setMoveType: (moveType) => { set({ moveType }); get().calculatePrice(); },
+      setMoveType: (moveType) => { 
+        set({ moveType, vehicleType: null, recommendedVehicleType: null as any, activePreset: null, filteredCatalog: getFilteredCatalog(moveType) }); 
+        get().calculatePrice(); 
+      },
       setVehicleType: (vehicleType) => {
         const st = get();
         const hist = pushHistory(st);
@@ -516,7 +534,7 @@ export const useCalculatorStore = create<CalculatorState>()(
       },
       fillEmptySpace: () => {
         const state = get();
-        if (state.pallets.length === 0) return;
+        if (state.pallets.length === 0 || !state.vehicleType) return;
         const st = get();
         const packed = fillCargoWithBoxes(state.pallets, state.vehicleType, () => createId('fill'));
         if (packed.placed.length === state.pallets.length) {
