@@ -25,7 +25,7 @@ interface CalculatorState {
   deliveryTime: string;
   tripRange: TripRange;
   workHours: number;
-      activePreset: StandardPreset | null;
+  activePreset: StandardPreset | null;
   cameraMode: CameraMode;
   isNightMode: boolean;
   history: LoadItem[][];
@@ -46,6 +46,9 @@ interface CalculatorState {
   fallingTargets: Record<string, number>;
   // Computed
   filteredCatalog: CatalogItem[];
+  // Confirmation state
+  _pendingMoveType: MoveType | null;
+  _needsConfirm: boolean;
   landItem: (id: string) => void;
   commitLanding: (id: string) => void;
   setRoute: (from: string, to: string) => void;
@@ -84,7 +87,9 @@ interface CalculatorState {
   togglePhysics: () => void;
   toggleHeatmap: () => void;
   loadFromShare: (pallets: LoadItem[], vehicle: VehicleType) => void;
-  fillEmptySpace: () => void;
+      fillEmptySpace: () => void;
+      confirmMoveTypeSwitch: () => void;
+      cancelMoveTypeSwitch: () => void;
 }
 
 export const CATALOG: CatalogItem[] = [
@@ -308,9 +313,43 @@ export const useCalculatorStore = create<CalculatorState>()(
       filteredCatalog: getFilteredCatalog('apartment'),
 
       setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
-      setMoveType: (moveType) => { 
-        set({ moveType, vehicleType: null, recommendedVehicleType: null as any, activePreset: null, filteredCatalog: getFilteredCatalog(moveType) }); 
-        get().calculatePrice(); 
+      setMoveType: (moveType) => {
+        const state = get();
+        const hasData = state.pallets.length > 0 || state.vehicleType || state.activePreset;
+        
+        // Если есть данные, но мы вызываем setMoveType напрямую (после подтверждения) — делаем чистый сброс
+        // Флаг _skipConfirm используется для пропуска модалки
+        const skipConfirm = (arguments as any)[1] === true;
+        
+        if (hasData && !skipConfirm) {
+          // Сигнал UI: нужно подтверждение
+          set({ _pendingMoveType: moveType, _needsConfirm: true });
+          return;
+        }
+        
+        // Чистый переход (нет данных или подтверждено)
+        const filteredCatalog = getFilteredCatalog(moveType);
+        const recommendedVehicleType = moveType === 'apartment' ? 'gazelle7' : 
+                                      moveType === 'office' ? 'gazelle7' : 'gazelle18';
+        
+        set({ 
+          moveType, 
+          vehicleType: null, 
+          recommendedVehicleType: recommendedVehicleType as any,
+          activePreset: null,
+          filteredCatalog,
+          pallets: [],
+          selectedPalletId: null,
+          vehicleCount: 1,
+          history: [],
+          future: [],
+          overflowItems: [],
+          overflowCount: 0,
+          overflowWeight: 0,
+          overflowVolume: 0,
+          estimatedTrips: 0,
+        });
+        get().calculatePrice();
       },
       setVehicleType: (vehicleType) => {
         const st = get();
@@ -555,10 +594,40 @@ export const useCalculatorStore = create<CalculatorState>()(
           try { window.pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {}
         }
       },
+            confirmMoveTypeSwitch: () => {
+        const { _pendingMoveType } = get();
+        if (!_pendingMoveType) return;
+        const moveType = _pendingMoveType;
+        
+        const filteredCatalog = getFilteredCatalog(moveType);
+        const recommendedVehicleType = moveType === 'apartment' ? 'gazelle7' : 
+                                      moveType === 'office' ? 'gazelle7' : 'gazelle18';
+        
+        set({ 
+          moveType,
+          vehicleType: null,
+          recommendedVehicleType: recommendedVehicleType as any,
+          activePreset: null,
+          filteredCatalog,
+          pallets: [],
+          selectedPalletId: null,
+          vehicleCount: 1,
+          history: [],
+          future: [],
+          overflowItems: [],
+          overflowCount: 0,
+          overflowWeight: 0,
+          overflowVolume: 0,
+          estimatedTrips: 0,
+          _pendingMoveType: null,
+          _needsConfirm: false,
+        });
+        get().calculatePrice();
+      },      cancelMoveTypeSwitch: () => {
+        set({ _pendingMoveType: null, _needsConfirm: false });
+      },
       landItem: (id) => {
         const state = get();
-        const item = state.pallets.find(p => p.id === id);
-        if (!item) return;
         const targetY = getStackHeightAt(id, item.position[0], item.position[2], state.pallets);
         const vehicle = VEHICLES[state.vehicleType];
         const itemH = item.kind === 'pallet' ? Math.max(0.42, 0.144 + Math.ceil(item.boxes.length / 4) * 0.28) : orientedHeight(item);
