@@ -12,7 +12,7 @@ interface CalculatorState {
   totalVolume: number;
   pallets: LoadItem[];
   selectedPalletId: string | null;
-  vehicleType: VehicleType | null;
+  vehicleType: VehicleType;
   recommendedVehicleType: VehicleType;
   vehicleCount: number;
   urgency: 1 | 2 | 3;
@@ -44,10 +44,15 @@ interface CalculatorState {
   overflowVolume: number;
   estimatedTrips: number;
   fallingTargets: Record<string, number>;
+  // Computed
+  filteredCatalog: CatalogItem[];
+  // Confirmation state
+  _pendingMoveType: MoveType | null;
+  _needsConfirm: boolean;
   landItem: (id: string) => void;
   commitLanding: (id: string) => void;
   setRoute: (from: string, to: string) => void;
-  setMoveType: (moveType: MoveType) => void;
+  setMoveType: (moveType: MoveType, skipConfirm?: boolean) => void;
   setVehicleType: (vehicleType: VehicleType) => void;
   useRecommendedVehicle: () => void;
   setVehicleCount: (vehicleCount: number) => void;
@@ -82,26 +87,41 @@ interface CalculatorState {
   togglePhysics: () => void;
   toggleHeatmap: () => void;
   loadFromShare: (pallets: LoadItem[], vehicle: VehicleType) => void;
-  fillEmptySpace: () => void;
+      fillEmptySpace: () => void;
+      confirmMoveTypeSwitch: () => void;
+      cancelMoveTypeSwitch: () => void;
 }
 
 export const CATALOG: CatalogItem[] = [
-  { kind: 'sofa', name: 'Диван прямой', emoji: '🛋', dimensions: { length: 2.1, width: 0.9, height: 0.85 }, weight: 85, material: 'fabric', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, description: 'ткань, можно поставить на бок' },
-  { kind: 'wardrobe', name: 'Шкаф', emoji: '🚪', dimensions: { length: 1.2, width: 0.6, height: 2.1 }, weight: 90, material: 'wood', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, description: 'высокий, проверка потолка' },
-  { kind: 'fridge', name: 'Холодильник', emoji: '🧊', dimensions: { length: 0.7, width: 0.7, height: 1.9 }, weight: 80, material: 'whiteGoods', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, description: 'нельзя класть боком' },
-  { kind: 'washer', name: 'Стиральная машина', emoji: '🧺', dimensions: { length: 0.6, width: 0.6, height: 0.85 }, weight: 65, material: 'whiteGoods', stackable: true, maxStackWeight: 30, canLaySide: false, fragile: true, description: 'тяжёлая техника' },
-  { kind: 'bed', name: 'Кровать разобранная', emoji: '🛏', dimensions: { length: 2.05, width: 0.25, height: 0.75 }, weight: 70, material: 'wood', stackable: true, maxStackWeight: 90, canLaySide: true, fragile: false, description: 'плоский груз' },
-  { kind: 'table', name: 'Стол', emoji: '🪑', dimensions: { length: 1.3, width: 0.8, height: 0.75 }, weight: 38, material: 'wood', stackable: true, maxStackWeight: 75, canLaySide: true, fragile: false, description: 'можно ставить друг на друга (столешница к столешнице)' },
-  { kind: 'chairs', name: '4 стула', emoji: '🪑', dimensions: { length: 0.8, width: 0.8, height: 0.95 }, weight: 28, material: 'wood', stackable: true, maxStackWeight: 50, canLaySide: true, fragile: false, description: 'стопка стульев' },
-  { kind: 'tv', name: 'Телевизор', emoji: '📺', dimensions: { length: 1.2, width: 0.16, height: 0.75 }, weight: 18, material: 'glass', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, nearDoor: true, description: 'хрупкий экран — ставить у дверей' },
-  { kind: 'piano', name: 'Пианино', emoji: '🎹', dimensions: { length: 1.45, width: 0.62, height: 1.15 }, weight: 210, material: 'dark', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, description: 'особый тяжёлый груз' },
-  { kind: 'safe', name: 'Сейф', emoji: '🔒', dimensions: { length: 0.6, width: 0.55, height: 0.8 }, weight: 180, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: false, description: 'только низ кузова' },
-  { kind: 'plant', name: 'Растение', emoji: '🪴', dimensions: { length: 0.45, width: 0.45, height: 1.2 }, weight: 18, material: 'plant', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, nearDoor: true, description: 'не штабелировать — ставить у дверей' },
-  { kind: 'bike', name: 'Велосипед', emoji: '🚲', dimensions: { length: 1.75, width: 0.28, height: 1.05 }, weight: 16, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, description: 'узкий длинный груз' },
-  { kind: 'box', name: 'Коробка M', emoji: '📦', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 14, material: 'cardboard', stackable: true, maxStackWeight: 45, canLaySide: true, fragile: false, description: 'можно ставить друг на друга' }
+  { kind: 'sofa', name: 'Диван прямой', emoji: '🛋', dimensions: { length: 1.9, width: 0.85, height: 0.85 }, weight: 85, material: 'fabric', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, moveTypes: ['apartment', 'office'], description: 'ткань, можно поставить на бок' },
+  { kind: 'wardrobe', name: 'Шкаф', emoji: '🚪', dimensions: { length: 1.2, width: 0.6, height: 2.1 }, weight: 85, material: 'wood', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, moveTypes: ['apartment', 'office'], description: 'высокий, проверка потолка' },
+  { kind: 'fridge', name: 'Холодильник', emoji: '🧊', dimensions: { length: 0.7, width: 0.7, height: 1.9 }, weight: 70, material: 'whiteGoods', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, moveTypes: ['apartment'], description: 'нельзя класть боком' },
+  { kind: 'washer', name: 'Стиральная машина', emoji: '🧺', dimensions: { length: 0.6, width: 0.6, height: 0.85 }, weight: 65, material: 'whiteGoods', stackable: true, maxStackWeight: 30, canLaySide: false, fragile: true, moveTypes: ['apartment'], description: 'тяжёлая техника' },
+  { kind: 'mattressDouble', name: 'Матрас 2-спальный', emoji: '🛏', dimensions: { length: 2.0, width: 1.6, height: 0.25 }, weight: 32, material: 'fabric', stackable: true, maxStackWeight: 50, canLaySide: true, fragile: false, moveTypes: ['apartment'], description: 'ортопедический матрас 2-сп' },
+  { kind: 'mattressSingle', name: 'Матрас полутораспальный', emoji: '🛏', dimensions: { length: 2.0, width: 1.2, height: 0.25 }, weight: 22, material: 'fabric', stackable: true, maxStackWeight: 40, canLaySide: true, fragile: false, moveTypes: ['apartment'], description: 'ортопедический матрас 1.5-сп' },
+  { kind: 'table', name: 'Стол', emoji: '🪑', dimensions: { length: 1.3, width: 0.8, height: 0.75 }, weight: 25, material: 'wood', stackable: true, maxStackWeight: 75, canLaySide: true, fragile: false, moveTypes: ['apartment', 'office'], description: 'можно ставить друг на друга (столешница к столешнице)' },
+  { kind: 'chairs', name: '4 стула', emoji: '🪑', dimensions: { length: 0.8, width: 0.8, height: 0.95 }, weight: 22, material: 'wood', stackable: true, maxStackWeight: 50, canLaySide: true, fragile: false, moveTypes: ['apartment', 'office', 'commercial'], description: 'стопка стульев' },
+  { kind: 'tv', name: 'Телевизор', emoji: '📺', dimensions: { length: 1.2, width: 0.16, height: 0.75 }, weight: 15, material: 'glass', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, nearDoor: true, moveTypes: ['apartment', 'office'], description: 'хрупкий экран — ставить у дверей' },
+  { kind: 'piano', name: 'Пианино', emoji: '🎹', dimensions: { length: 1.45, width: 0.62, height: 1.15 }, weight: 220, material: 'dark', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, moveTypes: ['apartment'], description: 'особый тяжёлый груз' },
+  { kind: 'safe', name: 'Сейф', emoji: '🔒', dimensions: { length: 0.6, width: 0.55, height: 0.8 }, weight: 160, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: false, moveTypes: ['apartment', 'office'], description: 'только низ кузова' },
+  { kind: 'plant', name: 'Растение', emoji: '🪴', dimensions: { length: 0.45, width: 0.45, height: 1.2 }, weight: 15, material: 'plant', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: true, nearDoor: true, moveTypes: ['apartment', 'office'], description: 'не штабелировать — ставить у дверей' },
+  { kind: 'bike', name: 'Велосипед', emoji: '🚲', dimensions: { length: 1.75, width: 0.28, height: 1.05 }, weight: 14, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: true, fragile: false, moveTypes: ['apartment'], description: 'узкий длинный груз' },
+  { kind: 'box', name: 'Коробка M', emoji: '📦', dimensions: { length: 0.6, width: 0.4, height: 0.4 }, weight: 12, material: 'cardboard', stackable: true, maxStackWeight: 45, canLaySide: true, fragile: false, moveTypes: ['apartment', 'office', 'commercial'], description: 'можно ставить друг на друга' },
+  // Коммерческие предметы
+  { kind: 'pallet', name: 'Евро-паллет', emoji: '📦', dimensions: { length: 1.2, width: 0.8, height: 0.144 }, weight: 22, material: 'wood', stackable: true, maxStackWeight: 1200, canLaySide: false, fragile: false, moveTypes: ['commercial'], description: 'стандартная паллета' },
+  { kind: 'crate', name: 'Деревянный ящик', emoji: '📦', dimensions: { length: 1.0, width: 0.6, height: 0.6 }, weight: 35, material: 'wood', stackable: true, maxStackWeight: 200, canLaySide: true, fragile: false, moveTypes: ['commercial'], description: 'для оборудования, запчастей' },
+  { kind: 'bigBox', name: 'Большая коробка', emoji: '📦', dimensions: { length: 1.0, width: 0.8, height: 0.8 }, weight: 28, material: 'cardboard', stackable: true, maxStackWeight: 60, canLaySide: true, fragile: false, moveTypes: ['commercial'], description: 'для крупногабаритного груза' },
+  { kind: 'drum', name: 'Бочка/Канистра', emoji: '🛢', dimensions: { length: 0.6, width: 0.6, height: 0.9 }, weight: 45, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: false, moveTypes: ['commercial'], description: 'жидкости, химикаты' },
+  { kind: 'roll', name: 'Рулон/Катушка', emoji: '🌀', dimensions: { length: 1.2, width: 0.4, height: 0.4 }, weight: 25, material: 'metal', stackable: true, maxStackWeight: 100, canLaySide: true, fragile: false, moveTypes: ['commercial'], description: 'провода, кабели, ткани' },
+  { kind: 'machinery', name: 'Оборудование', emoji: '⚙️', dimensions: { length: 1.5, width: 0.8, height: 1.2 }, weight: 280, material: 'metal', stackable: false, maxStackWeight: 0, canLaySide: false, fragile: false, moveTypes: ['commercial'], description: 'станки, агрегаты — только низ' },
 ];
 
 const initialServices: ServicesState = { packing: false, disassembly: false, assembly: false, loaders: 2, insurance: false, nightMove: false, documentsPacking: false, itSupport: false };
+
+// Фильтрация каталога по типу переезда
+function getFilteredCatalog(moveType: MoveType): CatalogItem[] {
+  return CATALOG.filter(item => item.moveTypes?.includes(moveType));
+}
 
 function createId(prefix: string): string { return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`; }
 
@@ -146,14 +166,12 @@ function gridPosition(index: number, vehicle: VehicleType = 'gazelle12'): [numbe
 }
 
 function buildPreset(preset: ApartmentPreset): LoadItem[] {
-  const base: LoadItemKind[] = ['sofa', 'bed', 'wardrobe', 'fridge', 'washer', 'table', 'chairs', 'tv'];
-  const extra2: LoadItemKind[] = ['wardrobe', 'bed', 'box', 'box', 'box', 'plant'];
-  const extra3: LoadItemKind[] = ['sofa', 'wardrobe', 'wardrobe', 'bed', 'table', 'chairs', 'box', 'box', 'box', 'box', 'piano'];
-  const boxesCount = preset === 'oneRoom' ? 6 : preset === 'twoRoom' ? 12 : 20;
-  const kinds = preset === 'oneRoom' ? base : preset === 'twoRoom' ? [...base, ...extra2] : [...base, ...extra2, ...extra3];
-  const items = kinds.map((kind, index) => ({ ...createLoadItem(kind, gridPosition(index, APARTMENT_STANDARDS[preset].recommendedVehicle)), id: createId(kind) }));
-  for (let i = 0; i < boxesCount; i += 1) {
-    const pos = gridPosition(kinds.length + i, APARTMENT_STANDARDS[preset].recommendedVehicle);
+  // ОДИН демо-пресет на квартирный переезд
+  const kinds: LoadItemKind[] = ['mattressDouble', 'wardrobe', 'table', 'chairs', 'tv'];
+  const boxesCount = 4;
+  const items = kinds.map((kind, index) => ({ ...createLoadItem(kind, gridPosition(index, APARTMENT_STANDARDS.oneRoom.recommendedVehicle)), id: createId(kind) }));
+  for (let i = 0; i < 4; i += 1) {
+    const pos = gridPosition(kinds.length + i, APARTMENT_STANDARDS.oneRoom.recommendedVehicle);
     pos[1] = 0.04 + Math.floor(i / 8) * 0.42;
     items.push({ ...createLoadItem('box', pos), id: createId('box') });
   }
@@ -185,10 +203,10 @@ function buildOfficePreset(preset: OfficePreset): LoadItem[] {
       ['chairs', seats], ['chairs', seats], ['chairs', seats],
       ['wardrobe', shelf], ['wardrobe', shelf], ['wardrobe', shelf],
       ['tv', screens], ['tv', screens], ['safe', 'Сейф офисный'],
-      ['sofa', 'Диван зоны ожидания'], ['plant', 'Растение в зоне ожидания'],
+      ['plant', 'Растение в зоне ожидания'],
       ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs],
       ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs],
-      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs]
+      ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs], ['box', docs]
     ]
   };
   const vehicle = OFFICE_STANDARDS[preset].recommendedVehicle;
@@ -286,14 +304,50 @@ export const useCalculatorStore = create<CalculatorState>()(
   persist(
     (set, get) => ({
       from: 'Краснодар', to: 'Сочи', distance: 286, moveType: 'apartment', totalWeight: 0, totalVolume: 0,
-      pallets: [], selectedPalletId: null, vehicleType: null, recommendedVehicleType: null as any, vehicleCount: 1, urgency: 2, services: initialServices,
+      pallets: [], selectedPalletId: null, vehicleType: 'gazelle12', recommendedVehicleType: 'gazelle7', vehicleCount: 1, urgency: 2, services: initialServices,
       basePrice: 0, additionalPrice: 0, fuelPrice: 0, insurancePrice: 0, totalPrice: 0, deliveryTime: '1-3 дня', tripRange: 'regional', workHours: 0, activePreset: null,
       cameraMode: 'overview', isNightMode: false, history: [], future: [], isFirstPerson: false, showMinimap: true, showMeasurements: true, isSoundEnabled: true,
       isPerformanceMode: false, renderQuality: 'auto', isPhysicsEnabled: false, isHeatmapEnabled: false, fallingTargets: {},
       overflowCount: 0, overflowItems: [], overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0,
+      filteredCatalog: getFilteredCatalog('apartment'),
+      _pendingMoveType: null,
+      _needsConfirm: false,
 
       setRoute: (from, to) => { set({ from, to, distance: calculateDistance(from, to) }); get().calculatePrice(); },
-      setMoveType: (moveType) => { set({ moveType }); get().calculatePrice(); },
+      setMoveType: (moveType, skipConfirm = false) => {
+        const state = get();
+        const hasData = state.pallets.length > 0 || state.activePreset;
+        
+        if (hasData && !skipConfirm) {
+          set({ _pendingMoveType: moveType, _needsConfirm: true });
+          return;
+        }
+        
+        const filteredCatalog = getFilteredCatalog(moveType);
+        const recommendedVehicleType = moveType === 'apartment' ? 'gazelle7' : 
+                                      moveType === 'office' ? 'gazelle7' : 'gazelle18';
+        const defaultVehicleType = moveType === 'apartment' ? 'gazelle12' : 
+                                   moveType === 'office' ? 'gazelle12' : 'gazelle18';
+        
+        set({ 
+          moveType, 
+          vehicleType: defaultVehicleType, 
+          recommendedVehicleType,
+          activePreset: null,
+          filteredCatalog,
+          pallets: [],
+          selectedPalletId: null,
+          vehicleCount: 1,
+          history: [],
+          future: [],
+          overflowItems: [],
+          overflowCount: 0,
+          overflowWeight: 0,
+          overflowVolume: 0,
+          estimatedTrips: 0,
+        });
+        get().calculatePrice();
+      },
       setVehicleType: (vehicleType) => {
         const st = get();
         const hist = pushHistory(st);
@@ -325,6 +379,14 @@ export const useCalculatorStore = create<CalculatorState>()(
         set((state) => {
           const newItem = { ...palletData, id };
           const result = placeNewItem(state.pallets, newItem, state.vehicleType);
+          if (result.overflow.length > 0) {
+            const recommended = recommendVehicle([...state.pallets, newItem]);
+            if (recommended !== state.vehicleType) {
+              const packed = packItemsInVehicle([...state.pallets, newItem], recommended);
+              const _oi = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+              return { pallets: packed.placed, overflowItems: packed.overflow, selectedPalletId: packed.placed.length > 0 ? packed.placed[0].id : null, activePreset: null, vehicleType: recommended, recommendedVehicleType: recommended, ..._oi, ...pushHistory(st) };
+            }
+          }
           const _oi3 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
           return { pallets: result.pallets, overflowItems: [...state.overflowItems, ...result.overflow], ..._oi3, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
         });
@@ -338,6 +400,14 @@ export const useCalculatorStore = create<CalculatorState>()(
           const dummyPos: [number, number, number] = [0, 0.04, 0];
           const newItem = { ...createLoadItem(kind, dummyPos), id };
           const result = placeNewItem(state.pallets, newItem, state.vehicleType);
+          if (result.overflow.length > 0) {
+            const recommended = recommendVehicle([...state.pallets, newItem]);
+            if (recommended !== state.vehicleType) {
+              const packed = packItemsInVehicle([...state.pallets, newItem], recommended);
+              const _oi = packed.overflow.length > 0 ? computeOverflowInfo(packed.overflow, recommended) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
+              return { pallets: packed.placed, overflowItems: packed.overflow, selectedPalletId: packed.placed.length > 0 ? packed.placed[0].id : null, activePreset: null, vehicleType: recommended, recommendedVehicleType: recommended, ..._oi, ...pushHistory(st) };
+            }
+          }
           const _oi4 = result.overflow.length > 0 ? computeOverflowInfo(result.overflow, state.vehicleType) : { overflowCount: 0, overflowWeight: 0, overflowVolume: 0, estimatedTrips: 0 };
           return { pallets: result.pallets, overflowItems: [...state.overflowItems, ...result.overflow], ..._oi4, selectedPalletId: id, activePreset: null, ...pushHistory(st) };
         });
@@ -516,7 +586,7 @@ export const useCalculatorStore = create<CalculatorState>()(
       },
       fillEmptySpace: () => {
         const state = get();
-        if (state.pallets.length === 0) return;
+        if (state.pallets.length === 0 || !state.vehicleType) return;
         const st = get();
         const packed = fillCargoWithBoxes(state.pallets, state.vehicleType, () => createId('fill'));
         if (packed.placed.length === state.pallets.length) {
@@ -536,6 +606,40 @@ export const useCalculatorStore = create<CalculatorState>()(
         if (get().isSoundEnabled) {
           try { window.pgPlaySound?.('add'); if (navigator.vibrate) navigator.vibrate(30); } catch {}
         }
+      },
+            confirmMoveTypeSwitch: () => {
+        const { _pendingMoveType } = get();
+        if (!_pendingMoveType) return;
+        const moveType = _pendingMoveType;
+        
+        const filteredCatalog = getFilteredCatalog(moveType);
+        const recommendedVehicleType = moveType === 'apartment' ? 'gazelle7' : 
+                                      moveType === 'office' ? 'gazelle7' : 'gazelle18';
+        const defaultVehicleType = moveType === 'apartment' ? 'gazelle12' : 
+                                   moveType === 'office' ? 'gazelle12' : 'gazelle18';
+        
+        set({ 
+          moveType,
+          vehicleType: defaultVehicleType,
+          recommendedVehicleType,
+          activePreset: null,
+          filteredCatalog,
+          pallets: [],
+          selectedPalletId: null,
+          vehicleCount: 1,
+          history: [],
+          future: [],
+          overflowItems: [],
+          overflowCount: 0,
+          overflowWeight: 0,
+          overflowVolume: 0,
+          estimatedTrips: 0,
+          _pendingMoveType: null,
+          _needsConfirm: false,
+        });
+        get().calculatePrice();
+      },      cancelMoveTypeSwitch: () => {
+        set({ _pendingMoveType: null, _needsConfirm: false });
       },
       landItem: (id) => {
         const state = get();
